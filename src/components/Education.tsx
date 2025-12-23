@@ -7,12 +7,6 @@ const Education = () => {
       note: "Periodo di studio a New York",
     },
     {
-      year: "2004 — 2008",
-      title: "Dottorato in Progettazione Architettonica e Urbana",
-      institution: "Politecnico di Milano (XIX ciclo)",
-      note: "Tesi: La rottura del binomio figura-sfondo",
-    },
-    {
       year: "2000",
       title: "Laurea in Architettura",
       institution: "Politecnico di Milano",
@@ -31,6 +25,13 @@ const Education = () => {
       note: "Formazione critica e pensiero analitico",
     },
   ];
+
+  const research = {
+    period: "2004 — 2008",
+    title: "Ricerca in Progettazione Architettonica e Urbana",
+    institution: "Politecnico di Milano (XIX ciclo)",
+    thesis: "La rottura del binomio figura-sfondo",
+  };
 
   const skills = {
     software: ["AutoCAD 2D/3D", "Rhino", "Revit", "3ds Max", "Adobe Illustrator", "Photoshop"],
@@ -59,6 +60,31 @@ const Education = () => {
               Un percorso tra teoria,
               <br className="hidden md:block" /> ricerca e pratica
             </h2>
+
+            {/* Research Highlight */}
+            <div className="mb-16 p-8 bg-card border border-border">
+              <div className="grid md:grid-cols-12 gap-4 md:gap-8">
+                <div className="md:col-span-2">
+                  <p className="font-body text-sm text-muted-foreground">
+                    {research.period}
+                  </p>
+                </div>
+                <div className="md:col-span-10">
+                  <p className="font-body text-xs tracking-wider uppercase text-primary mb-2">
+                    Attività di ricerca
+                  </p>
+                  <h3 className="font-display text-xl font-medium mb-1">
+                    {research.title}
+                  </h3>
+                  <p className="font-body text-base text-foreground/80 mb-2">
+                    {research.institution}
+                  </p>
+                  <p className="font-body text-sm text-muted-foreground italic">
+                    Tesi: "{research.thesis}"
+                  </p>
+                </div>
+              </div>
+            </div>
 
             {/* Education Timeline */}
             <div className="space-y-8 mb-20">

@@ -11,32 +11,23 @@ const experiences: ExperienceItem[] = [
     period: "2021 — Oggi",
     role: "Ideazione e Progettazione",
     company: "GWW Wernigerode mbH",
-    projects: ["New Ecological Porous Garden City of Wernigerode"],
+    projects: ["New Ecological Porous Garden City of Wernigerode", "Primo Piano Wernigerode"],
     description: "Progetto residenziale di 3000 m² in fase di sviluppo. Collaborazione con Cope e H+L Hartung & Ludwig Architektur.",
   },
+];
+
+const portfolioProjects = [
   {
-    period: "2020 — 2023",
-    role: "Coautore del progetto",
-    company: "Architetto Ivica Covic",
-    projects: ["Phil House, Jelsa (Hvar)", "Mike Benson House, Jelsa (Hvar)"],
+    title: "New Ecological Porous Garden City",
+    location: "Wernigerode, Germania",
+    year: "2021 — Oggi",
+    description: "Progetto residenziale ecologico di 3000 m²",
   },
   {
-    period: "2018",
-    role: "Assistente alla progettazione",
-    company: "Architetto Maura Tardini",
-    projects: ["Nuovi uffici Coeclerici, Piazza Díaz 7, Milano"],
-  },
-  {
-    period: "2014 — 2019",
-    role: "Progettazione architettonica e design",
-    company: "Architetto Marcello Albini",
-    projects: ["Boutique Corsica", "Boutique Vittoria Tolouse", "Negozio Gusto italiano (Riga)"],
-  },
-  {
-    period: "2016",
-    role: "Progettazione e direzione lavori",
-    company: "ICM",
-    projects: ["Pasticceria Andrea, Cinisello Balsamo", "Pasticceria Lorini, Milano", "Panini Durini, Milano"],
+    title: "Primo Piano Wernigerode",
+    location: "Wernigerode, Germania",
+    year: "In corso",
+    description: "Sviluppo urbanistico sostenibile",
   },
 ];
 
@@ -104,6 +95,34 @@ const Experience = () => {
                   </div>
                 </article>
               ))}
+            </div>
+
+            {/* Portfolio Projects */}
+            <div className="mt-16 pt-12 border-t border-border">
+              <h3 className="font-display text-2xl font-light mb-8">
+                Progetti in Portfolio
+              </h3>
+              <div className="grid sm:grid-cols-2 gap-6">
+                {portfolioProjects.map((project) => (
+                  <div
+                    key={project.title}
+                    className="group p-6 bg-background border border-border hover:border-foreground/20 transition-smooth"
+                  >
+                    <p className="font-body text-xs text-muted-foreground mb-2">
+                      {project.year}
+                    </p>
+                    <h4 className="font-display text-lg font-medium mb-1 group-hover:translate-x-1 transition-smooth">
+                      {project.title}
+                    </h4>
+                    <p className="font-body text-sm text-primary mb-2">
+                      {project.location}
+                    </p>
+                    <p className="font-body text-sm text-muted-foreground">
+                      {project.description}
+                    </p>
+                  </div>
+                ))}
+              </div>
             </div>
 
             {/* Competitions */}

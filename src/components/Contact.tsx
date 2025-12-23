@@ -74,16 +74,10 @@ const Contact = () => {
               ))}
             </div>
 
-            {/* Studio Locations */}
+            {/* Studio Location */}
             <div className="mt-16 pt-12 border-t border-primary-foreground/20">
-              <p className="font-body text-sm opacity-60 mb-4">Studio diffuso</p>
-              <div className="flex flex-wrap gap-x-6 gap-y-2">
-                {["Milano", "Montreal", "Rotterdam", "Padova"].map((city) => (
-                  <span key={city} className="font-display text-xl font-light">
-                    {city}
-                  </span>
-                ))}
-              </div>
+              <p className="font-body text-sm opacity-60 mb-4">Studio</p>
+              <span className="font-display text-xl font-light">Milano</span>
             </div>
           </div>
         </div>
