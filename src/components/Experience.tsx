@@ -175,18 +175,29 @@ const Experience = () => {
                       </p>
                     </div>
                     
-                    {/* Image Gallery - Simple Display */}
-                    <div className={`grid gap-4 ${project.images.length === 1 ? 'grid-cols-1' : project.images.length === 2 ? 'grid-cols-2' : 'grid-cols-1 md:grid-cols-3'}`}>
+                    {/* Image Gallery with Elegant Hover */}
+                    <div className={`grid gap-4 ${project.images.length === 1 ? 'grid-cols-1 max-w-2xl' : project.images.length === 2 ? 'grid-cols-2' : 'grid-cols-1 md:grid-cols-3'}`}>
                       {project.images.map((image, imgIndex) => (
                         <div
                           key={imgIndex}
-                          className="aspect-[16/10] overflow-hidden bg-muted"
+                          className="group/img relative aspect-[16/10] overflow-hidden bg-muted cursor-pointer"
                         >
                           <img
                             src={image}
                             alt={`${project.title} - Immagine ${imgIndex + 1}`}
-                            className="w-full h-full object-cover hover:scale-105 transition-smooth"
+                            className="w-full h-full object-cover transition-all duration-500 group-hover/img:scale-110"
                           />
+                          {/* Overlay */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-foreground/20 to-transparent opacity-0 group-hover/img:opacity-100 transition-all duration-300" />
+                          {/* Content */}
+                          <div className="absolute inset-0 flex flex-col justify-end p-4 md:p-6 opacity-0 group-hover/img:opacity-100 transition-all duration-300 translate-y-2 group-hover/img:translate-y-0">
+                            <p className="font-body text-xs text-background/70 mb-1">
+                              {project.location}
+                            </p>
+                            <h5 className="font-display text-sm md:text-base font-medium text-background leading-tight">
+                              {project.title}
+                            </h5>
+                          </div>
                         </div>
                       ))}
                     </div>
