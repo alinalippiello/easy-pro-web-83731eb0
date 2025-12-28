@@ -8,7 +8,7 @@ const Profile = () => {
             Profilo
           </p>
 
-          <div className="space-y-8 font-body text-sm md:text-base text-foreground leading-relaxed">
+          <div className="space-y-6 font-body text-sm md:text-base text-foreground leading-relaxed">
             <p>
               L'architettura, per Alina Lippiello, è un racconto stratificato. Ogni progetto 
               è un frammento di una storia più ampia, fatta di connessioni tra spazio e tempo, 
@@ -22,13 +22,6 @@ const Profile = () => {
             </p>
 
             <p>
-              Architetto con oltre 20 anni di esperienza nella progettazione e gestione di 
-              progetti residenziali e commerciali. Specializzata in progettazione architettonica 
-              e urbana, con un forte focus sull'uso di tecnologie sostenibili, design innovativo 
-              e attenzione al dettaglio.
-            </p>
-
-            <p>
               Oggi, attraverso uno studio diffuso tra Milano, Montreal, Rotterdam e Padova, 
               continua a esplorare il potenziale dell'architettura come strumento di trasformazione 
               urbana, con un focus su spazi porosi, continuità territoriale e nuove forme di 
@@ -36,19 +29,25 @@ const Profile = () => {
             </p>
           </div>
 
-          {/* Key Focus Areas */}
+          {/* Education integrated */}
           <div className="mt-16 pt-12 border-t border-border">
-            <div className="grid sm:grid-cols-3 gap-12">
-              {[
-                { title: "Progettazione Urbana", desc: "Infrastrutture e paesaggio" },
-                { title: "Spazi Porosi", desc: "Comunità e continuità" },
-                { title: "Design Sostenibile", desc: "Innovazione responsabile" },
-              ].map((item) => (
-                <div key={item.title} className="text-center">
-                  <h3 className="font-body text-sm font-normal tracking-wide mb-2">{item.title}</h3>
-                  <p className="font-body text-xs text-muted-foreground">{item.desc}</p>
-                </div>
-              ))}
+            <p className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground mb-8">
+              Formazione
+            </p>
+            
+            <div className="space-y-4 font-body text-sm text-foreground">
+              <p>
+                <span className="text-muted-foreground">2004—2008</span> — Dottorato in Progettazione Architettonica e Urbana, Politecnico di Milano
+              </p>
+              <p>
+                <span className="text-muted-foreground">2005</span> — Master in Urban and Regional Design, NYIT New York
+              </p>
+              <p>
+                <span className="text-muted-foreground">2000</span> — Laurea in Architettura, Politecnico di Milano (97/100)
+              </p>
+              <p>
+                <span className="text-muted-foreground">Erasmus</span> — Faculdade de Arquitectura, Universidade do Porto
+              </p>
             </div>
           </div>
         </div>
