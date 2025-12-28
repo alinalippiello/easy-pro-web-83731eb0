@@ -1,3 +1,6 @@
+import { useState } from 'react';
+import Lightbox from './Lightbox';
+
 // Import portfolio images
 import gardenCity1 from "@/assets/portfolio/garden-city-1.jpg";
 import gardenCity2 from "@/assets/portfolio/garden-city-2.jpg";
@@ -12,7 +15,6 @@ import shinkenchiku1 from "@/assets/portfolio/shinkenchiku-1.jpg";
 import europan11 from "@/assets/portfolio/europan11-1.jpg";
 import aluartforum1 from "@/assets/portfolio/aluartforum-1.jpg";
 import expo1 from "@/assets/portfolio/expo-1.jpg";
-
 interface ExperienceItem {
   period: string;
   role: string;
@@ -84,8 +86,39 @@ const portfolioProjects = [
 ];
 
 const Experience = () => {
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxImages, setLightboxImages] = useState<string[]>([]);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+  const [lightboxTitle, setLightboxTitle] = useState('');
+
+  const openLightbox = (images: string[], index: number, title: string) => {
+    setLightboxImages(images);
+    setLightboxIndex(index);
+    setLightboxTitle(title);
+    setLightboxOpen(true);
+  };
+
+  const closeLightbox = () => setLightboxOpen(false);
+
+  const goToPrev = () => {
+    setLightboxIndex((prev) => (prev === 0 ? lightboxImages.length - 1 : prev - 1));
+  };
+
+  const goToNext = () => {
+    setLightboxIndex((prev) => (prev === lightboxImages.length - 1 ? 0 : prev + 1));
+  };
+
   return (
     <section id="esperienza" className="py-24 md:py-32 bg-card">
+      <Lightbox
+        images={lightboxImages}
+        currentIndex={lightboxIndex}
+        isOpen={lightboxOpen}
+        onClose={closeLightbox}
+        onPrev={goToPrev}
+        onNext={goToNext}
+        title={lightboxTitle}
+      />
       <div className="container">
         <div className="grid md:grid-cols-12 gap-12 md:gap-16">
           {/* Section Label */}
@@ -180,6 +213,7 @@ const Experience = () => {
                       {project.images.map((image, imgIndex) => (
                         <div
                           key={imgIndex}
+                          onClick={() => openLightbox(project.images, imgIndex, project.title)}
                           className="group/img relative aspect-[16/10] overflow-hidden bg-muted cursor-pointer"
                         >
                           <img
