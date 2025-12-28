@@ -44,127 +44,106 @@ const Education = () => {
   };
 
   return (
-    <section id="formazione" className="py-24 md:py-32">
+    <section id="formazione" className="py-20 md:py-28 border-t border-border">
       <div className="container">
-        <div className="grid md:grid-cols-12 gap-12 md:gap-16">
-          {/* Section Label */}
-          <div className="md:col-span-3">
-            <p className="font-body text-sm tracking-[0.2em] uppercase text-muted-foreground sticky top-24">
-              03 — Formazione
+        <div className="max-w-3xl mx-auto">
+          {/* Section title */}
+          <p className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground mb-12 text-center">
+            Formazione
+          </p>
+
+          {/* Research Highlight */}
+          <div className="mb-12 text-center">
+            <p className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-2">
+              {research.period}
+            </p>
+            <h3 className="font-body text-base font-normal mb-1">
+              {research.title}
+            </h3>
+            <p className="font-body text-sm text-muted-foreground mb-1">
+              {research.institution}
+            </p>
+            <p className="font-body text-sm text-muted-foreground">
+              Tesi: "{research.thesis}"
             </p>
           </div>
 
-          {/* Content */}
-          <div className="md:col-span-9">
-            <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-light leading-tight mb-16">
-              Un percorso tra teoria,
-              <br className="hidden md:block" /> ricerca e pratica
-            </h2>
-
-            {/* Research Highlight */}
-            <div className="mb-16 p-8 bg-card border border-border">
-              <div className="grid md:grid-cols-12 gap-4 md:gap-8">
-                <div className="md:col-span-2">
+          {/* Education Timeline */}
+          <div className="space-y-8 mb-16">
+            {education.map((item, index) => (
+              <div
+                key={index}
+                className="text-center pb-8 border-b border-border last:border-b-0"
+              >
+                {item.year && (
+                  <p className="font-body text-xs text-muted-foreground mb-2">
+                    {item.year}
+                  </p>
+                )}
+                <h3 className="font-body text-sm font-normal mb-1">
+                  {item.title}
+                </h3>
+                {item.institution && (
                   <p className="font-body text-sm text-muted-foreground">
-                    {research.period}
+                    {item.institution}
                   </p>
-                </div>
-                <div className="md:col-span-10">
-                  <p className="font-body text-xs tracking-wider uppercase text-primary mb-2">
-                    Attività di ricerca
-                  </p>
-                  <h3 className="font-display text-xl font-medium mb-1">
-                    {research.title}
-                  </h3>
-                  <p className="font-body text-base text-foreground/80 mb-2">
-                    {research.institution}
-                  </p>
-                  <p className="font-body text-sm text-muted-foreground italic">
-                    Tesi: "{research.thesis}"
-                  </p>
-                </div>
+                )}
+                <p className="font-body text-xs text-muted-foreground mt-1">
+                  {item.note}
+                </p>
               </div>
+            ))}
+          </div>
+
+          {/* Skills Grid */}
+          <div className="grid sm:grid-cols-3 gap-12 text-center">
+            {/* Software */}
+            <div>
+              <h3 className="font-body text-xs tracking-[0.2em] uppercase text-muted-foreground mb-4">
+                Software
+              </h3>
+              <ul className="space-y-1">
+                {skills.software.map((item) => (
+                  <li
+                    key={item}
+                    className="font-body text-sm text-foreground"
+                  >
+                    {item}
+                  </li>
+                ))}
+              </ul>
             </div>
 
-            {/* Education Timeline */}
-            <div className="space-y-8 mb-20">
-              {education.map((item, index) => (
-                <div
-                  key={index}
-                  className="grid md:grid-cols-12 gap-4 md:gap-8 group"
-                >
-                  <div className="md:col-span-2">
-                    <p className="font-body text-sm text-muted-foreground">
-                      {item.year}
-                    </p>
-                  </div>
-                  <div className="md:col-span-10 pb-8 border-b border-border last:border-b-0">
-                    <h3 className="font-display text-xl font-medium mb-1">
-                      {item.title}
-                    </h3>
-                    {item.institution && (
-                      <p className="font-body text-base text-foreground/80 mb-2">
-                        {item.institution}
-                      </p>
-                    )}
-                    <p className="font-body text-sm text-muted-foreground">
-                      {item.note}
-                    </p>
-                  </div>
-                </div>
-              ))}
+            {/* Languages */}
+            <div>
+              <h3 className="font-body text-xs tracking-[0.2em] uppercase text-muted-foreground mb-4">
+                Lingue
+              </h3>
+              <ul className="space-y-1">
+                {skills.languages.map((item) => (
+                  <li key={item.lang} className="font-body text-sm">
+                    <span className="text-foreground">{item.lang}</span>
+                    <span className="text-muted-foreground"> — {item.level}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
 
-            {/* Skills Grid */}
-            <div className="grid sm:grid-cols-3 gap-12">
-              {/* Software */}
-              <div>
-                <h3 className="font-display text-lg font-medium mb-4 pb-4 border-b border-border">
-                  Software
-                </h3>
-                <ul className="space-y-2">
-                  {skills.software.map((item) => (
-                    <li
-                      key={item}
-                      className="font-body text-sm text-muted-foreground"
-                    >
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Languages */}
-              <div>
-                <h3 className="font-display text-lg font-medium mb-4 pb-4 border-b border-border">
-                  Lingue
-                </h3>
-                <ul className="space-y-2">
-                  {skills.languages.map((item) => (
-                    <li key={item.lang} className="font-body text-sm">
-                      <span className="text-foreground">{item.lang}</span>
-                      <span className="text-muted-foreground"> — {item.level}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Certifications */}
-              <div>
-                <h3 className="font-display text-lg font-medium mb-4 pb-4 border-b border-border">
-                  Certificazioni
-                </h3>
-                <ul className="space-y-2">
-                  {skills.certifications.map((item) => (
-                    <li
-                      key={item}
-                      className="font-body text-sm text-muted-foreground"
-                    >
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            {/* Certifications */}
+            <div>
+              <h3 className="font-body text-xs tracking-[0.2em] uppercase text-muted-foreground mb-4">
+                Certificazioni
+              </h3>
+              <ul className="space-y-1">
+                {skills.certifications.map((item) => (
+                  <li
+                    key={item}
+                    className="font-body text-sm text-foreground"
+                  >
+                    {item}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>

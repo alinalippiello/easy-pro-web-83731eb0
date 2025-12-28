@@ -22,57 +22,53 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-background/95 backdrop-blur-sm shadow-subtle py-4"
-          : "bg-transparent py-6"
+          ? "bg-background py-4"
+          : "bg-background py-6"
       }`}
     >
-      <div className="container flex items-center justify-between">
-        <a
-          href="#"
-          className="font-display text-xl md:text-2xl font-medium tracking-wide transition-smooth hover:opacity-70"
-        >
-          Alina Lippiello
-        </a>
+      <div className="container">
+        {/* Top row: Menu - Logo - Search */}
+        <div className="flex items-center justify-between">
+          {/* Menu button */}
+          <button
+            className="font-body text-sm tracking-widest uppercase hover:opacity-60 transition-smooth"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {isMobileMenuOpen ? "Chiudi" : "Menu"}
+          </button>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-8">
-          {navItems.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className="font-body text-sm tracking-wide text-muted-foreground hover:text-foreground transition-smooth link-underline"
-            >
-              {item.label}
-            </a>
-          ))}
-        </nav>
+          {/* Centered Logo */}
+          <a
+            href="#"
+            className="absolute left-1/2 -translate-x-1/2 font-display text-lg md:text-xl tracking-[0.3em] uppercase font-normal transition-smooth hover:opacity-60"
+          >
+            ALINA LIPPIELLO
+          </a>
 
-        {/* Mobile Menu Button */}
-        <button
-          className="md:hidden p-2 hover:bg-secondary rounded transition-fast"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label="Toggle menu"
-        >
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+          {/* Right placeholder for balance */}
+          <div className="w-12" />
+        </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Full screen Menu */}
       {isMobileMenuOpen && (
-        <nav className="md:hidden absolute top-full left-0 right-0 bg-background/98 backdrop-blur-sm border-t border-border animate-fade-in">
-          <div className="container py-6 flex flex-col gap-4">
-            {navItems.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="font-body text-base tracking-wide text-muted-foreground hover:text-foreground transition-smooth py-2"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {item.label}
-              </a>
-            ))}
+        <nav className="fixed inset-0 top-0 bg-background z-40 animate-fade-in">
+          <div className="container h-full flex flex-col items-center justify-center">
+            <div className="flex flex-col items-center gap-8">
+              {navItems.map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className="font-body text-2xl md:text-3xl tracking-widest uppercase text-foreground hover:opacity-60 transition-smooth"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {item.label}
+                </a>
+              ))}
+            </div>
           </div>
         </nav>
       )}

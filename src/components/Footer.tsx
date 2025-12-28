@@ -1,12 +1,12 @@
 const Footer = () => {
   return (
-    <footer className="py-8 bg-primary text-primary-foreground border-t border-primary-foreground/10">
+    <footer className="py-12 border-t border-border">
       <div className="container">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="font-body text-sm opacity-60">
+        <div className="max-w-3xl mx-auto text-center space-y-4">
+          <p className="font-body text-xs text-muted-foreground">
             © {new Date().getFullYear()} Alina Lippiello. Tutti i diritti riservati.
           </p>
-          <p className="font-body text-xs opacity-40">
+          <p className="font-body text-xs text-muted-foreground">
             Autorizzo il trattamento dei miei dati personali secondo la legge vigente.
           </p>
         </div>

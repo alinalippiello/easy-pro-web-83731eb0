@@ -48,23 +48,23 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onPrev, onNext, title
 
   return (
     <div 
-      className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/95 backdrop-blur-sm animate-fade-in"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-background animate-fade-in"
       onClick={onClose}
     >
       {/* Close button */}
       <button
         onClick={onClose}
-        className="absolute top-6 right-6 p-2 text-background/70 hover:text-background transition-colors z-10"
+        className="absolute top-6 right-6 font-body text-xs tracking-widest uppercase text-muted-foreground hover:text-foreground transition-smooth z-10"
         aria-label="Chiudi"
       >
-        <X className="w-8 h-8" />
+        Chiudi
       </button>
 
       {/* Title */}
       {title && (
         <div className="absolute top-6 left-6 z-10">
-          <p className="font-display text-background/90 text-lg">{title}</p>
-          <p className="font-body text-background/50 text-sm mt-1">
+          <p className="font-body text-sm text-foreground">{title}</p>
+          <p className="font-body text-xs text-muted-foreground mt-1">
             {currentIndex + 1} / {images.length}
           </p>
         </div>
@@ -75,30 +75,30 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onPrev, onNext, title
         <>
           <button
             onClick={(e) => { e.stopPropagation(); onPrev(); }}
-            className="absolute left-4 md:left-8 p-3 text-background/70 hover:text-background transition-colors hover:bg-background/10 rounded-full"
+            className="absolute left-4 md:left-8 p-3 text-muted-foreground hover:text-foreground transition-smooth"
             aria-label="Immagine precedente"
           >
-            <ChevronLeft className="w-8 h-8" />
+            <ChevronLeft className="w-6 h-6" />
           </button>
           <button
             onClick={(e) => { e.stopPropagation(); onNext(); }}
-            className="absolute right-4 md:right-8 p-3 text-background/70 hover:text-background transition-colors hover:bg-background/10 rounded-full"
+            className="absolute right-4 md:right-8 p-3 text-muted-foreground hover:text-foreground transition-smooth"
             aria-label="Immagine successiva"
           >
-            <ChevronRight className="w-8 h-8" />
+            <ChevronRight className="w-6 h-6" />
           </button>
         </>
       )}
 
       {/* Image */}
       <div 
-        className="max-w-[90vw] max-h-[85vh] flex items-center justify-center"
+        className="max-w-[85vw] max-h-[80vh] flex items-center justify-center"
         onClick={(e) => e.stopPropagation()}
       >
         <img
           src={images[currentIndex]}
           alt={`${title || 'Immagine'} ${currentIndex + 1}`}
-          className="max-w-full max-h-[85vh] object-contain animate-scale-in"
+          className="max-w-full max-h-[80vh] object-contain"
         />
       </div>
 
@@ -109,10 +109,10 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onPrev, onNext, title
             <button
               key={idx}
               onClick={(e) => { e.stopPropagation(); }}
-              className={`w-2 h-2 rounded-full transition-all ${
+              className={`w-1.5 h-1.5 rounded-full transition-all ${
                 idx === currentIndex 
-                  ? 'bg-background w-6' 
-                  : 'bg-background/40 hover:bg-background/60'
+                  ? 'bg-foreground w-4' 
+                  : 'bg-muted-foreground/40 hover:bg-muted-foreground/60'
               }`}
               aria-label={`Vai all'immagine ${idx + 1}`}
             />
