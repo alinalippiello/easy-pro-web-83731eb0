@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -15,8 +14,8 @@ const Header = () => {
 
   const navItems = [
     { label: "Profilo", href: "#profilo" },
-    { label: "Esperienza", href: "#esperienza" },
-    { label: "Formazione", href: "#formazione" },
+    { label: "Progetti", href: "#progetti" },
+    { label: "Pubblicazioni", href: "#pubblicazioni" },
     { label: "Contatti", href: "#contatti" },
   ];
 
