@@ -15,7 +15,7 @@ interface LightboxProps {
   onIndexChange?: (index: number) => void;
 }
 
-const Lightbox = ({ images, currentIndex, isOpen, onClose, onPrev, onNext, title }: LightboxProps) => {
+const Lightbox = ({ images, currentIndex, isOpen, onClose, onPrev, onNext, title, description, author, collaborators, onIndexChange }: LightboxProps) => {
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (!isOpen) return;
     
