@@ -107,6 +107,10 @@ const Experience = () => {
         onPrev={goToPrev}
         onNext={goToNext}
         title={lightboxTitle}
+        description={selectedProject?.description}
+        author={selectedProject?.author}
+        collaborators={selectedProject?.collaborators}
+        onIndexChange={setLightboxIndex}
       />
       <div className="container">
         <div className="max-w-5xl mx-auto">
