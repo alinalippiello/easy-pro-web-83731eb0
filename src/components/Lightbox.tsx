@@ -9,6 +9,10 @@ interface LightboxProps {
   onPrev: () => void;
   onNext: () => void;
   title?: string;
+  description?: string;
+  author?: string;
+  collaborators?: string;
+  onIndexChange?: (index: number) => void;
 }
 
 const Lightbox = ({ images, currentIndex, isOpen, onClose, onPrev, onNext, title }: LightboxProps) => {
