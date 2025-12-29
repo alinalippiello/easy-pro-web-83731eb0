@@ -66,11 +66,26 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onPrev, onNext, title
 
       {/* Title */}
       {title && (
-        <div className="absolute top-6 left-6 z-10">
+        <div className="absolute top-6 left-6 z-10 max-w-md">
           <p className="font-body text-sm text-foreground">{title}</p>
           <p className="font-body text-xs text-muted-foreground mt-1">
             {currentIndex + 1} / {images.length}
           </p>
+          {author && (
+            <p className="font-body text-xs text-muted-foreground mt-3">
+              Autore: {author}
+            </p>
+          )}
+          {collaborators && (
+            <p className="font-body text-xs text-muted-foreground mt-1">
+              In collaborazione con: {collaborators}
+            </p>
+          )}
+          {description && (
+            <p className="font-body text-xs text-muted-foreground mt-3 leading-relaxed hidden md:block">
+              {description}
+            </p>
+          )}
         </div>
       )}
 
@@ -112,7 +127,7 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onPrev, onNext, title
           {images.map((_, idx) => (
             <button
               key={idx}
-              onClick={(e) => { e.stopPropagation(); }}
+              onClick={(e) => { e.stopPropagation(); onIndexChange?.(idx); }}
               className={`w-1.5 h-1.5 rounded-full transition-all ${
                 idx === currentIndex 
                   ? 'bg-foreground w-4' 
