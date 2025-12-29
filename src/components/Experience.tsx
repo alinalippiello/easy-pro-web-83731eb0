@@ -2,7 +2,11 @@ import { useState } from 'react';
 import Lightbox from './Lightbox';
 
 // Import portfolio images
-import gardenCity1 from "@/assets/portfolio/garden-city-1.jpg";
+import wernigerode1 from "@/assets/portfolio/wernigerode-1.jpg";
+import wernigerode2 from "@/assets/portfolio/wernigerode-2.jpg";
+import wernigerode3 from "@/assets/portfolio/wernigerode-3.jpg";
+import wernigerodeAerial from "@/assets/portfolio/wernigerode-aerial.jpg";
+import wernigerodeRender from "@/assets/portfolio/wernigerode-render.jpg";
 import novecento1 from "@/assets/portfolio/novecento-1.jpg";
 import illerpark1 from "@/assets/portfolio/illerpark-1.jpg";
 import shinkenchiku1 from "@/assets/portfolio/shinkenchiku-1.jpg";
@@ -12,46 +16,56 @@ import expo1 from "@/assets/portfolio/expo-1.jpg";
 
 const portfolioProjects = [
   {
-    title: "The New Ecological Porous Garden City",
+    title: "Abitare la Nuova Città Giardino Ecologica Permeabile",
     location: "Wernigerode, Germania",
     year: "2021",
-    image: gardenCity1,
+    description: "Un intervento urbano che ridefinisce il concetto di densità abitativa attraverso una rete di corridoi verdi interconnessi. Il progetto propone un sistema di porosità urbana che integra residenze, spazi produttivi e paesaggio naturale, creando una nuova tipologia di quartiere sostenibile che dialoga con la topografia esistente.",
+    author: "Alina Lippiello",
+    collaborators: "Leonardo Zuccaro Marchi, Piero Medici, Alice Covatta",
+    images: [wernigerodeRender, wernigerodeAerial, wernigerode1, wernigerode2, wernigerode3],
+    thumbnail: wernigerodeRender,
   },
   {
     title: "Novecentopiù'cento",
     location: "Milano, Italia",
     year: "Concorso",
-    image: novecento1,
+    images: [novecento1],
+    thumbnail: novecento1,
   },
   {
     title: "Wohnen am Illerpark",
     location: "Germania",
     year: "Concorso",
-    image: illerpark1,
+    images: [illerpark1],
+    thumbnail: illerpark1,
   },
   {
     title: "4 Houses - Shinkenchiku",
     location: "Internazionale",
     year: "Concorso",
-    image: shinkenchiku1,
+    images: [shinkenchiku1],
+    thumbnail: shinkenchiku1,
   },
   {
     title: "Europan 11 - Floating Blocks",
     location: "Leeuwarden, Paesi Bassi",
     year: "Runner up",
-    image: europan11,
+    images: [europan11],
+    thumbnail: europan11,
   },
   {
     title: "Aluartforum",
     location: "Croazia",
     year: "Concorso",
-    image: aluartforum1,
+    images: [aluartforum1],
+    thumbnail: aluartforum1,
   },
   {
     title: "Architetture di Servizio Expo",
     location: "Milano, Italia",
     year: "2015",
-    image: expo1,
+    images: [expo1],
+    thumbnail: expo1,
   },
 ];
 
@@ -60,15 +74,28 @@ const Experience = () => {
   const [lightboxImages, setLightboxImages] = useState<string[]>([]);
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [lightboxTitle, setLightboxTitle] = useState('');
+  const [selectedProject, setSelectedProject] = useState<typeof portfolioProjects[0] | null>(null);
 
-  const openLightbox = (image: string, title: string) => {
-    setLightboxImages([image]);
-    setLightboxIndex(0);
-    setLightboxTitle(title);
+  const openLightbox = (project: typeof portfolioProjects[0], startIndex = 0) => {
+    setLightboxImages(project.images);
+    setLightboxIndex(startIndex);
+    setLightboxTitle(project.title);
+    setSelectedProject(project);
     setLightboxOpen(true);
   };
 
-  const closeLightbox = () => setLightboxOpen(false);
+  const closeLightbox = () => {
+    setLightboxOpen(false);
+    setSelectedProject(null);
+  };
+
+  const goToPrev = () => {
+    setLightboxIndex((prev) => (prev === 0 ? lightboxImages.length - 1 : prev - 1));
+  };
+
+  const goToNext = () => {
+    setLightboxIndex((prev) => (prev === lightboxImages.length - 1 ? 0 : prev + 1));
+  };
 
   return (
     <section id="progetti" className="py-20 md:py-28 border-t border-border">
@@ -77,8 +104,8 @@ const Experience = () => {
         currentIndex={lightboxIndex}
         isOpen={lightboxOpen}
         onClose={closeLightbox}
-        onPrev={() => {}}
-        onNext={() => {}}
+        onPrev={goToPrev}
+        onNext={goToNext}
         title={lightboxTitle}
       />
       <div className="container">
@@ -94,12 +121,12 @@ const Experience = () => {
               <div
                 key={project.title}
                 className="group cursor-pointer"
-                onClick={() => openLightbox(project.image, project.title)}
+                onClick={() => openLightbox(project)}
               >
                 {/* Image */}
                 <div className="aspect-square overflow-hidden bg-muted mb-3">
                   <img
-                    src={project.image}
+                    src={project.thumbnail}
                     alt={project.title}
                     className="w-full h-full object-cover transition-all duration-300 group-hover:opacity-80"
                   />
