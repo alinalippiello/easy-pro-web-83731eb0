@@ -16,9 +16,9 @@ import expo1 from "@/assets/portfolio/expo-1.jpg";
 
 const portfolioProjects = [
   {
-    title: "Città Giardino Permeabile - Concorso",
+    title: "Città Giardino Permeabile - Progetto",
     location: "Wernigerode, Germania",
-    year: "2021",
+    year: "In corso",
     description: `La proposta sviluppa una visione urbana basata su tre livelli di porosità interconnessa.
 
 A scala urbana, una rete di corridoi ecologici riconnette i frammenti naturali della città, infiltrandosi nella frammentazione contemporanea. L'area di progetto diventa baricentrica in questa nuova sinergia verde-blu tra il Bürgerpark e il fiume Holtemme, estendendo la connettività pedonale e ciclabile verso il centro storico.
@@ -32,14 +32,14 @@ Questa visione reinterpreta la città giardino: anziché un sistema radiale, pro
     thumbnail: wernigerodeRender,
   },
   {
-    title: "Città Giardino Permeabile - Progetto",
+    title: "Città Giardino Permeabile - Concorso",
     location: "Wernigerode, Germania",
-    year: "In corso",
-    description: `Il progetto architettonico si articola in due interventi complementari che dialogano con la topografia esistente.
+    year: "2021",
+    description: `Il progetto architettonico del concorso si articola su due aree complementari che dialogano con la topografia esistente.
 
-L'edificio Nord (32 alloggi) funge da porta urbana, connettendo il parco al quartiere. Le volumetrie ricuciono i blocchi lineari occidentali con le case isolate settentrionali, inserendosi armonicamente nel tessuto organico. Portali e tagli garantiscono permeabilità pubblica verso i percorsi ciclopedonali. Materiali sostenibili (legno e calcestruzzo), sistemi di gestione idrica circolare e produzione energetica caratterizzano l'intervento. La mixité tipologica favorisce composizioni sociali intergenerazionali, con spazi lavoro-abitazione e attività commerciali al piano terra.
+Area Nord (32 alloggi) - In fase di realizzazione: L'edificio funge da porta urbana, connettendo il parco al quartiere. Le volumetrie ricuciono i blocchi lineari occidentali con le case isolate settentrionali, inserendosi armonicamente nel tessuto organico. Portali e tagli garantiscono permeabilità pubblica verso i percorsi ciclopedonali. Materiali sostenibili (legno e calcestruzzo), sistemi di gestione idrica circolare e produzione energetica caratterizzano l'intervento. La mixité tipologica favorisce composizioni sociali intergenerazionali, con spazi lavoro-abitazione e attività commerciali al piano terra.
 
-L'edificio Sud (25 alloggi) ibrida la tipologia a schiera con coperture a falde e lineari, seguendo organicamente il sito. La porosità connette il parco circolare interno al museo tecnico ad ovest. Una serra fotovoltaica nel cortile permette produzione alimentare annuale, configurandosi come "padiglione agricolo". Orti condivisi, terrazze comuni e giardini privati completano il sistema di spazi aperti.`,
+Area Sud (25 alloggi): Ibrida la tipologia a schiera con coperture a falde e lineari, seguendo organicamente il sito. La porosità connette il parco circolare interno al museo tecnico ad ovest. Una serra fotovoltaica nel cortile permette produzione alimentare annuale, configurandosi come "padiglione agricolo". Orti condivisi, terrazze comuni e giardini privati completano il sistema di spazi aperti.`,
     author: "Alina Lippiello",
     collaborators: "Cope (Alice Covatta, Leonardo Zuccaro Marchi, Piero Medici)",
     images: [wernigerode1, wernigerode2, wernigerode3],
