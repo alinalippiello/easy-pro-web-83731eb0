@@ -34,7 +34,15 @@ A scala di quartiere, il progetto definisce spazi comuni e una struttura permeab
 
 Questa visione reinterpreta la città giardino: anziché un sistema radiale, propone cluster di spazi comuni interconnessi che trasformano la monofunzionalità urbana in un ecosistema poroso di accessibilità sociale e inclusione.`,
     author: "Alina Lippiello",
-    collaborators: "Cope (Alice Covatta, Leonardo Zuccaro Marchi, Piero Medici)",
+    collaborators: `Co-Authors: Leonardo Zuccaro Marchi, Alice Covatta, Piero Medici
+La Porosa | CoPE
+With: H+L Hartung & Ludwig Architektur
+
+Collaborators: Ereza Bokshi, Erica Boncaldo, Lorenzo Bucciarelli, Tarek Diebäcker, Andrea Fumero, Aziz Verna GergesHana, Sedat Gölada, Qian Hao, Alessia Pardi, Cagla Turkoglu, Ettore Varoni, Li Xinwei
+
+Renders: Be Maarch
+
+Concorso: Europan 16, Wernigerode, Germania, 2021`,
     images: [wernigerodeRender, wernigerodeAerial],
     thumbnail: wernigerodeRender,
   },
@@ -48,7 +56,15 @@ Area Nord (32 alloggi) - In fase di realizzazione: L'edificio funge da porta urb
 
 Area Sud (25 alloggi): Ibrida la tipologia a schiera con coperture a falde e lineari, seguendo organicamente il sito. La porosità connette il parco circolare interno al museo tecnico ad ovest. Una serra fotovoltaica nel cortile permette produzione alimentare annuale, configurandosi come "padiglione agricolo". Orti condivisi, terrazze comuni e giardini privati completano il sistema di spazi aperti.`,
     author: "Alina Lippiello",
-    collaborators: "Cope (Alice Covatta, Leonardo Zuccaro Marchi, Piero Medici)",
+    collaborators: `Co-Authors: Leonardo Zuccaro Marchi, Alice Covatta, Piero Medici
+La Porosa | CoPE
+With: H+L Hartung & Ludwig Architektur
+
+Collaborators: Ereza Bokshi, Erica Boncaldo, Lorenzo Bucciarelli, Tarek Diebäcker, Andrea Fumero, Aziz Verna GergesHana, Sedat Gölada, Qian Hao, Alessia Pardi, Cagla Turkoglu, Ettore Varoni, Li Xinwei
+
+Renders: Be Maarch
+
+Concorso: Europan 16, Wernigerode, Germania, 2021`,
     images: [wernigerode1, wernigerode2, wernigerode3],
     thumbnail: wernigerode1,
   },
