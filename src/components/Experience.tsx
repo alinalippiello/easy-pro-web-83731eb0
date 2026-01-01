@@ -66,7 +66,7 @@ Il tema della scatola nella scatola: i solai si susseguono sfalsati in un gioco 
 L'intervento si sviluppa su una struttura autonoma. I muri esistenti fungono da filtro tra percorso ed esterno, mentre lo spazio interno è delimitato da una struttura reticolare rivestita da una filigrana metallica. In un gioco di trasparenze l'occhio del visitatore si sposta dal paesaggio urbano alle opere esposte. Pilastri, struttura reticolare, rete, muro – acciaio e pietra, elemento evanescente e massiccio – definiscono la sequenza degli elementi architettonici. Nell'opzione di collegamento sotterraneo, i due Arengari comunicano attraverso una corte espositiva ipogea connessa direttamente alla metropolitana.`,
     author: "Alina Lippiello",
     collaborators: "Leonardo Zuccaro Marchi, Iacopo Salce",
-    images: [novecentoNew1, novecentoNew2, novecento1, novecento2, novecento3, novecento4, novecento5, novecento6, novecento7],
+    images: [novecentoNew1, novecentoNew2, novecento4, novecento5, novecento6, novecento7],
     thumbnail: novecentoNew1,
   },
   {
