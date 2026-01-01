@@ -8,6 +8,14 @@ import wernigerode3 from "@/assets/portfolio/wernigerode-3.jpg";
 import wernigerodeAerial from "@/assets/portfolio/wernigerode-aerial.jpg";
 import wernigerodeRender from "@/assets/portfolio/wernigerode-render.jpg";
 import novecento1 from "@/assets/portfolio/novecento-1.jpg";
+import novecento2 from "@/assets/portfolio/novecento-2.jpg";
+import novecento3 from "@/assets/portfolio/novecento-3.jpg";
+import novecento4 from "@/assets/portfolio/novecento-4.jpg";
+import novecento5 from "@/assets/portfolio/novecento-5.jpg";
+import novecento6 from "@/assets/portfolio/novecento-6.jpg";
+import novecento7 from "@/assets/portfolio/novecento-7.jpg";
+import novecento8 from "@/assets/portfolio/novecento-8.jpg";
+import novecento9 from "@/assets/portfolio/novecento-9.jpg";
 import illerpark1 from "@/assets/portfolio/illerpark-1.jpg";
 import shinkenchiku1 from "@/assets/portfolio/shinkenchiku-1.jpg";
 import europan11 from "@/assets/portfolio/europan11-1.jpg";
@@ -49,7 +57,12 @@ Area Sud (25 alloggi): Ibrida la tipologia a schiera con coperture a falde e lin
     title: "Novecentopiù'cento",
     location: "Milano, Italia",
     year: "Concorso",
-    images: [novecento1],
+    description: `Il progetto intreccia la città con il percorso museale, creando una continuità con lo spazio pubblico del Museo del Novecento. Il percorso sospeso tra i due Arengari estende lo spazio collettivo urbano: il suolo di via Marconi si duplica per diventare collegamento, terrazza e spazio espositivo su piazza Duomo.
+
+L'elemento di connessione stabilisce una continuità con i porticati della città storica, preserva il collegamento visivo tra la Galleria e la Torre Martini, definisce piazza Diaz e l'ingresso alle strutture museali.`,
+    author: "Alina Lippiello",
+    collaborators: "Cope (Alice Covatta, Leonardo Zuccaro Marchi, Piero Medici)",
+    images: [novecento1, novecento2, novecento3, novecento4, novecento5, novecento6, novecento7, novecento8, novecento9],
     thumbnail: novecento1,
   },
   {
