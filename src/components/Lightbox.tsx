@@ -1,5 +1,5 @@
 import { useEffect, useCallback } from 'react';
-import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface LightboxProps {
   images: string[];
@@ -64,53 +64,26 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onPrev, onNext, title
         Chiudi
       </button>
 
-      {/* Main content - side by side on desktop */}
+      {/* Main content - vertical layout */}
       <div 
-        className="min-h-full flex flex-col md:flex-row"
+        className="min-h-full flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Left sidebar - Info */}
-        {(title || description || author || collaborators) && (
-          <div className="w-full md:w-80 lg:w-96 p-6 md:p-8 md:pt-20 flex-shrink-0 order-2 md:order-1">
-            {title && (
-              <h3 className="font-body text-sm text-foreground mb-2">{title}</h3>
-            )}
-            <p className="font-body text-xs text-muted-foreground mb-4">
-              {currentIndex + 1} / {images.length}
-            </p>
-            {author && (
-              <p className="font-body text-xs text-muted-foreground mt-4">
-                Autore: {author}
-              </p>
-            )}
-            {collaborators && (
-              <p className="font-body text-xs text-muted-foreground mt-1">
-                In collaborazione con {collaborators}
-              </p>
-            )}
-            {description && (
-              <p className="font-body text-xs text-muted-foreground mt-4 leading-relaxed">
-                {description}
-              </p>
-            )}
-          </div>
-        )}
-
-        {/* Right side - Image */}
-        <div className="flex-1 flex flex-col items-center justify-center p-4 md:p-8 md:pt-20 order-1 md:order-2 relative min-h-[50vh] md:min-h-screen">
+        {/* Image area */}
+        <div className="flex-1 flex items-center justify-center p-4 md:p-8 pt-16 relative min-h-[60vh]">
           {/* Navigation arrows */}
           {images.length > 1 && (
             <>
               <button
                 onClick={(e) => { e.stopPropagation(); onPrev(); }}
-                className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 p-3 text-muted-foreground hover:text-foreground transition-smooth z-10"
+                className="absolute left-2 md:left-8 top-1/2 -translate-y-1/2 p-3 text-muted-foreground hover:text-foreground transition-smooth z-10"
                 aria-label="Immagine precedente"
               >
                 <ChevronLeft className="w-6 h-6" />
               </button>
               <button
                 onClick={(e) => { e.stopPropagation(); onNext(); }}
-                className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 p-3 text-muted-foreground hover:text-foreground transition-smooth z-10"
+                className="absolute right-2 md:right-8 top-1/2 -translate-y-1/2 p-3 text-muted-foreground hover:text-foreground transition-smooth z-10"
                 aria-label="Immagine successiva"
               >
                 <ChevronRight className="w-6 h-6" />
@@ -121,27 +94,63 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onPrev, onNext, title
           <img
             src={images[currentIndex]}
             alt={`${title || 'Immagine'} ${currentIndex + 1}`}
-            className="max-w-full max-h-[60vh] md:max-h-[75vh] object-contain"
+            className="max-w-full max-h-[70vh] object-contain"
           />
-
-          {/* Thumbnail strip */}
-          {images.length > 1 && (
-            <div className="flex gap-2 mt-4">
-              {images.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={(e) => { e.stopPropagation(); onIndexChange?.(idx); }}
-                  className={`w-1.5 h-1.5 rounded-full transition-all ${
-                    idx === currentIndex 
-                      ? 'bg-foreground w-4' 
-                      : 'bg-muted-foreground/40 hover:bg-muted-foreground/60'
-                  }`}
-                  aria-label={`Vai all'immagine ${idx + 1}`}
-                />
-              ))}
-            </div>
-          )}
         </div>
+
+        {/* Thumbnail strip */}
+        {images.length > 1 && (
+          <div className="flex justify-center gap-2 py-4">
+            {images.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={(e) => { e.stopPropagation(); onIndexChange?.(idx); }}
+                className={`w-1.5 h-1.5 rounded-full transition-all ${
+                  idx === currentIndex 
+                    ? 'bg-foreground w-4' 
+                    : 'bg-muted-foreground/40 hover:bg-muted-foreground/60'
+                }`}
+                aria-label={`Vai all'immagine ${idx + 1}`}
+              />
+            ))}
+          </div>
+        )}
+
+        {/* Info section - horizontal below image */}
+        {(title || description || author || collaborators) && (
+          <div className="w-full max-w-5xl mx-auto px-6 md:px-12 py-8 border-t border-border">
+            <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-6 md:gap-12">
+              {/* Left column - metadata */}
+              <div className="space-y-2">
+                {title && (
+                  <h3 className="font-body text-base font-medium text-foreground">{title}</h3>
+                )}
+                <p className="font-body text-sm text-muted-foreground">
+                  {currentIndex + 1} / {images.length}
+                </p>
+                {author && (
+                  <p className="font-body text-sm text-muted-foreground mt-4">
+                    Autore: {author}
+                  </p>
+                )}
+                {collaborators && (
+                  <p className="font-body text-sm text-muted-foreground">
+                    In collaborazione con {collaborators}
+                  </p>
+                )}
+              </div>
+
+              {/* Right column - description */}
+              {description && (
+                <div>
+                  <p className="font-body text-sm text-muted-foreground leading-relaxed whitespace-pre-line">
+                    {description}
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -7,15 +7,14 @@ import wernigerode2 from "@/assets/portfolio/wernigerode-2.jpg";
 import wernigerode3 from "@/assets/portfolio/wernigerode-3.jpg";
 import wernigerodeAerial from "@/assets/portfolio/wernigerode-aerial.jpg";
 import wernigerodeRender from "@/assets/portfolio/wernigerode-render.jpg";
-import novecento1 from "@/assets/portfolio/novecento-1.jpg";
-import novecento2 from "@/assets/portfolio/novecento-2.jpg";
-import novecento3 from "@/assets/portfolio/novecento-3.jpg";
 import novecento4 from "@/assets/portfolio/novecento-4.jpg";
 import novecento5 from "@/assets/portfolio/novecento-5.jpg";
 import novecento6 from "@/assets/portfolio/novecento-6.jpg";
 import novecento7 from "@/assets/portfolio/novecento-7.jpg";
 import novecentoNew1 from "@/assets/portfolio/novecento-new-1.jpg";
 import novecentoNew2 from "@/assets/portfolio/novecento-new-2.jpg";
+import novecento10 from "@/assets/portfolio/novecento-10.jpg";
+import novecento11 from "@/assets/portfolio/novecento-11.jpg";
 import illerpark1 from "@/assets/portfolio/illerpark-1.jpg";
 import shinkenchiku1 from "@/assets/portfolio/shinkenchiku-1.jpg";
 import europan11 from "@/assets/portfolio/europan11-1.jpg";
@@ -66,7 +65,7 @@ Il tema della scatola nella scatola: i solai si susseguono sfalsati in un gioco 
 L'intervento si sviluppa su una struttura autonoma. I muri esistenti fungono da filtro tra percorso ed esterno, mentre lo spazio interno è delimitato da una struttura reticolare rivestita da una filigrana metallica. In un gioco di trasparenze l'occhio del visitatore si sposta dal paesaggio urbano alle opere esposte. Pilastri, struttura reticolare, rete, muro – acciaio e pietra, elemento evanescente e massiccio – definiscono la sequenza degli elementi architettonici. Nell'opzione di collegamento sotterraneo, i due Arengari comunicano attraverso una corte espositiva ipogea connessa direttamente alla metropolitana.`,
     author: "Alina Lippiello",
     collaborators: "Leonardo Zuccaro Marchi, Iacopo Salce",
-    images: [novecentoNew1, novecentoNew2, novecento4, novecento5, novecento6, novecento7],
+    images: [novecentoNew1, novecentoNew2, novecento4, novecento5, novecento6, novecento7, novecento10, novecento11],
     thumbnail: novecentoNew1,
   },
   {
@@ -165,11 +164,11 @@ const Experience = () => {
                 onClick={() => openLightbox(project)}
               >
                 {/* Image */}
-                <div className="aspect-square overflow-hidden bg-muted mb-3">
+                <div className="aspect-[4/3] overflow-hidden bg-muted mb-3">
                   <img
                     src={project.thumbnail}
                     alt={project.title}
-                    className="w-full h-full object-cover transition-all duration-300 group-hover:opacity-80"
+                    className="w-full h-full object-contain bg-muted transition-all duration-300 group-hover:opacity-80"
                   />
                 </div>
                 
