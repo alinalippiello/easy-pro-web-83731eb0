@@ -1,18 +1,20 @@
 import { Mail, MapPin } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Contact = () => {
+  const { t } = useLanguage();
+
   return (
     <section id="contatti" className="py-20 md:py-28 border-t border-border">
       <div className="container">
         <div className="max-w-3xl mx-auto text-center">
           {/* Section title */}
           <p className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground mb-8">
-            Contatti
+            {t('contact.title')}
           </p>
 
           <p className="font-body text-sm md:text-base text-foreground mb-12 max-w-xl mx-auto">
-            Sono sempre interessata a nuove collaborazioni e progetti stimolanti.
-            Non esitare a contattarmi per discutere le tue idee.
+            {t('contact.description')}
           </p>
 
           {/* Contact Info */}
@@ -36,7 +38,7 @@ const Contact = () => {
           {/* Studio Locations */}
           <div className="pt-8 border-t border-border">
             <p className="font-body text-xs tracking-[0.2em] uppercase text-muted-foreground mb-4">
-              Studio
+              {t('contact.studio')}
             </p>
             <p className="font-body text-sm text-foreground">
               Milano · Montreal · Rotterdam · Padova

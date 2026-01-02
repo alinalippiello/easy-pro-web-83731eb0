@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
+import LanguageSelector from "./LanguageSelector";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -13,10 +16,10 @@ const Header = () => {
   }, []);
 
   const navItems = [
-    { label: "Profilo", href: "#profilo" },
-    { label: "Progetti", href: "#progetti" },
-    { label: "Pubblicazioni", href: "#pubblicazioni" },
-    { label: "Contatti", href: "#contatti" },
+    { label: t('nav.profile'), href: "#profilo" },
+    { label: t('nav.projects'), href: "#progetti" },
+    { label: t('nav.publications'), href: "#pubblicazioni" },
+    { label: t('nav.contact'), href: "#contatti" },
   ];
 
   return (
@@ -28,7 +31,7 @@ const Header = () => {
       }`}
     >
       <div className="container">
-        {/* Top row: Menu - Logo - Search */}
+        {/* Top row: Menu - Logo - Language */}
         <div className="flex items-center justify-between">
           {/* Menu button */}
           <button
@@ -36,7 +39,7 @@ const Header = () => {
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
           >
-            {isMobileMenuOpen ? "Chiudi" : "Menu"}
+            {isMobileMenuOpen ? t('nav.close') : t('nav.menu')}
           </button>
 
           {/* Centered Logo */}
@@ -47,8 +50,8 @@ const Header = () => {
             ALINA LIPPIELLO
           </a>
 
-          {/* Right placeholder for balance */}
-          <div className="w-12" />
+          {/* Language Selector */}
+          <LanguageSelector />
         </div>
       </div>
 
