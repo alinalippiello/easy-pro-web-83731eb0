@@ -1,4 +1,8 @@
+import { useLanguage } from "@/contexts/LanguageContext";
+
 const Publications = () => {
+  const { t } = useLanguage();
+
   const publications = [
     {
       year: "2023",
@@ -38,7 +42,7 @@ const Publications = () => {
         <div className="max-w-3xl mx-auto">
           {/* Section title */}
           <p className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground mb-12 text-center">
-            Pubblicazioni
+            {t('publications.title')}
           </p>
 
           <div className="space-y-6">

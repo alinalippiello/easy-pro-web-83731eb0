@@ -1,4 +1,8 @@
+import { useLanguage } from "@/contexts/LanguageContext";
+
 const Hero = () => {
+  const { t } = useLanguage();
+
   return (
     <section className="min-h-[70vh] flex items-center justify-center pt-24 pb-16">
       <div className="container">
@@ -8,7 +12,7 @@ const Hero = () => {
             className="font-body text-sm tracking-[0.2em] uppercase text-foreground mb-8 opacity-0 animate-fade-in"
             style={{ animationDelay: "0.2s" }}
           >
-            Architetto
+            {t('hero.title')}
           </p>
 
           {/* Main description */}
@@ -16,7 +20,7 @@ const Hero = () => {
             className="font-display text-base md:text-lg font-normal leading-relaxed mb-12 opacity-0 animate-fade-in"
             style={{ animationDelay: "0.4s" }}
           >
-            L'architettura come racconto stratificato, tra spazio, tempo e paesaggio.
+            {t('hero.description')}
           </h1>
 
           {/* Scroll indicator */}
@@ -28,7 +32,7 @@ const Hero = () => {
               href="#profilo"
               className="inline-block font-body text-xs tracking-widest uppercase text-muted-foreground hover:text-foreground transition-smooth"
             >
-              Scopri di più ↓
+              {t('hero.cta')}
             </a>
           </div>
         </div>

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Lightbox from './Lightbox';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // Import portfolio images
 import wernigerode1 from "@/assets/portfolio/wernigerode-1.jpg";
@@ -122,6 +123,7 @@ L'intervento si sviluppa su una struttura autonoma. I muri esistenti fungono da 
 ];
 
 const Experience = () => {
+  const { t } = useLanguage();
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxImages, setLightboxImages] = useState<string[]>([]);
   const [lightboxIndex, setLightboxIndex] = useState(0);
@@ -168,7 +170,7 @@ const Experience = () => {
         <div className="max-w-5xl mx-auto">
           {/* Section title */}
           <p className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground mb-12 text-center">
-            Concorsi e Progetti
+            {t('experience.title')}
           </p>
 
           {/* Portfolio Grid */}
