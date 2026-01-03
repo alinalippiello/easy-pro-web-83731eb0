@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 export type Language = 'it' | 'en' | 'es';
 
@@ -275,7 +275,24 @@ La intervención se desarrolla sobre una estructura autónoma. Los muros existen
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  const [language, setLanguage] = useState<Language>('it');
+  const [language, setLanguage] = useState<Language>(() => {
+    // Check localStorage first
+    const saved = localStorage.getItem('language') as Language;
+    if (saved && ['it', 'en', 'es'].includes(saved)) {
+      return saved;
+    }
+    // Check URL param
+    const urlParams = new URLSearchParams(window.location.search);
+    const langParam = urlParams.get('lang') as Language;
+    if (langParam && ['it', 'en', 'es'].includes(langParam)) {
+      return langParam;
+    }
+    return 'it';
+  });
+
+  useEffect(() => {
+    localStorage.setItem('language', language);
+  }, [language]);
 
   const t = (key: string): string => {
     return translations[language][key] || key;

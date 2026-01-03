@@ -1,0 +1,80 @@
+import { useEffect } from 'react';
+import { Language } from '@/contexts/LanguageContext';
+
+interface SEOConfig {
+  language: Language;
+}
+
+const seoTranslations: Record<Language, { title: string; description: string }> = {
+  it: {
+    title: 'Alina Lippiello | Architetto, Ricercatrice, Designer',
+    description: "Alina Lippiello è un'architetta con oltre 20 anni di esperienza nella progettazione urbana, l'integrazione tra architettura e paesaggio. Studio diffuso tra Milano, Montreal, Rotterdam e Padova.",
+  },
+  en: {
+    title: 'Alina Lippiello | Architect, Researcher, Designer',
+    description: 'Alina Lippiello is an architect with over 20 years of experience in urban design, integrating architecture and landscape. Distributed studio between Milan, Montreal, Rotterdam and Padua.',
+  },
+  es: {
+    title: 'Alina Lippiello | Arquitecta, Investigadora, Diseñadora',
+    description: 'Alina Lippiello es una arquitecta con más de 20 años de experiencia en diseño urbano, integrando arquitectura y paisaje. Estudio distribuido entre Milán, Montreal, Róterdam y Padua.',
+  },
+};
+
+const languageCodes: Record<Language, string> = {
+  it: 'it-IT',
+  en: 'en-US',
+  es: 'es-ES',
+};
+
+export const useSEO = ({ language }: SEOConfig) => {
+  useEffect(() => {
+    const { title, description } = seoTranslations[language];
+    
+    // Update document title
+    document.title = title;
+    
+    // Update html lang attribute
+    document.documentElement.lang = languageCodes[language].split('-')[0];
+    
+    // Update meta description
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', description);
+    }
+    
+    // Update OG meta tags
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) {
+      ogTitle.setAttribute('content', title.split(' | ')[0] + ' | Architetto');
+    }
+    
+    const ogDescription = document.querySelector('meta[property="og:description"]');
+    if (ogDescription) {
+      ogDescription.setAttribute('content', description);
+    }
+    
+    // Update/create hreflang links
+    const baseUrl = 'https://alinalippiello.com';
+    const languages: Language[] = ['it', 'en', 'es'];
+    
+    // Remove existing hreflang links
+    document.querySelectorAll('link[rel="alternate"][hreflang]').forEach(el => el.remove());
+    
+    // Add new hreflang links
+    languages.forEach(lang => {
+      const link = document.createElement('link');
+      link.rel = 'alternate';
+      link.hreflang = languageCodes[lang];
+      link.href = lang === 'it' ? baseUrl : `${baseUrl}?lang=${lang}`;
+      document.head.appendChild(link);
+    });
+    
+    // Add x-default hreflang
+    const xDefault = document.createElement('link');
+    xDefault.rel = 'alternate';
+    xDefault.hreflang = 'x-default';
+    xDefault.href = baseUrl;
+    document.head.appendChild(xDefault);
+    
+  }, [language]);
+};
