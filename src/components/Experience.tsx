@@ -177,6 +177,8 @@ const Experience = () => {
                   <img
                     src={project.thumbnail}
                     alt={t(`project.${project.id}.title`)}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-contain bg-muted transition-all duration-300 group-hover:opacity-80"
                   />
                 </div>
