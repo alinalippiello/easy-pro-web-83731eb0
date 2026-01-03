@@ -53,6 +53,41 @@ export const useSEO = ({ language }: SEOConfig) => {
       ogDescription.setAttribute('content', description);
     }
     
+    // Update OG image
+    let ogImage = document.querySelector('meta[property="og:image"]');
+    if (!ogImage) {
+      ogImage = document.createElement('meta');
+      ogImage.setAttribute('property', 'og:image');
+      document.head.appendChild(ogImage);
+    }
+    ogImage.setAttribute('content', 'https://alinalippiello.com/og-image.jpg');
+    
+    // Add og:image dimensions
+    let ogImageWidth = document.querySelector('meta[property="og:image:width"]');
+    if (!ogImageWidth) {
+      ogImageWidth = document.createElement('meta');
+      ogImageWidth.setAttribute('property', 'og:image:width');
+      document.head.appendChild(ogImageWidth);
+    }
+    ogImageWidth.setAttribute('content', '1200');
+    
+    let ogImageHeight = document.querySelector('meta[property="og:image:height"]');
+    if (!ogImageHeight) {
+      ogImageHeight = document.createElement('meta');
+      ogImageHeight.setAttribute('property', 'og:image:height');
+      document.head.appendChild(ogImageHeight);
+    }
+    ogImageHeight.setAttribute('content', '630');
+    
+    // Add Twitter card image
+    let twitterImage = document.querySelector('meta[name="twitter:image"]');
+    if (!twitterImage) {
+      twitterImage = document.createElement('meta');
+      twitterImage.setAttribute('name', 'twitter:image');
+      document.head.appendChild(twitterImage);
+    }
+    twitterImage.setAttribute('content', 'https://alinalippiello.com/og-image.jpg');
+    
     // Update/create hreflang links
     const baseUrl = 'https://alinalippiello.com';
     const languages: Language[] = ['it', 'en', 'es'];
