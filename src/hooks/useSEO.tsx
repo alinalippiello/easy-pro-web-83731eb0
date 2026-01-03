@@ -26,6 +26,12 @@ const languageCodes: Record<Language, string> = {
   es: 'es-ES',
 };
 
+const jobTitles: Record<Language, string[]> = {
+  it: ['Architetto', 'Ricercatrice', 'Designer'],
+  en: ['Architect', 'Researcher', 'Designer'],
+  es: ['Arquitecta', 'Investigadora', 'Diseñadora'],
+};
+
 export const useSEO = ({ language }: SEOConfig) => {
   useEffect(() => {
     const { title, description } = seoTranslations[language];
@@ -110,6 +116,45 @@ export const useSEO = ({ language }: SEOConfig) => {
     xDefault.hreflang = 'x-default';
     xDefault.href = baseUrl;
     document.head.appendChild(xDefault);
+    
+    // Add/update JSON-LD structured data
+    let jsonLdScript = document.querySelector('script[type="application/ld+json"]');
+    if (!jsonLdScript) {
+      jsonLdScript = document.createElement('script');
+      jsonLdScript.setAttribute('type', 'application/ld+json');
+      document.head.appendChild(jsonLdScript);
+    }
+    
+    const jsonLdData = {
+      '@context': 'https://schema.org',
+      '@type': 'Person',
+      name: 'Alina Lippiello',
+      url: 'https://alinalippiello.com',
+      image: 'https://alinalippiello.com/og-image.jpg',
+      jobTitle: jobTitles[language],
+      description: description,
+      sameAs: [
+        'https://www.linkedin.com/in/alina-lippiello',
+      ],
+      worksFor: {
+        '@type': 'Organization',
+        name: 'Studio Alina Lippiello',
+      },
+      knowsAbout: [
+        'Architecture',
+        'Urban Design',
+        'Landscape Architecture',
+        'Sustainable Design',
+      ],
+      workLocation: [
+        { '@type': 'Place', name: 'Milano, Italy' },
+        { '@type': 'Place', name: 'Montreal, Canada' },
+        { '@type': 'Place', name: 'Rotterdam, Netherlands' },
+        { '@type': 'Place', name: 'Padova, Italy' },
+      ],
+    };
+    
+    jsonLdScript.textContent = JSON.stringify(jsonLdData);
     
   }, [language]);
 };
