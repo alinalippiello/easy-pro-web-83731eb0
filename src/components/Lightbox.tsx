@@ -94,6 +94,8 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onPrev, onNext, title
           <img
             src={images[currentIndex]}
             alt={`${title || 'Immagine'} ${currentIndex + 1}`}
+            loading="lazy"
+            decoding="async"
             className="max-w-full max-h-[70vh] object-contain"
           />
         </div>
