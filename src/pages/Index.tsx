@@ -1,4 +1,5 @@
-import { LanguageProvider } from "@/contexts/LanguageContext";
+import { LanguageProvider, useLanguage } from "@/contexts/LanguageContext";
+import { useSEO } from "@/hooks/useSEO";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Profile from "@/components/Profile";
@@ -7,18 +8,27 @@ import Publications from "@/components/Publications";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 
+const IndexContent = () => {
+  const { language } = useLanguage();
+  useSEO({ language });
+
+  return (
+    <main className="min-h-screen">
+      <Header />
+      <Hero />
+      <Profile />
+      <Experience />
+      <Publications />
+      <Contact />
+      <Footer />
+    </main>
+  );
+};
+
 const Index = () => {
   return (
     <LanguageProvider>
-      <main className="min-h-screen">
-        <Header />
-        <Hero />
-        <Profile />
-        <Experience />
-        <Publications />
-        <Contact />
-        <Footer />
-      </main>
+      <IndexContent />
     </LanguageProvider>
   );
 };
