@@ -84,6 +84,16 @@ L'intervento si sviluppa su una struttura autonoma. I muri esistenti fungono da 
     'project.expo.title': 'Architetture di Servizio Expo',
     'project.expo.location': 'Milano, Italia',
     
+    'project.split.title': 'Porto di Spalato',
+    'project.split.location': 'Spalato, Croazia',
+    'project.split.description': `Completamento del waterfront nel porto vecchio. Nuovo nodo intermodale per la città e il territorio.
+
+Il progetto per il porto di Spalato è un intervento infrastrutturale volto a gestire l'aumento del traffico turistico e pendolare. Si prevede di trasformare la stazione ferroviaria in una stazione passante e introdurre una metropolitana leggera. Sono pianificati ampliamenti delle banchine e nuovi attracchi per navi da crociera, oltre a una strada a quattro corsie per l'accesso ai traghetti e parcheggi interrati.
+
+Situato nel cuore della città, il porto è un nodo strategico per la Dalmazia, ma attualmente si presenta come un vuoto urbano privo di un fronte mare definito. L'intervento si ispira alla geografia e alla storia della città, adottando un approccio di "agopuntura urbanistica" per connettere il porto al tessuto urbano esistente. I nuovi volumi dialogano con il contesto storico: un edificio di testa si relaziona con il Palazzo di Diocleziano e gli edifici pubblici, mentre edificazioni perpendicolari al mare ripristinano la connessione visiva del borgo marinaro con la costa. Verso sud-est, una struttura organica, ispirata alla Casa Malaparte, si sviluppa con terrazzamenti fino alla collina, creando un nuovo punto di osservazione sul mare.
+
+Il progetto completa una storia già scritta, ricucendo il rapporto tra Spalato e il suo porto attraverso una strategia che integra infrastrutture, architettura e paesaggio.`,
+    
     // Publications
     'publications.title': 'Pubblicazioni',
     
@@ -171,6 +181,16 @@ The intervention is developed on an autonomous structure. The existing walls act
     'project.expo.title': 'Expo Service Architectures',
     'project.expo.location': 'Milan, Italy',
     
+    'project.split.title': 'Split Port',
+    'project.split.location': 'Split, Croatia',
+    'project.split.description': `Completion of the waterfront in the old port. New intermodal hub for the city and territory.
+
+The Split port project is an infrastructural intervention aimed at managing the increase in tourist and commuter traffic. It plans to transform the railway station into a through station and introduce a light metro. Expansions of the quays and new berths for cruise ships are planned, as well as a four-lane road for ferry access and underground parking.
+
+Located in the heart of the city, the port is a strategic hub for Dalmatia, but currently appears as an urban void lacking a defined waterfront. The intervention draws inspiration from the geography and history of the city, adopting an "urban acupuncture" approach to connect the port to the existing urban fabric. The new volumes dialogue with the historical context: a head building relates to Diocletian's Palace and public buildings, while buildings perpendicular to the sea restore the visual connection between the fishing village and the coast. To the southeast, an organic structure, inspired by Casa Malaparte, develops with terraces up to the hill, creating a new vantage point over the sea.
+
+The project completes an already written story, mending the relationship between Split and its port through a strategy that integrates infrastructure, architecture and landscape.`,
+    
     // Publications
     'publications.title': 'Publications',
     
@@ -257,6 +277,16 @@ La intervención se desarrolla sobre una estructura autónoma. Los muros existen
     
     'project.expo.title': 'Arquitecturas de Servicio Expo',
     'project.expo.location': 'Milán, Italia',
+    
+    'project.split.title': 'Puerto de Split',
+    'project.split.location': 'Split, Croacia',
+    'project.split.description': `Completamiento del waterfront en el puerto viejo. Nuevo nodo intermodal para la ciudad y el territorio.
+
+El proyecto para el puerto de Split es una intervención infraestructural destinada a gestionar el aumento del tráfico turístico y pendular. Se prevé transformar la estación ferroviaria en una estación pasante e introducir un metro ligero. Se planifican ampliaciones de los muelles y nuevos atraques para cruceros, además de una carretera de cuatro carriles para el acceso a los ferries y aparcamientos subterráneos.
+
+Situado en el corazón de la ciudad, el puerto es un nodo estratégico para Dalmacia, pero actualmente se presenta como un vacío urbano sin un frente marítimo definido. La intervención se inspira en la geografía y la historia de la ciudad, adoptando un enfoque de "acupuntura urbana" para conectar el puerto con el tejido urbano existente. Los nuevos volúmenes dialogan con el contexto histórico: un edificio de cabecera se relaciona con el Palacio de Diocleciano y los edificios públicos, mientras que edificaciones perpendiculares al mar restablecen la conexión visual del pueblo marinero con la costa. Hacia el sureste, una estructura orgánica, inspirada en la Casa Malaparte, se desarrolla con terrazas hasta la colina, creando un nuevo punto de observación sobre el mar.
+
+El proyecto completa una historia ya escrita, remendando la relación entre Split y su puerto a través de una estrategia que integra infraestructuras, arquitectura y paisaje.`,
     
     // Publications
     'publications.title': 'Publicaciones',
