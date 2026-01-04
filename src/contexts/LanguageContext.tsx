@@ -84,8 +84,9 @@ L'intervento si sviluppa su una struttura autonoma. I muri esistenti fungono da 
     'project.expo.title': 'Architetture di Servizio Expo',
     'project.expo.location': 'Milano, Italia',
     
-    'project.split.title': 'Porto di Spalato',
+    'project.split.title': 'Completamento del waterfront nel porto vecchio. Nuovo nodo intermodale per la città e il territorio',
     'project.split.location': 'Spalato, Croazia',
+    'project.split.coauthor': 'Con Ivo Covic',
     'project.split.description': `Completamento del waterfront nel porto vecchio. Nuovo nodo intermodale per la città e il territorio.
 
 Il progetto per il porto di Spalato è un intervento infrastrutturale volto a gestire l'aumento del traffico turistico e pendolare. Si prevede di trasformare la stazione ferroviaria in una stazione passante e introdurre una metropolitana leggera. Sono pianificati ampliamenti delle banchine e nuovi attracchi per navi da crociera, oltre a una strada a quattro corsie per l'accesso ai traghetti e parcheggi interrati.
@@ -181,8 +182,9 @@ The intervention is developed on an autonomous structure. The existing walls act
     'project.expo.title': 'Expo Service Architectures',
     'project.expo.location': 'Milan, Italy',
     
-    'project.split.title': 'Split Port',
+    'project.split.title': 'Completion of the waterfront in the old port. New intermodal hub for the city and territory',
     'project.split.location': 'Split, Croatia',
+    'project.split.coauthor': 'With Ivo Covic',
     'project.split.description': `Completion of the waterfront in the old port. New intermodal hub for the city and territory.
 
 The Split port project is an infrastructural intervention aimed at managing the increase in tourist and commuter traffic. It plans to transform the railway station into a through station and introduce a light metro. Expansions of the quays and new berths for cruise ships are planned, as well as a four-lane road for ferry access and underground parking.
@@ -278,8 +280,9 @@ La intervención se desarrolla sobre una estructura autónoma. Los muros existen
     'project.expo.title': 'Arquitecturas de Servicio Expo',
     'project.expo.location': 'Milán, Italia',
     
-    'project.split.title': 'Puerto de Split',
+    'project.split.title': 'Completamiento del waterfront en el puerto viejo. Nuevo nodo intermodal para la ciudad y el territorio',
     'project.split.location': 'Split, Croacia',
+    'project.split.coauthor': 'Con Ivo Covic',
     'project.split.description': `Completamiento del waterfront en el puerto viejo. Nuevo nodo intermodal para la ciudad y el territorio.
 
 El proyecto para el puerto de Split es una intervención infraestructural destinada a gestionar el aumento del tráfico turístico y pendular. Se prevé transformar la estación ferroviaria en una estación pasante e introducir un metro ligero. Se planifican ampliaciones de los muelles y nuevos atraques para cruceros, además de una carretera de cuatro carriles para el acceso a los ferries y aparcamientos subterráneos.
