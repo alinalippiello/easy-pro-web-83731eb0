@@ -84,7 +84,7 @@ L'intervento si sviluppa su una struttura autonoma. I muri esistenti fungono da 
     'project.expo.title': 'Architetture di Servizio Expo',
     'project.expo.location': 'Milano, Italia',
     
-    'project.split.title': 'Completamento del waterfront nel porto vecchio. Nuovo nodo intermodale per la città e il territorio',
+    'project.split.title': 'Split: completamento del waterfront nel porto vecchio. Nuovo nodo intermodale per la città e il territorio',
     'project.split.location': 'Spalato, Croazia',
     'project.split.coauthor': 'Con Ivo Covic',
     'project.split.description': `Completamento del waterfront nel porto vecchio. Nuovo nodo intermodale per la città e il territorio.
@@ -182,7 +182,7 @@ The intervention is developed on an autonomous structure. The existing walls act
     'project.expo.title': 'Expo Service Architectures',
     'project.expo.location': 'Milan, Italy',
     
-    'project.split.title': 'Completion of the waterfront in the old port. New intermodal hub for the city and territory',
+    'project.split.title': 'Split: completion of the waterfront in the old port. New intermodal hub for the city and territory',
     'project.split.location': 'Split, Croatia',
     'project.split.coauthor': 'With Ivo Covic',
     'project.split.description': `Completion of the waterfront in the old port. New intermodal hub for the city and territory.
@@ -280,7 +280,7 @@ La intervención se desarrolla sobre una estructura autónoma. Los muros existen
     'project.expo.title': 'Arquitecturas de Servicio Expo',
     'project.expo.location': 'Milán, Italia',
     
-    'project.split.title': 'Completamiento del waterfront en el puerto viejo. Nuevo nodo intermodal para la ciudad y el territorio',
+    'project.split.title': 'Split: completamiento del waterfront en el puerto viejo. Nuevo nodo intermodal para la ciudad y el territorio',
     'project.split.location': 'Split, Croacia',
     'project.split.coauthor': 'Con Ivo Covic',
     'project.split.description': `Completamiento del waterfront en el puerto viejo. Nuevo nodo intermodal para la ciudad y el territorio.
