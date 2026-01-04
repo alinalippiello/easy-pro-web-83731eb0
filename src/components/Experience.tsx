@@ -25,6 +25,14 @@ import split1 from "@/assets/portfolio/split-1.jpg";
 import split2 from "@/assets/portfolio/split-2.jpg";
 import split3 from "@/assets/portfolio/split-3.jpg";
 import split4 from "@/assets/portfolio/split-4.jpg";
+import split5 from "@/assets/portfolio/split-5.jpg";
+import split6 from "@/assets/portfolio/split-6.jpg";
+import split7 from "@/assets/portfolio/split-7.jpg";
+import split8 from "@/assets/portfolio/split-8.jpg";
+import split9 from "@/assets/portfolio/split-9.jpg";
+import split10 from "@/assets/portfolio/split-10.jpg";
+import split11 from "@/assets/portfolio/split-11.jpg";
+import split12 from "@/assets/portfolio/split-12.jpg";
 
 interface ProjectData {
   id: string;
@@ -118,7 +126,7 @@ Concorso: Europan 16, Wernigerode, Germania, 2021`,
     year: "Concorso",
     author: "Alina Lippiello",
     collaborators: "Ivo Covic",
-    images: [split1, split2, split3, split4],
+    images: [split1, split2, split3, split4, split5, split6, split7, split8, split9, split10, split11, split12],
     thumbnail: split1,
   },
 ];
