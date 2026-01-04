@@ -21,6 +21,10 @@ import shinkenchiku1 from "@/assets/portfolio/shinkenchiku-1.jpg";
 import europan11 from "@/assets/portfolio/europan11-1.jpg";
 import aluartforum1 from "@/assets/portfolio/aluartforum-1.jpg";
 import expo1 from "@/assets/portfolio/expo-1.jpg";
+import split1 from "@/assets/portfolio/split-1.jpg";
+import split2 from "@/assets/portfolio/split-2.jpg";
+import split3 from "@/assets/portfolio/split-3.jpg";
+import split4 from "@/assets/portfolio/split-4.jpg";
 
 interface ProjectData {
   id: string;
@@ -107,6 +111,13 @@ Concorso: Europan 16, Wernigerode, Germania, 2021`,
     year: "2015",
     images: [expo1],
     thumbnail: expo1,
+  },
+  {
+    id: 'split',
+    yearKey: 'experience.competition',
+    year: "Concorso",
+    images: [split1, split2, split3, split4],
+    thumbnail: split1,
   },
 ];
 
