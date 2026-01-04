@@ -118,35 +118,39 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onPrev, onNext, title
           </div>
         )}
 
-        {/* Info section - centered layout */}
+        {/* Info section - horizontal below image */}
         {(title || description || author || collaborators) && (
-          <div className="w-full max-w-3xl mx-auto px-6 md:px-12 py-8 border-t border-border text-center">
-            {/* Title and metadata */}
-            <div className="space-y-2 mb-6">
-              {title && (
-                <h3 className="font-body text-base font-medium text-foreground">{title}</h3>
-              )}
-              <p className="font-body text-sm text-muted-foreground">
-                {currentIndex + 1} / {images.length}
-              </p>
-              {author && (
+          <div className="w-full max-w-5xl mx-auto px-6 md:px-12 py-8 border-t border-border">
+            <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-6 md:gap-12">
+              {/* Left column - metadata */}
+              <div className="space-y-2">
+                {title && (
+                  <h3 className="font-body text-base font-medium text-foreground">{title}</h3>
+                )}
                 <p className="font-body text-sm text-muted-foreground">
-                  Autore: {author}
+                  {currentIndex + 1} / {images.length}
                 </p>
-              )}
-              {collaborators && (
-                <p className="font-body text-sm text-muted-foreground">
-                  In collaborazione con {collaborators}
-                </p>
+                {author && (
+                  <p className="font-body text-sm text-muted-foreground mt-4">
+                    Autore: {author}
+                  </p>
+                )}
+                {collaborators && (
+                  <p className="font-body text-sm text-muted-foreground">
+                    In collaborazione con {collaborators}
+                  </p>
+                )}
+              </div>
+
+              {/* Right column - description */}
+              {description && (
+                <div>
+                  <p className="font-body text-sm text-muted-foreground leading-relaxed whitespace-pre-line">
+                    {description}
+                  </p>
+                </div>
               )}
             </div>
-
-            {/* Description */}
-            {description && (
-              <p className="font-body text-sm text-muted-foreground leading-relaxed whitespace-pre-line text-left">
-                {description}
-              </p>
-            )}
           </div>
         )}
       </div>
