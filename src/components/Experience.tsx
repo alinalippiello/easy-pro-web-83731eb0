@@ -206,13 +206,13 @@ const Experience = () => {
                 onClick={() => openLightbox(project)}
               >
                 {/* Image */}
-                <div className="aspect-[4/3] overflow-hidden bg-muted mb-3">
+                <div className="aspect-[4/3] overflow-hidden mb-3">
                   <img
                     src={project.thumbnail}
                     alt={t(`project.${project.id}.title`)}
                     loading="lazy"
                     decoding="async"
-                    className="w-full h-full object-contain bg-muted transition-all duration-300 group-hover:opacity-80"
+                    className="w-full h-full object-contain transition-all duration-300 group-hover:opacity-80"
                   />
                 </div>
                 
