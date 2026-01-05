@@ -176,7 +176,7 @@ const Experience = () => {
   };
 
   return (
-    <section id="progetti" className="py-20 md:py-28 border-t border-border">
+    <section id="progetti" className="py-20 md:py-32">
       <Lightbox
         images={lightboxImages}
         currentIndex={lightboxIndex}
@@ -191,36 +191,39 @@ const Experience = () => {
         onIndexChange={setLightboxIndex}
       />
       <div className="container">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-4xl mx-auto">
           {/* Section title */}
-          <p className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground mb-12 text-center">
+          <h2 className="font-body text-xl md:text-2xl font-normal text-center mb-4">
             {t('experience.title')}
+          </h2>
+          <p className="font-body text-sm text-muted-foreground text-center mb-16 max-w-2xl mx-auto">
+            {t('experience.subtitle')}
           </p>
 
-          {/* Portfolio Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+          {/* Portfolio Grid - Elemental style */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-10">
             {projectsData.map((project) => (
               <div
                 key={project.id}
                 className="group cursor-pointer"
                 onClick={() => openLightbox(project)}
               >
-                {/* Image */}
-                <div className="aspect-square overflow-hidden mb-3 bg-muted/30">
+                {/* Square Image */}
+                <div className="aspect-square overflow-hidden mb-4">
                   <img
                     src={project.thumbnail}
                     alt={t(`project.${project.id}.title`)}
                     loading="lazy"
                     decoding="async"
-                    className="w-full h-full object-cover transition-all duration-300 group-hover:scale-105 group-hover:opacity-90"
+                    className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
                   />
                 </div>
                 
-                {/* Title */}
-                <p className="font-body text-xs text-muted-foreground mb-1">
+                {/* Two-line title like Elemental */}
+                <p className="font-body text-xs text-muted-foreground mb-0.5">
                   {project.yearKey ? t(project.yearKey) : project.year}
                 </p>
-                <h4 className="font-body text-sm font-normal leading-tight">
+                <h4 className="font-body text-sm font-medium leading-tight">
                   {t(`project.${project.id}.title`)}
                 </h4>
               </div>
