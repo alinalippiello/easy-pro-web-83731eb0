@@ -33,6 +33,10 @@ import split9 from "@/assets/portfolio/split-9.jpg";
 import split10 from "@/assets/portfolio/split-10.jpg";
 import split11 from "@/assets/portfolio/split-11.jpg";
 import split12 from "@/assets/portfolio/split-12.jpg";
+import koresnica1 from "@/assets/portfolio/koresnica-1.jpg";
+import koresnica2 from "@/assets/portfolio/koresnica-2.jpg";
+import koresnica3 from "@/assets/portfolio/koresnica-3.jpg";
+import koresnica4 from "@/assets/portfolio/koresnica-4.jpg";
 
 interface ProjectData {
   id: string;
@@ -128,6 +132,14 @@ Concorso: Europan 16, Wernigerode, Germania, 2021`,
     collaborators: "Ivo Covic",
     images: [split1, split2, split3, split4, split5, split6, split7, split8, split9, split10, split11, split12],
     thumbnail: split1,
+  },
+  {
+    id: 'koresnica',
+    yearKey: 'experience.competition',
+    year: "Concorso",
+    author: "Alina Lippiello",
+    images: [koresnica1, koresnica2, koresnica3, koresnica4],
+    thumbnail: koresnica1,
   },
 ];
 

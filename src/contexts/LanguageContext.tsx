@@ -94,6 +94,10 @@ Il progetto per il porto di Spalato è un intervento infrastrutturale volto a ge
 Situato nel cuore della città, il porto è un nodo strategico per la Dalmazia, ma attualmente si presenta come un vuoto urbano privo di un fronte mare definito. L'intervento si ispira alla geografia e alla storia della città, adottando un approccio di "agopuntura urbanistica" per connettere il porto al tessuto urbano esistente. I nuovi volumi dialogano con il contesto storico: un edificio di testa si relaziona con il Palazzo di Diocleziano e gli edifici pubblici, mentre edificazioni perpendicolari al mare ripristinano la connessione visiva del borgo marinaro con la costa. Verso sud-est, una struttura organica, ispirata alla Casa Malaparte, si sviluppa con terrazzamenti fino alla collina, creando un nuovo punto di osservazione sul mare.
 
 Il progetto completa una storia già scritta, ricucendo il rapporto tra Spalato e il suo porto attraverso una strategia che integra infrastrutture, architettura e paesaggio.`,
+
+    'project.koresnica.title': 'Koresnica_Split',
+    'project.koresnica.location': 'Split, Croazia',
+    'project.koresnica.description': `L'obiettivo della pianificazione è quello di integrare il nuovo insediamento con il contesto naturale, rispettando l'ecosistema. Si prevede di conservare la zona centrale del corso d'acqua, creando un parco lineare collegato alle aree pubbliche e sportive. Il sistema di mobilità sarà progettato per sostenere la sostenibilità, collegando l'asilo, il centro commerciale, la sala polifunzionale, la chiesa e la biblioteca. Le zone residenziali situate sui pendii offriranno viste panoramiche, con nove lotti progettati per formare quartieri distinti. L'accesso veicolare sarà limitato per ridurre il traffico e preservare un ambiente vivibile, contribuendo così a una migliore qualità della vita per tutti gli abitanti.`,
     
     // Publications
     'publications.title': 'Pubblicazioni',
@@ -192,6 +196,10 @@ The Split port project is an infrastructural intervention aimed at managing the 
 Located in the heart of the city, the port is a strategic hub for Dalmatia, but currently appears as an urban void lacking a defined waterfront. The intervention draws inspiration from the geography and history of the city, adopting an "urban acupuncture" approach to connect the port to the existing urban fabric. The new volumes dialogue with the historical context: a head building relates to Diocletian's Palace and public buildings, while buildings perpendicular to the sea restore the visual connection between the fishing village and the coast. To the southeast, an organic structure, inspired by Casa Malaparte, develops with terraces up to the hill, creating a new vantage point over the sea.
 
 The project completes an already written story, mending the relationship between Split and its port through a strategy that integrates infrastructure, architecture and landscape.`,
+
+    'project.koresnica.title': 'Koresnica_Split',
+    'project.koresnica.location': 'Split, Croatia',
+    'project.koresnica.description': `The planning objective is to integrate the new settlement with the natural context, respecting the ecosystem. It is planned to preserve the central area of the watercourse, creating a linear park connected to public and sports areas. The mobility system will be designed to support sustainability, connecting the kindergarten, shopping center, multipurpose hall, church and library. The residential areas located on the slopes will offer panoramic views, with nine lots designed to form distinct neighborhoods. Vehicular access will be limited to reduce traffic and preserve a livable environment, thus contributing to a better quality of life for all inhabitants.`,
     
     // Publications
     'publications.title': 'Publications',
@@ -290,6 +298,10 @@ El proyecto para el puerto de Split es una intervención infraestructural destin
 Situado en el corazón de la ciudad, el puerto es un nodo estratégico para Dalmacia, pero actualmente se presenta como un vacío urbano sin un frente marítimo definido. La intervención se inspira en la geografía y la historia de la ciudad, adoptando un enfoque de "acupuntura urbana" para conectar el puerto con el tejido urbano existente. Los nuevos volúmenes dialogan con el contexto histórico: un edificio de cabecera se relaciona con el Palacio de Diocleciano y los edificios públicos, mientras que edificaciones perpendiculares al mar restablecen la conexión visual del pueblo marinero con la costa. Hacia el sureste, una estructura orgánica, inspirada en la Casa Malaparte, se desarrolla con terrazas hasta la colina, creando un nuevo punto de observación sobre el mar.
 
 El proyecto completa una historia ya escrita, remendando la relación entre Split y su puerto a través de una estrategia que integra infraestructuras, arquitectura y paisaje.`,
+
+    'project.koresnica.title': 'Koresnica_Split',
+    'project.koresnica.location': 'Split, Croacia',
+    'project.koresnica.description': `El objetivo de la planificación es integrar el nuevo asentamiento con el contexto natural, respetando el ecosistema. Se prevé conservar la zona central del curso de agua, creando un parque lineal conectado a las áreas públicas y deportivas. El sistema de movilidad se diseñará para apoyar la sostenibilidad, conectando la guardería, el centro comercial, la sala polivalente, la iglesia y la biblioteca. Las zonas residenciales situadas en las laderas ofrecerán vistas panorámicas, con nueve lotes diseñados para formar barrios distintos. El acceso vehicular será limitado para reducir el tráfico y preservar un ambiente habitable, contribuyendo así a una mejor calidad de vida para todos los habitantes.`,
     
     // Publications
     'publications.title': 'Publicaciones',
