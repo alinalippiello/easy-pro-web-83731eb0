@@ -35,8 +35,7 @@ const translations: Record<Language, Record<string, string>> = {
     'profile.edu4': 'Faculdade de Arquitectura, Universidade do Porto',
     
     // Experience
-    'experience.title': 'Progetti',
-    'experience.subtitle': 'Selezione di progetti architettonici e concorsi',
+    'experience.title': 'Concorsi e Progetti',
     'experience.inProgress': 'In corso',
     'experience.competition': 'Concorso',
     'experience.international': 'Internazionale',
@@ -138,8 +137,7 @@ Il progetto completa una storia già scritta, ricucendo il rapporto tra Spalato 
     'profile.edu4': 'Faculdade de Arquitectura, Universidade do Porto',
     
     // Experience
-    'experience.title': 'Projects',
-    'experience.subtitle': 'Selection of architectural projects and competitions',
+    'experience.title': 'Competitions and Projects',
     'experience.inProgress': 'In progress',
     'experience.competition': 'Competition',
     'experience.international': 'International',
@@ -241,8 +239,7 @@ The project completes an already written story, mending the relationship between
     'profile.edu4': 'Faculdade de Arquitectura, Universidade do Porto',
     
     // Experience
-    'experience.title': 'Proyectos',
-    'experience.subtitle': 'Selección de proyectos arquitectónicos y concursos',
+    'experience.title': 'Concursos y Proyectos',
     'experience.inProgress': 'En curso',
     'experience.competition': 'Concurso',
     'experience.international': 'Internacional',
