@@ -98,6 +98,14 @@ Il progetto completa una storia già scritta, ricucendo il rapporto tra Spalato 
     'project.koresnica.title': 'Koresnica_Split',
     'project.koresnica.location': 'Split, Croazia',
     'project.koresnica.description': `L'obiettivo della pianificazione è quello di integrare il nuovo insediamento con il contesto naturale, rispettando l'ecosistema. Si prevede di conservare la zona centrale del corso d'acqua, creando un parco lineare collegato alle aree pubbliche e sportive. Il sistema di mobilità sarà progettato per sostenere la sostenibilità, collegando l'asilo, il centro commerciale, la sala polifunzionale, la chiesa e la biblioteca. Le zone residenziali situate sui pendii offriranno viste panoramiche, con nove lotti progettati per formare quartieri distinti. L'accesso veicolare sarà limitato per ridurre il traffico e preservare un ambiente vivibile, contribuendo così a una migliore qualità della vita per tutti gli abitanti.`,
+
+    'project.lorenteggio.title': 'Biblioteca Lorenteggio',
+    'project.lorenteggio.location': 'Milano, Italia',
+    'project.lorenteggio.description': `"Il mio disegno non era il disegno di un cappello. Era il disegno di un boa che digeriva un elefante." (Antoine de Saint-Exupéry, Il piccolo principe)
+
+L'illustrazione si presenta in tutta la sua semplicità, composta da pochi tratti essenziali, lineari, con preferenza per le linee dritte e leggere. La forza sta proprio in questa apparenza di non-finito, che dona ai disegni la capacità di posarsi nell'immaginazione di chi legge con un'infinita leggerezza.
+
+La nuova biblioteca di Lorenteggio è l'elefante dentro il boa, che si dispiega da nord a sud del giardino per captare i flussi dei passanti e condurli all'ingresso dell'edificio. Il "boa" è lo spazio pubblico che si dilata e si comprime a seconda delle forze che l'"elefante", la biblioteca, genera con il contesto.`,
     
     // Publications
     'publications.title': 'Pubblicazioni',
@@ -200,6 +208,14 @@ The project completes an already written story, mending the relationship between
     'project.koresnica.title': 'Koresnica_Split',
     'project.koresnica.location': 'Split, Croatia',
     'project.koresnica.description': `The planning objective is to integrate the new settlement with the natural context, respecting the ecosystem. It is planned to preserve the central area of the watercourse, creating a linear park connected to public and sports areas. The mobility system will be designed to support sustainability, connecting the kindergarten, shopping center, multipurpose hall, church and library. The residential areas located on the slopes will offer panoramic views, with nine lots designed to form distinct neighborhoods. Vehicular access will be limited to reduce traffic and preserve a livable environment, thus contributing to a better quality of life for all inhabitants.`,
+
+    'project.lorenteggio.title': 'Lorenteggio Library',
+    'project.lorenteggio.location': 'Milan, Italy',
+    'project.lorenteggio.description': `"My drawing was not a picture of a hat. It was a picture of a boa constrictor digesting an elephant." (Antoine de Saint-Exupéry, The Little Prince)
+
+The illustration presents itself in all its simplicity, composed of a few essential, linear strokes, with a preference for straight and light lines. The strength lies precisely in this appearance of non-finito, which gives the drawings the ability to settle in the reader's imagination with infinite lightness.
+
+The new Lorenteggio library is the elephant inside the boa, which unfolds from north to south of the garden to capture the flows of passersby and lead them to the building's entrance. The "boa" is the public space that expands and compresses according to the forces that the "elephant", the library, generates with its context.`,
     
     // Publications
     'publications.title': 'Publications',
@@ -302,6 +318,14 @@ El proyecto completa una historia ya escrita, remendando la relación entre Spli
     'project.koresnica.title': 'Koresnica_Split',
     'project.koresnica.location': 'Split, Croacia',
     'project.koresnica.description': `El objetivo de la planificación es integrar el nuevo asentamiento con el contexto natural, respetando el ecosistema. Se prevé conservar la zona central del curso de agua, creando un parque lineal conectado a las áreas públicas y deportivas. El sistema de movilidad se diseñará para apoyar la sostenibilidad, conectando la guardería, el centro comercial, la sala polivalente, la iglesia y la biblioteca. Las zonas residenciales situadas en las laderas ofrecerán vistas panorámicas, con nueve lotes diseñados para formar barrios distintos. El acceso vehicular será limitado para reducir el tráfico y preservar un ambiente habitable, contribuyendo así a una mejor calidad de vida para todos los habitantes.`,
+
+    'project.lorenteggio.title': 'Biblioteca Lorenteggio',
+    'project.lorenteggio.location': 'Milán, Italia',
+    'project.lorenteggio.description': `"Mi dibujo no era el dibujo de un sombrero. Era el dibujo de una boa digiriendo un elefante." (Antoine de Saint-Exupéry, El Principito)
+
+La ilustración se presenta en toda su simplicidad, compuesta por pocos trazos esenciales, lineales, con preferencia por las líneas rectas y ligeras. La fuerza reside precisamente en esta apariencia de no-finito, que otorga a los dibujos la capacidad de posarse en la imaginación del lector con una ligereza infinita.
+
+La nueva biblioteca de Lorenteggio es el elefante dentro de la boa, que se despliega de norte a sur del jardín para captar los flujos de los transeúntes y conducirlos a la entrada del edificio. La "boa" es el espacio público que se dilata y se comprime según las fuerzas que el "elefante", la biblioteca, genera con el contexto.`,
     
     // Publications
     'publications.title': 'Publicaciones',
