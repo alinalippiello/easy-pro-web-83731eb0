@@ -37,6 +37,14 @@ import koresnica1 from "@/assets/portfolio/koresnica-1.jpg";
 import koresnica2 from "@/assets/portfolio/koresnica-2.jpg";
 import koresnica3 from "@/assets/portfolio/koresnica-3.jpg";
 import koresnica4 from "@/assets/portfolio/koresnica-4.jpg";
+import lorenteggio1 from "@/assets/portfolio/lorenteggio-1.jpg";
+import lorenteggio2 from "@/assets/portfolio/lorenteggio-2.jpg";
+import lorenteggio3 from "@/assets/portfolio/lorenteggio-3.jpg";
+import lorenteggio4 from "@/assets/portfolio/lorenteggio-4.jpg";
+import lorenteggio5 from "@/assets/portfolio/lorenteggio-5.jpg";
+import lorenteggio6 from "@/assets/portfolio/lorenteggio-6.jpg";
+import lorenteggio7 from "@/assets/portfolio/lorenteggio-7.jpg";
+import lorenteggio8 from "@/assets/portfolio/lorenteggio-8.jpg";
 
 interface ProjectData {
   id: string;
@@ -140,6 +148,15 @@ Concorso: Europan 16, Wernigerode, Germania, 2021`,
     author: "Alina Lippiello",
     images: [koresnica1, koresnica2, koresnica3, koresnica4],
     thumbnail: koresnica1,
+  },
+  {
+    id: 'lorenteggio',
+    yearKey: 'experience.competition',
+    year: "Concorso",
+    author: "Alina Lippiello",
+    collaborators: "Leonardo Zuccaro Marchi",
+    images: [lorenteggio1, lorenteggio2, lorenteggio3, lorenteggio4, lorenteggio5, lorenteggio6, lorenteggio7, lorenteggio8],
+    thumbnail: lorenteggio1,
   },
 ];
 
