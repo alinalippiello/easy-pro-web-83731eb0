@@ -96,7 +96,9 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onPrev, onNext, title
             alt={`${title || 'Immagine'} ${currentIndex + 1}`}
             loading="lazy"
             decoding="async"
-            className="max-w-full max-h-[70vh] object-contain"
+            draggable="false"
+            onContextMenu={(e) => e.preventDefault()}
+            className="max-w-3xl w-full max-h-[70vh] object-contain select-none pointer-events-none"
           />
         </div>
 
