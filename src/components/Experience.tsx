@@ -139,7 +139,7 @@ Concorso: Europan 16, Wernigerode, Germania, 2021`,
     author: "Alina Lippiello",
     collaborators: "Ivo Covic",
     images: [split1, split2, split3, split4, split5, split6, split7, split8, split9, split10, split11, split12],
-    thumbnail: split3,
+    thumbnail: split1,
   },
   {
     id: 'koresnica',
