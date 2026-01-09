@@ -107,7 +107,7 @@ L'illustrazione si presenta in tutta la sua semplicità, composta da pochi tratt
 
 La nuova biblioteca di Lorenteggio è l'elefante dentro il boa, che si dispiega da nord a sud del giardino per captare i flussi dei passanti e condurli all'ingresso dell'edificio. Il "boa" è lo spazio pubblico che si dilata e si comprime a seconda delle forze che l'"elefante", la biblioteca, genera con il contesto.`,
 
-    'project.zagrebBgg.title': 'Facoltà di Biologia, Geografia e Geologia (BGG)',
+    'project.zagrebBgg.title': 'Facoltà di Biologia, Geografia e Geologia (BGG) - Zagabria',
     'project.zagrebBgg.location': 'Zagabria, Croazia',
     'project.zagrebBgg.description': `Il nuovo edificio per le Facoltà di Biologia, Geografia e Geologia (BGG) a Zagabria è un progetto architettonico innovativo che si posiziona sulle pendici settentrionali della città, cercando di fondersi armoniosamente con il paesaggio naturale circostante. Ispirandosi alle "dita verdi" che scendono dal Monte Medvednica, il progetto non si impone sul terreno ma vi si adagia, creando una serie di strutture lineari che si estendono da nord a sud.
 
@@ -227,7 +227,7 @@ The illustration presents itself in all its simplicity, composed of a few essent
 
 The new Lorenteggio library is the elephant inside the boa, which unfolds from north to south of the garden to capture the flows of passersby and lead them to the building's entrance. The "boa" is the public space that expands and compresses according to the forces that the "elephant", the library, generates with its context.`,
 
-    'project.zagrebBgg.title': 'Faculty of Biology, Geography and Geology (BGG)',
+    'project.zagrebBgg.title': 'Faculty of Biology, Geography and Geology (BGG) - Zagreb',
     'project.zagrebBgg.location': 'Zagreb, Croatia',
     'project.zagrebBgg.description': `The new building for the Faculties of Biology, Geography and Geology (BGG) in Zagreb is an innovative architectural project positioned on the northern slopes of the city, seeking to blend harmoniously with the surrounding natural landscape. Inspired by the "green fingers" descending from Mount Medvednica, the project does not impose itself on the terrain but settles into it, creating a series of linear structures extending from north to south.
 
@@ -347,7 +347,7 @@ La ilustración se presenta en toda su simplicidad, compuesta por pocos trazos e
 
 La nueva biblioteca de Lorenteggio es el elefante dentro de la boa, que se despliega de norte a sur del jardín para captar los flujos de los transeúntes y conducirlos a la entrada del edificio. La "boa" es el espacio público que se dilata y se comprime según las fuerzas que el "elefante", la biblioteca, genera con el contexto.`,
 
-    'project.zagrebBgg.title': 'Facultad de Biología, Geografía y Geología (BGG)',
+    'project.zagrebBgg.title': 'Facultad de Biología, Geografía y Geología (BGG) - Zagreb',
     'project.zagrebBgg.location': 'Zagreb, Croacia',
     'project.zagrebBgg.description': `El nuevo edificio para las Facultades de Biología, Geografía y Geología (BGG) en Zagreb es un proyecto arquitectónico innovador situado en las laderas septentrionales de la ciudad, buscando fusionarse armoniosamente con el paisaje natural circundante. Inspirándose en los "dedos verdes" que descienden del Monte Medvednica, el proyecto no se impone sobre el terreno sino que se asienta en él, creando una serie de estructuras lineales que se extienden de norte a sur.
 
