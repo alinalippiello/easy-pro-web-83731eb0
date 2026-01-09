@@ -106,6 +106,16 @@ Il progetto completa una storia già scritta, ricucendo il rapporto tra Spalato 
 L'illustrazione si presenta in tutta la sua semplicità, composta da pochi tratti essenziali, lineari, con preferenza per le linee dritte e leggere. La forza sta proprio in questa apparenza di non-finito, che dona ai disegni la capacità di posarsi nell'immaginazione di chi legge con un'infinita leggerezza.
 
 La nuova biblioteca di Lorenteggio è l'elefante dentro il boa, che si dispiega da nord a sud del giardino per captare i flussi dei passanti e condurli all'ingresso dell'edificio. Il "boa" è lo spazio pubblico che si dilata e si comprime a seconda delle forze che l'"elefante", la biblioteca, genera con il contesto.`,
+
+    'project.zagrebBgg.title': 'Facoltà di Biologia, Geografia e Geologia (BGG)',
+    'project.zagrebBgg.location': 'Zagabria, Croazia',
+    'project.zagrebBgg.description': `Il nuovo edificio per le Facoltà di Biologia, Geografia e Geologia (BGG) a Zagabria è un progetto architettonico innovativo che si posiziona sulle pendici settentrionali della città, cercando di fondersi armoniosamente con il paesaggio naturale circostante. Ispirandosi alle "dita verdi" che scendono dal Monte Medvednica, il progetto non si impone sul terreno ma vi si adagia, creando una serie di strutture lineari che si estendono da nord a sud.
+
+Questo approccio, che unisce le tipologie architettoniche lineare e a "tappeto" (mat building), permette all'edificio di "scivolare" lungo il pendio, incorporando il verde e creando una profonda connessione tra l'architettura e l'ambiente.
+
+Sebbene sia un'unica struttura, il complesso è stato concepito per ospitare tre facoltà che possono anche operare come unità indipendenti, con una chiara divisione funzionale che colloca gli uffici nella parte orientale e le aree di ricerca al centro.
+
+Il cuore del progetto è un sistema diagonale di spazi pubblici e rampe che non solo collega i diversi livelli dell'edificio ma crea anche un nuovo polo di aggregazione sociale per la comunità studentesca.`,
     
     // Publications
     'publications.title': 'Pubblicazioni',
@@ -216,6 +226,16 @@ The project completes an already written story, mending the relationship between
 The illustration presents itself in all its simplicity, composed of a few essential, linear strokes, with a preference for straight and light lines. The strength lies precisely in this appearance of non-finito, which gives the drawings the ability to settle in the reader's imagination with infinite lightness.
 
 The new Lorenteggio library is the elephant inside the boa, which unfolds from north to south of the garden to capture the flows of passersby and lead them to the building's entrance. The "boa" is the public space that expands and compresses according to the forces that the "elephant", the library, generates with its context.`,
+
+    'project.zagrebBgg.title': 'Faculty of Biology, Geography and Geology (BGG)',
+    'project.zagrebBgg.location': 'Zagreb, Croatia',
+    'project.zagrebBgg.description': `The new building for the Faculties of Biology, Geography and Geology (BGG) in Zagreb is an innovative architectural project positioned on the northern slopes of the city, seeking to blend harmoniously with the surrounding natural landscape. Inspired by the "green fingers" descending from Mount Medvednica, the project does not impose itself on the terrain but settles into it, creating a series of linear structures extending from north to south.
+
+This approach, which combines linear and "mat building" architectural typologies, allows the building to "slide" along the slope, incorporating greenery and creating a deep connection between architecture and environment.
+
+Although it is a single structure, the complex was designed to house three faculties that can also operate as independent units, with a clear functional division placing offices in the eastern part and research areas in the center.
+
+The heart of the project is a diagonal system of public spaces and ramps that not only connects the different levels of the building but also creates a new hub of social gathering for the student community.`,
     
     // Publications
     'publications.title': 'Publications',
@@ -326,6 +346,16 @@ El proyecto completa una historia ya escrita, remendando la relación entre Spli
 La ilustración se presenta en toda su simplicidad, compuesta por pocos trazos esenciales, lineales, con preferencia por las líneas rectas y ligeras. La fuerza reside precisamente en esta apariencia de no-finito, que otorga a los dibujos la capacidad de posarse en la imaginación del lector con una ligereza infinita.
 
 La nueva biblioteca de Lorenteggio es el elefante dentro de la boa, que se despliega de norte a sur del jardín para captar los flujos de los transeúntes y conducirlos a la entrada del edificio. La "boa" es el espacio público que se dilata y se comprime según las fuerzas que el "elefante", la biblioteca, genera con el contexto.`,
+
+    'project.zagrebBgg.title': 'Facultad de Biología, Geografía y Geología (BGG)',
+    'project.zagrebBgg.location': 'Zagreb, Croacia',
+    'project.zagrebBgg.description': `El nuevo edificio para las Facultades de Biología, Geografía y Geología (BGG) en Zagreb es un proyecto arquitectónico innovador situado en las laderas septentrionales de la ciudad, buscando fusionarse armoniosamente con el paisaje natural circundante. Inspirándose en los "dedos verdes" que descienden del Monte Medvednica, el proyecto no se impone sobre el terreno sino que se asienta en él, creando una serie de estructuras lineales que se extienden de norte a sur.
+
+Este enfoque, que combina las tipologías arquitectónicas lineal y "mat building" (edificio tapiz), permite que el edificio "deslice" a lo largo de la pendiente, incorporando el verde y creando una profunda conexión entre la arquitectura y el ambiente.
+
+Aunque es una única estructura, el complejo fue concebido para albergar tres facultades que también pueden operar como unidades independientes, con una clara división funcional que ubica las oficinas en la parte oriental y las áreas de investigación en el centro.
+
+El corazón del proyecto es un sistema diagonal de espacios públicos y rampas que no solo conecta los diferentes niveles del edificio sino que también crea un nuevo polo de agregación social para la comunidad estudiantil.`,
     
     // Publications
     'publications.title': 'Publicaciones',
