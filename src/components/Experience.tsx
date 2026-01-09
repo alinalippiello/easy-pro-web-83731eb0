@@ -175,7 +175,7 @@ Concorso: Europan 16, Wernigerode, Germania, 2021`,
     author: "Alina Lippiello",
     collaborators: "Ivo Covic, Marco Visconti architects",
     images: [zagrebBgg1, zagrebBgg2, zagrebBgg3, zagrebBgg4, zagrebBgg5, zagrebBgg6, zagrebBgg7, zagrebBgg8, zagrebBgg9, zagrebBgg10],
-    thumbnail: zagrebBgg5,
+    thumbnail: zagrebBgg1,
   },
 ];
 
