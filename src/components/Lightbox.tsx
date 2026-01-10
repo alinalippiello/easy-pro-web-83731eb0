@@ -1,5 +1,5 @@
 import { useEffect, useCallback, useState, useRef } from 'react';
-import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Maximize, Minimize } from 'lucide-react';
 
 interface LightboxProps {
   images: string[];
@@ -26,6 +26,8 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onPrev, onNext, title
   // Touch gesture state
   const [initialPinchDistance, setInitialPinchDistance] = useState<number | null>(null);
   const [initialZoomLevel, setInitialZoomLevel] = useState(1);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const lightboxRef = useRef<HTMLDivElement>(null);
   const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(null);
 
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
@@ -187,10 +189,42 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onPrev, onNext, title
     }
   };
 
+  // Fullscreen functionality
+  const toggleFullscreen = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    
+    if (!document.fullscreenElement) {
+      try {
+        await lightboxRef.current?.requestFullscreen();
+        setIsFullscreen(true);
+      } catch (err) {
+        console.error('Fullscreen error:', err);
+      }
+    } else {
+      try {
+        await document.exitFullscreen();
+        setIsFullscreen(false);
+      } catch (err) {
+        console.error('Exit fullscreen error:', err);
+      }
+    }
+  };
+
+  // Listen for fullscreen changes
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
+
   if (!isOpen) return null;
 
   return (
     <div 
+      ref={lightboxRef}
       className="fixed inset-0 z-50 bg-background animate-fade-in overflow-auto"
       onClick={onClose}
     >
@@ -226,6 +260,13 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onPrev, onNext, title
             {Math.round(zoomLevel * 100)}%
           </span>
         )}
+        <button
+          onClick={toggleFullscreen}
+          className="p-2 rounded-full bg-background/80 backdrop-blur-sm border border-border transition-smooth hover:bg-muted"
+          aria-label={isFullscreen ? "Esci da schermo intero" : "Schermo intero"}
+        >
+          {isFullscreen ? <Minimize className="w-4 h-4" /> : <Maximize className="w-4 h-4" />}
+        </button>
       </div>
 
       {/* Main content - vertical layout */}
