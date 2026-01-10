@@ -1,5 +1,5 @@
 import { useEffect, useCallback, useState, useRef } from 'react';
-import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Maximize, Minimize } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Maximize, Minimize, Grid, X } from 'lucide-react';
 
 interface LightboxProps {
   images: string[];
@@ -27,6 +27,7 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onPrev, onNext, title
   const [initialPinchDistance, setInitialPinchDistance] = useState<number | null>(null);
   const [initialZoomLevel, setInitialZoomLevel] = useState(1);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [showThumbnailGrid, setShowThumbnailGrid] = useState(false);
   const lightboxRef = useRef<HTMLDivElement>(null);
   const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(null);
 
@@ -68,11 +69,12 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onPrev, onNext, title
     };
   }, [isOpen]);
 
-  // Reset zoom when changing images
+  // Reset zoom and close grid when changing images
   useEffect(() => {
     setIsZoomed(false);
     setZoomLevel(1);
     setPosition({ x: 0, y: 0 });
+    setShowThumbnailGrid(false);
   }, [currentIndex]);
 
   const toggleZoom = () => {
@@ -220,6 +222,17 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onPrev, onNext, title
     return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
   }, []);
 
+  const toggleThumbnailGrid = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setShowThumbnailGrid(!showThumbnailGrid);
+  };
+
+  const handleThumbnailClick = (idx: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    onIndexChange?.(idx);
+    setShowThumbnailGrid(false);
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -267,6 +280,15 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onPrev, onNext, title
         >
           {isFullscreen ? <Minimize className="w-4 h-4" /> : <Maximize className="w-4 h-4" />}
         </button>
+        {images.length > 1 && (
+          <button
+            onClick={toggleThumbnailGrid}
+            className={`p-2 rounded-full bg-background/80 backdrop-blur-sm border border-border transition-smooth hover:bg-muted ${showThumbnailGrid ? 'bg-muted' : ''}`}
+            aria-label={showThumbnailGrid ? "Chiudi griglia" : "Mostra griglia miniature"}
+          >
+            {showThumbnailGrid ? <X className="w-4 h-4" /> : <Grid className="w-4 h-4" />}
+          </button>
+        )}
       </div>
 
       {/* Main content - vertical layout */}
@@ -274,6 +296,40 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onPrev, onNext, title
         className="min-h-full flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
+        {/* Thumbnail Grid Overlay */}
+        {showThumbnailGrid && (
+          <div 
+            className="fixed inset-0 z-30 bg-background/95 backdrop-blur-sm overflow-auto pt-16 pb-8 px-4 md:px-8"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="max-w-6xl mx-auto">
+              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2 md:gap-3">
+                {images.map((img, idx) => (
+                  <button
+                    key={idx}
+                    onClick={(e) => handleThumbnailClick(idx, e)}
+                    className={`relative aspect-square overflow-hidden rounded-md transition-all hover:opacity-100 ${
+                      idx === currentIndex 
+                        ? 'ring-2 ring-foreground ring-offset-2 ring-offset-background opacity-100' 
+                        : 'opacity-70 hover:ring-1 hover:ring-muted-foreground'
+                    }`}
+                    aria-label={`Vai all'immagine ${idx + 1}`}
+                  >
+                    <img
+                      src={img}
+                      alt={`Miniatura ${idx + 1}`}
+                      loading="lazy"
+                      className="w-full h-full object-cover"
+                    />
+                    <span className="absolute bottom-1 right-1 bg-background/80 backdrop-blur-sm text-xs px-1.5 py-0.5 rounded font-body">
+                      {idx + 1}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
         {/* Image area */}
         <div 
           ref={imageContainerRef}
