@@ -1,5 +1,5 @@
-import { useEffect, useCallback } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useEffect, useCallback, useState, useRef } from 'react';
+import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut } from 'lucide-react';
 
 interface LightboxProps {
   images: string[];
@@ -16,21 +16,34 @@ interface LightboxProps {
 }
 
 const Lightbox = ({ images, currentIndex, isOpen, onClose, onPrev, onNext, title, description, author, collaborators, onIndexChange }: LightboxProps) => {
+  const [isZoomed, setIsZoomed] = useState(false);
+  const [zoomLevel, setZoomLevel] = useState(1);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const imageContainerRef = useRef<HTMLDivElement>(null);
+
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (!isOpen) return;
     
     switch (e.key) {
       case 'Escape':
-        onClose();
+        if (isZoomed) {
+          setIsZoomed(false);
+          setZoomLevel(1);
+          setPosition({ x: 0, y: 0 });
+        } else {
+          onClose();
+        }
         break;
       case 'ArrowLeft':
-        onPrev();
+        if (!isZoomed) onPrev();
         break;
       case 'ArrowRight':
-        onNext();
+        if (!isZoomed) onNext();
         break;
     }
-  }, [isOpen, onClose, onPrev, onNext]);
+  }, [isOpen, onClose, onPrev, onNext, isZoomed]);
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
@@ -48,6 +61,61 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onPrev, onNext, title
     };
   }, [isOpen]);
 
+  // Reset zoom when changing images
+  useEffect(() => {
+    setIsZoomed(false);
+    setZoomLevel(1);
+    setPosition({ x: 0, y: 0 });
+  }, [currentIndex]);
+
+  const toggleZoom = () => {
+    if (isZoomed) {
+      setIsZoomed(false);
+      setZoomLevel(1);
+      setPosition({ x: 0, y: 0 });
+    } else {
+      setIsZoomed(true);
+      setZoomLevel(2);
+    }
+  };
+
+  const handleZoomIn = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const newZoom = Math.min(zoomLevel + 0.5, 4);
+    setZoomLevel(newZoom);
+    if (newZoom > 1) setIsZoomed(true);
+  };
+
+  const handleZoomOut = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const newZoom = Math.max(zoomLevel - 0.5, 1);
+    setZoomLevel(newZoom);
+    if (newZoom === 1) {
+      setIsZoomed(false);
+      setPosition({ x: 0, y: 0 });
+    }
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (isZoomed) {
+      setIsDragging(true);
+      setDragStart({ x: e.clientX - position.x, y: e.clientY - position.y });
+    }
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (isDragging && isZoomed) {
+      setPosition({
+        x: e.clientX - dragStart.x,
+        y: e.clientY - dragStart.y
+      });
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -64,15 +132,47 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onPrev, onNext, title
         Chiudi
       </button>
 
+      {/* Zoom controls */}
+      <div className="fixed top-6 left-6 flex gap-2 z-20">
+        <button
+          onClick={handleZoomOut}
+          className={`p-2 rounded-full bg-background/80 backdrop-blur-sm border border-border transition-smooth ${zoomLevel === 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-muted'}`}
+          disabled={zoomLevel === 1}
+          aria-label="Riduci zoom"
+        >
+          <ZoomOut className="w-4 h-4" />
+        </button>
+        <button
+          onClick={handleZoomIn}
+          className={`p-2 rounded-full bg-background/80 backdrop-blur-sm border border-border transition-smooth ${zoomLevel === 4 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-muted'}`}
+          disabled={zoomLevel === 4}
+          aria-label="Aumenta zoom"
+        >
+          <ZoomIn className="w-4 h-4" />
+        </button>
+        {isZoomed && (
+          <span className="flex items-center px-2 font-body text-xs text-muted-foreground">
+            {Math.round(zoomLevel * 100)}%
+          </span>
+        )}
+      </div>
+
       {/* Main content - vertical layout */}
       <div 
         className="min-h-full flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Image area */}
-        <div className="flex-1 flex items-center justify-center p-4 md:p-8 pt-16 relative min-h-[60vh]">
+        <div 
+          ref={imageContainerRef}
+          className={`flex-1 flex items-center justify-center p-4 md:p-8 pt-16 relative min-h-[60vh] ${isZoomed ? 'cursor-grab' : 'cursor-zoom-in'} ${isDragging ? 'cursor-grabbing' : ''}`}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp}
+        >
           {/* Navigation arrows */}
-          {images.length > 1 && (
+          {images.length > 1 && !isZoomed && (
             <>
               <button
                 onClick={(e) => { e.stopPropagation(); onPrev(); }}
@@ -98,12 +198,17 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onPrev, onNext, title
             decoding="async"
             draggable="false"
             onContextMenu={(e) => e.preventDefault()}
-            className="max-w-3xl w-full max-h-[70vh] object-contain select-none pointer-events-none"
+            onClick={toggleZoom}
+            style={{
+              transform: `scale(${zoomLevel}) translate(${position.x / zoomLevel}px, ${position.y / zoomLevel}px)`,
+              transition: isDragging ? 'none' : 'transform 0.3s ease-out'
+            }}
+            className="max-w-3xl w-full max-h-[70vh] object-contain select-none pointer-events-auto"
           />
         </div>
 
         {/* Thumbnail strip */}
-        {images.length > 1 && (
+        {images.length > 1 && !isZoomed && (
           <div className="flex justify-center gap-2 py-4">
             {images.map((_, idx) => (
               <button
@@ -121,7 +226,7 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onPrev, onNext, title
         )}
 
         {/* Info section - horizontal below image */}
-        {(title || description || author || collaborators) && (
+        {(title || description || author || collaborators) && !isZoomed && (
           <div className="w-full max-w-5xl mx-auto px-6 md:px-12 py-8 border-t border-border">
             <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-6 md:gap-12">
               {/* Left column - metadata */}
