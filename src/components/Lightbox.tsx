@@ -22,6 +22,11 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onPrev, onNext, title
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const imageContainerRef = useRef<HTMLDivElement>(null);
+  
+  // Touch gesture state
+  const [initialPinchDistance, setInitialPinchDistance] = useState<number | null>(null);
+  const [initialZoomLevel, setInitialZoomLevel] = useState(1);
+  const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(null);
 
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (!isOpen) return;
@@ -116,6 +121,72 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onPrev, onNext, title
     setIsDragging(false);
   };
 
+  // Calculate distance between two touch points
+  const getDistance = (touch1: React.Touch, touch2: React.Touch) => {
+    const dx = touch1.clientX - touch2.clientX;
+    const dy = touch1.clientY - touch2.clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+  };
+
+  // Get center point between two touches
+  const getTouchCenter = (touch1: React.Touch, touch2: React.Touch) => {
+    return {
+      x: (touch1.clientX + touch2.clientX) / 2,
+      y: (touch1.clientY + touch2.clientY) / 2
+    };
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (e.touches.length === 2) {
+      // Pinch gesture start
+      e.preventDefault();
+      const distance = getDistance(e.touches[0], e.touches[1]);
+      setInitialPinchDistance(distance);
+      setInitialZoomLevel(zoomLevel);
+    } else if (e.touches.length === 1 && isZoomed) {
+      // Single finger pan start
+      setIsDragging(true);
+      setTouchStart({
+        x: e.touches[0].clientX - position.x,
+        y: e.touches[0].clientY - position.y
+      });
+    }
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (e.touches.length === 2 && initialPinchDistance !== null) {
+      // Pinch gesture
+      e.preventDefault();
+      const currentDistance = getDistance(e.touches[0], e.touches[1]);
+      const scale = currentDistance / initialPinchDistance;
+      const newZoom = Math.min(Math.max(initialZoomLevel * scale, 1), 4);
+      
+      setZoomLevel(newZoom);
+      setIsZoomed(newZoom > 1);
+      
+      if (newZoom === 1) {
+        setPosition({ x: 0, y: 0 });
+      }
+    } else if (e.touches.length === 1 && isDragging && isZoomed && touchStart) {
+      // Single finger pan
+      e.preventDefault();
+      setPosition({
+        x: e.touches[0].clientX - touchStart.x,
+        y: e.touches[0].clientY - touchStart.y
+      });
+    }
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (e.touches.length < 2) {
+      setInitialPinchDistance(null);
+    }
+    if (e.touches.length === 0) {
+      setIsDragging(false);
+      setTouchStart(null);
+    }
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -170,6 +241,9 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onPrev, onNext, title
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseUp}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
         >
           {/* Navigation arrows */}
           {images.length > 1 && !isZoomed && (
