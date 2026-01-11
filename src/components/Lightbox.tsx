@@ -30,6 +30,7 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onPrev, onNext, title
   const [showThumbnailGrid, setShowThumbnailGrid] = useState(false);
   const lightboxRef = useRef<HTMLDivElement>(null);
   const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(null);
+  const [swipeStart, setSwipeStart] = useState<{ x: number; y: number; time: number } | null>(null);
 
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (!isOpen) return;
@@ -147,13 +148,23 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onPrev, onNext, title
       const distance = getDistance(e.touches[0], e.touches[1]);
       setInitialPinchDistance(distance);
       setInitialZoomLevel(zoomLevel);
-    } else if (e.touches.length === 1 && isZoomed) {
-      // Single finger pan start
-      setIsDragging(true);
-      setTouchStart({
-        x: e.touches[0].clientX - position.x,
-        y: e.touches[0].clientY - position.y
-      });
+      setSwipeStart(null);
+    } else if (e.touches.length === 1) {
+      if (isZoomed) {
+        // Single finger pan start when zoomed
+        setIsDragging(true);
+        setTouchStart({
+          x: e.touches[0].clientX - position.x,
+          y: e.touches[0].clientY - position.y
+        });
+      } else {
+        // Track swipe start for navigation
+        setSwipeStart({
+          x: e.touches[0].clientX,
+          y: e.touches[0].clientY,
+          time: Date.now()
+        });
+      }
     }
   };
 
@@ -172,7 +183,7 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onPrev, onNext, title
         setPosition({ x: 0, y: 0 });
       }
     } else if (e.touches.length === 1 && isDragging && isZoomed && touchStart) {
-      // Single finger pan
+      // Single finger pan when zoomed
       e.preventDefault();
       setPosition({
         x: e.touches[0].clientX - touchStart.x,
@@ -185,9 +196,31 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onPrev, onNext, title
     if (e.touches.length < 2) {
       setInitialPinchDistance(null);
     }
+    
     if (e.touches.length === 0) {
+      // Check for horizontal swipe to navigate
+      if (swipeStart && !isZoomed && images.length > 1) {
+        const touch = e.changedTouches[0];
+        const deltaX = touch.clientX - swipeStart.x;
+        const deltaY = touch.clientY - swipeStart.y;
+        const deltaTime = Date.now() - swipeStart.time;
+        
+        const minSwipeDistance = 50;
+        const maxSwipeTime = 300;
+        const isHorizontalSwipe = Math.abs(deltaX) > Math.abs(deltaY) * 1.5;
+        
+        if (isHorizontalSwipe && Math.abs(deltaX) > minSwipeDistance && deltaTime < maxSwipeTime) {
+          if (deltaX > 0) {
+            onPrev();
+          } else {
+            onNext();
+          }
+        }
+      }
+      
       setIsDragging(false);
       setTouchStart(null);
+      setSwipeStart(null);
     }
   };
 
