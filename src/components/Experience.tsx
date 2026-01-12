@@ -7,6 +7,11 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import wernigerode1 from "@/assets/portfolio/wernigerode-1.jpg";
 import wernigerode2 from "@/assets/portfolio/wernigerode-2.jpg";
 import wernigerode3 from "@/assets/portfolio/wernigerode-3.jpg";
+import wernigerode4 from "@/assets/portfolio/wernigerode-4.jpg";
+import wernigerode5 from "@/assets/portfolio/wernigerode-5.jpg";
+import wernigerode6 from "@/assets/portfolio/wernigerode-6.jpg";
+import wernigerode7 from "@/assets/portfolio/wernigerode-7.jpg";
+import wernigerode8 from "@/assets/portfolio/wernigerode-8.jpg";
 import wernigerodeAerial from "@/assets/portfolio/wernigerode-aerial.jpg";
 import wernigerodeRender from "@/assets/portfolio/wernigerode-render.jpg";
 import novecento4 from "@/assets/portfolio/novecento-4.jpg";
@@ -119,8 +124,8 @@ Collaborators: Ereza Bokshi, Erica Boncaldo, Lorenzo Bucciarelli, Tarek Diebäck
 Renders: Be Maarch
 
 Concorso: Europan 16, Wernigerode, Germania, 2021`,
-    images: [wernigerode1, wernigerode2, wernigerode3],
-    thumbnail: wernigerode1,
+    images: [wernigerode1, wernigerode2, wernigerode3, wernigerode4, wernigerode5, wernigerode6, wernigerode7, wernigerode8],
+    thumbnail: wernigerode2,
   },
   {
     id: 'novecento',
