@@ -1,11 +1,12 @@
+import { forwardRef } from "react";
 import { Mail, MapPin } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-const Contact = () => {
+const Contact = forwardRef<HTMLElement>((_, ref) => {
   const { t } = useLanguage();
 
   return (
-    <section id="contatti" className="py-20 md:py-28 border-t border-border">
+    <section ref={ref} id="contatti" className="py-20 md:py-28 border-t border-border">
       <div className="container">
         <div className="max-w-3xl mx-auto text-center">
           {/* Section title */}
@@ -48,6 +49,8 @@ const Contact = () => {
       </div>
     </section>
   );
-};
+});
+
+Contact.displayName = "Contact";
 
 export default Contact;
