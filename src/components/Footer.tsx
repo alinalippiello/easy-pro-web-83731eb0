@@ -1,10 +1,11 @@
+import { forwardRef } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-const Footer = () => {
+const Footer = forwardRef<HTMLElement>((_, ref) => {
   const { t } = useLanguage();
 
   return (
-    <footer className="py-12 border-t border-border">
+    <footer ref={ref} className="py-12 border-t border-border">
       <div className="container">
         <div className="max-w-3xl mx-auto text-center space-y-4">
           <p className="font-body text-xs text-muted-foreground">
@@ -17,6 +18,8 @@ const Footer = () => {
       </div>
     </footer>
   );
-};
+});
+
+Footer.displayName = "Footer";
 
 export default Footer;
