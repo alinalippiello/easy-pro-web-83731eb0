@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Lightbox from './Lightbox';
+import ResponsiveImage from './ResponsiveImage';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 // Import portfolio images
@@ -264,14 +265,13 @@ const Experience = () => {
               >
                 {/* Image */}
                 <div className="aspect-[4/3] overflow-hidden mb-3 rounded-sm">
-                  <img
+                  <ResponsiveImage
                     src={project.thumbnail}
                     alt={t(`project.${project.id}.title`)}
                     loading="lazy"
-                    decoding="async"
-                    draggable="false"
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 20vw"
                     onContextMenu={(e) => e.preventDefault()}
-                    className="w-full h-full object-contain transition-all duration-500 group-hover:scale-105 group-hover:shadow-lg select-none pointer-events-none"
+                    className="w-full h-full object-contain transition-all duration-500 group-hover:scale-105 group-hover:shadow-lg"
                   />
                 </div>
                 

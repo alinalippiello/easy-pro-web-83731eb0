@@ -1,5 +1,6 @@
 import { useEffect, useCallback, useState, useRef } from 'react';
 import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Maximize, Minimize, Grid, X } from 'lucide-react';
+import ResponsiveImage from './ResponsiveImage';
 
 interface LightboxProps {
   images: string[];
@@ -395,20 +396,23 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onPrev, onNext, title
             </>
           )}
 
-          <img
-            src={images[currentIndex]}
-            alt={`${title || 'Immagine'} ${currentIndex + 1}`}
-            loading="lazy"
-            decoding="async"
-            draggable="false"
-            onContextMenu={(e) => e.preventDefault()}
+          <div
             onClick={toggleZoom}
             style={{
               transform: `scale(${zoomLevel}) translate(${position.x / zoomLevel}px, ${position.y / zoomLevel}px)`,
               transition: isDragging ? 'none' : 'transform 0.3s ease-out'
             }}
-            className="max-w-3xl w-full max-h-[70vh] object-contain select-none pointer-events-auto"
-          />
+            className="max-w-3xl w-full max-h-[70vh] flex items-center justify-center"
+          >
+            <ResponsiveImage
+              src={images[currentIndex]}
+              alt={`${title || 'Immagine'} ${currentIndex + 1}`}
+              loading="eager"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+              onContextMenu={(e) => e.preventDefault()}
+              className="max-w-full max-h-[70vh] object-contain pointer-events-auto"
+            />
+          </div>
         </div>
 
         {/* Thumbnail strip */}
