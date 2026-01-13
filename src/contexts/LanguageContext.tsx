@@ -51,7 +51,7 @@ A scala di quartiere, il progetto definisce spazi comuni e una struttura permeab
 
 Questa visione reinterpreta la città giardino: anziché un sistema radiale, propone cluster di spazi comuni interconnessi che trasformano la monofunzionalità urbana in un ecosistema poroso di accessibilità sociale e inclusione.`,
 
-    'project.wernigerode2.title': 'Living the New Ecological Porous Garden City of Wernigerode',
+    'project.wernigerode2.title': 'Europan 16 - Living the New Ecological Porous Garden City of Wernigerode',
     'project.wernigerode2.location': 'Wernigerode, Germania',
     'project.wernigerode2.description': `Il progetto architettonico del concorso si articola su due aree complementari che dialogano con la topografia esistente.
 
@@ -171,7 +171,7 @@ At the neighborhood scale, the project defines common spaces and a permeable str
 
 This vision reinterprets the garden city: instead of a radial system, it proposes clusters of interconnected common spaces that transform urban monofunctionality into a porous ecosystem of social accessibility and inclusion.`,
 
-    'project.wernigerode2.title': 'Living the New Ecological Porous Garden City of Wernigerode',
+    'project.wernigerode2.title': 'Europan 16 - Living the New Ecological Porous Garden City of Wernigerode',
     'project.wernigerode2.location': 'Wernigerode, Germany',
     'project.wernigerode2.description': `The architectural competition project is articulated in two complementary areas that dialogue with the existing topography.
 
@@ -291,7 +291,7 @@ A escala de barrio, el proyecto define espacios comunes y una estructura permeab
 
 Esta visión reinterpreta la ciudad jardín: en lugar de un sistema radial, propone clusters de espacios comunes interconectados que transforman la monofuncionalidad urbana en un ecosistema poroso de accesibilidad social e inclusión.`,
 
-    'project.wernigerode2.title': 'Living the New Ecological Porous Garden City of Wernigerode',
+    'project.wernigerode2.title': 'Europan 16 - Living the New Ecological Porous Garden City of Wernigerode',
     'project.wernigerode2.location': 'Wernigerode, Alemania',
     'project.wernigerode2.description': `El proyecto arquitectónico del concurso se articula en dos áreas complementarias que dialogan con la topografía existente.
 

@@ -112,7 +112,7 @@ Concorso: Europan 16, Wernigerode, Germania, 2021`,
   },
   {
     id: 'wernigerode2',
-    year: "Europan 16 - Lotto Nord selezionato per la realizzazione",
+    year: "Concorso - Lotto Nord selezionato per la realizzazione",
     author: "Alina Lippiello",
     collaborators: `Co-Authors: Leonardo Zuccaro Marchi, Alice Covatta, Piero Medici
 With: H+L Hartung & Ludwig Architektur
