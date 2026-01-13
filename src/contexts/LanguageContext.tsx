@@ -51,7 +51,7 @@ A scala di quartiere, il progetto definisce spazi comuni e una struttura permeab
 
 Questa visione reinterpreta la città giardino: anziché un sistema radiale, propone cluster di spazi comuni interconnessi che trasformano la monofunzionalità urbana in un ecosistema poroso di accessibilità sociale e inclusione.`,
 
-    'project.wernigerode2.title': 'Città Giardino Permeabile - Concorso',
+    'project.wernigerode2.title': 'Living the New Ecological Porous Garden City of Wernigerode',
     'project.wernigerode2.location': 'Wernigerode, Germania',
     'project.wernigerode2.description': `Il progetto architettonico del concorso si articola su due aree complementari che dialogano con la topografia esistente.
 
@@ -171,7 +171,7 @@ At the neighborhood scale, the project defines common spaces and a permeable str
 
 This vision reinterprets the garden city: instead of a radial system, it proposes clusters of interconnected common spaces that transform urban monofunctionality into a porous ecosystem of social accessibility and inclusion.`,
 
-    'project.wernigerode2.title': 'Permeable Garden City - Competition',
+    'project.wernigerode2.title': 'Living the New Ecological Porous Garden City of Wernigerode',
     'project.wernigerode2.location': 'Wernigerode, Germany',
     'project.wernigerode2.description': `The architectural competition project is articulated in two complementary areas that dialogue with the existing topography.
 

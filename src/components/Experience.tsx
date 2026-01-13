@@ -3,9 +3,14 @@ import Lightbox from './Lightbox';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 // Import portfolio images
-import wernigerode1 from "@/assets/portfolio/wernigerode-1.jpg";
-import wernigerode2 from "@/assets/portfolio/wernigerode-2.jpg";
-import wernigerode3 from "@/assets/portfolio/wernigerode-3.jpg";
+import gardenCityMasterplan from "@/assets/portfolio/garden-city-masterplan.jpg";
+import gardenCityPorosity from "@/assets/portfolio/garden-city-porosity.jpg";
+import gardenCityContext from "@/assets/portfolio/garden-city-context.jpg";
+import gardenCity4 from "@/assets/portfolio/garden-city-4.jpg";
+import gardenCity5 from "@/assets/portfolio/garden-city-5.jpg";
+import gardenCity6 from "@/assets/portfolio/garden-city-6.jpg";
+import gardenCity7 from "@/assets/portfolio/garden-city-7.jpg";
+import gardenCity8 from "@/assets/portfolio/garden-city-8.jpg";
 import wernigerodeAerial from "@/assets/portfolio/wernigerode-aerial.jpg";
 import wernigerodeRender from "@/assets/portfolio/wernigerode-render.jpg";
 import novecento4 from "@/assets/portfolio/novecento-4.jpg";
@@ -118,8 +123,8 @@ Collaborators: Ereza Bokshi, Erica Boncaldo, Lorenzo Bucciarelli, Tarek Diebäck
 Renders: Be Maarch
 
 Concorso: Europan 16, Wernigerode, Germania, 2021`,
-    images: [wernigerode1, wernigerode2, wernigerode3],
-    thumbnail: wernigerode1,
+    images: [gardenCityMasterplan, gardenCityPorosity, gardenCityContext, gardenCity4, gardenCity5, gardenCity6, gardenCity7, gardenCity8],
+    thumbnail: gardenCityMasterplan,
   },
   {
     id: 'novecento',
