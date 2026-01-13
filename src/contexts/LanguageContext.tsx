@@ -291,7 +291,7 @@ A escala de barrio, el proyecto define espacios comunes y una estructura permeab
 
 Esta visión reinterpreta la ciudad jardín: en lugar de un sistema radial, propone clusters de espacios comunes interconectados que transforman la monofuncionalidad urbana en un ecosistema poroso de accesibilidad social e inclusión.`,
 
-    'project.wernigerode2.title': 'Ciudad Jardín Permeable - Concurso',
+    'project.wernigerode2.title': 'Living the New Ecological Porous Garden City of Wernigerode',
     'project.wernigerode2.location': 'Wernigerode, Alemania',
     'project.wernigerode2.description': `El proyecto arquitectónico del concurso se articula en dos áreas complementarias que dialogan con la topografía existente.
 
