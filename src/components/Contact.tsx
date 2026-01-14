@@ -41,7 +41,7 @@ const Contact = () => {
               {t('contact.studio')}
             </p>
             <p className="font-body text-sm text-foreground">
-              Milano · Montreal · Rotterdam · Padova
+              Milano
             </p>
           </div>
         </div>
