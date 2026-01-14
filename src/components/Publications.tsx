@@ -61,11 +61,8 @@ const Publications = () => {
                   {pub.year}
                 </p>
                 <div className="flex-1">
-                  <h4 className="font-body text-sm font-normal">
-                    {pub.title}
-                  </h4>
-                  <p className="font-body text-xs text-muted-foreground mt-1">
-                    {pub.publication} · {pub.type}
+                  <p className="font-body text-sm font-normal">
+                    "{pub.title}", in <em>{pub.publication}</em>
                   </p>
                 </div>
               </div>
