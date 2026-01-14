@@ -16,6 +16,30 @@ const Publications = () => {
       publication: "Europan Europe",
       type: "Publication",
     },
+    {
+      year: "2007",
+      title: "Innestare, duplicare, piegare, p. 119",
+      publication: "New York - Milano: disegno della città per la regione urbana",
+      type: "Article",
+    },
+    {
+      year: "2006",
+      title: "Città e ferrovia",
+      publication: "STAZIONI, un sipario urbano",
+      type: "Article",
+    },
+    {
+      year: "2005",
+      title: "Moltiplicare il suolo, p. 117-121",
+      publication: "Bari, studi per la metropoli",
+      type: "Article",
+    },
+    {
+      year: "1995",
+      title: "Edificio residenziale a Milano in Via Gian Giacomo Mora",
+      publication: "Documenti di Tecnologia dell'architettura. PROGETTI DIDATTICI 3",
+      type: "Article",
+    },
   ];
 
   return (
