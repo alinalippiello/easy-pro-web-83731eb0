@@ -35,15 +35,6 @@ const Contact = () => {
             </p>
           </div>
 
-          {/* Studio Locations */}
-          <div className="pt-8 border-t border-border">
-            <p className="font-body text-xs tracking-[0.2em] uppercase text-muted-foreground mb-4">
-              {t('contact.studio')}
-            </p>
-            <p className="font-body text-sm text-foreground">
-              Milano
-            </p>
-          </div>
         </div>
       </div>
     </section>
