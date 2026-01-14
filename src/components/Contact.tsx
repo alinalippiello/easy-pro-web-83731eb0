@@ -9,16 +9,12 @@ const Contact = () => {
       <div className="container">
         <div className="max-w-3xl mx-auto text-center">
           {/* Section title */}
-          <p className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground mb-8">
+          <p className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground mb-12">
             {t('contact.title')}
           </p>
 
-          <p className="font-body text-sm md:text-base text-foreground mb-12 max-w-xl mx-auto">
-            {t('contact.description')}
-          </p>
-
           {/* Contact Info */}
-          <div className="space-y-4 mb-12">
+          <div className="space-y-4">
             <a
               href="mailto:alina.lippiello@gmail.com"
               className="font-body text-sm underline hover:no-underline transition-smooth inline-flex items-center gap-2"
