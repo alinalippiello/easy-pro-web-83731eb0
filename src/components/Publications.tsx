@@ -5,34 +5,16 @@ const Publications = () => {
 
   const publications = [
     {
-      year: "2023",
-      title: "Ecologies of the Urban",
-      publication: "Architecture Journal",
-      type: "Article",
-    },
-    {
-      year: "2019",
-      title: "Porous Spaces: New Forms of Collective Living",
-      publication: "Domus",
-      type: "Article",
-    },
-    {
-      year: "2015",
-      title: "Expo Milano: Service Architectures",
-      publication: "Casabella",
-      type: "Article",
+      year: "2021",
+      title: "Europan 16: Living the New Ecological Porous Garden City of Wernigerode",
+      publication: "Europan Europe",
+      type: "Winner - Lotto Nord",
     },
     {
       year: "2011",
       title: "Europan 11: Floating Blocks",
       publication: "Europan Europe",
       type: "Publication",
-    },
-    {
-      year: "2008",
-      title: "La rottura del binomio figura-sfondo",
-      publication: "Politecnico di Milano",
-      type: "Doctoral Thesis",
     },
   ];
 
