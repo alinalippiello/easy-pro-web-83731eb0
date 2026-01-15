@@ -22,6 +22,14 @@ import wernigerodeLevel2 from "@/assets/portfolio/wernigerode-level2.jpg";
 import wernigerodeLevel3 from "@/assets/portfolio/wernigerode-level3.jpg";
 import wernigerodeLevel4 from "@/assets/portfolio/wernigerode-level4.jpg";
 import wernigerodeRoof from "@/assets/portfolio/wernigerode-roof.jpg";
+import wernigerodeTypology1 from "@/assets/portfolio/wernigerode-typology-1.jpg";
+import wernigerodeTypology2 from "@/assets/portfolio/wernigerode-typology-2.jpg";
+import wernigerodeElevation1 from "@/assets/portfolio/wernigerode-elevation-1.jpg";
+import wernigerodeElevation2 from "@/assets/portfolio/wernigerode-elevation-2.jpg";
+import wernigerodeElevation3 from "@/assets/portfolio/wernigerode-elevation-3.jpg";
+import wernigerodeElevation4 from "@/assets/portfolio/wernigerode-elevation-4.jpg";
+import wernigerodeSectionA from "@/assets/portfolio/wernigerode-section-a.jpg";
+import wernigerodeSectionB from "@/assets/portfolio/wernigerode-section-b.jpg";
 import novecento4 from "@/assets/portfolio/novecento-4.jpg";
 import novecento5 from "@/assets/portfolio/novecento-5.jpg";
 import novecento6 from "@/assets/portfolio/novecento-6.jpg";
@@ -131,7 +139,7 @@ Collaborators: Ereza Bokshi, Erica Boncaldo, Lorenzo Bucciarelli, Tarek Diebäck
 Renders: Be Maarch
 
 Concorso: Europan 16, Wernigerode, Germania, 2021`,
-    images: [gardenCityMasterplan, gardenCityPorosity, gardenCityContext, gardenCity4, gardenCity5, gardenCity6, gardenCity7, gardenCity8, wernigerodePlanNord, wernigerodeRender2, wernigerodeSection, wernigerodeLevel0, wernigerodeLevel1, wernigerodeLevel2, wernigerodeLevel3, wernigerodeLevel4, wernigerodeRoof],
+    images: [gardenCityMasterplan, gardenCityPorosity, gardenCityContext, gardenCity4, gardenCity5, gardenCity6, gardenCity7, gardenCity8, wernigerodePlanNord, wernigerodeRender2, wernigerodeSection, wernigerodeLevel0, wernigerodeLevel1, wernigerodeLevel2, wernigerodeLevel3, wernigerodeLevel4, wernigerodeRoof, wernigerodeTypology1, wernigerodeTypology2, wernigerodeElevation1, wernigerodeElevation2, wernigerodeElevation3, wernigerodeElevation4, wernigerodeSectionA, wernigerodeSectionB],
     thumbnail: gardenCityMasterplan,
   },
   {
