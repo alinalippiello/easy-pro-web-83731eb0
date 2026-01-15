@@ -139,7 +139,7 @@ Collaborators: Ereza Bokshi, Erica Boncaldo, Lorenzo Bucciarelli, Tarek Diebäck
 Renders: Be Maarch
 
 Concorso: Europan 16, Wernigerode, Germania, 2021`,
-    images: [gardenCityMasterplan, gardenCityPorosity, gardenCityContext, gardenCity4, gardenCity5, gardenCity6, gardenCity7, gardenCity8, wernigerodePlanNord, wernigerodeRender2, wernigerodeSection, wernigerodeLevel0, wernigerodeLevel1, wernigerodeLevel2, wernigerodeLevel3, wernigerodeLevel4, wernigerodeRoof, wernigerodeTypology1, wernigerodeTypology2, wernigerodeElevation1, wernigerodeElevation2, wernigerodeElevation3, wernigerodeElevation4, wernigerodeSectionA, wernigerodeSectionB],
+    images: [gardenCityMasterplan, gardenCityContext, gardenCityPorosity, wernigerodeRender2, gardenCity4, gardenCity5, gardenCity6, gardenCity7, gardenCity8, wernigerodeElevation1, wernigerodeElevation2, wernigerodeElevation3, wernigerodeElevation4, wernigerodePlanNord, wernigerodeLevel0, wernigerodeLevel1, wernigerodeLevel2, wernigerodeLevel3, wernigerodeLevel4, wernigerodeRoof, wernigerodeSection, wernigerodeSectionA, wernigerodeSectionB, wernigerodeTypology1, wernigerodeTypology2],
     thumbnail: gardenCityMasterplan,
   },
   {
