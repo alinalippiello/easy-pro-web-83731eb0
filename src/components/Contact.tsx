@@ -1,4 +1,3 @@
-import { Mail, MapPin } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const Contact = () => {
@@ -17,13 +16,11 @@ const Contact = () => {
           <div className="space-y-4">
             <a
               href="mailto:alina.lippiello@gmail.com"
-              className="font-body text-sm underline hover:no-underline transition-smooth inline-flex items-center gap-2"
+              className="font-body text-sm underline hover:no-underline transition-smooth"
             >
-              <Mail className="w-4 h-4" />
               alina.lippiello@gmail.com
             </a>
-            <p className="font-body text-sm text-muted-foreground flex items-center justify-center gap-2">
-              <MapPin className="w-4 h-4" />
+            <p className="font-body text-sm text-muted-foreground">
               Via Jommelli 33, 20131 Milano
             </p>
             <p className="font-body text-sm text-muted-foreground">
