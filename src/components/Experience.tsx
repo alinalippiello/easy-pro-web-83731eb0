@@ -152,22 +152,7 @@ Collaborators: Ereza Bokshi, Erica Boncaldo, Lorenzo Bucciarelli, Tarek Diebäck
 Renders: Be Maarch
 
 Concorso: Europan 16, Wernigerode, Germania, 2021`,
-    images: [
-      // Masterplan
-      gardenCityMasterplan, gardenCityContext, wernigerodeMasterplan1, wernigerodeMasterplan2,
-      // Diagrammi
-      gardenCityPorosity, wernigerodePorosityNorth, wernigerodePorositySouth, wernigerodeSouthDiagram, wernigerodeMorphology,
-      // Render e viste 3D
-      wernigerodeRender2, wernigerodeAxonometric, gardenCity4, gardenCity5, gardenCity6, gardenCity7, gardenCity8,
-      // Piante
-      wernigerodeGroundfloor, wernigerodePlanNord, wernigerodeLevel0, wernigerodeLevel1, wernigerodeLevel2, wernigerodeLevel3, wernigerodeLevel4, wernigerodeRoof,
-      // Sezioni
-      wernigerodeSection, wernigerodeSectionA, wernigerodeSectionB, wernigerodeSectionC, wernigerodeSectionD, wernigerodeSectionE, wernigerodeSectionF, wernigerodeSectionG,
-      // Prospetti
-      wernigerodeElevation1, wernigerodeElevation2, wernigerodeElevation3, wernigerodeElevation4,
-      // Tipologie
-      wernigerodeTypology1, wernigerodeTypology2
-    ],
+    images: [gardenCityMasterplan, gardenCityContext, gardenCityPorosity, wernigerodePorosityNorth, wernigerodePorositySouth, wernigerodeSouthDiagram, wernigerodeMasterplan1, wernigerodeMasterplan2, wernigerodeMorphology, wernigerodeAxonometric, wernigerodeGroundfloor, wernigerodeRender2, gardenCity4, gardenCity5, gardenCity6, gardenCity7, gardenCity8, wernigerodeElevation1, wernigerodeElevation2, wernigerodeElevation3, wernigerodeElevation4, wernigerodePlanNord, wernigerodeLevel0, wernigerodeLevel1, wernigerodeLevel2, wernigerodeLevel3, wernigerodeLevel4, wernigerodeRoof, wernigerodeSection, wernigerodeSectionA, wernigerodeSectionB, wernigerodeSectionC, wernigerodeSectionD, wernigerodeSectionE, wernigerodeSectionF, wernigerodeSectionG, wernigerodeTypology1, wernigerodeTypology2],
     thumbnail: gardenCityMasterplan,
   },
   {
