@@ -43,6 +43,10 @@ import wernigerodeMasterplan2 from "@/assets/portfolio/wernigerode-masterplan-2.
 import wernigerodeMorphology from "@/assets/portfolio/wernigerode-morphology.jpg";
 import wernigerodeAxonometric from "@/assets/portfolio/wernigerode-axonometric.jpg";
 import wernigerodeGroundfloor from "@/assets/portfolio/wernigerode-groundfloor.jpg";
+import wernigerodeLandscape from "@/assets/portfolio/wernigerode-landscape.jpg";
+import wernigerodeEnergy from "@/assets/portfolio/wernigerode-energy.jpg";
+import wernigerodeTypology3 from "@/assets/portfolio/wernigerode-typology-3.jpg";
+import wernigerodeCourtyard from "@/assets/portfolio/wernigerode-courtyard.jpg";
 import novecento4 from "@/assets/portfolio/novecento-4.jpg";
 import novecento5 from "@/assets/portfolio/novecento-5.jpg";
 import novecento6 from "@/assets/portfolio/novecento-6.jpg";
@@ -152,7 +156,7 @@ Collaborators: Ereza Bokshi, Erica Boncaldo, Lorenzo Bucciarelli, Tarek Diebäck
 Renders: Be Maarch
 
 Concorso: Europan 16, Wernigerode, Germania, 2021`,
-    images: [gardenCityMasterplan, gardenCityContext, gardenCityPorosity, wernigerodePorosityNorth, wernigerodePorositySouth, wernigerodeSouthDiagram, wernigerodeMasterplan1, wernigerodeMasterplan2, wernigerodeMorphology, wernigerodeAxonometric, wernigerodeGroundfloor, wernigerodeRender2, gardenCity4, gardenCity5, gardenCity6, gardenCity7, gardenCity8, wernigerodeElevation1, wernigerodeElevation2, wernigerodeElevation3, wernigerodeElevation4, wernigerodePlanNord, wernigerodeLevel0, wernigerodeLevel1, wernigerodeLevel2, wernigerodeLevel3, wernigerodeLevel4, wernigerodeRoof, wernigerodeSection, wernigerodeSectionA, wernigerodeSectionB, wernigerodeSectionC, wernigerodeSectionD, wernigerodeSectionE, wernigerodeSectionF, wernigerodeSectionG, wernigerodeTypology1, wernigerodeTypology2],
+    images: [gardenCityMasterplan, gardenCityContext, gardenCityPorosity, wernigerodePorosityNorth, wernigerodePorositySouth, wernigerodeSouthDiagram, wernigerodeMasterplan1, wernigerodeMasterplan2, wernigerodeMorphology, wernigerodeAxonometric, wernigerodeGroundfloor, wernigerodeLandscape, wernigerodeEnergy, wernigerodeRender2, wernigerodeCourtyard, gardenCity4, gardenCity5, gardenCity6, gardenCity7, gardenCity8, wernigerodeElevation1, wernigerodeElevation2, wernigerodeElevation3, wernigerodeElevation4, wernigerodePlanNord, wernigerodeLevel0, wernigerodeLevel1, wernigerodeLevel2, wernigerodeLevel3, wernigerodeLevel4, wernigerodeRoof, wernigerodeSection, wernigerodeSectionA, wernigerodeSectionB, wernigerodeSectionC, wernigerodeSectionD, wernigerodeSectionE, wernigerodeSectionF, wernigerodeSectionG, wernigerodeTypology1, wernigerodeTypology2, wernigerodeTypology3],
     thumbnail: gardenCityMasterplan,
   },
   {
