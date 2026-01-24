@@ -59,6 +59,11 @@ import illerpark1 from "@/assets/portfolio/illerpark-1.jpg";
 import shinkenchiku1 from "@/assets/portfolio/shinkenchiku-1.jpg";
 import europan11 from "@/assets/portfolio/europan11-1.jpg";
 import europan16Cover from "@/assets/portfolio/europan16-cover.jpg";
+import lottoNordModello1 from "@/assets/portfolio/lotto-nord-modello-1.jpg";
+import plasticoNordScontorno from "@/assets/portfolio/plastico-nord-scontorno.jpg";
+import lottoNordModelloVistaNord from "@/assets/portfolio/lotto-nord-modello-vista-nord.jpg";
+import lottoNordModello from "@/assets/portfolio/lotto-nord-modello.jpg";
+import lottoNordAltoScont from "@/assets/portfolio/lotto-nord-alto-scont.jpg";
 import aluartforum1 from "@/assets/portfolio/aluartforum-1.jpg";
 import expo1 from "@/assets/portfolio/expo-1.jpg";
 import split1 from "@/assets/portfolio/split-1.jpg";
@@ -157,7 +162,7 @@ Collaborators: Ereza Bokshi, Erica Boncaldo, Lorenzo Bucciarelli, Tarek Diebäck
 Renders: Be Maarch
 
 Concorso: Europan 16, Wernigerode, Germania, 2021`,
-    images: [gardenCityMasterplan, gardenCityContext, gardenCityPorosity, gardenCity4, gardenCity5, wernigerodePorosityNorth, gardenCity6, gardenCity7, gardenCity8, wernigerodeElevation4, wernigerodePlanNord, wernigerodeLevel0, wernigerodeLevel1, wernigerodeLevel2, wernigerodeLevel3, wernigerodeLevel4, wernigerodeRoof, wernigerodeSection, wernigerodeSectionA, wernigerodeSectionB, wernigerodeSectionC, wernigerodeSectionD, wernigerodeSectionE, wernigerodeSectionF, wernigerodeSectionG, wernigerodeTypology1, wernigerodeTypology2, wernigerodeRender2, wernigerodeSouthDiagram, wernigerodeMasterplan1, wernigerodePorositySouth, wernigerodeMasterplan2, wernigerodeMorphology, wernigerodeAxonometric, wernigerodeGroundfloor, wernigerodeTypology3, wernigerodeLandscape, wernigerodeEnergy, wernigerodeCourtyard, wernigerodeElevation1, wernigerodeElevation2, wernigerodeElevation3],
+    images: [gardenCityMasterplan, gardenCityContext, gardenCityPorosity, gardenCity4, gardenCity5, wernigerodePorosityNorth, gardenCity6, gardenCity7, gardenCity8, wernigerodeElevation4, wernigerodePlanNord, wernigerodeLevel0, wernigerodeLevel1, wernigerodeLevel2, wernigerodeLevel3, wernigerodeLevel4, wernigerodeRoof, wernigerodeSection, wernigerodeSectionA, wernigerodeSectionB, wernigerodeSectionC, wernigerodeSectionD, wernigerodeSectionE, wernigerodeSectionF, wernigerodeSectionG, wernigerodeTypology1, wernigerodeTypology2, wernigerodeRender2, wernigerodeSouthDiagram, wernigerodeMasterplan1, wernigerodePorositySouth, wernigerodeMasterplan2, wernigerodeMorphology, wernigerodeAxonometric, wernigerodeGroundfloor, wernigerodeTypology3, wernigerodeLandscape, wernigerodeEnergy, wernigerodeCourtyard, wernigerodeElevation1, wernigerodeElevation2, wernigerodeElevation3, lottoNordModello1, plasticoNordScontorno, lottoNordModelloVistaNord, lottoNordModello, lottoNordAltoScont],
     thumbnail: europan16Cover,
   },
   {
