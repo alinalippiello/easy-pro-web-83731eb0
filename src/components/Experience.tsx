@@ -166,7 +166,7 @@ Concorso: Europan 16, Wernigerode, Germania, 2021`,
     author: "Alina Lippiello",
     collaborators: "Leonardo Zuccaro Marchi, Iacopo Salce",
     images: [novecentoNew1, novecentoNew2, novecento4, novecento5, novecento6, novecento7, novecento10, novecento11],
-    thumbnail: novecentoNew1,
+    thumbnail: novecento5,
   },
   {
     id: 'illerpark',
