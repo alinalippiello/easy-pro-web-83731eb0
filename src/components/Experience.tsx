@@ -22,19 +22,13 @@ import wernigerodeLevel2 from "@/assets/portfolio/wernigerode-level2.jpg";
 import wernigerodeLevel3 from "@/assets/portfolio/wernigerode-level3.jpg";
 import wernigerodeLevel4 from "@/assets/portfolio/wernigerode-level4.jpg";
 import wernigerodeRoof from "@/assets/portfolio/wernigerode-roof.jpg";
-import wernigerodeTypology1 from "@/assets/portfolio/wernigerode-typology-1.jpg";
-import wernigerodeTypology2 from "@/assets/portfolio/wernigerode-typology-2.jpg";
 import wernigerodeElevation1 from "@/assets/portfolio/wernigerode-elevation-1.jpg";
 import wernigerodeElevation2 from "@/assets/portfolio/wernigerode-elevation-2.jpg";
 import wernigerodeElevation3 from "@/assets/portfolio/wernigerode-elevation-3.jpg";
 import wernigerodeElevation4 from "@/assets/portfolio/wernigerode-elevation-4.jpg";
-import wernigerodeSectionA from "@/assets/portfolio/wernigerode-section-a.jpg";
-import wernigerodeSectionB from "@/assets/portfolio/wernigerode-section-b.jpg";
-import wernigerodeSectionC from "@/assets/portfolio/wernigerode-section-c.jpg";
-import wernigerodeSectionD from "@/assets/portfolio/wernigerode-section-d.jpg";
-import wernigerodeSectionE from "@/assets/portfolio/wernigerode-section-e.jpg";
-import wernigerodeSectionF from "@/assets/portfolio/wernigerode-section-f.jpg";
-import wernigerodeSectionG from "@/assets/portfolio/wernigerode-section-g.jpg";
+import wernigerodeSectionsAbc from "@/assets/portfolio/wernigerode-sections-abc.jpg";
+import wernigerodeSectionsDefg from "@/assets/portfolio/wernigerode-sections-defg.jpg";
+import wernigerodeTypologies from "@/assets/portfolio/wernigerode-typologies.jpg";
 import wernigerodePorosityNorth from "@/assets/portfolio/wernigerode-porosity-north.jpg";
 import wernigerodeSouthDiagram from "@/assets/portfolio/wernigerode-south-diagram.jpg";
 import wernigerodePorositySouth from "@/assets/portfolio/wernigerode-porosity-south.jpg";
@@ -160,7 +154,7 @@ Collaborators: Ereza Bokshi, Erica Boncaldo, Lorenzo Bucciarelli, Tarek Diebäck
 Renders: Be Maarch
 
 Concorso: Europan 16, Wernigerode, Germania, 2021`,
-    images: [gardenCityMasterplan, gardenCityContext, gardenCityPorosity, gardenCity4, gardenCity5, wernigerodePorosityNorth, gardenCity6, gardenCity7, gardenCity8, wernigerodeDraftNorth1, wernigerodeDraftNorth2, wernigerodeDraftNorth3, wernigerodeElevation4, wernigerodePlanNord, wernigerodeLevel0, wernigerodeLevel1, wernigerodeLevel2, wernigerodeLevel3, wernigerodeLevel4, wernigerodeRoof, wernigerodeSection, wernigerodeSectionA, wernigerodeSectionB, wernigerodeSectionC, wernigerodeSectionD, wernigerodeSectionE, wernigerodeSectionF, wernigerodeSectionG, wernigerodeTypology1, wernigerodeTypology2, wernigerodeRender2, wernigerodeSouthDiagram, wernigerodeMasterplan1, wernigerodePorositySouth, wernigerodeMasterplan2, wernigerodeMorphology, wernigerodeAxonometric, wernigerodeGroundfloor, wernigerodeTypology3, wernigerodeLandscape, wernigerodeEnergy, wernigerodeCourtyard, wernigerodeElevation1, wernigerodeElevation2, wernigerodeElevation3],
+    images: [gardenCityMasterplan, gardenCityContext, gardenCityPorosity, gardenCity4, gardenCity5, wernigerodePorosityNorth, gardenCity6, gardenCity7, gardenCity8, wernigerodeDraftNorth1, wernigerodeDraftNorth2, wernigerodeDraftNorth3, wernigerodeElevation4, wernigerodePlanNord, wernigerodeLevel0, wernigerodeLevel1, wernigerodeLevel2, wernigerodeLevel3, wernigerodeLevel4, wernigerodeRoof, wernigerodeSection, wernigerodeSectionsAbc, wernigerodeSectionsDefg, wernigerodeTypologies, wernigerodeRender2, wernigerodeSouthDiagram, wernigerodeMasterplan1, wernigerodePorositySouth, wernigerodeMasterplan2, wernigerodeMorphology, wernigerodeAxonometric, wernigerodeGroundfloor, wernigerodeTypology3, wernigerodeLandscape, wernigerodeEnergy, wernigerodeCourtyard, wernigerodeElevation1, wernigerodeElevation2, wernigerodeElevation3],
     thumbnail: europan16Cover,
   },
   {
