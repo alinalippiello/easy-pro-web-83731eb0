@@ -175,7 +175,7 @@ Concorso: Europan 16, Wernigerode, Germania, 2021`,
     id: 'illerpark',
     yearKey: 'experience.competition',
     year: "Concorso",
-    images: [illerpark1, illerpark2, illerpark3, illerpark4, illerpark5, illerpark6],
+    images: [illerpark1, illerpark2, illerpark3, illerpark5, illerpark4, illerpark6],
     thumbnail: illerpark1,
   },
   {
