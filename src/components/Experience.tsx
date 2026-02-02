@@ -53,6 +53,11 @@ import novecentoNew2 from "@/assets/portfolio/novecento-new-2.jpg";
 import novecento10 from "@/assets/portfolio/novecento-10.jpg";
 import novecento11 from "@/assets/portfolio/novecento-11.jpg";
 import illerpark1 from "@/assets/portfolio/illerpark-1.jpg";
+import illerpark2 from "@/assets/portfolio/illerpark-2.jpg";
+import illerpark3 from "@/assets/portfolio/illerpark-3.jpg";
+import illerpark4 from "@/assets/portfolio/illerpark-4.jpg";
+import illerpark5 from "@/assets/portfolio/illerpark-5.jpg";
+import illerpark6 from "@/assets/portfolio/illerpark-6.jpg";
 import shinkenchiku1 from "@/assets/portfolio/shinkenchiku-1.jpg";
 import europan11 from "@/assets/portfolio/europan11-1.jpg";
 import europan16Cover from "@/assets/portfolio/europan16-cover.jpg";
@@ -170,7 +175,7 @@ Concorso: Europan 16, Wernigerode, Germania, 2021`,
     id: 'illerpark',
     yearKey: 'experience.competition',
     year: "Concorso",
-    images: [illerpark1],
+    images: [illerpark1, illerpark2, illerpark3, illerpark4, illerpark5, illerpark6],
     thumbnail: illerpark1,
   },
   {
