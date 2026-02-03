@@ -407,7 +407,7 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onPrev, onNext, title
               transform: `scale(${zoomLevel}) translate(${position.x / zoomLevel}px, ${position.y / zoomLevel}px)`,
               transition: isDragging ? 'none' : 'transform 0.3s ease-out'
             }}
-            className="max-w-3xl w-full max-h-[70vh] object-contain select-none pointer-events-auto"
+            className="max-w-4xl w-full max-h-[65vh] object-contain select-none pointer-events-auto"
           />
         </div>
 
