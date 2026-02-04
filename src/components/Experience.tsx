@@ -62,6 +62,7 @@ import illerparkCover from "@/assets/portfolio/illerpark-cover.jpg";
 import shinkenchiku1 from "@/assets/portfolio/shinkenchiku-1.jpg";
 import europan11 from "@/assets/portfolio/europan11-1.jpg";
 import europan16Cover from "@/assets/portfolio/europan16-cover.jpg";
+import wernigerodeModels from "@/assets/profile-models.png";
 import aluartforum1 from "@/assets/portfolio/aluartforum-1.jpg";
 import expo1 from "@/assets/portfolio/expo-1.jpg";
 import split1 from "@/assets/portfolio/split-1.jpg";
@@ -150,7 +151,7 @@ Concorso: Europan 16, Wernigerode, Germania, 2021`,
   },
   {
     id: 'wernigerode2',
-    year: "Concorso - Lotto Nord selezionato per la realizzazione",
+    year: "Concorso",
     author: "Alina Lippiello",
     collaborators: `Co-Authors: Leonardo Zuccaro Marchi, Alice Covatta, Piero Medici
 With: H+L Hartung & Ludwig Architektur
@@ -160,8 +161,8 @@ Collaborators: Ereza Bokshi, Erica Boncaldo, Lorenzo Bucciarelli, Tarek Diebäck
 Renders: Be Maarch
 
 Concorso: Europan 16, Wernigerode, Germania, 2021`,
-    images: [europan16Cover, gardenCityMasterplan, gardenCityContext, gardenCityPorosity, gardenCity4, gardenCity5, wernigerodePorosityNorth, gardenCity6, gardenCity7, gardenCity8, wernigerodeDraftNorth1, wernigerodeDraftNorth2, wernigerodeDraftNorth3, wernigerodeElevation4, wernigerodePlanNord, wernigerodeLevel0, wernigerodeLevel1, wernigerodeLevel2, wernigerodeLevel3, wernigerodeLevel4, wernigerodeRoof, wernigerodeSection, wernigerodeSectionsAbc, wernigerodeSectionsDefg, wernigerodeTypologies, wernigerodeRender2, wernigerodeSouthDiagram, wernigerodeMasterplan1, wernigerodePorositySouth, wernigerodeMasterplan2, wernigerodeMorphology, wernigerodeAxonometric, wernigerodeGroundfloor, wernigerodeTypology3, wernigerodeLandscape, wernigerodeEnergy, wernigerodeCourtyard, wernigerodeElevation1, wernigerodeElevation2, wernigerodeElevation3],
-    thumbnail: europan16Cover,
+    images: [wernigerodeModels, gardenCityMasterplan, gardenCityContext, gardenCityPorosity, gardenCity4, gardenCity5, wernigerodePorosityNorth, gardenCity6, gardenCity7, gardenCity8, wernigerodeDraftNorth1, wernigerodeDraftNorth2, wernigerodeDraftNorth3, wernigerodeElevation4, wernigerodePlanNord, wernigerodeLevel0, wernigerodeLevel1, wernigerodeLevel2, wernigerodeLevel3, wernigerodeLevel4, wernigerodeRoof, wernigerodeSection, wernigerodeSectionsAbc, wernigerodeSectionsDefg, wernigerodeTypologies, wernigerodeRender2, wernigerodeSouthDiagram, wernigerodeMasterplan1, wernigerodePorositySouth, wernigerodeMasterplan2, wernigerodeMorphology, wernigerodeAxonometric, wernigerodeGroundfloor, wernigerodeTypology3, wernigerodeLandscape, wernigerodeEnergy, wernigerodeCourtyard, wernigerodeElevation1, wernigerodeElevation2, wernigerodeElevation3],
+    thumbnail: wernigerodeModels,
   },
   {
     id: 'novecento',
