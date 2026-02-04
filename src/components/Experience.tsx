@@ -12,6 +12,7 @@ import gardenCity6 from "@/assets/portfolio/garden-city-6.jpg";
 import gardenCity7 from "@/assets/portfolio/garden-city-7.jpg";
 import gardenCity8 from "@/assets/portfolio/garden-city-8.jpg";
 import wernigerodeAerial from "@/assets/portfolio/wernigerode-aerial.jpg";
+import wernigerodeAerial2 from "@/assets/portfolio/wernigerode-aerial-2.jpg";
 import wernigerodeRender from "@/assets/portfolio/wernigerode-render.jpg";
 import wernigerodePlanNord from "@/assets/portfolio/wernigerode-plan-nord.jpg";
 import wernigerodeRender2 from "@/assets/portfolio/wernigerode-render-2.jpg";
@@ -146,8 +147,8 @@ Collaborators: Ereza Bokshi, Erica Boncaldo, Lorenzo Bucciarelli, Tarek Diebäck
 Renders: Be Maarch
 
 Concorso: Europan 16, Wernigerode, Germania, 2021`,
-    images: [europan16Cover, wernigerodeRender, wernigerodeAerial],
-    thumbnail: europan16Cover,
+    images: [wernigerodeAerial2, wernigerodeRender],
+    thumbnail: wernigerodeAerial2,
   },
   {
     id: 'wernigerode2',
