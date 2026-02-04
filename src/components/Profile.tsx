@@ -1,19 +1,8 @@
-import profileModels from "@/assets/profile-models.png";
-
 const Profile = () => {
   return (
     <section id="profilo" className="py-20 md:py-28">
       <div className="container">
         <div className="max-w-3xl mx-auto">
-          {/* Profile Image */}
-          <div className="mb-16">
-            <img 
-              src={profileModels} 
-              alt="Modelli architettonici" 
-              className="w-full"
-            />
-          </div>
-
           {/* Header */}
           <div className="text-center mb-16">
             <h2 className="font-display text-2xl md:text-3xl font-light tracking-wide mb-4">
