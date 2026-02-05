@@ -138,6 +138,7 @@ interface ProjectData {
   author?: string;
   collaborators?: string;
   images: string[];
+  captions?: string[];
   thumbnail: string;
 }
 
@@ -204,11 +205,12 @@ Concorso: Europan 16, Wernigerode, Germania, 2021`,
     thumbnail: europan11,
   },
   {
-    id: 'ilica',
+    id: 'aluartforum',
     yearKey: 'experience.competition',
     year: "Concorso",
     author: "Alina Lippiello",
     images: [ilicaCoperture, ilicaMasterplan, ilicaPianoTerra, ilicaP1, ilicaP2, ilicaP12, ilicaPiano2, ilicaPiano22, ilicaPiano3, ilicaPiano32],
+    captions: ['Coperture 1:500', 'Masterplan 1:500', 'Piano terra', 'Piano -1', 'Piano -2', 'Piano 1', 'Piano 2', 'Piano 2 (var.)', 'Piano 3', 'Piano 3 (var.)'],
     thumbnail: ilicaCoperture,
   },
   {
@@ -258,6 +260,7 @@ const Experience = () => {
   const { t } = useLanguage();
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxImages, setLightboxImages] = useState<string[]>([]);
+  const [lightboxCaptions, setLightboxCaptions] = useState<string[] | undefined>();
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [lightboxTitle, setLightboxTitle] = useState('');
   const [lightboxDescription, setLightboxDescription] = useState<string | undefined>();
@@ -266,6 +269,7 @@ const Experience = () => {
 
   const openLightbox = (project: ProjectData, startIndex = 0) => {
     setLightboxImages(project.images);
+    setLightboxCaptions(project.captions);
     setLightboxIndex(startIndex);
     setLightboxTitle(t(`project.${project.id}.title`));
     setLightboxDescription(t(`project.${project.id}.description`) !== `project.${project.id}.description` ? t(`project.${project.id}.description`) : undefined);
@@ -290,6 +294,7 @@ const Experience = () => {
     <section id="progetti" className="py-20 md:py-28 border-t border-border">
       <Lightbox
         images={lightboxImages}
+        captions={lightboxCaptions}
         currentIndex={lightboxIndex}
         isOpen={lightboxOpen}
         onClose={closeLightbox}
