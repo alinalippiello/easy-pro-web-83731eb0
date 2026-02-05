@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Maximize, Minimize, Grid, X
 
 interface LightboxProps {
   images: string[];
+  captions?: string[];
   currentIndex: number;
   isOpen: boolean;
   onClose: () => void;
@@ -15,7 +16,7 @@ interface LightboxProps {
   onIndexChange?: (index: number) => void;
 }
 
-const Lightbox = ({ images, currentIndex, isOpen, onClose, onPrev, onNext, title, description, author, collaborators, onIndexChange }: LightboxProps) => {
+const Lightbox = ({ images, captions, currentIndex, isOpen, onClose, onPrev, onNext, title, description, author, collaborators, onIndexChange }: LightboxProps) => {
   const [isZoomed, setIsZoomed] = useState(false);
   const [zoomLevel, setZoomLevel] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -395,20 +396,27 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onPrev, onNext, title
             </>
           )}
 
-          <img
-            src={images[currentIndex]}
-            alt={`${title || 'Immagine'} ${currentIndex + 1}`}
-            loading="lazy"
-            decoding="async"
-            draggable="false"
-            onContextMenu={(e) => e.preventDefault()}
-            onClick={toggleZoom}
-            style={{
-              transform: `scale(${zoomLevel}) translate(${position.x / zoomLevel}px, ${position.y / zoomLevel}px)`,
-              transition: isDragging ? 'none' : 'transform 0.3s ease-out'
-            }}
-            className="max-w-4xl w-full max-h-[65vh] object-contain select-none pointer-events-auto"
-          />
+          <div className="flex flex-col items-center">
+            <img
+              src={images[currentIndex]}
+              alt={`${title || 'Immagine'} ${currentIndex + 1}`}
+              loading="lazy"
+              decoding="async"
+              draggable="false"
+              onContextMenu={(e) => e.preventDefault()}
+              onClick={toggleZoom}
+              style={{
+                transform: `scale(${zoomLevel}) translate(${position.x / zoomLevel}px, ${position.y / zoomLevel}px)`,
+                transition: isDragging ? 'none' : 'transform 0.3s ease-out'
+              }}
+              className="max-w-4xl w-full max-h-[65vh] object-contain select-none pointer-events-auto"
+            />
+            {captions && captions[currentIndex] && (
+              <p className="mt-3 font-body text-sm text-muted-foreground text-center">
+                {captions[currentIndex]}
+              </p>
+            )}
+          </div>
         </div>
 
         {/* Thumbnail strip */}
