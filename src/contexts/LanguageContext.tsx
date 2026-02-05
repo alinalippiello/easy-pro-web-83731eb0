@@ -78,8 +78,13 @@ L'intervento si sviluppa su una struttura autonoma. I muri esistenti fungono da 
     'project.europan11.title': 'Europan 11 - Floating Blocks',
     'project.europan11.location': 'Leeuwarden, Paesi Bassi',
     
-    'project.aluartforum.title': 'Aluartforum',
-    'project.aluartforum.location': 'Croazia',
+    'project.ilica.title': 'Centro Culturale e Galleria Ilica',
+    'project.ilica.location': 'Zagabria, Croazia',
+    'project.ilica.description': `Il progetto per il nuovo centro culturale e galleria in via Ilica si inserisce nel tessuto urbano storico di Zagabria, proponendo un intervento contemporaneo che dialoga con il contesto esistente.
+
+L'edificio si sviluppa su più livelli, con spazi espositivi flessibili e ambienti dedicati alle attività culturali. La pianta terra si apre verso il parco retrostante, creando una continuità tra spazio pubblico interno ed esterno.
+
+Le planimetrie mostrano una chiara organizzazione funzionale: i livelli interrati ospitano depositi e servizi tecnici, mentre i piani superiori sono dedicati agli spazi espositivi e agli uffici amministrativi.`,
     
     'project.expo.title': 'Architetture di Servizio Expo',
     'project.expo.location': 'Milano, Italia',
@@ -198,8 +203,13 @@ The intervention is developed on an autonomous structure. The existing walls act
     'project.europan11.title': 'Europan 11 - Floating Blocks',
     'project.europan11.location': 'Leeuwarden, Netherlands',
     
-    'project.aluartforum.title': 'Aluartforum',
-    'project.aluartforum.location': 'Croatia',
+    'project.ilica.title': 'Cultural Center and Ilica Gallery',
+    'project.ilica.location': 'Zagreb, Croatia',
+    'project.ilica.description': `The project for the new cultural center and gallery on Ilica Street fits into the historic urban fabric of Zagreb, proposing a contemporary intervention that dialogues with the existing context.
+
+The building develops on multiple levels, with flexible exhibition spaces and environments dedicated to cultural activities. The ground floor opens towards the rear park, creating continuity between internal and external public space.
+
+The floor plans show a clear functional organization: the basement levels house storage and technical services, while the upper floors are dedicated to exhibition spaces and administrative offices.`,
     
     'project.expo.title': 'Expo Service Architectures',
     'project.expo.location': 'Milan, Italy',
@@ -318,8 +328,13 @@ La intervención se desarrolla sobre una estructura autónoma. Los muros existen
     'project.europan11.title': 'Europan 11 - Floating Blocks',
     'project.europan11.location': 'Leeuwarden, Países Bajos',
     
-    'project.aluartforum.title': 'Aluartforum',
-    'project.aluartforum.location': 'Croacia',
+    'project.ilica.title': 'Centro Cultural y Galería Ilica',
+    'project.ilica.location': 'Zagreb, Croacia',
+    'project.ilica.description': `El proyecto para el nuevo centro cultural y galería en la calle Ilica se inserta en el tejido urbano histórico de Zagreb, proponiendo una intervención contemporánea que dialoga con el contexto existente.
+
+El edificio se desarrolla en varios niveles, con espacios expositivos flexibles y ambientes dedicados a las actividades culturales. La planta baja se abre hacia el parque trasero, creando una continuidad entre el espacio público interior y exterior.
+
+Las plantas muestran una clara organización funcional: los niveles subterráneos albergan depósitos y servicios técnicos, mientras que los pisos superiores están dedicados a los espacios expositivos y oficinas administrativas.`,
     
     'project.expo.title': 'Arquitecturas de Servicio Expo',
     'project.expo.location': 'Milán, Italia',

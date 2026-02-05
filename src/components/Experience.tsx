@@ -64,7 +64,16 @@ import shinkenchiku1 from "@/assets/portfolio/shinkenchiku-1.jpg";
 import europan11 from "@/assets/portfolio/europan11-1.jpg";
 import europan16Cover from "@/assets/portfolio/europan16-cover.jpg";
 import wernigerodeModels from "@/assets/profile-models.png";
-import aluartforum1 from "@/assets/portfolio/aluartforum-1.jpg";
+import ilicaMasterplan from "@/assets/portfolio/ilica-masterplan.jpg";
+import ilicaCoperture from "@/assets/portfolio/ilica-coperture.jpg";
+import ilicaP2 from "@/assets/portfolio/ilica-p-2.jpg";
+import ilicaP1 from "@/assets/portfolio/ilica-p-1.jpg";
+import ilicaPianoTerra from "@/assets/portfolio/ilica-piano-terra.jpg";
+import ilicaP12 from "@/assets/portfolio/ilica-p1-2.jpg";
+import ilicaPiano2 from "@/assets/portfolio/ilica-piano-2.jpg";
+import ilicaPiano3 from "@/assets/portfolio/ilica-piano-3.jpg";
+import ilicaPiano22 from "@/assets/portfolio/ilica-piano-2-2.jpg";
+import ilicaPiano32 from "@/assets/portfolio/ilica-piano-3-2.jpg";
 import expo1 from "@/assets/portfolio/expo-1.jpg";
 import split1 from "@/assets/portfolio/split-1.jpg";
 import split2 from "@/assets/portfolio/split-2.jpg";
@@ -195,11 +204,12 @@ Concorso: Europan 16, Wernigerode, Germania, 2021`,
     thumbnail: europan11,
   },
   {
-    id: 'aluartforum',
+    id: 'ilica',
     yearKey: 'experience.competition',
     year: "Concorso",
-    images: [aluartforum1],
-    thumbnail: aluartforum1,
+    author: "Alina Lippiello",
+    images: [ilicaCoperture, ilicaMasterplan, ilicaPianoTerra, ilicaP1, ilicaP2, ilicaP12, ilicaPiano2, ilicaPiano22, ilicaPiano3, ilicaPiano32],
+    thumbnail: ilicaCoperture,
   },
   {
     id: 'expo',
