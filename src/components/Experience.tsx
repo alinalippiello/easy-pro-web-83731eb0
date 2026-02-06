@@ -73,7 +73,7 @@ import ilicaP12 from "@/assets/portfolio/ilica-p1-2.jpg";
 import ilicaPiano2 from "@/assets/portfolio/ilica-piano-2.jpg";
 import ilicaPiano3 from "@/assets/portfolio/ilica-piano-3.jpg";
 import ilicaPiano22 from "@/assets/portfolio/ilica-piano-2-2.jpg";
-import ilicaPiano32 from "@/assets/portfolio/ilica-piano-3-2.jpg";
+
 import expo1 from "@/assets/portfolio/expo-1.jpg";
 import split1 from "@/assets/portfolio/split-1.jpg";
 import split2 from "@/assets/portfolio/split-2.jpg";
@@ -209,8 +209,8 @@ Concorso: Europan 16, Wernigerode, Germania, 2021`,
     yearKey: 'experience.competition',
     year: "Concorso",
     author: "Alina Lippiello",
-    images: [ilicaCoperture, ilicaMasterplan, ilicaPianoTerra, ilicaP1, ilicaP2, ilicaP12, ilicaPiano2, ilicaPiano22, ilicaPiano3, ilicaPiano32],
-    captions: ['Coperture 1:500', 'Masterplan 1:500', 'Piano terra', 'Piano -1', 'Piano -2', 'Piano 1', 'Piano 2', 'Piano 2 (var.)', 'Piano 3', 'Piano 3 (var.)'],
+    images: [ilicaMasterplan, ilicaCoperture, ilicaP2, ilicaPianoTerra, ilicaP1, ilicaP12, ilicaPiano2, ilicaPiano3, ilicaPiano22],
+    captions: ['Masterplan 1:500', 'Masterplan 1:500 con piani terra', 'Coperture 1:500', 'Piano terra', 'Piano -1', 'Piano -2', 'Piano 1', 'Piano 2', 'Piano 3'],
     thumbnail: ilicaCoperture,
   },
   {
