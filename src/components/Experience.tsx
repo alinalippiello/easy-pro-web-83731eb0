@@ -42,6 +42,16 @@ import wernigerodeLandscape from "@/assets/portfolio/wernigerode-landscape.jpg";
 import wernigerodeEnergy from "@/assets/portfolio/wernigerode-energy.jpg";
 import wernigerodeTypology3 from "@/assets/portfolio/wernigerode-typology-3.jpg";
 import wernigerodeCourtyard from "@/assets/portfolio/wernigerode-courtyard.jpg";
+import wernigerodeEgPlan from "@/assets/portfolio/wernigerode-eg-plan.jpg";
+import wernigerodeLageplan from "@/assets/portfolio/wernigerode-lageplan.jpg";
+import wernigerodeAPiante from "@/assets/portfolio/wernigerode-a-piante.jpg";
+import wernigerodeAProspetti from "@/assets/portfolio/wernigerode-a-prospetti.jpg";
+import wernigerodeBPiante from "@/assets/portfolio/wernigerode-b-piante.jpg";
+import wernigerodeBProspetti from "@/assets/portfolio/wernigerode-b-prospetti.jpg";
+import wernigerodeC1Piante from "@/assets/portfolio/wernigerode-c1-piante.jpg";
+import wernigerodeC1Prospetti from "@/assets/portfolio/wernigerode-c1-prospetti.jpg";
+import wernigerodeC2Piante from "@/assets/portfolio/wernigerode-c2-piante.jpg";
+import wernigerodeC2Prospetti from "@/assets/portfolio/wernigerode-c2-prospetti.jpg";
 import wernigerodeDraftNorth1 from "@/assets/portfolio/wernigerode-draft-north1.jpg";
 import wernigerodeDraftNorth2 from "@/assets/portfolio/wernigerode-draft-north2.jpg";
 import wernigerodeDraftNorth3 from "@/assets/portfolio/wernigerode-draft-north3.jpg";
@@ -158,7 +168,7 @@ Collaborators: Ereza Bokshi, Erica Boncaldo, Lorenzo Bucciarelli, Tarek Diebäck
 Renders: Be Maarch
 
 Concorso: Europan 16, Wernigerode, Germania, 2021`,
-    images: [wernigerodeAerial2, wernigerodeRender],
+    images: [wernigerodeAerial2, wernigerodeRender, wernigerodeEgPlan, wernigerodeLageplan, wernigerodeAPiante, wernigerodeAProspetti, wernigerodeBPiante, wernigerodeBProspetti, wernigerodeC1Piante, wernigerodeC1Prospetti, wernigerodeC2Piante, wernigerodeC2Prospetti],
     thumbnail: wernigerodeAerial2,
   },
   {
