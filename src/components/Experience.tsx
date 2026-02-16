@@ -52,6 +52,10 @@ import wernigerodeC1Piante from "@/assets/portfolio/wernigerode-c1-piante.jpg";
 import wernigerodeC1Prospetti from "@/assets/portfolio/wernigerode-c1-prospetti.jpg";
 import wernigerodeC2Piante from "@/assets/portfolio/wernigerode-c2-piante.jpg";
 import wernigerodeC2Prospetti from "@/assets/portfolio/wernigerode-c2-prospetti.jpg";
+import wernigerodeDPiante from "@/assets/portfolio/wernigerode-d-piante.jpg";
+import wernigerodeDProspetti from "@/assets/portfolio/wernigerode-d-prospetti.jpg";
+import wernigerodeEPiante from "@/assets/portfolio/wernigerode-e-piante.jpg";
+import wernigerodeEProspetti from "@/assets/portfolio/wernigerode-e-prospetti.jpg";
 import wernigerodeDraftNorth1 from "@/assets/portfolio/wernigerode-draft-north1.jpg";
 import wernigerodeDraftNorth2 from "@/assets/portfolio/wernigerode-draft-north2.jpg";
 import wernigerodeDraftNorth3 from "@/assets/portfolio/wernigerode-draft-north3.jpg";
@@ -168,7 +172,7 @@ Collaborators: Ereza Bokshi, Erica Boncaldo, Lorenzo Bucciarelli, Tarek Diebäck
 Renders: Be Maarch
 
 Concorso: Europan 16, Wernigerode, Germania, 2021`,
-    images: [wernigerodeAerial2, wernigerodeRender, wernigerodeEgPlan, wernigerodeLageplan, wernigerodeAPiante, wernigerodeAProspetti, wernigerodeBPiante, wernigerodeBProspetti, wernigerodeC1Piante, wernigerodeC1Prospetti, wernigerodeC2Piante, wernigerodeC2Prospetti],
+    images: [wernigerodeAerial2, wernigerodeRender, wernigerodeEgPlan, wernigerodeLageplan, wernigerodeAPiante, wernigerodeAProspetti, wernigerodeBPiante, wernigerodeBProspetti, wernigerodeC1Piante, wernigerodeC1Prospetti, wernigerodeC2Piante, wernigerodeC2Prospetti, wernigerodeDPiante, wernigerodeDProspetti, wernigerodeEPiante, wernigerodeEProspetti],
     thumbnail: wernigerodeAerial2,
   },
   {
