@@ -1,8 +1,42 @@
+import { useState } from 'react';
+import Lightbox from './Lightbox';
+
+import origine1 from "@/assets/portfolio/origine-1.jpg";
+import origine2 from "@/assets/portfolio/origine-2.jpg";
+import origine3 from "@/assets/portfolio/origine-3.jpg";
+import origine4 from "@/assets/portfolio/origine-4.png";
+import origine5 from "@/assets/portfolio/origine-5.png";
+
+const images = [
+  { src: origine1, label: "Schizzo prospettico" },
+  { src: origine2, label: "Studio chiaroscurale" },
+  { src: origine3, label: "Disegno planimetrico" },
+  { src: origine4, label: "Modello — vista frontale" },
+  { src: origine5, label: "Modello — vista prospettica" },
+];
+
 const Origine = () => {
-  const placeholders = Array.from({ length: 6 }, (_, i) => i);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+
+  const openLightbox = (index: number) => {
+    setLightboxIndex(index);
+    setLightboxOpen(true);
+  };
 
   return (
     <section id="origine" className="py-20 md:py-28 border-t border-border">
+      <Lightbox
+        images={images.map(i => i.src)}
+        captions={images.map(i => i.label)}
+        currentIndex={lightboxIndex}
+        isOpen={lightboxOpen}
+        onClose={() => setLightboxOpen(false)}
+        onPrev={() => setLightboxIndex((p) => (p === 0 ? images.length - 1 : p - 1))}
+        onNext={() => setLightboxIndex((p) => (p === images.length - 1 ? 0 : p + 1))}
+        title="Origine"
+        onIndexChange={setLightboxIndex}
+      />
       <div className="container">
         <div className="max-w-5xl mx-auto">
           {/* Header */}
@@ -15,27 +49,23 @@ const Origine = () => {
             </p>
           </div>
 
-          {/* Grid di immagini segnaposto */}
+          {/* Grid di immagini */}
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-            {placeholders.map((i) => (
+            {images.map((img, i) => (
               <div
                 key={i}
-                className="aspect-[4/3] rounded-sm bg-muted/40 border border-border/50 flex items-center justify-center group hover:bg-muted/60 transition-colors duration-300"
+                className="aspect-[4/3] overflow-hidden rounded-sm cursor-pointer group"
+                onClick={() => openLightbox(i)}
               >
-                <div className="text-center px-4">
-                  <svg
-                    className="w-8 h-8 mx-auto mb-2 text-muted-foreground/30"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={1}
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" />
-                  </svg>
-                  <p className="font-body text-[10px] tracking-wider uppercase text-muted-foreground/40">
-                    {['Schizzo', 'Modello', 'Disegno', 'Studio', 'Piega', 'Innesto'][i]}
-                  </p>
-                </div>
+                <img
+                  src={img.src}
+                  alt={img.label}
+                  loading="lazy"
+                  decoding="async"
+                  draggable="false"
+                  onContextMenu={(e) => e.preventDefault()}
+                  className="w-full h-full object-contain transition-all duration-500 group-hover:scale-105 select-none pointer-events-none"
+                />
               </div>
             ))}
           </div>
