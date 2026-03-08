@@ -18,7 +18,7 @@ const IndexContent = () => {
       <Header />
       <Hero />
       <Profile />
-      <Origine />
+      <Strati />
       <Experience />
       <Publications />
       <Contact />
