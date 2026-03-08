@@ -144,7 +144,7 @@ const Strati = () => {
           </div>
 
           {/* Mosaic Grid — compact tiles, 4 cols */}
-          <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[120px] md:auto-rows-[150px] gap-1.5 md:gap-2">
+          <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-6 auto-rows-[80px] md:auto-rows-[100px] gap-1 md:gap-1.5">
             {tiles.map((tile) => (
               <motion.div
                 key={tile.id}
