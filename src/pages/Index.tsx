@@ -3,7 +3,7 @@ import { useSEO } from "@/hooks/useSEO";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Profile from "@/components/Profile";
-import Origine from "@/components/Origine";
+import Strati from "@/components/Strati";
 import Experience from "@/components/Experience";
 import Publications from "@/components/Publications";
 import Contact from "@/components/Contact";
@@ -18,7 +18,7 @@ const IndexContent = () => {
       <Header />
       <Hero />
       <Profile />
-      <Origine />
+      <Strati />
       <Experience />
       <Publications />
       <Contact />
