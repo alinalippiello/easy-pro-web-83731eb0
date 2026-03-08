@@ -7,6 +7,9 @@ import origine2 from "@/assets/portfolio/origine-2.jpg";
 import origine3 from "@/assets/portfolio/origine-3.jpg";
 import origine4 from "@/assets/portfolio/origine-4.png";
 import origine5 from "@/assets/portfolio/origine-5.png";
+import stratiModel1 from "@/assets/portfolio/strati-model-1.jpg";
+import stratiRender1 from "@/assets/portfolio/strati-render-1.jpg";
+import stratiAerial1 from "@/assets/portfolio/strati-aerial-1.jpg";
 
 interface MosaicTile {
   id: string;
@@ -15,7 +18,6 @@ interface MosaicTile {
   concept: string;
   images: string[];
   captions: string[];
-  /** CSS grid span: colSpan x rowSpan */
   colSpan: number;
   rowSpan: number;
 }
@@ -29,7 +31,7 @@ const tiles: MosaicTile[] = [
     images: [origine1, origine4],
     captions: ['Schizzo prospettico', 'Modello — vista frontale'],
     colSpan: 2,
-    rowSpan: 2,
+    rowSpan: 1,
   },
   {
     id: 'chiaroscuro',
@@ -38,6 +40,16 @@ const tiles: MosaicTile[] = [
     concept: 'La luce come materiale progettuale — ombra e struttura definiscono lo spazio.',
     images: [origine2],
     captions: ['Studio chiaroscurale'],
+    colSpan: 1,
+    rowSpan: 1,
+  },
+  {
+    id: 'quartiere',
+    cover: stratiModel1,
+    label: 'Quartiere',
+    concept: 'Il modello urbano come strumento di verifica — scala, densità e verde si misurano con le mani.',
+    images: [stratiModel1],
+    captions: ['Modello urbano — vista aerea'],
     colSpan: 1,
     rowSpan: 1,
   },
@@ -52,23 +64,43 @@ const tiles: MosaicTile[] = [
     rowSpan: 1,
   },
   {
-    id: 'modello-frontale',
+    id: 'waterfront',
+    cover: stratiRender1,
+    label: 'Waterfront',
+    concept: 'Architettura e infrastruttura come estensione della città verso l\'acqua.',
+    images: [stratiRender1],
+    captions: ['Render aereo — waterfront'],
+    colSpan: 1,
+    rowSpan: 1,
+  },
+  {
+    id: 'materia',
     cover: origine4,
     label: 'Materia',
     concept: 'Il modello come strumento di pensiero — la forma nasce dalle mani.',
     images: [origine4, origine5, origine1],
     captions: ['Modello — vista frontale', 'Modello — vista prospettica', 'Schizzo prospettico'],
     colSpan: 1,
-    rowSpan: 2,
+    rowSpan: 1,
   },
   {
-    id: 'modello-prospettico',
+    id: 'tessuto',
+    cover: stratiAerial1,
+    label: 'Tessuto',
+    concept: 'Leggere la città esistente per innestare il nuovo — continuità e rottura controllata.',
+    images: [stratiAerial1],
+    captions: ['Vista aerea — intervento urbano'],
+    colSpan: 2,
+    rowSpan: 1,
+  },
+  {
+    id: 'continuita',
     cover: origine5,
     label: 'Continuità',
     concept: 'Costruito e territorio come un unico organismo in trasformazione.',
     images: [origine5, origine3, origine2],
     captions: ['Modello — vista prospettica', 'Disegno planimetrico', 'Studio chiaroscurale'],
-    colSpan: 2,
+    colSpan: 1,
     rowSpan: 1,
   },
 ];
@@ -111,8 +143,8 @@ const Strati = () => {
             </p>
           </div>
 
-          {/* Mosaic Grid */}
-          <div className="grid grid-cols-3 md:grid-cols-4 auto-rows-[140px] md:auto-rows-[180px] gap-2 md:gap-3">
+          {/* Mosaic Grid — compact tiles, 4 cols */}
+          <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[120px] md:auto-rows-[150px] gap-1.5 md:gap-2">
             {tiles.map((tile) => (
               <motion.div
                 key={tile.id}
@@ -122,7 +154,7 @@ const Strati = () => {
                   gridRow: `span ${tile.rowSpan}`,
                 }}
                 onClick={() => openTile(tile)}
-                whileHover={{ scale: 1.02 }}
+                whileHover={{ scale: 1.015 }}
                 transition={{ duration: 0.3, ease: 'easeOut' }}
               >
                 <img
@@ -132,11 +164,11 @@ const Strati = () => {
                   decoding="async"
                   draggable="false"
                   onContextMenu={(e) => e.preventDefault()}
-                  className="w-full h-full object-cover select-none pointer-events-none transition-transform duration-700 group-hover:scale-110"
+                  className="w-full h-full object-cover select-none pointer-events-none transition-transform duration-700 group-hover:scale-105"
                 />
                 {/* Overlay on hover */}
-                <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/40 transition-all duration-500 flex items-end p-4">
-                  <span className="font-body text-xs tracking-[0.2em] uppercase text-background opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/40 transition-all duration-500 flex items-end p-3">
+                  <span className="font-body text-[10px] md:text-xs tracking-[0.2em] uppercase text-background opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                     {tile.label}
                   </span>
                 </div>
@@ -158,11 +190,9 @@ const Strati = () => {
           >
             {/* Top bar */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-border">
-              <div>
-                <p className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground">
-                  {expandedTile.label}
-                </p>
-              </div>
+              <p className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground">
+                {expandedTile.label}
+              </p>
               <button
                 onClick={closeTile}
                 className="p-2 text-muted-foreground hover:text-foreground transition-smooth"
