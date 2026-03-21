@@ -11,6 +11,8 @@ import origine5 from "@/assets/portfolio/origine-5.png";
 import stratiModel1 from "@/assets/portfolio/strati-model-1.jpg";
 import stratiRender1 from "@/assets/portfolio/strati-render-1.jpg";
 import stratiAerial1 from "@/assets/portfolio/strati-aerial-1.jpg";
+import stratiAerial2 from "@/assets/portfolio/strati-aerial-2.png";
+import stratiRender2 from "@/assets/portfolio/strati-render-2.png";
 
 interface MosaicTile {
   id: string;
@@ -91,18 +93,38 @@ const tiles: MosaicTile[] = [
     conceptKey: 'strati.tessuto.concept',
     images: [stratiAerial1],
     captions: ['Vista aerea — intervento urbano'],
-    colSpan: 2,
-    rowSpan: 1,
-  },
-  {
-    id: 'continuita',
-    cover: origine5,
-    labelKey: 'strati.continuita.label',
-    conceptKey: 'strati.continuita.concept',
-    images: [origine5, origine3, origine2],
-    captions: ['Modello — vista prospettica', 'Disegno planimetrico', 'Studio chiaroscurale'],
-    colSpan: 1,
-    rowSpan: 1,
+     colSpan: 2,
+     rowSpan: 1,
+   },
+   {
+     id: 'continuita',
+     cover: origine5,
+     labelKey: 'strati.continuita.label',
+     conceptKey: 'strati.continuita.concept',
+     images: [origine5, origine3, origine2],
+     captions: ['Modello — vista prospettica', 'Disegno planimetrico', 'Studio chiaroscurale'],
+     colSpan: 1,
+     rowSpan: 1,
+   },
+   {
+     id: 'porto',
+     cover: stratiAerial2,
+     labelKey: 'strati.porto.label',
+     conceptKey: 'strati.porto.concept',
+     images: [stratiAerial2],
+     captions: ['Vista aerea — waterfront urbano'],
+     colSpan: 2,
+     rowSpan: 1,
+   },
+   {
+     id: 'masterplan',
+     cover: stratiRender2,
+     labelKey: 'strati.masterplan.label',
+     conceptKey: 'strati.masterplan.concept',
+     images: [stratiRender2],
+     captions: ['Render aereo — masterplan urbano'],
+     colSpan: 1,
+     rowSpan: 1,
   },
 ];
 
