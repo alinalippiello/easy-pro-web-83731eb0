@@ -13,6 +13,13 @@ import stratiRender1 from "@/assets/portfolio/strati-render-1.jpg";
 import stratiAerial1 from "@/assets/portfolio/strati-aerial-1.jpg";
 import stratiAerial2 from "@/assets/portfolio/strati-aerial-2.png";
 import stratiRender2 from "@/assets/portfolio/strati-render-2.png";
+import stratiSketch1 from "@/assets/portfolio/strati-sketch-1.png";
+import stratiUrban1 from "@/assets/portfolio/strati-urban-1.png";
+import stratiSketch2 from "@/assets/portfolio/strati-sketch-2.png";
+import stratiRender3 from "@/assets/portfolio/strati-render-3.png";
+import stratiTopo1 from "@/assets/portfolio/strati-topo-1.png";
+import stratiTopo2 from "@/assets/portfolio/strati-topo-2.png";
+import stratiRender4 from "@/assets/portfolio/strati-render-4.png";
 
 interface MosaicTile {
   id: string;
@@ -106,27 +113,86 @@ const tiles: MosaicTile[] = [
      colSpan: 1,
      rowSpan: 1,
    },
-   {
-     id: 'porto',
-     cover: stratiAerial2,
-     labelKey: 'strati.porto.label',
-     conceptKey: 'strati.porto.concept',
-     images: [stratiAerial2],
-     captions: ['Vista aerea — waterfront urbano'],
-     colSpan: 2,
-     rowSpan: 1,
-   },
-   {
-     id: 'masterplan',
-     cover: stratiRender2,
-     labelKey: 'strati.masterplan.label',
-     conceptKey: 'strati.masterplan.concept',
-     images: [stratiRender2],
-     captions: ['Render aereo — masterplan urbano'],
-     colSpan: 1,
-     rowSpan: 1,
-  },
-];
+    {
+      id: 'porto',
+      cover: stratiAerial2,
+      labelKey: 'strati.porto.label',
+      conceptKey: 'strati.porto.concept',
+      images: [stratiAerial2],
+      captions: ['Vista aerea — waterfront urbano'],
+      colSpan: 2,
+      rowSpan: 1,
+    },
+    {
+      id: 'masterplan',
+      cover: stratiRender2,
+      labelKey: 'strati.masterplan.label',
+      conceptKey: 'strati.masterplan.concept',
+      images: [stratiRender2],
+      captions: ['Render aereo — masterplan urbano'],
+      colSpan: 1,
+      rowSpan: 1,
+    },
+    {
+      id: 'segno',
+      cover: stratiSketch1,
+      labelKey: 'strati.segno.label',
+      conceptKey: 'strati.segno.concept',
+      images: [stratiSketch1, stratiSketch2],
+      captions: ['Schizzo concettuale — struttura', 'Schizzo — prospettiva interna'],
+      colSpan: 1,
+      rowSpan: 1,
+    },
+    {
+      id: 'nodo',
+      cover: stratiUrban1,
+      labelKey: 'strati.nodo.label',
+      conceptKey: 'strati.nodo.concept',
+      images: [stratiUrban1],
+      captions: ['Modello urbano — nodo infrastrutturale'],
+      colSpan: 2,
+      rowSpan: 1,
+    },
+    {
+      id: 'soglia',
+      cover: stratiSketch2,
+      labelKey: 'strati.soglia.label',
+      conceptKey: 'strati.soglia.concept',
+      images: [stratiSketch2],
+      captions: ['Schizzo — soglia spaziale'],
+      colSpan: 1,
+      rowSpan: 1,
+    },
+    {
+      id: 'facciata',
+      cover: stratiRender3,
+      labelKey: 'strati.facciata.label',
+      conceptKey: 'strati.facciata.concept',
+      images: [stratiRender3],
+      captions: ['Render — inserimento urbano'],
+      colSpan: 2,
+      rowSpan: 1,
+    },
+    {
+      id: 'topografia',
+      cover: stratiTopo1,
+      labelKey: 'strati.topografia.label',
+      conceptKey: 'strati.topografia.concept',
+      images: [stratiTopo1, stratiTopo2],
+      captions: ['Modello topografico — legno', 'Modello topografico — cartone'],
+      colSpan: 1,
+      rowSpan: 1,
+    },
+    {
+      id: 'orizzonte',
+      cover: stratiRender4,
+      labelKey: 'strati.orizzonte.label',
+      conceptKey: 'strati.orizzonte.concept',
+      images: [stratiRender4],
+      captions: ['Render aereo — paesaggio desertico'],
+      colSpan: 2,
+      rowSpan: 1,
+    },
 
 const Strati = () => {
   const { t } = useLanguage();
