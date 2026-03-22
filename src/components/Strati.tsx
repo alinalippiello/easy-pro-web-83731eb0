@@ -193,6 +193,7 @@ const tiles: MosaicTile[] = [
       colSpan: 2,
       rowSpan: 1,
     },
+];
 
 const Strati = () => {
   const { t } = useLanguage();
