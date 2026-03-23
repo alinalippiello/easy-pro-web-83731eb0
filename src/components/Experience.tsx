@@ -75,7 +75,13 @@ import illerpark5 from "@/assets/portfolio/illerpark-5.jpg";
 import illerpark6 from "@/assets/portfolio/illerpark-6.jpg";
 import illerparkCover from "@/assets/portfolio/illerpark-cover.jpg";
 import shinkenchiku1 from "@/assets/portfolio/shinkenchiku-1.jpg";
-import europan11 from "@/assets/portfolio/europan11-1.jpg";
+import europan11Synthesis from "@/assets/portfolio/europan11-synthesis.jpg";
+import europan11Plan from "@/assets/portfolio/europan11-plan.jpg";
+import europan11Aerial from "@/assets/portfolio/europan11-aerial.jpg";
+import europan11Concept from "@/assets/portfolio/europan11-concept.jpg";
+import europan11Panoramic from "@/assets/portfolio/europan11-panoramic.jpg";
+import europan11Masterplan from "@/assets/portfolio/europan11-masterplan.jpg";
+import europan11Typologies from "@/assets/portfolio/europan11-typologies.jpg";
 import europan16Cover from "@/assets/portfolio/europan16-cover.jpg";
 import wernigerodeModels from "@/assets/profile-models.png";
 import ilicaMasterplan from "@/assets/portfolio/ilica-masterplan.jpg";
@@ -217,8 +223,11 @@ Concorso: Europan 16, Wernigerode, Germania, 2021`,
   {
     id: 'europan11',
     year: "Runner up",
-    images: [europan11],
-    thumbnail: europan11,
+    author: "Alina Lippiello",
+    collaborators: "Leonardo Zuccaro Marchi",
+    images: [europan11Synthesis, europan11Plan, europan11Aerial, europan11Concept, europan11Panoramic, europan11Masterplan, europan11Typologies],
+    captions: ['Sintesi urbana', 'Planimetria generale', 'Vista aerea', 'Schema concettuale e fasi', 'Vista panoramica', 'Masterplan', 'Tipologie abitative'],
+    thumbnail: europan11Aerial,
   },
   {
     id: 'aluartforum',
