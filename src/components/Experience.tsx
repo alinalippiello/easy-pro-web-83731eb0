@@ -82,6 +82,14 @@ import europan11Concept from "@/assets/portfolio/europan11-concept.jpg";
 import europan11Panoramic from "@/assets/portfolio/europan11-panoramic.jpg";
 import europan11Masterplan from "@/assets/portfolio/europan11-masterplan.jpg";
 import europan11Typologies from "@/assets/portfolio/europan11-typologies.jpg";
+import europan11Models from "@/assets/portfolio/europan11-models.jpg";
+import europan11Axo from "@/assets/portfolio/europan11-axo.jpg";
+import europan11Render from "@/assets/portfolio/europan11-render.jpg";
+import europan11Strip from "@/assets/portfolio/europan11-strip.jpg";
+import europan11Venice from "@/assets/portfolio/europan11-venice.jpg";
+import europan11Skyline from "@/assets/portfolio/europan11-skyline.jpg";
+import europan11Houses from "@/assets/portfolio/europan11-houses.jpg";
+import europan11Apartments from "@/assets/portfolio/europan11-apartments.jpg";
 import europan16Cover from "@/assets/portfolio/europan16-cover.jpg";
 import wernigerodeModels from "@/assets/profile-models.png";
 import ilicaMasterplan from "@/assets/portfolio/ilica-masterplan.jpg";
@@ -225,8 +233,8 @@ Concorso: Europan 16, Wernigerode, Germania, 2021`,
     year: "Runner up",
     author: "Alina Lippiello",
     collaborators: "Leonardo Zuccaro Marchi",
-    images: [europan11Synthesis, europan11Plan, europan11Aerial, europan11Concept, europan11Panoramic, europan11Masterplan, europan11Typologies],
-    captions: ['Sintesi urbana', 'Planimetria generale', 'Vista aerea', 'Schema concettuale e fasi', 'Vista panoramica', 'Masterplan', 'Tipologie abitative'],
+    images: [europan11Synthesis, europan11Plan, europan11Aerial, europan11Concept, europan11Panoramic, europan11Masterplan, europan11Typologies, europan11Models, europan11Axo, europan11Render, europan11Strip, europan11Venice, europan11Skyline, europan11Houses, europan11Apartments],
+    captions: ['Sintesi urbana', 'Planimetria generale', 'Vista aerea', 'Schema concettuale e fasi', 'Vista panoramica', 'Masterplan', 'Tipologie abitative', 'Modelli — fasi costruttive', 'Assonometria floating blocks', 'Render — waterfront', 'Strip building — piante e facciate', 'Venice system — pianta e assonometria', 'Skyline urbano', 'Case — piante e facciate', 'Appartamenti — piante, sezioni e facciate'],
     thumbnail: europan11Aerial,
   },
   {
