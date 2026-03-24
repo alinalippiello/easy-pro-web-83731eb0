@@ -168,6 +168,7 @@ interface ProjectData {
   collaborators?: string;
   images: string[];
   captions?: string[];
+  captionKeys?: string[];
   thumbnail: string;
 }
 
@@ -234,7 +235,7 @@ Concorso: Europan 16, Wernigerode, Germania, 2021`,
     author: "Alina Lippiello",
     collaborators: "Leonardo Zuccaro Marchi",
     images: [europan11Synthesis, europan11Plan, europan11Aerial, europan11Concept, europan11Skyline, europan11Panoramic, europan11Typologies, europan11Masterplan, europan11Venice, europan11Axo, europan11Models, europan11Apartments, europan11Render, europan11Strip, europan11Houses],
-    captions: ['Sintesi urbana', 'Planimetria generale', 'Vista aerea', 'Schema concettuale e fasi', '', 'Vista panoramica', '', 'Masterplan', 'Venice system — pianta e assonometria', 'Assonometria floating blocks', 'Modelli — fasi costruttive', 'Appartamenti — piante, sezioni e facciate', 'Render — waterfront', 'Strip building — piante e facciate', 'Case — piante e facciate'],
+    captionKeys: ['project.europan11.caption1', 'project.europan11.caption2', 'project.europan11.caption3', 'project.europan11.caption4', '', 'project.europan11.caption6', '', 'project.europan11.caption8', 'project.europan11.caption9', 'project.europan11.caption10', 'project.europan11.caption11', 'project.europan11.caption12', 'project.europan11.caption13', 'project.europan11.caption14', 'project.europan11.caption15'],
     thumbnail: europan11Masterplan,
   },
   {
@@ -302,7 +303,10 @@ const Experience = () => {
 
   const openLightbox = (project: ProjectData, startIndex = 0) => {
     setLightboxImages(project.images);
-    setLightboxCaptions(project.captions);
+    const resolvedCaptions = project.captionKeys
+      ? project.captionKeys.map(key => key ? t(key) : '')
+      : project.captions;
+    setLightboxCaptions(resolvedCaptions);
     setLightboxIndex(startIndex);
     setLightboxTitle(t(`project.${project.id}.title`));
     setLightboxDescription(t(`project.${project.id}.description`) !== `project.${project.id}.description` ? t(`project.${project.id}.description`) : undefined);
