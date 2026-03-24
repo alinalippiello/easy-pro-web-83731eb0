@@ -168,6 +168,7 @@ interface ProjectData {
   collaborators?: string;
   images: string[];
   captions?: string[];
+  captionKeys?: string[];
   thumbnail: string;
 }
 
@@ -302,7 +303,10 @@ const Experience = () => {
 
   const openLightbox = (project: ProjectData, startIndex = 0) => {
     setLightboxImages(project.images);
-    setLightboxCaptions(project.captions);
+    const resolvedCaptions = project.captionKeys
+      ? project.captionKeys.map(key => key ? t(key) : '')
+      : project.captions;
+    setLightboxCaptions(resolvedCaptions);
     setLightboxIndex(startIndex);
     setLightboxTitle(t(`project.${project.id}.title`));
     setLightboxDescription(t(`project.${project.id}.description`) !== `project.${project.id}.description` ? t(`project.${project.id}.description`) : undefined);
