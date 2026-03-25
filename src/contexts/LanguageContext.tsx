@@ -88,6 +88,7 @@ const translations: Record<Language, Record<string, string>> = {
     'experience.title': 'Concorsi e Progetti',
     'experience.inProgress': 'In corso',
     'experience.competition': 'Concorso',
+    'experience.mention': 'Menzione',
     'experience.international': 'Internazionale',
     
     // Projects
@@ -124,6 +125,7 @@ L'intervento si sviluppa su una struttura autonoma. I muri esistenti fungono da 
     
     'project.shinkenchiku.title': '4 Houses - Shinkenchiku',
     'project.shinkenchiku.location': 'Internazionale',
+    'project.shinkenchiku.description': 'Il progetto ha ricevuto una menzione d\'onore al concorso Shinkenchiku Residential Design Competition.',
     'project.shinkenchiku.caption1': 'Vista assonometrica del masterplan',
     'project.shinkenchiku.caption2': 'Vista prospettica della città',
     'project.shinkenchiku.caption3': 'Masterplan generale',
@@ -131,6 +133,13 @@ L'intervento si sviluppa su una struttura autonoma. I muri esistenti fungono da 
     'project.shinkenchiku.caption5': 'Tipologie abitative - 4 case',
     'project.shinkenchiku.caption6': 'Diagrammi morfologici',
     'project.shinkenchiku.caption7': 'Planimetria tipo con infrastrutture',
+    'project.shinkenchiku.caption8': 'Planimetria urbana',
+    'project.shinkenchiku.caption9': 'Piante tipologiche - I e II piano',
+    'project.shinkenchiku.caption10': 'Render - vista tra gli edifici',
+    'project.shinkenchiku.caption11': 'Modello 3D con pannelli solari e turbine',
+    'project.shinkenchiku.caption12': 'Riferimenti progettuali - Hejduk, Branzi, Le Corbusier',
+    'project.shinkenchiku.caption13': 'Riferimenti urbanistici - Gruen, Howard, Crystaller',
+    'project.shinkenchiku.caption14': 'Render del quartiere',
     
     'project.europan11.title': 'Europan 11 - Floating Blocks',
     'project.europan11.location': 'Leeuwarden, Paesi Bassi',
@@ -278,6 +287,7 @@ Il cuore del progetto è un sistema diagonale di spazi pubblici e rampe che non 
     'experience.title': 'Competitions and Projects',
     'experience.inProgress': 'In progress',
     'experience.competition': 'Competition',
+    'experience.mention': 'Honorable Mention',
     'experience.international': 'International',
     
     // Projects
@@ -314,6 +324,7 @@ The intervention is developed on an autonomous structure. The existing walls act
     
     'project.shinkenchiku.title': '4 Houses - Shinkenchiku',
     'project.shinkenchiku.location': 'International',
+    'project.shinkenchiku.description': 'The project received an honorable mention at the Shinkenchiku Residential Design Competition.',
     'project.shinkenchiku.caption1': 'Axonometric view of the masterplan',
     'project.shinkenchiku.caption2': 'Perspective view of the city',
     'project.shinkenchiku.caption3': 'General masterplan',
@@ -321,6 +332,13 @@ The intervention is developed on an autonomous structure. The existing walls act
     'project.shinkenchiku.caption5': 'Housing typologies - 4 houses',
     'project.shinkenchiku.caption6': 'Morphological diagrams',
     'project.shinkenchiku.caption7': 'Typical plan with infrastructure',
+    'project.shinkenchiku.caption8': 'Urban plan',
+    'project.shinkenchiku.caption9': 'Typological plans - 1st and 2nd floor',
+    'project.shinkenchiku.caption10': 'Render - view between buildings',
+    'project.shinkenchiku.caption11': '3D model with solar panels and turbines',
+    'project.shinkenchiku.caption12': 'Design references - Hejduk, Branzi, Le Corbusier',
+    'project.shinkenchiku.caption13': 'Urban references - Gruen, Howard, Crystaller',
+    'project.shinkenchiku.caption14': 'Neighborhood render',
     
     'project.europan11.title': 'Europan 11 - Floating Blocks',
     'project.europan11.location': 'Leeuwarden, Netherlands',
@@ -468,6 +486,7 @@ The heart of the project is a diagonal system of public spaces and ramps that no
     'experience.title': 'Concursos y Proyectos',
     'experience.inProgress': 'En curso',
     'experience.competition': 'Concurso',
+    'experience.mention': 'Mención de honor',
     'experience.international': 'Internacional',
     
     // Projects
@@ -504,6 +523,7 @@ La intervención se desarrolla sobre una estructura autónoma. Los muros existen
     
     'project.shinkenchiku.title': '4 Houses - Shinkenchiku',
     'project.shinkenchiku.location': 'Internacional',
+    'project.shinkenchiku.description': 'El proyecto recibió una mención de honor en el concurso Shinkenchiku Residential Design Competition.',
     'project.shinkenchiku.caption1': 'Vista axonométrica del masterplan',
     'project.shinkenchiku.caption2': 'Vista en perspectiva de la ciudad',
     'project.shinkenchiku.caption3': 'Masterplan general',
@@ -511,6 +531,13 @@ La intervención se desarrolla sobre una estructura autónoma. Los muros existen
     'project.shinkenchiku.caption5': 'Tipologías de vivienda - 4 casas',
     'project.shinkenchiku.caption6': 'Diagramas morfológicos',
     'project.shinkenchiku.caption7': 'Planta tipo con infraestructuras',
+    'project.shinkenchiku.caption8': 'Planta urbana',
+    'project.shinkenchiku.caption9': 'Plantas tipológicas - 1ª y 2ª planta',
+    'project.shinkenchiku.caption10': 'Render - vista entre edificios',
+    'project.shinkenchiku.caption11': 'Modelo 3D con paneles solares y turbinas',
+    'project.shinkenchiku.caption12': 'Referencias proyectuales - Hejduk, Branzi, Le Corbusier',
+    'project.shinkenchiku.caption13': 'Referencias urbanísticas - Gruen, Howard, Crystaller',
+    'project.shinkenchiku.caption14': 'Render del barrio',
     
     'project.europan11.title': 'Europan 11 - Floating Blocks',
     'project.europan11.location': 'Leeuwarden, Países Bajos',
