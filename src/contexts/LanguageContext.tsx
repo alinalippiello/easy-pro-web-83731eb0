@@ -88,6 +88,7 @@ const translations: Record<Language, Record<string, string>> = {
     'experience.title': 'Concorsi e Progetti',
     'experience.inProgress': 'In corso',
     'experience.competition': 'Concorso',
+    'experience.mention': 'Menzione',
     'experience.international': 'Internazionale',
     
     // Projects
@@ -286,6 +287,7 @@ Il cuore del progetto è un sistema diagonale di spazi pubblici e rampe che non 
     'experience.title': 'Competitions and Projects',
     'experience.inProgress': 'In progress',
     'experience.competition': 'Competition',
+    'experience.mention': 'Honorable Mention',
     'experience.international': 'International',
     
     // Projects
@@ -484,6 +486,7 @@ The heart of the project is a diagonal system of public spaces and ramps that no
     'experience.title': 'Concursos y Proyectos',
     'experience.inProgress': 'En curso',
     'experience.competition': 'Concurso',
+    'experience.mention': 'Mención de honor',
     'experience.international': 'Internacional',
     
     // Projects
