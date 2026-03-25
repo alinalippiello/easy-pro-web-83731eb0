@@ -75,6 +75,12 @@ import illerpark5 from "@/assets/portfolio/illerpark-5.jpg";
 import illerpark6 from "@/assets/portfolio/illerpark-6.jpg";
 import illerparkCover from "@/assets/portfolio/illerpark-cover.jpg";
 import shinkenchiku1 from "@/assets/portfolio/shinkenchiku-1.jpg";
+import shinkenchiku2 from "@/assets/portfolio/shinkenchiku-2.png";
+import shinkenchiku3 from "@/assets/portfolio/shinkenchiku-3.jpg";
+import shinkenchiku4 from "@/assets/portfolio/shinkenchiku-4.png";
+import shinkenchiku5 from "@/assets/portfolio/shinkenchiku-5.jpg";
+import shinkenchiku6 from "@/assets/portfolio/shinkenchiku-6.jpg";
+import shinkenchiku7 from "@/assets/portfolio/shinkenchiku-7.jpg";
 import europan11Synthesis from "@/assets/portfolio/europan11-synthesis.jpg";
 import europan11Plan from "@/assets/portfolio/europan11-plan.jpg";
 import europan11Aerial from "@/assets/portfolio/europan11-aerial.jpg";
@@ -226,7 +232,7 @@ Concorso: Europan 16, Wernigerode, Germania, 2021`,
     id: 'shinkenchiku',
     yearKey: 'experience.competition',
     year: "Concorso",
-    images: [shinkenchiku1],
+    images: [shinkenchiku1, shinkenchiku2, shinkenchiku3, shinkenchiku4, shinkenchiku5, shinkenchiku6, shinkenchiku7],
     thumbnail: shinkenchiku1,
   },
   {
