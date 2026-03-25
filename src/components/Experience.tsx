@@ -81,6 +81,13 @@ import shinkenchiku4 from "@/assets/portfolio/shinkenchiku-4.png";
 import shinkenchiku5 from "@/assets/portfolio/shinkenchiku-5.jpg";
 import shinkenchiku6 from "@/assets/portfolio/shinkenchiku-6.jpg";
 import shinkenchiku7 from "@/assets/portfolio/shinkenchiku-7.jpg";
+import shinkenchiku8 from "@/assets/portfolio/shinkenchiku-8.jpg";
+import shinkenchiku9 from "@/assets/portfolio/shinkenchiku-9.jpg";
+import shinkenchiku10 from "@/assets/portfolio/shinkenchiku-10.jpg";
+import shinkenchiku11 from "@/assets/portfolio/shinkenchiku-11.jpg";
+import shinkenchiku12 from "@/assets/portfolio/shinkenchiku-12.jpg";
+import shinkenchiku13 from "@/assets/portfolio/shinkenchiku-13.jpg";
+import shinkenchiku14 from "@/assets/portfolio/shinkenchiku-14.png";
 import europan11Synthesis from "@/assets/portfolio/europan11-synthesis.jpg";
 import europan11Plan from "@/assets/portfolio/europan11-plan.jpg";
 import europan11Aerial from "@/assets/portfolio/europan11-aerial.jpg";
@@ -232,8 +239,8 @@ Concorso: Europan 16, Wernigerode, Germania, 2021`,
     id: 'shinkenchiku',
     yearKey: 'experience.competition',
     year: "Concorso",
-    images: [shinkenchiku1, shinkenchiku2, shinkenchiku3, shinkenchiku4, shinkenchiku5, shinkenchiku6, shinkenchiku7],
-    captionKeys: ['project.shinkenchiku.caption1', 'project.shinkenchiku.caption2', 'project.shinkenchiku.caption3', 'project.shinkenchiku.caption4', 'project.shinkenchiku.caption5', 'project.shinkenchiku.caption6', 'project.shinkenchiku.caption7'],
+    images: [shinkenchiku1, shinkenchiku2, shinkenchiku3, shinkenchiku4, shinkenchiku5, shinkenchiku6, shinkenchiku7, shinkenchiku8, shinkenchiku9, shinkenchiku10, shinkenchiku11, shinkenchiku12, shinkenchiku13, shinkenchiku14],
+    captionKeys: ['project.shinkenchiku.caption1', 'project.shinkenchiku.caption2', 'project.shinkenchiku.caption3', 'project.shinkenchiku.caption4', 'project.shinkenchiku.caption5', 'project.shinkenchiku.caption6', 'project.shinkenchiku.caption7', 'project.shinkenchiku.caption8', 'project.shinkenchiku.caption9', 'project.shinkenchiku.caption10', 'project.shinkenchiku.caption11', 'project.shinkenchiku.caption12', 'project.shinkenchiku.caption13', 'project.shinkenchiku.caption14'],
     thumbnail: shinkenchiku1,
   },
   {
