@@ -124,6 +124,13 @@ L'intervento si sviluppa su una struttura autonoma. I muri esistenti fungono da 
     
     'project.shinkenchiku.title': '4 Houses - Shinkenchiku',
     'project.shinkenchiku.location': 'Internazionale',
+    'project.shinkenchiku.caption1': 'Vista assonometrica del masterplan',
+    'project.shinkenchiku.caption2': 'Vista prospettica della città',
+    'project.shinkenchiku.caption3': 'Masterplan generale',
+    'project.shinkenchiku.caption4': 'Vista aerea della densità urbana',
+    'project.shinkenchiku.caption5': 'Tipologie abitative - 4 case',
+    'project.shinkenchiku.caption6': 'Diagrammi morfologici',
+    'project.shinkenchiku.caption7': 'Planimetria tipo con infrastrutture',
     
     'project.europan11.title': 'Europan 11 - Floating Blocks',
     'project.europan11.location': 'Leeuwarden, Paesi Bassi',
@@ -307,6 +314,13 @@ The intervention is developed on an autonomous structure. The existing walls act
     
     'project.shinkenchiku.title': '4 Houses - Shinkenchiku',
     'project.shinkenchiku.location': 'International',
+    'project.shinkenchiku.caption1': 'Axonometric view of the masterplan',
+    'project.shinkenchiku.caption2': 'Perspective view of the city',
+    'project.shinkenchiku.caption3': 'General masterplan',
+    'project.shinkenchiku.caption4': 'Aerial view of urban density',
+    'project.shinkenchiku.caption5': 'Housing typologies - 4 houses',
+    'project.shinkenchiku.caption6': 'Morphological diagrams',
+    'project.shinkenchiku.caption7': 'Typical plan with infrastructure',
     
     'project.europan11.title': 'Europan 11 - Floating Blocks',
     'project.europan11.location': 'Leeuwarden, Netherlands',
@@ -490,6 +504,13 @@ La intervención se desarrolla sobre una estructura autónoma. Los muros existen
     
     'project.shinkenchiku.title': '4 Houses - Shinkenchiku',
     'project.shinkenchiku.location': 'Internacional',
+    'project.shinkenchiku.caption1': 'Vista axonométrica del masterplan',
+    'project.shinkenchiku.caption2': 'Vista en perspectiva de la ciudad',
+    'project.shinkenchiku.caption3': 'Masterplan general',
+    'project.shinkenchiku.caption4': 'Vista aérea de la densidad urbana',
+    'project.shinkenchiku.caption5': 'Tipologías de vivienda - 4 casas',
+    'project.shinkenchiku.caption6': 'Diagramas morfológicos',
+    'project.shinkenchiku.caption7': 'Planta tipo con infraestructuras',
     
     'project.europan11.title': 'Europan 11 - Floating Blocks',
     'project.europan11.location': 'Leeuwarden, Países Bajos',

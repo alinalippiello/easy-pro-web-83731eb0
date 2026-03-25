@@ -233,6 +233,7 @@ Concorso: Europan 16, Wernigerode, Germania, 2021`,
     yearKey: 'experience.competition',
     year: "Concorso",
     images: [shinkenchiku1, shinkenchiku2, shinkenchiku3, shinkenchiku4, shinkenchiku5, shinkenchiku6, shinkenchiku7],
+    captionKeys: ['project.shinkenchiku.caption1', 'project.shinkenchiku.caption2', 'project.shinkenchiku.caption3', 'project.shinkenchiku.caption4', 'project.shinkenchiku.caption5', 'project.shinkenchiku.caption6', 'project.shinkenchiku.caption7'],
     thumbnail: shinkenchiku1,
   },
   {
