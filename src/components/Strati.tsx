@@ -144,16 +144,6 @@ const tiles: MosaicTile[] = [
       rowSpan: 1,
     },
     {
-      id: 'soglia',
-      cover: stratiSketch2,
-      labelKey: 'strati.soglia.label',
-      conceptKey: 'strati.soglia.concept',
-      images: [stratiSketch2],
-      captions: ['Schizzo — soglia spaziale'],
-      colSpan: 1,
-      rowSpan: 1,
-    },
-    {
       id: 'facciata',
       cover: stratiRender3,
       labelKey: 'strati.facciata.label',
