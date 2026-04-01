@@ -124,16 +124,6 @@ const tiles: MosaicTile[] = [
       rowSpan: 1,
     },
     {
-      id: 'masterplan',
-      cover: stratiRender2,
-      labelKey: 'strati.masterplan.label',
-      conceptKey: 'strati.masterplan.concept',
-      images: [stratiRender2],
-      captions: ['Render aereo — masterplan urbano'],
-      colSpan: 1,
-      rowSpan: 1,
-    },
-    {
       id: 'segno',
       cover: stratiSketch1,
       labelKey: 'strati.segno.label',
