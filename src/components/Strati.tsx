@@ -207,13 +207,13 @@ const Strati = () => {
            {/* Mosaic Grid — horizontal scroll */}
            <div className="flex gap-1 md:gap-1.5 overflow-x-auto pb-2 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
             {tiles.map((tile) => (
-              <motion.div
-                key={tile.id}
-                className="relative overflow-hidden rounded-sm cursor-pointer group"
-                style={{
-                  gridColumn: `span ${tile.colSpan}`,
-                  gridRow: `span ${tile.rowSpan}`,
-                }}
+               <motion.div
+                 key={tile.id}
+                 className="relative overflow-hidden rounded-sm cursor-pointer group flex-shrink-0"
+                 style={{
+                   width: `${tile.colSpan * 140}px`,
+                   height: '100px',
+                 }}
                 onClick={() => openTile(tile)}
                 whileHover={{ scale: 1.015 }}
                 transition={{ duration: 0.3, ease: 'easeOut' }}
