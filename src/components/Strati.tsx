@@ -124,16 +124,6 @@ const tiles: MosaicTile[] = [
       rowSpan: 1,
     },
     {
-      id: 'masterplan',
-      cover: stratiRender2,
-      labelKey: 'strati.masterplan.label',
-      conceptKey: 'strati.masterplan.concept',
-      images: [stratiRender2],
-      captions: ['Render aereo — masterplan urbano'],
-      colSpan: 1,
-      rowSpan: 1,
-    },
-    {
       id: 'segno',
       cover: stratiSketch1,
       labelKey: 'strati.segno.label',
@@ -151,16 +141,6 @@ const tiles: MosaicTile[] = [
       images: [stratiUrban1],
       captions: ['Modello urbano — nodo infrastrutturale'],
       colSpan: 2,
-      rowSpan: 1,
-    },
-    {
-      id: 'soglia',
-      cover: stratiSketch2,
-      labelKey: 'strati.soglia.label',
-      conceptKey: 'strati.soglia.concept',
-      images: [stratiSketch2],
-      captions: ['Schizzo — soglia spaziale'],
-      colSpan: 1,
       rowSpan: 1,
     },
     {
@@ -224,26 +204,16 @@ const Strati = () => {
     <section id="strati" className="py-20 md:py-28 border-t border-border">
       <div className="container">
         <div className="max-w-6xl mx-auto">
-          {/* Header */}
-          <div className="text-center mb-16">
-            <p className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground mb-6">
-              {t('strati.title')}
-            </p>
-            <p className="font-body text-sm md:text-base text-foreground leading-relaxed max-w-3xl mx-auto italic">
-              {t('strati.subtitle')}
-            </p>
-          </div>
-
-          {/* Mosaic Grid */}
-          <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-6 auto-rows-[80px] md:auto-rows-[100px] gap-1 md:gap-1.5">
+           {/* Mosaic Grid — horizontal scroll */}
+           <div className="flex gap-1 md:gap-1.5 overflow-x-auto pb-2 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
             {tiles.map((tile) => (
-              <motion.div
-                key={tile.id}
-                className="relative overflow-hidden rounded-sm cursor-pointer group"
-                style={{
-                  gridColumn: `span ${tile.colSpan}`,
-                  gridRow: `span ${tile.rowSpan}`,
-                }}
+               <motion.div
+                 key={tile.id}
+                 className="relative overflow-hidden rounded-sm cursor-pointer group flex-shrink-0"
+                 style={{
+                   width: `${tile.colSpan * 140}px`,
+                   height: '100px',
+                 }}
                 onClick={() => openTile(tile)}
                 whileHover={{ scale: 1.015 }}
                 transition={{ duration: 0.3, ease: 'easeOut' }}
