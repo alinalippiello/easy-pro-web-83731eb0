@@ -58,31 +58,6 @@ const Profile = () => {
             </p>
           </div>
 
-          {/* Posizionamento */}
-          <div className="mb-12">
-            <p className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground mb-6">
-              {t('profile.positioning.title')}
-            </p>
-            <p className="font-body text-sm md:text-base text-foreground leading-relaxed italic mb-4">
-              {t('profile.positioning.quote1')}
-            </p>
-            <p className="font-body text-sm md:text-base text-foreground leading-relaxed italic mb-4">
-              {t('profile.positioning.quote2')}
-            </p>
-            <p className="font-body text-sm md:text-base text-foreground leading-relaxed">
-              {t('profile.positioning.text')}
-            </p>
-          </div>
-
-          {/* Invito */}
-          <div className="pt-8 border-t border-border">
-            <p className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground mb-6">
-              {t('profile.invitation.title')}
-            </p>
-            <p className="font-body text-sm md:text-base text-foreground leading-relaxed">
-              {t('profile.invitation.text')}
-            </p>
-          </div>
 
         </div>
       </div>
