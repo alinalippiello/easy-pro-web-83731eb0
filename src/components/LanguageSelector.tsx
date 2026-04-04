@@ -10,21 +10,21 @@ const LanguageSelector = () => {
   ];
 
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center gap-0">
       {languages.map((lang, index) => (
         <span key={lang.code} className="flex items-center">
           <button
             onClick={() => setLanguage(lang.code)}
-            className={`font-body text-xs tracking-widest uppercase transition-smooth ${
+            className={`font-body text-xs tracking-widest uppercase transition-smooth min-w-[28px] min-h-[36px] flex items-center justify-center ${
               language === lang.code
-                ? 'text-foreground'
+                ? 'text-foreground font-semibold'
                 : 'text-muted-foreground hover:text-foreground'
             }`}
           >
             {lang.label}
           </button>
           {index < languages.length - 1 && (
-            <span className="text-muted-foreground mx-1">/</span>
+            <span className="text-muted-foreground">/</span>
           )}
         </span>
       ))}
