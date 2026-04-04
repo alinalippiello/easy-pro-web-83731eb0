@@ -32,9 +32,9 @@ const Header = () => {
       }`}
     >
       <div className="container">
-        <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3">
+        <div className="flex items-center justify-between">
           <button
-            className="justify-self-start font-body text-sm tracking-widest uppercase hover:opacity-60 transition-smooth"
+            className="font-body text-sm tracking-widest uppercase hover:opacity-60 transition-smooth shrink-0"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -43,12 +43,12 @@ const Header = () => {
 
           <a
             href="#"
-            className="font-display text-center text-lg md:text-xl tracking-[0.3em] uppercase font-normal transition-smooth hover:opacity-60"
+            className="font-display text-center text-sm sm:text-lg md:text-xl tracking-[0.2em] sm:tracking-[0.3em] uppercase font-normal transition-smooth hover:opacity-60 whitespace-nowrap"
           >
             ALINA LIPPIELLO
           </a>
 
-          <div className="justify-self-end relative z-10">
+          <div className="shrink-0 relative z-10">
             <LanguageSelector />
           </div>
         </div>
