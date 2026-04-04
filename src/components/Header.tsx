@@ -32,27 +32,25 @@ const Header = () => {
       }`}
     >
       <div className="container">
-        {/* Top row: Menu - Logo - Language */}
-        <div className="flex items-center justify-between">
-          {/* Menu button */}
+        <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3">
           <button
-            className="font-body text-sm tracking-widest uppercase hover:opacity-60 transition-smooth"
+            className="justify-self-start font-body text-sm tracking-widest uppercase hover:opacity-60 transition-smooth"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
           >
             {isMobileMenuOpen ? t('nav.close') : t('nav.menu')}
           </button>
 
-          {/* Centered Logo */}
           <a
             href="#"
-            className="absolute left-1/2 -translate-x-1/2 font-display text-lg md:text-xl tracking-[0.3em] uppercase font-normal transition-smooth hover:opacity-60"
+            className="font-display text-center text-lg md:text-xl tracking-[0.3em] uppercase font-normal transition-smooth hover:opacity-60"
           >
             ALINA LIPPIELLO
           </a>
 
-          {/* Language Selector */}
-          <LanguageSelector />
+          <div className="justify-self-end relative z-10">
+            <LanguageSelector />
+          </div>
         </div>
       </div>
 
