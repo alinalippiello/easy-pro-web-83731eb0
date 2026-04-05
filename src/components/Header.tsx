@@ -27,28 +27,32 @@ const Header = () => {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-background py-4"
-          : "bg-background py-6"
+          ? "bg-background py-3 sm:py-4"
+          : "bg-background py-4 sm:py-6"
       }`}
     >
       <div className="container">
+        {/* Row 1: Logo centrato */}
+        <div className="flex justify-center mb-2 sm:mb-3">
+          <a
+            href="#"
+            className="font-display text-xl sm:text-2xl md:text-3xl tracking-[0.3em] sm:tracking-[0.4em] uppercase font-normal transition-smooth hover:opacity-60"
+          >
+            ALINA LIPPIELLO
+          </a>
+        </div>
+
+        {/* Row 2: Menu a sinistra, Lingue a destra */}
         <div className="flex items-center justify-between">
           <button
-            className="font-body text-sm tracking-widest uppercase hover:opacity-60 transition-smooth shrink-0"
+            className="font-body text-xs sm:text-sm tracking-widest uppercase hover:opacity-60 transition-smooth"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
           >
             {isMobileMenuOpen ? t('nav.close') : t('nav.menu')}
           </button>
 
-          <a
-            href="#"
-            className="font-display text-center text-sm sm:text-lg md:text-xl tracking-[0.2em] sm:tracking-[0.3em] uppercase font-normal transition-smooth hover:opacity-60 whitespace-nowrap"
-          >
-            ALINA LIPPIELLO
-          </a>
-
-          <div className="shrink-0 relative z-10">
+          <div className="relative z-10">
             <LanguageSelector />
           </div>
         </div>
