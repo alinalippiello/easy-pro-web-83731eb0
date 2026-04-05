@@ -160,15 +160,6 @@ import zagrebBgg16 from "@/assets/portfolio/zagreb-bgg-16.jpg";
 import zagrebBgg17 from "@/assets/portfolio/zagreb-bgg-17.jpg";
 import zagrebBgg18 from "@/assets/portfolio/zagreb-bgg-18.jpg";
 import zagrebBgg19 from "@/assets/portfolio/zagreb-bgg-19.jpg";
-import zagrebBgg20 from "@/assets/portfolio/zagreb-bgg-20.jpg";
-import zagrebBgg21 from "@/assets/portfolio/zagreb-bgg-21.jpg";
-import zagrebBgg22 from "@/assets/portfolio/zagreb-bgg-22.jpg";
-import zagrebBgg23 from "@/assets/portfolio/zagreb-bgg-23.jpg";
-import zagrebBgg24 from "@/assets/portfolio/zagreb-bgg-24.jpg";
-import zagrebBgg25 from "@/assets/portfolio/zagreb-bgg-25.jpg";
-import zagrebBgg26 from "@/assets/portfolio/zagreb-bgg-26.jpg";
-import zagrebBgg27 from "@/assets/portfolio/zagreb-bgg-27.jpg";
-import zagrebBgg28 from "@/assets/portfolio/zagreb-bgg-28.jpg";
 import zagrebBgg29 from "@/assets/portfolio/zagreb-bgg-29.jpg";
 import zagrebBgg30 from "@/assets/portfolio/zagreb-bgg-30.jpg";
 import zagrebBgg31 from "@/assets/portfolio/zagreb-bgg-31.jpg";
@@ -301,7 +292,7 @@ Concorso: Europan 16, Wernigerode, Germania, 2021`,
     year: "Concorso",
     author: "Alina Lippiello",
     collaborators: "Ivo Covic, Marco Visconti architects",
-    images: [zagrebBgg1, zagrebBgg2, zagrebBgg3, zagrebBgg4, zagrebBgg20, zagrebBgg21, zagrebBgg22, zagrebBgg23, zagrebBgg24, zagrebBgg25, zagrebBgg26, zagrebBgg27, zagrebBgg28, zagrebBgg29, zagrebBgg5, zagrebBgg6, zagrebBgg7, zagrebBgg8, zagrebBgg9, zagrebBgg10, zagrebBgg11, zagrebBgg12, zagrebBgg13, zagrebBgg14, zagrebBgg15, zagrebBgg30, zagrebBgg16, zagrebBgg17, zagrebBgg31, zagrebBgg18, zagrebBgg19],
+    images: [zagrebBgg1, zagrebBgg2, zagrebBgg3, zagrebBgg4, zagrebBgg29, zagrebBgg5, zagrebBgg6, zagrebBgg7, zagrebBgg8, zagrebBgg9, zagrebBgg10, zagrebBgg11, zagrebBgg12, zagrebBgg13, zagrebBgg14, zagrebBgg15, zagrebBgg30, zagrebBgg16, zagrebBgg17, zagrebBgg31, zagrebBgg18, zagrebBgg19],
     thumbnail: zagrebBgg1,
   },
 ];
