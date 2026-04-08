@@ -224,7 +224,7 @@ Concorso: Europan 16, Wernigerode, Germania, 2021`,
     year: "Concorso",
     author: "Alina Lippiello",
     collaborators: "Leonardo Zuccaro Marchi, Iacopo Salce",
-    images: [novecentoNew1, novecentoNew2, novecento4, novecento5, novecento6, novecento7, novecento10, novecento11],
+    images: [novecentoNew1, novecentoNew2, novecento4, novecento5, novecento6, novecento7, novecento10, novecento11, novecentoQuota009, novecentoQuota297, novecentoQuota604, novecentoQuota1097, novecentoQuota1533, novecentoQuota1965, novecentoQuota2370, novecentoQuotaNeg540],
     thumbnail: novecento5,
   },
   {
