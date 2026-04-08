@@ -18,7 +18,7 @@ interface LightboxProps {
   overlayImageIndices?: number[];
 }
 
-const Lightbox = ({ images, captions, currentIndex, isOpen, onClose, onPrev, onNext, title, description, author, collaborators, onIndexChange }: LightboxProps) => {
+const Lightbox = ({ images, captions, currentIndex, isOpen, onClose, onPrev, onNext, title, description, author, collaborators, onIndexChange, overlayImage, overlayImageIndices }: LightboxProps) => {
   const [isZoomed, setIsZoomed] = useState(false);
   const [zoomLevel, setZoomLevel] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
