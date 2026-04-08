@@ -190,6 +190,8 @@ interface ProjectData {
   captions?: string[];
   captionKeys?: string[];
   thumbnail: string;
+  overlayImage?: string;
+  overlayImageIndices?: number[];
 }
 
 const projectsData: ProjectData[] = [

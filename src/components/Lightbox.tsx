@@ -14,6 +14,8 @@ interface LightboxProps {
   author?: string;
   collaborators?: string;
   onIndexChange?: (index: number) => void;
+  overlayImage?: string;
+  overlayImageIndices?: number[];
 }
 
 const Lightbox = ({ images, captions, currentIndex, isOpen, onClose, onPrev, onNext, title, description, author, collaborators, onIndexChange }: LightboxProps) => {
