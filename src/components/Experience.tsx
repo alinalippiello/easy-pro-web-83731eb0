@@ -61,7 +61,7 @@ import wernigerodeDraftNorth2 from "@/assets/portfolio/wernigerode-draft-north2.
 import wernigerodeDraftNorth3 from "@/assets/portfolio/wernigerode-draft-north3.jpg";
 import novecento4 from "@/assets/portfolio/novecento-4.jpg";
 import novecento5 from "@/assets/portfolio/novecento-5.jpg";
-import novecento6 from "@/assets/portfolio/novecento-6.jpg";
+
 import novecento7 from "@/assets/portfolio/novecento-7.jpg";
 import novecentoNew1 from "@/assets/portfolio/novecento-new-1.jpg";
 import novecentoNew2 from "@/assets/portfolio/novecento-new-2.jpg";
@@ -75,6 +75,14 @@ import novecentoQuota1533 from "@/assets/portfolio/novecento-quota-1533.jpg";
 import novecentoQuota1965 from "@/assets/portfolio/novecento-quota-1965.jpg";
 import novecentoQuota2370 from "@/assets/portfolio/novecento-quota-2370.jpg";
 import novecentoQuotaNeg540 from "@/assets/portfolio/novecento-quota-neg540.jpg";
+import novecentoScatola from "@/assets/portfolio/novecento-scatola.jpg";
+import novecentoSezioneProspettica from "@/assets/portfolio/novecento-sezione-prospettica.jpg";
+import novecentoPercorsoEspositivo from "@/assets/portfolio/novecento-percorso-espositivo.jpg";
+import novecentoAssonometria from "@/assets/portfolio/novecento-assonometria.jpg";
+import novecentoSezioneAa from "@/assets/portfolio/novecento-sezione-aa.jpg";
+import novecentoSezioneBb from "@/assets/portfolio/novecento-sezione-bb.jpg";
+import novecentoSezioneCc from "@/assets/portfolio/novecento-sezione-cc.jpg";
+import novecentoChiaviSezioni from "@/assets/portfolio/novecento-chiavi-sezioni.jpg";
 import illerpark1 from "@/assets/portfolio/illerpark-1.jpg";
 import illerpark2 from "@/assets/portfolio/illerpark-2.jpg";
 import illerpark3 from "@/assets/portfolio/illerpark-3.jpg";
@@ -224,8 +232,8 @@ Concorso: Europan 16, Wernigerode, Germania, 2021`,
     year: "Concorso",
     author: "Alina Lippiello",
     collaborators: "Leonardo Zuccaro Marchi, Iacopo Salce",
-    images: [novecentoNew1, novecentoNew2, novecento4, novecento5, novecento6, novecento7, novecento10, novecento11, novecentoQuotaNeg540, novecentoQuota009, novecentoQuota297, novecentoQuota604, novecentoQuota1097, novecentoQuota1533, novecentoQuota1965, novecentoQuota2370],
-    captions: ['', '', '', '', '', '', '', '', 'Quota -5.40', 'Quota +0.09', 'Quota +2.97', 'Quota +6.04', 'Quota +10.97', 'Quota +15.33', 'Quota +19.65', 'Quota +23.70'],
+    images: [novecentoNew1, novecentoNew2, novecento4, novecento5, novecentoScatola, novecentoSezioneProspettica, novecentoPercorsoEspositivo, novecentoAssonometria, novecentoSezioneAa, novecentoSezioneBb, novecentoSezioneCc, novecentoChiaviSezioni, novecento7, novecento10, novecento11, novecentoQuotaNeg540, novecentoQuota009, novecentoQuota297, novecentoQuota604, novecentoQuota1097, novecentoQuota1533, novecentoQuota1965, novecentoQuota2370],
+    captions: ['', '', '', '', 'Scatola nella scatola', 'Sezione prospettica', 'Percorso espositivo', 'Assonometria', 'Sezione AA', 'Sezione BB', 'Sezione CC', 'Chiavi sezioni', '', '', '', 'Quota -5.40', 'Quota +0.09', 'Quota +2.97', 'Quota +6.04', 'Quota +10.97', 'Quota +15.33', 'Quota +19.65', 'Quota +23.70'],
     thumbnail: novecento5,
   },
   {
