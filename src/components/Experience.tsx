@@ -61,7 +61,7 @@ import wernigerodeDraftNorth2 from "@/assets/portfolio/wernigerode-draft-north2.
 import wernigerodeDraftNorth3 from "@/assets/portfolio/wernigerode-draft-north3.jpg";
 import novecento4 from "@/assets/portfolio/novecento-4.jpg";
 import novecento5 from "@/assets/portfolio/novecento-5.jpg";
-import novecento6 from "@/assets/portfolio/novecento-6.jpg";
+
 import novecento7 from "@/assets/portfolio/novecento-7.jpg";
 import novecentoNew1 from "@/assets/portfolio/novecento-new-1.jpg";
 import novecentoNew2 from "@/assets/portfolio/novecento-new-2.jpg";
