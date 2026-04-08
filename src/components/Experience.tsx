@@ -67,6 +67,14 @@ import novecentoNew1 from "@/assets/portfolio/novecento-new-1.jpg";
 import novecentoNew2 from "@/assets/portfolio/novecento-new-2.jpg";
 import novecento10 from "@/assets/portfolio/novecento-10.jpg";
 import novecento11 from "@/assets/portfolio/novecento-11.jpg";
+import novecentoQuota009 from "@/assets/portfolio/novecento-quota-009.jpg";
+import novecentoQuota297 from "@/assets/portfolio/novecento-quota-297.jpg";
+import novecentoQuota604 from "@/assets/portfolio/novecento-quota-604.jpg";
+import novecentoQuota1097 from "@/assets/portfolio/novecento-quota-1097.jpg";
+import novecentoQuota1533 from "@/assets/portfolio/novecento-quota-1533.jpg";
+import novecentoQuota1965 from "@/assets/portfolio/novecento-quota-1965.jpg";
+import novecentoQuota2370 from "@/assets/portfolio/novecento-quota-2370.jpg";
+import novecentoQuotaNeg540 from "@/assets/portfolio/novecento-quota-neg540.jpg";
 import illerpark1 from "@/assets/portfolio/illerpark-1.jpg";
 import illerpark2 from "@/assets/portfolio/illerpark-2.jpg";
 import illerpark3 from "@/assets/portfolio/illerpark-3.jpg";
@@ -216,7 +224,7 @@ Concorso: Europan 16, Wernigerode, Germania, 2021`,
     year: "Concorso",
     author: "Alina Lippiello",
     collaborators: "Leonardo Zuccaro Marchi, Iacopo Salce",
-    images: [novecentoNew1, novecentoNew2, novecento4, novecento5, novecento6, novecento7, novecento10, novecento11],
+    images: [novecentoNew1, novecentoNew2, novecento4, novecento5, novecento6, novecento7, novecento10, novecento11, novecentoQuota009, novecentoQuota297, novecentoQuota604, novecentoQuota1097, novecentoQuota1533, novecentoQuota1965, novecentoQuota2370, novecentoQuotaNeg540],
     thumbnail: novecento5,
   },
   {
