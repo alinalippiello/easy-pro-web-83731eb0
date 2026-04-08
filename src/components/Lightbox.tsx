@@ -14,9 +14,11 @@ interface LightboxProps {
   author?: string;
   collaborators?: string;
   onIndexChange?: (index: number) => void;
+  overlayImage?: string;
+  overlayImageIndices?: number[];
 }
 
-const Lightbox = ({ images, captions, currentIndex, isOpen, onClose, onPrev, onNext, title, description, author, collaborators, onIndexChange }: LightboxProps) => {
+const Lightbox = ({ images, captions, currentIndex, isOpen, onClose, onPrev, onNext, title, description, author, collaborators, onIndexChange, overlayImage, overlayImageIndices }: LightboxProps) => {
   const [isZoomed, setIsZoomed] = useState(false);
   const [zoomLevel, setZoomLevel] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -396,7 +398,7 @@ const Lightbox = ({ images, captions, currentIndex, isOpen, onClose, onPrev, onN
             </>
           )}
 
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center relative">
             <img
               src={images[currentIndex]}
               alt={`${title || 'Immagine'} ${currentIndex + 1}`}
@@ -411,6 +413,18 @@ const Lightbox = ({ images, captions, currentIndex, isOpen, onClose, onPrev, onN
               }}
               className="max-w-4xl w-full max-h-[65vh] object-contain select-none pointer-events-auto"
             />
+            {/* Overlay reference image */}
+            {overlayImage && overlayImageIndices?.includes(currentIndex) && !isZoomed && (
+              <div className="absolute bottom-2 right-2 md:bottom-4 md:right-4 z-10">
+                <img
+                  src={overlayImage}
+                  alt="Chiavi sezioni"
+                  className="w-20 h-20 md:w-28 md:h-28 object-contain bg-background/90 border border-border rounded-sm p-1 shadow-md"
+                  draggable="false"
+                  onContextMenu={(e) => e.preventDefault()}
+                />
+              </div>
+            )}
             {captions && captions[currentIndex] && (
               <p className="mt-3 font-body text-sm text-muted-foreground text-center">
                 {captions[currentIndex]}

@@ -190,6 +190,8 @@ interface ProjectData {
   captions?: string[];
   captionKeys?: string[];
   thumbnail: string;
+  overlayImage?: string;
+  overlayImageIndices?: number[];
 }
 
 const projectsData: ProjectData[] = [
@@ -232,8 +234,10 @@ Concorso: Europan 16, Wernigerode, Germania, 2021`,
     year: "Concorso",
     author: "Alina Lippiello",
     collaborators: "Leonardo Zuccaro Marchi, Iacopo Salce",
-    images: [novecentoNew1, novecentoNew2, novecento4, novecento5, novecentoScatola, novecentoSezioneProspettica, novecentoPercorsoEspositivo, novecentoAssonometria, novecentoSezioneAa, novecentoSezioneBb, novecentoSezioneCc, novecentoChiaviSezioni, novecento7, novecento10, novecento11, novecentoQuotaNeg540, novecentoQuota009, novecentoQuota297, novecentoQuota604, novecentoQuota1097, novecentoQuota1533, novecentoQuota1965, novecentoQuota2370],
-    captions: ['', '', '', '', 'Scatola nella scatola', 'Sezione prospettica', 'Percorso espositivo', 'Assonometria', 'Sezione AA', 'Sezione BB', 'Sezione CC', 'Chiavi sezioni', '', '', '', 'Quota -5.40', 'Quota +0.09', 'Quota +2.97', 'Quota +6.04', 'Quota +10.97', 'Quota +15.33', 'Quota +19.65', 'Quota +23.70'],
+    images: [novecentoNew1, novecentoNew2, novecento4, novecento5, novecentoScatola, novecentoSezioneProspettica, novecentoPercorsoEspositivo, novecentoAssonometria, novecentoSezioneAa, novecentoSezioneBb, novecentoSezioneCc, novecentoQuotaNeg540, novecentoQuota009, novecentoQuota297, novecentoQuota604, novecentoQuota1097, novecentoQuota1533, novecentoQuota1965, novecentoQuota2370],
+    captions: ['', '', '', '', 'Scatola nella scatola', 'Sezione prospettica', 'Percorso espositivo', 'Assonometria', 'Sezione AA', 'Sezione BB', 'Sezione CC', 'Quota -5.40', 'Quota +0.09', 'Quota +2.97', 'Quota +6.04', 'Quota +10.97', 'Quota +15.33', 'Quota +19.65', 'Quota +23.70'],
+    overlayImage: novecentoChiaviSezioni,
+    overlayImageIndices: [8, 9, 10],
     thumbnail: novecento5,
   },
   {
@@ -324,6 +328,8 @@ const Experience = () => {
   const [lightboxDescription, setLightboxDescription] = useState<string | undefined>();
   const [lightboxAuthor, setLightboxAuthor] = useState<string | undefined>();
   const [lightboxCollaborators, setLightboxCollaborators] = useState<string | undefined>();
+  const [lightboxOverlayImage, setLightboxOverlayImage] = useState<string | undefined>();
+  const [lightboxOverlayIndices, setLightboxOverlayIndices] = useState<number[] | undefined>();
 
   const openLightbox = (project: ProjectData, startIndex = 0) => {
     setLightboxImages(project.images);
@@ -336,6 +342,8 @@ const Experience = () => {
     setLightboxDescription(t(`project.${project.id}.description`) !== `project.${project.id}.description` ? t(`project.${project.id}.description`) : undefined);
     setLightboxAuthor(project.author);
     setLightboxCollaborators(project.collaborators);
+    setLightboxOverlayImage(project.overlayImage);
+    setLightboxOverlayIndices(project.overlayImageIndices);
     setLightboxOpen(true);
   };
 
@@ -366,6 +374,8 @@ const Experience = () => {
         author={lightboxAuthor}
         collaborators={lightboxCollaborators}
         onIndexChange={setLightboxIndex}
+        overlayImage={lightboxOverlayImage}
+        overlayImageIndices={lightboxOverlayIndices}
       />
       <div className="container">
         <div className="max-w-5xl mx-auto">
