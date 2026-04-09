@@ -426,7 +426,7 @@ const Lightbox = ({ images, captions, currentIndex, isOpen, onClose, onPrev, onN
                 <img
                   src={overlayImage}
                   alt="Chiavi sezioni"
-                  className="w-16 h-16 md:w-24 md:h-24 object-contain bg-background/90 border border-border rounded-sm p-1 shadow-md"
+                  className="w-32 h-32 md:w-48 md:h-48 object-contain"
                   draggable="false"
                   onContextMenu={(e) => e.preventDefault()}
                 />
