@@ -83,6 +83,9 @@ import novecentoSezioneAa from "@/assets/portfolio/novecento-sezione-aa.jpg";
 import novecentoSezioneBb from "@/assets/portfolio/novecento-sezione-bb.jpg";
 import novecentoSezioneCc from "@/assets/portfolio/novecento-sezione-cc.jpg";
 import novecentoChiaviSezioni from "@/assets/portfolio/novecento-chiavi-sezioni.jpg";
+import novecentoRender1 from "@/assets/portfolio/novecento-render-1.png";
+import novecentoRender2 from "@/assets/portfolio/novecento-render-2.png";
+import novecentoSchemaStrutturale from "@/assets/portfolio/novecento-schema-strutturale.jpg";
 import illerpark1 from "@/assets/portfolio/illerpark-1.jpg";
 import illerpark2 from "@/assets/portfolio/illerpark-2.jpg";
 import illerpark3 from "@/assets/portfolio/illerpark-3.jpg";
@@ -234,8 +237,8 @@ Concorso: Europan 16, Wernigerode, Germania, 2021`,
     year: "Concorso",
     author: "Alina Lippiello",
     collaborators: "Leonardo Zuccaro Marchi, Alessandra Lelli, Iacopo Salce",
-    images: [novecentoNew1, novecentoNew2, novecento4, novecento5, novecentoScatola, novecentoSezioneProspettica, novecentoPercorsoEspositivo, novecentoAssonometria, novecentoSezioneAa, novecentoSezioneBb, novecentoSezioneCc, novecentoQuotaNeg540, novecentoQuota009, novecentoQuota297, novecentoQuota604, novecentoQuota1097, novecentoQuota1533, novecentoQuota1965, novecentoQuota2370],
-    captions: ['', '', '', '', 'Scatola nella scatola', 'Sezione prospettica', 'Percorso espositivo', 'Assonometria', 'Sezione AA', 'Sezione BB', 'Sezione CC', 'Quota -5.40', 'Quota +0.09', 'Quota +2.97', 'Quota +6.04', 'Quota +10.97', 'Quota +15.33', 'Quota +19.65', 'Quota +23.70'],
+    images: [novecentoNew1, novecentoNew2, novecento4, novecento5, novecentoScatola, novecentoSezioneProspettica, novecentoPercorsoEspositivo, novecentoAssonometria, novecentoSezioneAa, novecentoSezioneBb, novecentoSezioneCc, novecentoQuotaNeg540, novecentoQuota009, novecentoQuota297, novecentoQuota604, novecentoQuota1097, novecentoQuota1533, novecentoQuota1965, novecentoQuota2370, novecentoRender1, novecentoRender2, novecentoSchemaStrutturale],
+    captions: ['', '', '', '', 'Scatola nella scatola', 'Sezione prospettica', 'Percorso espositivo', 'Assonometria', 'Sezione AA', 'Sezione BB', 'Sezione CC', 'Quota -5.40', 'Quota +0.09', 'Quota +2.97', 'Quota +6.04', 'Quota +10.97', 'Quota +15.33', 'Quota +19.65', 'Quota +23.70', 'Render interno', 'Render interno', 'Schema strutturale'],
     overlayImage: novecentoChiaviSezioni,
     overlayImageIndices: [8, 9, 10],
     thumbnail: novecento5,
