@@ -59,6 +59,10 @@ import wernigerodeEProspetti from "@/assets/portfolio/wernigerode-e-prospetti.jp
 import wernigerodeDraftNorth1 from "@/assets/portfolio/wernigerode-draft-north1.jpg";
 import wernigerodeDraftNorth2 from "@/assets/portfolio/wernigerode-draft-north2.jpg";
 import wernigerodeDraftNorth3 from "@/assets/portfolio/wernigerode-draft-north3.jpg";
+import wernigerodePlan1og from "@/assets/portfolio/wernigerode-plan-1og.jpg";
+import wernigerodePlan2og from "@/assets/portfolio/wernigerode-plan-2og.jpg";
+import wernigerodePlan3og from "@/assets/portfolio/wernigerode-plan-3og.jpg";
+import wernigerodePlan4og from "@/assets/portfolio/wernigerode-plan-4og.jpg";
 import novecento4 from "@/assets/portfolio/novecento-4.jpg";
 import novecento5 from "@/assets/portfolio/novecento-5.jpg";
 
@@ -212,8 +216,8 @@ Collaborators: Ereza Bokshi, Erica Boncaldo, Lorenzo Bucciarelli, Tarek Diebäck
 Renders: Be Maarch
 
 Concorso: Europan 16, Wernigerode, Germania, 2021`,
-    images: [wernigerodeAerial2, wernigerodeRender, wernigerodeEgPlan, wernigerodeLageplan, wernigerodeAPiante, wernigerodeAProspetti, wernigerodeBPiante, wernigerodeBProspetti, wernigerodeC1Piante, wernigerodeC1Prospetti, wernigerodeC2Piante, wernigerodeC2Prospetti, wernigerodeDPiante, wernigerodeDProspetti, wernigerodeEPiante, wernigerodeEProspetti],
-    captions: ["Vista aerea", "Render", "Planimetria generale", "Lageplan", "Haus A - Piante", "Haus A - Prospetti", "Haus B - Piante", "Haus B - Prospetti", "Haus C1 - Piante", "Haus C1 - Prospetti", "Haus C2 - Piante", "Haus C2 - Prospetti", "Haus D - Piante", "Haus D - Prospetti", "Haus E - Piante", "Haus E - Prospetti"],
+    images: [wernigerodeAerial2, wernigerodeRender, wernigerodeEgPlan, wernigerodePlan1og, wernigerodePlan2og, wernigerodePlan3og, wernigerodePlan4og, wernigerodeLageplan, wernigerodeAPiante, wernigerodeAProspetti, wernigerodeBPiante, wernigerodeBProspetti, wernigerodeC1Piante, wernigerodeC1Prospetti, wernigerodeC2Piante, wernigerodeC2Prospetti, wernigerodeDPiante, wernigerodeDProspetti, wernigerodeEPiante, wernigerodeEProspetti],
+    captions: ["Vista aerea", "Render", "Planimetria generale", "Übersichtsplan 1.OG", "Übersichtsplan 2.OG", "Übersichtsplan 3.OG", "Übersichtsplan 4.OG", "Lageplan", "Haus A - Piante", "Haus A - Prospetti", "Haus B - Piante", "Haus B - Prospetti", "Haus C1 - Piante", "Haus C1 - Prospetti", "Haus C2 - Piante", "Haus C2 - Prospetti", "Haus D - Piante", "Haus D - Prospetti", "Haus E - Piante", "Haus E - Prospetti"],
     thumbnail: wernigerodeAerial2,
   },
   {
