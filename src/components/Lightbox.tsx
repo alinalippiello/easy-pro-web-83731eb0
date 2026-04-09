@@ -398,37 +398,39 @@ const Lightbox = ({ images, captions, currentIndex, isOpen, onClose, onPrev, onN
             </>
           )}
 
-          <div className="flex flex-col items-center relative">
-            <img
-              src={images[currentIndex]}
-              alt={`${title || 'Immagine'} ${currentIndex + 1}`}
-              loading="lazy"
-              decoding="async"
-              draggable="false"
-              onContextMenu={(e) => e.preventDefault()}
-              onClick={toggleZoom}
-              style={{
-                transform: `scale(${zoomLevel}) translate(${position.x / zoomLevel}px, ${position.y / zoomLevel}px)`,
-                transition: isDragging ? 'none' : 'transform 0.3s ease-out'
-              }}
-              className="max-w-4xl w-full max-h-[65vh] object-contain select-none pointer-events-auto"
-            />
-            {/* Overlay reference image */}
+          <div className="flex items-center justify-center gap-2 md:gap-4 relative">
+            <div className="flex flex-col items-center">
+              <img
+                src={images[currentIndex]}
+                alt={`${title || 'Immagine'} ${currentIndex + 1}`}
+                loading="lazy"
+                decoding="async"
+                draggable="false"
+                onContextMenu={(e) => e.preventDefault()}
+                onClick={toggleZoom}
+                style={{
+                  transform: `scale(${zoomLevel}) translate(${position.x / zoomLevel}px, ${position.y / zoomLevel}px)`,
+                  transition: isDragging ? 'none' : 'transform 0.3s ease-out'
+                }}
+                className="max-w-4xl w-full max-h-[65vh] object-contain select-none pointer-events-auto"
+              />
+              {captions && captions[currentIndex] && (
+                <p className="mt-3 font-body text-sm text-muted-foreground text-center">
+                  {captions[currentIndex]}
+                </p>
+              )}
+            </div>
+            {/* Overlay reference image - positioned outside to the right */}
             {overlayImage && overlayImageIndices?.includes(currentIndex) && !isZoomed && (
-              <div className="absolute bottom-2 right-2 md:bottom-4 md:right-4 z-10">
+              <div className="flex-shrink-0 self-end mb-2">
                 <img
                   src={overlayImage}
                   alt="Chiavi sezioni"
-                  className="w-20 h-20 md:w-28 md:h-28 object-contain bg-background/90 border border-border rounded-sm p-1 shadow-md"
+                  className="w-16 h-16 md:w-24 md:h-24 object-contain bg-background/90 border border-border rounded-sm p-1 shadow-md"
                   draggable="false"
                   onContextMenu={(e) => e.preventDefault()}
                 />
               </div>
-            )}
-            {captions && captions[currentIndex] && (
-              <p className="mt-3 font-body text-sm text-muted-foreground text-center">
-                {captions[currentIndex]}
-              </p>
             )}
           </div>
         </div>
