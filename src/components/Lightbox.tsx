@@ -16,17 +16,33 @@ interface LightboxProps {
   onIndexChange?: (index: number) => void;
   overlayImage?: string;
   overlayImageIndices?: number[];
+  imageDisplayScales?: number[];
 }
 
-const Lightbox = ({ images, captions, currentIndex, isOpen, onClose, onPrev, onNext, title, description, author, collaborators, onIndexChange, overlayImage, overlayImageIndices }: LightboxProps) => {
+const Lightbox = ({
+  images,
+  captions,
+  currentIndex,
+  isOpen,
+  onClose,
+  onPrev,
+  onNext,
+  title,
+  description,
+  author,
+  collaborators,
+  onIndexChange,
+  overlayImage,
+  overlayImageIndices,
+  imageDisplayScales,
+}: LightboxProps) => {
   const [isZoomed, setIsZoomed] = useState(false);
   const [zoomLevel, setZoomLevel] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const imageContainerRef = useRef<HTMLDivElement>(null);
-  
-  // Touch gesture state
+
   const [initialPinchDistance, setInitialPinchDistance] = useState<number | null>(null);
   const [initialZoomLevel, setInitialZoomLevel] = useState(1);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -37,7 +53,7 @@ const Lightbox = ({ images, captions, currentIndex, isOpen, onClose, onPrev, onN
 
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (!isOpen) return;
-    
+
     switch (e.key) {
       case 'Escape':
         if (isZoomed) {
@@ -73,7 +89,6 @@ const Lightbox = ({ images, captions, currentIndex, isOpen, onClose, onPrev, onN
     };
   }, [isOpen]);
 
-  // Reset zoom and close grid when changing images
   useEffect(() => {
     setIsZoomed(false);
     setZoomLevel(1);
@@ -120,7 +135,7 @@ const Lightbox = ({ images, captions, currentIndex, isOpen, onClose, onPrev, onN
     if (isDragging && isZoomed) {
       setPosition({
         x: e.clientX - dragStart.x,
-        y: e.clientY - dragStart.y
+        y: e.clientY - dragStart.y,
       });
     }
   };
@@ -129,24 +144,21 @@ const Lightbox = ({ images, captions, currentIndex, isOpen, onClose, onPrev, onN
     setIsDragging(false);
   };
 
-  // Calculate distance between two touch points
   const getDistance = (touch1: React.Touch, touch2: React.Touch) => {
     const dx = touch1.clientX - touch2.clientX;
     const dy = touch1.clientY - touch2.clientY;
     return Math.sqrt(dx * dx + dy * dy);
   };
 
-  // Get center point between two touches
   const getTouchCenter = (touch1: React.Touch, touch2: React.Touch) => {
     return {
       x: (touch1.clientX + touch2.clientX) / 2,
-      y: (touch1.clientY + touch2.clientY) / 2
+      y: (touch1.clientY + touch2.clientY) / 2,
     };
   };
 
   const handleTouchStart = (e: React.TouchEvent) => {
     if (e.touches.length === 2) {
-      // Pinch gesture start
       e.preventDefault();
       const distance = getDistance(e.touches[0], e.touches[1]);
       setInitialPinchDistance(distance);
@@ -154,18 +166,16 @@ const Lightbox = ({ images, captions, currentIndex, isOpen, onClose, onPrev, onN
       setSwipeStart(null);
     } else if (e.touches.length === 1) {
       if (isZoomed) {
-        // Single finger pan start when zoomed
         setIsDragging(true);
         setTouchStart({
           x: e.touches[0].clientX - position.x,
-          y: e.touches[0].clientY - position.y
+          y: e.touches[0].clientY - position.y,
         });
       } else {
-        // Track swipe start for navigation
         setSwipeStart({
           x: e.touches[0].clientX,
           y: e.touches[0].clientY,
-          time: Date.now()
+          time: Date.now(),
         });
       }
     }
@@ -173,24 +183,22 @@ const Lightbox = ({ images, captions, currentIndex, isOpen, onClose, onPrev, onN
 
   const handleTouchMove = (e: React.TouchEvent) => {
     if (e.touches.length === 2 && initialPinchDistance !== null) {
-      // Pinch gesture
       e.preventDefault();
       const currentDistance = getDistance(e.touches[0], e.touches[1]);
       const scale = currentDistance / initialPinchDistance;
       const newZoom = Math.min(Math.max(initialZoomLevel * scale, 1), 4);
-      
+
       setZoomLevel(newZoom);
       setIsZoomed(newZoom > 1);
-      
+
       if (newZoom === 1) {
         setPosition({ x: 0, y: 0 });
       }
     } else if (e.touches.length === 1 && isDragging && isZoomed && touchStart) {
-      // Single finger pan when zoomed
       e.preventDefault();
       setPosition({
         x: e.touches[0].clientX - touchStart.x,
-        y: e.touches[0].clientY - touchStart.y
+        y: e.touches[0].clientY - touchStart.y,
       });
     }
   };
@@ -199,19 +207,18 @@ const Lightbox = ({ images, captions, currentIndex, isOpen, onClose, onPrev, onN
     if (e.touches.length < 2) {
       setInitialPinchDistance(null);
     }
-    
+
     if (e.touches.length === 0) {
-      // Check for horizontal swipe to navigate
       if (swipeStart && !isZoomed && images.length > 1) {
         const touch = e.changedTouches[0];
         const deltaX = touch.clientX - swipeStart.x;
         const deltaY = touch.clientY - swipeStart.y;
         const deltaTime = Date.now() - swipeStart.time;
-        
+
         const minSwipeDistance = 50;
         const maxSwipeTime = 300;
         const isHorizontalSwipe = Math.abs(deltaX) > Math.abs(deltaY) * 1.5;
-        
+
         if (isHorizontalSwipe && Math.abs(deltaX) > minSwipeDistance && deltaTime < maxSwipeTime) {
           if (deltaX > 0) {
             onPrev();
@@ -220,17 +227,16 @@ const Lightbox = ({ images, captions, currentIndex, isOpen, onClose, onPrev, onN
           }
         }
       }
-      
+
       setIsDragging(false);
       setTouchStart(null);
       setSwipeStart(null);
     }
   };
 
-  // Fullscreen functionality
   const toggleFullscreen = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    
+
     if (!document.fullscreenElement) {
       try {
         await lightboxRef.current?.requestFullscreen();
@@ -248,12 +254,11 @@ const Lightbox = ({ images, captions, currentIndex, isOpen, onClose, onPrev, onN
     }
   };
 
-  // Listen for fullscreen changes
   useEffect(() => {
     const handleFullscreenChange = () => {
       setIsFullscreen(!!document.fullscreenElement);
     };
-    
+
     document.addEventListener('fullscreenchange', handleFullscreenChange);
     return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
   }, []);
@@ -269,15 +274,16 @@ const Lightbox = ({ images, captions, currentIndex, isOpen, onClose, onPrev, onN
     setShowThumbnailGrid(false);
   };
 
+  const currentImageDisplayScale = imageDisplayScales?.[currentIndex] ?? 1;
+
   if (!isOpen) return null;
 
   return (
-    <div 
+    <div
       ref={lightboxRef}
       className="fixed inset-0 z-50 bg-background animate-fade-in overflow-auto"
       onClick={onClose}
     >
-      {/* Close button */}
       <button
         onClick={onClose}
         className="fixed top-6 right-6 font-body text-xs tracking-widest uppercase text-muted-foreground hover:text-foreground transition-smooth z-20"
@@ -286,7 +292,6 @@ const Lightbox = ({ images, captions, currentIndex, isOpen, onClose, onPrev, onN
         Chiudi
       </button>
 
-      {/* Zoom controls */}
       <div className="fixed top-6 left-6 flex gap-2 z-20">
         <button
           onClick={handleZoomOut}
@@ -312,7 +317,7 @@ const Lightbox = ({ images, captions, currentIndex, isOpen, onClose, onPrev, onN
         <button
           onClick={toggleFullscreen}
           className="p-2 rounded-full bg-background/80 backdrop-blur-sm border border-border transition-smooth hover:bg-muted"
-          aria-label={isFullscreen ? "Esci da schermo intero" : "Schermo intero"}
+          aria-label={isFullscreen ? 'Esci da schermo intero' : 'Schermo intero'}
         >
           {isFullscreen ? <Minimize className="w-4 h-4" /> : <Maximize className="w-4 h-4" />}
         </button>
@@ -320,21 +325,19 @@ const Lightbox = ({ images, captions, currentIndex, isOpen, onClose, onPrev, onN
           <button
             onClick={toggleThumbnailGrid}
             className={`p-2 rounded-full bg-background/80 backdrop-blur-sm border border-border transition-smooth hover:bg-muted ${showThumbnailGrid ? 'bg-muted' : ''}`}
-            aria-label={showThumbnailGrid ? "Chiudi griglia" : "Mostra griglia miniature"}
+            aria-label={showThumbnailGrid ? 'Chiudi griglia' : 'Mostra griglia miniature'}
           >
             {showThumbnailGrid ? <X className="w-4 h-4" /> : <Grid className="w-4 h-4" />}
           </button>
         )}
       </div>
 
-      {/* Main content - vertical layout */}
-      <div 
+      <div
         className="min-h-full flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Thumbnail Grid Overlay */}
         {showThumbnailGrid && (
-          <div 
+          <div
             className="fixed inset-0 z-30 bg-background/95 backdrop-blur-sm overflow-auto pt-16 pb-8 px-4 md:px-8"
             onClick={(e) => e.stopPropagation()}
           >
@@ -345,8 +348,8 @@ const Lightbox = ({ images, captions, currentIndex, isOpen, onClose, onPrev, onN
                     key={idx}
                     onClick={(e) => handleThumbnailClick(idx, e)}
                     className={`relative aspect-square overflow-hidden rounded-md transition-all hover:opacity-100 ${
-                      idx === currentIndex 
-                        ? 'ring-2 ring-foreground ring-offset-2 ring-offset-background opacity-100' 
+                      idx === currentIndex
+                        ? 'ring-2 ring-foreground ring-offset-2 ring-offset-background opacity-100'
                         : 'opacity-70 hover:ring-1 hover:ring-muted-foreground'
                     }`}
                     aria-label={`Vai all'immagine ${idx + 1}`}
@@ -366,8 +369,8 @@ const Lightbox = ({ images, captions, currentIndex, isOpen, onClose, onPrev, onN
             </div>
           </div>
         )}
-        {/* Image area */}
-        <div 
+
+        <div
           ref={imageContainerRef}
           className={`flex-1 flex items-center justify-center p-4 md:p-8 pt-16 relative min-h-[60vh] ${isZoomed ? 'cursor-grab' : 'cursor-zoom-in'} ${isDragging ? 'cursor-grabbing' : ''}`}
           onMouseDown={handleMouseDown}
@@ -378,7 +381,6 @@ const Lightbox = ({ images, captions, currentIndex, isOpen, onClose, onPrev, onN
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
         >
-          {/* Navigation arrows */}
           {images.length > 1 && !isZoomed && (
             <>
               <button
@@ -409,10 +411,12 @@ const Lightbox = ({ images, captions, currentIndex, isOpen, onClose, onPrev, onN
                 onContextMenu={(e) => e.preventDefault()}
                 onClick={toggleZoom}
                 style={{
+                  maxWidth: `${56 * currentImageDisplayScale}rem`,
+                  maxHeight: `${65 * currentImageDisplayScale}vh`,
                   transform: `scale(${zoomLevel}) translate(${position.x / zoomLevel}px, ${position.y / zoomLevel}px)`,
-                  transition: isDragging ? 'none' : 'transform 0.3s ease-out'
+                  transition: isDragging ? 'none' : 'transform 0.3s ease-out',
                 }}
-                className="max-w-4xl w-full max-h-[65vh] object-contain select-none pointer-events-auto"
+                className="w-full object-contain select-none pointer-events-auto"
               />
               {captions && captions[currentIndex] && (
                 <p className="mt-3 font-body text-sm text-muted-foreground text-center">
@@ -420,7 +424,6 @@ const Lightbox = ({ images, captions, currentIndex, isOpen, onClose, onPrev, onN
                 </p>
               )}
             </div>
-            {/* Overlay reference image - positioned outside to the right */}
             {overlayImage && overlayImageIndices?.includes(currentIndex) && !isZoomed && (
               <div className="flex-shrink-0 self-end mb-2">
                 <img
@@ -435,7 +438,6 @@ const Lightbox = ({ images, captions, currentIndex, isOpen, onClose, onPrev, onN
           </div>
         </div>
 
-        {/* Thumbnail strip */}
         {images.length > 1 && !isZoomed && (
           <div className="flex justify-center gap-2 py-4">
             {images.map((_, idx) => (
@@ -443,8 +445,8 @@ const Lightbox = ({ images, captions, currentIndex, isOpen, onClose, onPrev, onN
                 key={idx}
                 onClick={(e) => { e.stopPropagation(); onIndexChange?.(idx); }}
                 className={`w-1.5 h-1.5 rounded-full transition-all ${
-                  idx === currentIndex 
-                    ? 'bg-foreground w-4' 
+                  idx === currentIndex
+                    ? 'bg-foreground w-4'
                     : 'bg-muted-foreground/40 hover:bg-muted-foreground/60'
                 }`}
                 aria-label={`Vai all'immagine ${idx + 1}`}
@@ -453,11 +455,9 @@ const Lightbox = ({ images, captions, currentIndex, isOpen, onClose, onPrev, onN
           </div>
         )}
 
-        {/* Info section - horizontal below image */}
         {(title || description || author || collaborators) && !isZoomed && (
           <div className="w-full max-w-5xl mx-auto px-6 md:px-12 py-8 border-t border-border">
             <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-6 md:gap-12">
-              {/* Left column - metadata */}
               <div className="space-y-2">
                 {title && (
                   <h3 className="font-body text-base font-medium text-foreground">{title}</h3>
@@ -477,7 +477,6 @@ const Lightbox = ({ images, captions, currentIndex, isOpen, onClose, onPrev, onN
                 )}
               </div>
 
-              {/* Right column - description */}
               {description && (
                 <div>
                   <p className="font-body text-sm text-muted-foreground leading-relaxed whitespace-pre-line">
