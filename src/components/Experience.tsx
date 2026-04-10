@@ -357,7 +357,22 @@ const Experience = () => {
     setLightboxImageDisplayScales(project.imageDisplayScales);
     setLightboxOpen(true);
   };
-...
+
+  const closeLightbox = () => {
+    setLightboxOpen(false);
+    setLightboxImageDisplayScales(undefined);
+  };
+
+  const goToPrev = () => {
+    setLightboxIndex((prev) => (prev === 0 ? lightboxImages.length - 1 : prev - 1));
+  };
+
+  const goToNext = () => {
+    setLightboxIndex((prev) => (prev === lightboxImages.length - 1 ? 0 : prev + 1));
+  };
+
+  return (
+    <section id="progetti" className="py-20 md:py-28 border-t border-border">
       <Lightbox
         images={lightboxImages}
         captions={lightboxCaptions}
