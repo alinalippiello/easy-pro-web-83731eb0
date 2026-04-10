@@ -199,6 +199,7 @@ interface ProjectData {
   thumbnail: string;
   overlayImage?: string;
   overlayImageIndices?: number[];
+  imageDisplayScales?: number[];
 }
 
 const projectsData: ProjectData[] = [
@@ -218,6 +219,7 @@ Renders: Be Maarch
 Concorso: Europan 16, Wernigerode, Germania, 2021`,
     images: [wernigerodeAerial2, wernigerodeRender, wernigerodeEgPlan, wernigerodePlan1og, wernigerodePlan2og, wernigerodePlan3og, wernigerodePlan4og, wernigerodeLageplan, wernigerodeAPiante, wernigerodeAProspetti, wernigerodeBPiante, wernigerodeBProspetti, wernigerodeC1Piante, wernigerodeC1Prospetti, wernigerodeC2Piante, wernigerodeC2Prospetti, wernigerodeDPiante, wernigerodeDProspetti, wernigerodeEPiante, wernigerodeEProspetti],
     captions: ["Vista aerea", "Render", "Planimetria generale", "Übersichtsplan 1.OG", "Übersichtsplan 2.OG", "Übersichtsplan 3.OG", "Übersichtsplan 4.OG", "Lageplan", "Haus A - Piante", "Haus A - Prospetti", "Haus B - Piante", "Haus B - Prospetti", "Haus C1 - Piante", "Haus C1 - Prospetti", "Haus C2 - Piante", "Haus C2 - Prospetti", "Haus D - Piante", "Haus D - Prospetti", "Haus E - Piante", "Haus E - Prospetti"],
+    imageDisplayScales: [1, 1, 1, 1.16, 1.16, 1.16, 1.16, 0.97],
     thumbnail: wernigerodeAerial2,
   },
   {
@@ -337,6 +339,7 @@ const Experience = () => {
   const [lightboxCollaborators, setLightboxCollaborators] = useState<string | undefined>();
   const [lightboxOverlayImage, setLightboxOverlayImage] = useState<string | undefined>();
   const [lightboxOverlayIndices, setLightboxOverlayIndices] = useState<number[] | undefined>();
+  const [lightboxImageDisplayScales, setLightboxImageDisplayScales] = useState<number[] | undefined>();
 
   const openLightbox = (project: ProjectData, startIndex = 0) => {
     setLightboxImages(project.images);
@@ -351,23 +354,10 @@ const Experience = () => {
     setLightboxCollaborators(project.collaborators);
     setLightboxOverlayImage(project.overlayImage);
     setLightboxOverlayIndices(project.overlayImageIndices);
+    setLightboxImageDisplayScales(project.imageDisplayScales);
     setLightboxOpen(true);
   };
-
-  const closeLightbox = () => {
-    setLightboxOpen(false);
-  };
-
-  const goToPrev = () => {
-    setLightboxIndex((prev) => (prev === 0 ? lightboxImages.length - 1 : prev - 1));
-  };
-
-  const goToNext = () => {
-    setLightboxIndex((prev) => (prev === lightboxImages.length - 1 ? 0 : prev + 1));
-  };
-
-  return (
-    <section id="progetti" className="py-20 md:py-28 border-t border-border">
+...
       <Lightbox
         images={lightboxImages}
         captions={lightboxCaptions}
@@ -383,6 +373,7 @@ const Experience = () => {
         onIndexChange={setLightboxIndex}
         overlayImage={lightboxOverlayImage}
         overlayImageIndices={lightboxOverlayIndices}
+        imageDisplayScales={lightboxImageDisplayScales}
       />
       <div className="container">
         <div className="max-w-5xl mx-auto">
