@@ -94,9 +94,11 @@ const translations: Record<Language, Record<string, string>> = {
     // Projects
     'project.wernigerode1.title': 'Living the New Ecological Porous Garden City. Wernigerode. Progetto',
     'project.wernigerode1.location': 'Wernigerode, Germania',
-    'project.wernigerode1.description': `Fase di Permesso di Costruire — commissionato da Gebäude- und Wohnungsbaugesellschaft Wernigerode mbH
+    'project.wernigerode1.description': `La fase di permesso di costruire traduce in termini costruttivi la visione urbana sviluppata in sede di concorso:
 
-La fase di permesso di costruire ha sviluppato il lotto nord del progetto vincitore di Europan 16, affinando le tipologie residenziali e le strategie costruttive definite in sede di concorso. Alina Lippiello ha coordinato lo sviluppo progettuale e mantenuto una collaborazione diretta con l'architetto locale H+L Hartung & Ludwig, seguendo la traduzione del concept di concorso in proposta costruibile.`,
+La proposta sviluppa una visione urbana basata su tre livelli di porosità interconnessa. A scala urbana, una rete di corridoi ecologici riconnette i frammenti naturali della città, infiltrandosi nella frammentazione contemporanea. L'area di progetto diventa baricentrica in questa nuova sinergia verde-blu tra il Bürgerpark e il fiume Holtemme, estendendo la connettività pedonale e ciclabile verso il centro storico. A scala di quartiere, il progetto definisce spazi comuni e una struttura permeabile. La sommità della collina ospita un parco circolare con bosco urbano, aree gioco e un belvedere verso il castello. Nuovi orti si collegano a quelli esistenti, mentre percorsi pedonali superano le barriere ferroviarie. La mobilità viene ripensata con strade a traffico lento e connessioni pedonali verso il fiume. Questa visione reinterpreta la città giardino: anziché un sistema radiale, propone cluster di spazi comuni interconnessi che trasformano la monofunzionalità urbana in un ecosistema poroso di accessibilità sociale e inclusione.
+
+La fase di permesso ha affinato le tipologie residenziali e le strategie costruttive del lotto nord. Alina Lippiello ha coordinato lo sviluppo progettuale e mantenuto una collaborazione diretta con l'architetto locale H+L Hartung & Ludwig, seguendo la traduzione del concept di concorso in proposta costruibile.`,
 
     'project.wernigerode2.title': 'EUROPAN 16 — Living the New Ecological Porous Garden City. Wernigerode. Concorso',
     'project.wernigerode2.location': 'Wernigerode, Germania',
@@ -314,9 +316,11 @@ Il cuore del progetto è un sistema diagonale di spazi pubblici e rampe che non 
     // Projects
     'project.wernigerode1.title': 'Living the New Ecological Porous Garden City. Wernigerode. Project',
     'project.wernigerode1.location': 'Wernigerode, Germany',
-    'project.wernigerode1.description': `Building Permit Phase — commissioned by Gebäude- und Wohnungsbaugesellschaft Wernigerode mbH
+    'project.wernigerode1.description': `The building permit phase translates the urban vision developed during the competition into constructive terms:
 
-The building permit phase developed the north plot of the Europan 16 winning project, refining the residential typologies and construction strategies defined during the competition. Alina Lippiello coordinated the design development and maintained direct collaboration with the local architect H+L Hartung & Ludwig, overseeing the translation of the competition concept into a buildable proposal.`,
+The proposal develops an urban vision based on three levels of interconnected porosity. At the urban scale, a network of ecological corridors reconnects the city's natural fragments, infiltrating contemporary fragmentation. The project area becomes central in this new green-blue synergy between the Bürgerpark and the Holtemme river, extending pedestrian and cycling connectivity towards the historic centre. At the neighbourhood scale, the project defines common spaces and a permeable structure. The hilltop hosts a circular park with urban woodland, play areas and a belvedere towards the castle. New allotments connect to existing ones, while pedestrian paths overcome railway barriers. Mobility is rethought with slow-traffic streets and pedestrian connections to the river. This vision reinterprets the garden city: rather than a radial system, it proposes clusters of interconnected common spaces that transform urban mono-functionality into a porous ecosystem of social accessibility and inclusion.
+
+The permit phase refined the residential typologies and construction strategies of the north plot. Alina Lippiello coordinated the design development and maintained direct collaboration with the local architect H+L Hartung & Ludwig, overseeing the translation of the competition concept into a buildable proposal.`,
 
     'project.wernigerode2.title': 'EUROPAN 16 — Living the New Ecological Porous Garden City. Wernigerode. Competition',
     'project.wernigerode2.location': 'Wernigerode, Germany',
@@ -534,9 +538,11 @@ The heart of the project is a diagonal system of public spaces and ramps that no
     // Projects
     'project.wernigerode1.title': 'Living the New Ecological Porous Garden City. Wernigerode. Proyecto',
     'project.wernigerode1.location': 'Wernigerode, Alemania',
-    'project.wernigerode1.description': `Fase de Permiso de Construcción — encargado por Gebäude- und Wohnungsbaugesellschaft Wernigerode mbH
+    'project.wernigerode1.description': `La fase de permiso de construcción traduce en términos constructivos la visión urbana desarrollada en el concurso:
 
-La fase de permiso de construcción desarrolló el lote norte del proyecto ganador de Europan 16, refinando las tipologías residenciales y las estrategias constructivas definidas en el concurso. Alina Lippiello coordinó el desarrollo del proyecto y mantuvo una colaboración directa con el arquitecto local H+L Hartung & Ludwig, supervisando la traducción del concepto del concurso en una propuesta construible.`,
+La propuesta desarrolla una visión urbana basada en tres niveles de porosidad interconectada. A escala urbana, una red de corredores ecológicos reconecta los fragmentos naturales de la ciudad, infiltrándose en la fragmentación contemporánea. El área del proyecto se convierte en el baricentro de una nueva sinergia verde-azul entre el Bürgerpark y el río Holtemme, extendiendo la conectividad peatonal y ciclista hacia el centro histórico. A escala de barrio, el proyecto define espacios comunes y una estructura permeable. La cima de la colina alberga un parque circular con bosque urbano, áreas de juego y un mirador hacia el castillo. Nuevos huertos se conectan con los existentes, mientras que senderos peatonales superan las barreras ferroviarias. La movilidad se replantea con calles de tráfico lento y conexiones peatonales hacia el río. Esta visión reinterpreta la ciudad jardín: en lugar de un sistema radial, propone clústeres de espacios comunes interconectados que transforman la monofuncionalidad urbana en un ecosistema poroso de accesibilidad social e inclusión.
+
+La fase de permiso afinó las tipologías residenciales y las estrategias constructivas del lote norte. Alina Lippiello coordinó el desarrollo del proyecto y mantuvo una colaboración directa con el arquitecto local H+L Hartung & Ludwig, supervisando la traducción del concepto del concurso en una propuesta construible.`,
 
     'project.wernigerode2.title': 'EUROPAN 16 — Living the New Ecological Porous Garden City. Wernigerode. Concurso',
     'project.wernigerode2.location': 'Wernigerode, Alemania',
