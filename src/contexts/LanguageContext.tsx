@@ -183,8 +183,13 @@ Der Gemeinschaftsraum non offre semplicemente alloggi di qualità: propone una n
     'project.aluartforum.title': 'Aluartforum',
     'project.aluartforum.location': 'Zagabria, Croazia',
     
-    'project.expo.title': 'Architetture di Servizio Expo',
+    'project.expo.title': 'EXPO MILANO 2015 — Architetture di Servizio',
     'project.expo.location': 'Milano, Italia',
+    'project.expo.description': `Il progetto definisce un sistema architettonico e micro-paesaggistico omogeneo applicato alle diverse scale dell'intervento: le grandi Stecche di servizio, le Unità di Servizio e i Chioschi. Il sistema costruttivo è basato sull'assemblaggio a secco, con priorità alla rapidità di montaggio e smontaggio e al massimo riutilizzo dei materiali.
+
+Le Stecche si articolano attorno a quattro temi principali. I giardini di testata sul fronte del Decumano creano aree di sosta con graminacee ad alto fusto, punti d'acqua e spazi per i bambini, autosufficienti grazie al recupero dell'acqua piovana dalle coperture. Le funzioni permeanti — bar, ristoranti, negozi — garantiscono la massima apertura dei fronti e permettono l'attraversamento dell'edificio in senso orizzontale e verticale, con spazi di prossimità protetti da sole e pioggia. Al primo piano, ampie terrazze-piazze con vista sul paesaggio ospitano attività di ristorazione ed eventi temporanei, accessibili da un ballatoio continuo. La doppia pelle differenzia i fronti: compatta sul lato dei percorsi pedonali, aperta e leggera sul lato dei giardini e degli specchi d'acqua, con un coefficiente di ombreggiamento passivo dell'80%.
+
+Il progetto strutturale adotta un'intelaiatura mista acciaio-legno prefabbricata, con luce massima di 14,60 metri in senso trasversale. La costruzione completamente a secco oltre quota piano terreno garantisce rapidità di montaggio e facilità di smantellamento. Il progetto ottiene una valutazione LEED Gold con 67 punti, con una stima di riutilizzo del 51% dei materiali e riciclo dell'11%, per una riduzione potenziale dei costi fino al 62% dell'importo previsto.`,
     
     'project.split.title': 'Split: completamento del waterfront nel porto vecchio. Nuovo nodo intermodale per la città e il territorio',
     'project.split.location': 'Spalato, Croazia',
@@ -405,8 +410,13 @@ Der Gemeinschaftsraum does not simply offer quality housing: it proposes a new q
     'project.aluartforum.title': 'Aluartforum',
     'project.aluartforum.location': 'Zagreb, Croatia',
     
-    'project.expo.title': 'Expo Service Architectures',
+    'project.expo.title': 'EXPO MILANO 2015 — Service Architectures',
     'project.expo.location': 'Milan, Italy',
+    'project.expo.description': `The project defines a homogeneous architectural and micro-landscape system applied to the different scales of the intervention: the large Service Bars, the Service Units, and the Kiosks. The construction system is based on dry assembly, prioritizing speed of assembly and disassembly and maximum reuse of materials.
+
+The Bars are organized around four main themes. The head gardens on the Decumanus front create rest areas with tall grasses, water features, and children's spaces, self-sufficient thanks to rainwater harvesting from the roofs. The permeating functions — bars, restaurants, shops — ensure maximum openness of the fronts and allow horizontal and vertical crossing of the building, with proximity spaces sheltered from sun and rain. On the first floor, large terrace-plazas with landscape views host dining activities and temporary events, accessible from a continuous walkway. The double skin differentiates the fronts: compact on the pedestrian path side, open and light on the garden and water mirror side, with an 80% passive shading coefficient.
+
+The structural project adopts a prefabricated mixed steel-wood frame, with a maximum span of 14.60 meters transversally. The completely dry construction above ground floor level ensures speed of assembly and ease of dismantling. The project achieves a LEED Gold rating with 67 points, with an estimated 51% material reuse and 11% recycling, for a potential cost reduction of up to 62% of the planned amount.`,
     
     'project.split.title': 'Split: completion of the waterfront in the old port. New intermodal hub for the city and territory',
     'project.split.location': 'Split, Croatia',
@@ -627,8 +637,13 @@ Der Gemeinschaftsraum no ofrece simplemente viviendas de calidad: propone una nu
     'project.aluartforum.title': 'Aluartforum',
     'project.aluartforum.location': 'Zagreb, Croacia',
     
-    'project.expo.title': 'Arquitecturas de Servicio Expo',
+    'project.expo.title': 'EXPO MILANO 2015 — Arquitecturas de Servicio',
     'project.expo.location': 'Milán, Italia',
+    'project.expo.description': `El proyecto define un sistema arquitectónico y micro-paisajístico homogéneo aplicado a las diferentes escalas de la intervención: las grandes Barras de servicio, las Unidades de Servicio y los Quioscos. El sistema constructivo se basa en el ensamblaje en seco, con prioridad a la rapidez de montaje y desmontaje y al máximo reutilización de los materiales.
+
+Las Barras se articulan en torno a cuatro temas principales. Los jardines de cabecera en el frente del Decumano crean áreas de descanso con gramíneas de alto fuste, puntos de agua y espacios para niños, autosuficientes gracias a la recuperación del agua de lluvia de las cubiertas. Las funciones permeantes — bares, restaurantes, tiendas — garantizan la máxima apertura de los frentes y permiten el cruce del edificio en sentido horizontal y vertical, con espacios de proximidad protegidos del sol y la lluvia. En el primer piso, amplias terrazas-plazas con vista al paisaje acogen actividades de restauración y eventos temporales, accesibles desde un balcón continuo. La doble piel diferencia los frentes: compacta en el lado de los recorridos peatonales, abierta y ligera en el lado de los jardines y espejos de agua, con un coeficiente de sombreamiento pasivo del 80%.
+
+El proyecto estructural adopta un entramado mixto acero-madera prefabricado, con una luz máxima de 14,60 metros en sentido transversal. La construcción completamente en seco por encima de la planta baja garantiza rapidez de montaje y facilidad de desmontaje. El proyecto obtiene una calificación LEED Gold con 67 puntos, con una estimación de reutilización del 51% de los materiales y reciclaje del 11%, para una reducción potencial de costes de hasta el 62% del importe previsto.`,
     
     'project.split.title': 'Split: completamiento del waterfront en el puerto viejo. Nuevo nodo intermodal para la ciudad y el territorio',
     'project.split.location': 'Split, Croacia',
