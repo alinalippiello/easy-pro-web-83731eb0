@@ -103,6 +103,15 @@ import illerpark4 from "@/assets/portfolio/illerpark-4.jpg";
 import illerpark5 from "@/assets/portfolio/illerpark-5.jpg";
 import illerpark6 from "@/assets/portfolio/illerpark-6.jpg";
 import illerparkCover from "@/assets/portfolio/illerpark-cover.jpg";
+import illerparkRenderCourt from "@/assets/portfolio/illerpark-render-court.jpg";
+import illerparkRenderStreet from "@/assets/portfolio/illerpark-render-street.jpg";
+import illerparkAxonometric from "@/assets/portfolio/illerpark-axonometric.jpg";
+import illerparkSections from "@/assets/portfolio/illerpark-sections.jpg";
+import illerparkDetail from "@/assets/portfolio/illerpark-detail.jpg";
+import illerparkModel1 from "@/assets/portfolio/illerpark-model-1.jpg";
+import illerparkModel2 from "@/assets/portfolio/illerpark-model-2.png";
+import illerparkModel3 from "@/assets/portfolio/illerpark-model-3.jpg";
+import illerparkModel4 from "@/assets/portfolio/illerpark-model-4.jpg";
 import shinkenchiku1 from "@/assets/portfolio/shinkenchiku-1.jpg";
 import shinkenchiku2 from "@/assets/portfolio/shinkenchiku-2.png";
 import shinkenchiku3 from "@/assets/portfolio/shinkenchiku-3.jpg";
@@ -256,8 +265,11 @@ Concorso: Europan 16, Wernigerode, Germania, 2021`,
     id: 'illerpark',
     yearKey: 'experience.competition',
     year: "Concorso",
-    images: [illerpark1, illerpark2, illerpark3, illerpark5, illerpark4, illerpark6, illerparkCover],
-    thumbnail: illerparkCover,
+    author: "Alina Lippiello",
+    collaborators: "Co-Authors: Leonardo Zuccaro Marchi, Alice Covatta, Piero Medici",
+    images: [illerparkRenderCourt, illerparkRenderStreet, illerparkAxonometric, illerparkModel3, illerparkModel4, illerparkModel2, illerparkModel1, illerpark1, illerpark2, illerpark3, illerpark5, illerpark4, illerpark6, illerparkSections, illerparkDetail, illerparkCover],
+    captions: ["Vista corte interna", "Vista strada", "Assonometria", "Modello", "Modello", "Modello", "Modello", "", "", "", "", "", "", "Sezioni", "Dettaglio costruttivo", ""],
+    thumbnail: illerparkRenderCourt,
   },
   {
     id: 'shinkenchiku',
