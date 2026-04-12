@@ -301,7 +301,12 @@ Contributo di Alina Lippiello: sviluppo del concept per il lotto nord, progettaz
   },
   {
     id: 'expo',
-    year: "2015",
+    yearKey: 'experience.competition',
+    year: "Concorso",
+    author: "Alina Lippiello",
+    collaborators: `Team di progetto: Luca Poncellini, Luciano Giorgi, Edoardo Riva, Geert Jan Beun, Alina Lippiello, Ivica Covic, Luca Canova Icis Srl, Tecnicaer Srl, Studio Vigetti Merlo
+
+Contributo di Alina Lippiello: sviluppo del dettaglio costruttivo.`,
     images: [expo1],
     thumbnail: expo1,
   },
