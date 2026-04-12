@@ -215,13 +215,8 @@ const projectsData: ProjectData[] = [
     year: 'In corso',
     author: "Alina Lippiello",
     collaborators: `Co-Authors: Leonardo Zuccaro Marchi, Alice Covatta, Piero Medici
-With: H+L Hartung & Ludwig Architektur
-
-Collaborators: Ereza Bokshi, Erica Boncaldo, Lorenzo Bucciarelli, Tarek Diebäcker, Andrea Fumero, Aziz Verna GergesHana, Sedat Gölada, Qian Hao, Alessia Pardi, Cagla Turkoglu, Ettore Varoni, Li Xinwei
-
-Renders: Be Maarch
-
-Concorso: Europan 16, Wernigerode, Germania, 2021`,
+With: 8 AD
+H+L Hartung & Ludwig Architektur (local architect)`,
     images: [wernigerodeAerial2, wernigerodeRender, wernigerodeCourtView, wernigerodeInteriorView, wernigerodeEgPlan, wernigerodePlan1og, wernigerodePlan2og, wernigerodePlan3og, wernigerodePlan4og, wernigerodeLageplan, wernigerodeElevNorthC, wernigerodeElevSouthC, wernigerodeFacadeDetail, wernigerodeRoofFacadeDetail, wernigerodeAPiante, wernigerodeAProspetti, wernigerodeBPiante, wernigerodeBProspetti, wernigerodeC1Piante, wernigerodeC1Prospetti, wernigerodeC2Piante, wernigerodeC2Prospetti, wernigerodeDPiante, wernigerodeDProspetti, wernigerodeEPiante, wernigerodeEProspetti],
     captions: ["Vista aerea", "Vista nord", "Vista corte interna", "Interno", "Planimetria generale piano terra", "Pianta generale 1° piano", "Pianta generale 2° piano", "Pianta generale 3° piano", "Planimetria generale copertura", "Planimetria generale", "Prospetto nord edificio C", "Prospetto sud edificio C", "Dettaglio di facciata", "Dettaglio tetto-facciata", "Haus A - Piante", "Haus A - Prospetti", "Haus B - Piante", "Haus B - Prospetti", "Haus C1 - Piante", "Haus C1 - Prospetti", "Haus C2 - Piante", "Haus C2 - Prospetti", "Haus D - Piante", "Haus D - Prospetti", "Haus E - Piante", "Haus E - Prospetti"],
     imageDisplayScales: [1, 1, 1, 1, 1, 1.16, 1.16, 1.16, 1.16, 0.97],
