@@ -44,6 +44,12 @@ import wernigerodeTypology3 from "@/assets/portfolio/wernigerode-typology-3.jpg"
 import wernigerodeCourtyard from "@/assets/portfolio/wernigerode-courtyard.jpg";
 import wernigerodeEgPlan from "@/assets/portfolio/wernigerode-eg-plan.jpg";
 import wernigerodeLageplan from "@/assets/portfolio/wernigerode-lageplan.jpg";
+import wernigerodeCourtView from "@/assets/portfolio/wernigerode-courtyard-view.gif";
+import wernigerodeInteriorView from "@/assets/portfolio/wernigerode-interior-view.jpg";
+import wernigerodeElevNorthC from "@/assets/portfolio/wernigerode-elevation-north-c.jpg";
+import wernigerodeElevSouthC from "@/assets/portfolio/wernigerode-elevation-south-c.jpg";
+import wernigerodeFacadeDetail from "@/assets/portfolio/wernigerode-facade-detail.jpg";
+import wernigerodeRoofFacadeDetail from "@/assets/portfolio/wernigerode-roof-facade-detail.png";
 import wernigerodeAPiante from "@/assets/portfolio/wernigerode-a-piante.jpg";
 import wernigerodeAProspetti from "@/assets/portfolio/wernigerode-a-prospetti.jpg";
 import wernigerodeBPiante from "@/assets/portfolio/wernigerode-b-piante.jpg";
@@ -217,9 +223,9 @@ Collaborators: Ereza Bokshi, Erica Boncaldo, Lorenzo Bucciarelli, Tarek Diebäck
 Renders: Be Maarch
 
 Concorso: Europan 16, Wernigerode, Germania, 2021`,
-    images: [wernigerodeAerial2, wernigerodeRender, wernigerodeEgPlan, wernigerodePlan1og, wernigerodePlan2og, wernigerodePlan3og, wernigerodePlan4og, wernigerodeLageplan, wernigerodeAPiante, wernigerodeAProspetti, wernigerodeBPiante, wernigerodeBProspetti, wernigerodeC1Piante, wernigerodeC1Prospetti, wernigerodeC2Piante, wernigerodeC2Prospetti, wernigerodeDPiante, wernigerodeDProspetti, wernigerodeEPiante, wernigerodeEProspetti],
-    captions: ["Vista aerea", "Render", "Planimetria generale", "Übersichtsplan 1.OG", "Übersichtsplan 2.OG", "Übersichtsplan 3.OG", "Übersichtsplan 4.OG", "Lageplan", "Haus A - Piante", "Haus A - Prospetti", "Haus B - Piante", "Haus B - Prospetti", "Haus C1 - Piante", "Haus C1 - Prospetti", "Haus C2 - Piante", "Haus C2 - Prospetti", "Haus D - Piante", "Haus D - Prospetti", "Haus E - Piante", "Haus E - Prospetti"],
-    imageDisplayScales: [1, 1, 1, 1.16, 1.16, 1.16, 1.16, 0.97],
+    images: [wernigerodeAerial2, wernigerodeRender, wernigerodeEgPlan, wernigerodeCourtView, wernigerodeInteriorView, wernigerodePlan1og, wernigerodePlan2og, wernigerodePlan3og, wernigerodePlan4og, wernigerodeLageplan, wernigerodeElevNorthC, wernigerodeElevSouthC, wernigerodeFacadeDetail, wernigerodeRoofFacadeDetail, wernigerodeAPiante, wernigerodeAProspetti, wernigerodeBPiante, wernigerodeBProspetti, wernigerodeC1Piante, wernigerodeC1Prospetti, wernigerodeC2Piante, wernigerodeC2Prospetti, wernigerodeDPiante, wernigerodeDProspetti, wernigerodeEPiante, wernigerodeEProspetti],
+    captions: ["Vista aerea", "Vista nord", "Planimetria generale piano terra", "Vista corte interna", "Interno", "Pianta generale 1° piano", "Pianta generale 2° piano", "Pianta generale 3° piano", "Pianta generale 4° piano", "Planimetria generale", "Prospetto nord edificio C", "Prospetto sud edificio C", "Dettaglio di facciata", "Dettaglio tetto-facciata", "Haus A - Piante", "Haus A - Prospetti", "Haus B - Piante", "Haus B - Prospetti", "Haus C1 - Piante", "Haus C1 - Prospetti", "Haus C2 - Piante", "Haus C2 - Prospetti", "Haus D - Piante", "Haus D - Prospetti", "Haus E - Piante", "Haus E - Prospetti"],
+    imageDisplayScales: [1, 1, 1, 1, 1, 1.16, 1.16, 1.16, 1.16, 0.97],
     thumbnail: wernigerodeAerial2,
   },
   {

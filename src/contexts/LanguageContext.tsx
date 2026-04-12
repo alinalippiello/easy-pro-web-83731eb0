@@ -92,7 +92,7 @@ const translations: Record<Language, Record<string, string>> = {
     'experience.international': 'Internazionale',
     
     // Projects
-    'project.wernigerode1.title': 'Città Giardino Permeabile - Progetto',
+    'project.wernigerode1.title': 'Living the New Ecological Porous Garden City of Wernigerode. Progetto',
     'project.wernigerode1.location': 'Wernigerode, Germania',
     'project.wernigerode1.description': `La proposta sviluppa una visione urbana basata su tre livelli di porosità interconnessa.
 
@@ -291,7 +291,7 @@ Il cuore del progetto è un sistema diagonale di spazi pubblici e rampe che non 
     'experience.international': 'International',
     
     // Projects
-    'project.wernigerode1.title': 'Permeable Garden City - Project',
+    'project.wernigerode1.title': 'Living the New Ecological Porous Garden City of Wernigerode. Project',
     'project.wernigerode1.location': 'Wernigerode, Germany',
     'project.wernigerode1.description': `The proposal develops an urban vision based on three levels of interconnected porosity.
 
@@ -490,7 +490,7 @@ The heart of the project is a diagonal system of public spaces and ramps that no
     'experience.international': 'Internacional',
     
     // Projects
-    'project.wernigerode1.title': 'Ciudad Jardín Permeable - Proyecto',
+    'project.wernigerode1.title': 'Living the New Ecological Porous Garden City of Wernigerode. Proyecto',
     'project.wernigerode1.location': 'Wernigerode, Alemania',
     'project.wernigerode1.description': `La propuesta desarrolla una visión urbana basada en tres niveles de porosidad interconectada.
 
