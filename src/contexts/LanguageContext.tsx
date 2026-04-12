@@ -122,6 +122,27 @@ L'intervento si sviluppa su una struttura autonoma. I muri esistenti fungono da 
 
     'project.illerpark.title': 'Wohnen am Illerpark',
     'project.illerpark.location': 'Germania',
+    'project.illerpark.description': `DER GEMEINSCHAFTSRAUM
+
+Lo Spazio Comunitario | Neu-Ulm
+
+Der Gemeinschaftsraum nasce da una domanda fondamentale: è possibile progettare un quartiere residenziale che non si limiti a offrire alloggi, ma che diventi un generatore autentico di relazioni umane? Il progetto per Neu-Ulm risponde affermativamente, proponendo un modello abitativo dove sfera privata e collettiva non sono mondi separati, ma ecosistemi in dialogo costante.
+
+Il Suolo Comune
+
+Il principio guida del progetto è il Gemeinsame Boden — il Suolo Comune. I percorsi di distribuzione degli edifici vengono ampliati e trasformati in logge abitate: non semplici corridoi di passaggio, ma spazi soglia dove la vita quotidiana della comunità può dispiegarsi naturalmente. Un sistema continuo e graduato che accompagna i residenti dalla massima intimità dell'alloggio privato alla totale apertura della corte pubblica, abbattendo il confine netto tra dentro e fuori, tra individuale e collettivo.
+
+I Tre Elementi Identitari
+
+Il Balcone Pubblico caratterizza l'edificio nord come una piazza lineare sopraelevata: una loggia urbana dove la soglia tra alloggio privato e spazio collettivo si dissolve ogni giorno negli incontri casuali tra i residenti, costruendo mattone dopo mattone il tessuto relazionale della comunità.
+
+Il Palcoscenico occupa il cuore della corte interna come spazio flessibile dedicato alla vita culturale del quartiere. Concerti, spettacoli, mercatini, feste di comunità: un luogo democratico e inclusivo dove chiunque può essere allo stesso tempo protagonista e spettatore, dove il confine tra arte e vita quotidiana si fa naturalmente poroso.
+
+Il Calli reinterpreta in chiave contemporanea l'atmosfera dei vicoli storici europei — la calle veneziana, il Gasse tedesco. Nato dalla valorizzazione del pendio della rampa del garage sotterraneo, diventa un percorso pedonale vissuto che connette la quota stradale alla corte interna attraverso uno spazio denso di potenziale sociale.
+
+Una Nuova Qualità dell'Abitare
+
+Der Gemeinschaftsraum non offre semplicemente alloggi di qualità: propone una nuova qualità della vita urbana, più lenta, più relazionale, più consapevole del valore dello stare insieme. Un progetto dove l'architettura non è sfondo neutro della quotidianità, ma strumento attivo nella costruzione di una comunità coesa e vitale.`,
     
     'project.shinkenchiku.title': '4 Houses - Shinkenchiku',
     'project.shinkenchiku.location': 'Internazionale',
@@ -321,6 +342,27 @@ The intervention is developed on an autonomous structure. The existing walls act
 
     'project.illerpark.title': 'Wohnen am Illerpark',
     'project.illerpark.location': 'Germany',
+    'project.illerpark.description': `DER GEMEINSCHAFTSRAUM
+
+The Community Space | Neu-Ulm
+
+Der Gemeinschaftsraum arises from a fundamental question: is it possible to design a residential neighborhood that goes beyond simply offering housing, becoming an authentic generator of human relationships? The project for Neu-Ulm answers affirmatively, proposing a living model where the private and collective spheres are not separate worlds, but ecosystems in constant dialogue.
+
+The Common Ground
+
+The guiding principle of the project is the Gemeinsame Boden — the Common Ground. The distribution paths of the buildings are expanded and transformed into inhabited loggias: not simple corridors of passage, but threshold spaces where the daily life of the community can unfold naturally. A continuous and graduated system that accompanies residents from the maximum intimacy of the private dwelling to the total openness of the public courtyard, breaking down the sharp boundary between inside and outside, between individual and collective.
+
+The Three Identity Elements
+
+The Public Balcony characterizes the north building as an elevated linear square: an urban loggia where the threshold between private dwelling and collective space dissolves every day in casual encounters between residents, building brick by brick the relational fabric of the community.
+
+The Stage occupies the heart of the inner courtyard as a flexible space dedicated to the cultural life of the neighborhood. Concerts, shows, markets, community celebrations: a democratic and inclusive place where anyone can be both protagonist and spectator, where the boundary between art and daily life becomes naturally porous.
+
+The Calli reinterprets in a contemporary key the atmosphere of historic European alleys — the Venetian calle, the German Gasse. Born from the enhancement of the underground garage ramp slope, it becomes a lived pedestrian path that connects the street level to the inner courtyard through a space dense with social potential.
+
+A New Quality of Living
+
+Der Gemeinschaftsraum does not simply offer quality housing: it proposes a new quality of urban life, slower, more relational, more aware of the value of being together. A project where architecture is not a neutral backdrop for daily life, but an active tool in building a cohesive and vital community.`,
     
     'project.shinkenchiku.title': '4 Houses - Shinkenchiku',
     'project.shinkenchiku.location': 'International',
@@ -520,6 +562,27 @@ La intervención se desarrolla sobre una estructura autónoma. Los muros existen
 
     'project.illerpark.title': 'Wohnen am Illerpark',
     'project.illerpark.location': 'Alemania',
+    'project.illerpark.description': `DER GEMEINSCHAFTSRAUM
+
+El Espacio Comunitario | Neu-Ulm
+
+Der Gemeinschaftsraum nace de una pregunta fundamental: ¿es posible diseñar un barrio residencial que no se limite a ofrecer viviendas, sino que se convierta en un auténtico generador de relaciones humanas? El proyecto para Neu-Ulm responde afirmativamente, proponiendo un modelo habitacional donde la esfera privada y la colectiva no son mundos separados, sino ecosistemas en diálogo constante.
+
+El Suelo Común
+
+El principio rector del proyecto es el Gemeinsame Boden — el Suelo Común. Los recorridos de distribución de los edificios se amplían y transforman en logias habitadas: no simples pasillos de paso, sino espacios umbral donde la vida cotidiana de la comunidad puede desplegarse naturalmente. Un sistema continuo y gradual que acompaña a los residentes desde la máxima intimidad de la vivienda privada hasta la total apertura del patio público, derribando el límite neto entre dentro y fuera, entre individual y colectivo.
+
+Los Tres Elementos Identitarios
+
+El Balcón Público caracteriza el edificio norte como una plaza lineal elevada: una logia urbana donde el umbral entre vivienda privada y espacio colectivo se disuelve cada día en los encuentros casuales entre residentes, construyendo ladrillo a ladrillo el tejido relacional de la comunidad.
+
+El Escenario ocupa el corazón del patio interior como espacio flexible dedicado a la vida cultural del barrio. Conciertos, espectáculos, mercadillos, fiestas comunitarias: un lugar democrático e inclusivo donde cualquiera puede ser al mismo tiempo protagonista y espectador, donde el límite entre arte y vida cotidiana se hace naturalmente poroso.
+
+El Calli reinterpreta en clave contemporánea la atmósfera de los callejones históricos europeos — la calle veneciana, el Gasse alemán. Nacido de la valorización de la pendiente de la rampa del garaje subterráneo, se convierte en un recorrido peatonal vivido que conecta la cota de la calle con el patio interior a través de un espacio denso de potencial social.
+
+Una Nueva Calidad del Habitar
+
+Der Gemeinschaftsraum no ofrece simplemente viviendas de calidad: propone una nueva calidad de vida urbana, más lenta, más relacional, más consciente del valor de estar juntos. Un proyecto donde la arquitectura no es un telón de fondo neutro de la cotidianidad, sino un instrumento activo en la construcción de una comunidad cohesionada y vital.`,
     
     'project.shinkenchiku.title': '4 Houses - Shinkenchiku',
     'project.shinkenchiku.location': 'Internacional',
