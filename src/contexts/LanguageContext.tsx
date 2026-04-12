@@ -92,23 +92,22 @@ const translations: Record<Language, Record<string, string>> = {
     'experience.international': 'Internazionale',
     
     // Projects
-    'project.wernigerode1.title': 'Living the New Ecological Porous Garden City of Wernigerode. Progetto',
+    'project.wernigerode1.title': 'EUROPAN 16 — Wernigerode, Lotto Nord',
     'project.wernigerode1.location': 'Wernigerode, Germania',
-    'project.wernigerode1.description': `La proposta sviluppa una visione urbana basata su tre livelli di porosità interconnessa.
+    'project.wernigerode1.description': `Fase di Permesso di Costruire — commissionato da Gebäude- und Wohnungsbaugesellschaft Wernigerode mbH
 
-A scala urbana, una rete di corridoi ecologici riconnette i frammenti naturali della città, infiltrandosi nella frammentazione contemporanea. L'area di progetto diventa baricentrica in questa nuova sinergia verde-blu tra il Bürgerpark e il fiume Holtemme, estendendo la connettività pedonale e ciclabile verso il centro storico.
+La fase di permesso di costruire ha sviluppato il lotto nord del progetto vincitore di Europan 16, affinando le tipologie residenziali e le strategie costruttive definite in sede di concorso. Alina Lippiello ha coordinato lo sviluppo progettuale e mantenuto una collaborazione diretta con l'architetto locale H+L Hartung & Ludwig, seguendo la traduzione del concept di concorso in proposta costruibile.`,
 
-A scala di quartiere, il progetto definisce spazi comuni e una struttura permeabile. La sommità della collina ospita un parco circolare con bosco urbano, aree gioco e un belvedere verso il castello. Nuovi orti si collegano a quelli esistenti, mentre percorsi pedonali superano le barriere ferroviarie. La mobilità viene ripensata con strade a traffico lento e connessioni pedonali verso il fiume.
-
-Questa visione reinterpreta la città giardino: anziché un sistema radiale, propone cluster di spazi comuni interconnessi che trasformano la monofunzionalità urbana in un ecosistema poroso di accessibilità sociale e inclusione.`,
-
-    'project.wernigerode2.title': 'Europan 16 - Living the New Ecological Porous Garden City of Wernigerode',
+    'project.wernigerode2.title': 'EUROPAN 16 — Wernigerode',
     'project.wernigerode2.location': 'Wernigerode, Germania',
-    'project.wernigerode2.description': `Il progetto architettonico del concorso si articola su due aree complementari che dialogano con la topografia esistente.
+    'project.wernigerode2.description': `Living the New Ecological Porous Garden City
+Concorso, Germania, 2021
 
-Area Nord (32 alloggi) - In fase di realizzazione: L'edificio funge da porta urbana, connettendo il parco al quartiere. Le volumetrie ricuciono i blocchi lineari occidentali con le case isolate settentrionali, inserendosi armonicamente nel tessuto organico. Portali e tagli garantiscono permeabilità pubblica verso i percorsi ciclopedonali. Materiali sostenibili (legno e calcestruzzo), sistemi di gestione idrica circolare e produzione energetica caratterizzano l'intervento. La mixité tipologica favorisce composizioni sociali intergenerazionali, con spazi lavoro-abitazione e attività commerciali al piano terra.
+Il progetto si articola su due aree complementari in dialogo con la topografia esistente.
 
-Area Sud (25 alloggi): Ibrida la tipologia a schiera con coperture a falde e lineari, seguendo organicamente il sito. La porosità connette il parco circolare interno al museo tecnico ad ovest. Una serra fotovoltaica nel cortile permette produzione alimentare annuale, configurandosi come "padiglione agricolo". Orti condivisi, terrazze comuni e giardini privati completano il sistema di spazi aperti.`,
+Area Nord — 32 alloggi: L'edificio funge da porta urbana, connettendo il parco al quartiere. Le volumetrie ricuciono i blocchi lineari occidentali con le case isolate settentrionali, integrandosi nel tessuto organico. Portali e tagli garantiscono permeabilità pubblica verso i percorsi ciclopedonali. Materiali sostenibili (legno e calcestruzzo), sistemi di gestione idrica circolare e produzione energetica caratterizzano l'intervento. La mixité tipologica favorisce composizioni sociali intergenerazionali, con spazi lavoro-abitazione e attività commerciali al piano terra.
+
+Area Sud — 25 alloggi: Ibrida la tipologia a schiera con coperture a falde e volumi lineari, seguendo organicamente il sito. La porosità connette il parco circolare interno al museo tecnico ad ovest. Una serra fotovoltaica nel cortile permette produzione alimentare annuale, configurandosi come padiglione agricolo. Orti condivisi, terrazze comuni e giardini privati completano il sistema degli spazi aperti.`,
 
     'project.novecento.title': "Novecentopiù'cento",
     'project.novecento.location': 'Milano, Italia',
@@ -313,23 +312,22 @@ Il cuore del progetto è un sistema diagonale di spazi pubblici e rampe che non 
     'experience.international': 'International',
     
     // Projects
-    'project.wernigerode1.title': 'Living the New Ecological Porous Garden City of Wernigerode. Project',
+    'project.wernigerode1.title': 'EUROPAN 16 — Wernigerode, North Plot',
     'project.wernigerode1.location': 'Wernigerode, Germany',
-    'project.wernigerode1.description': `The proposal develops an urban vision based on three levels of interconnected porosity.
+    'project.wernigerode1.description': `Building Permit Phase — commissioned by Gebäude- und Wohnungsbaugesellschaft Wernigerode mbH
 
-At the urban scale, a network of ecological corridors reconnects the natural fragments of the city, infiltrating contemporary fragmentation. The project area becomes central in this new green-blue synergy between the Bürgerpark and the Holtemme river, extending pedestrian and cycling connectivity towards the historic center.
+The building permit phase developed the north plot of the Europan 16 winning project, refining the residential typologies and construction strategies defined during the competition. Alina Lippiello coordinated the design development and maintained direct collaboration with the local architect H+L Hartung & Ludwig, overseeing the translation of the competition concept into a buildable proposal.`,
 
-At the neighborhood scale, the project defines common spaces and a permeable structure. The hilltop hosts a circular park with urban forest, play areas and a viewpoint towards the castle. New gardens connect to existing ones, while pedestrian paths overcome railway barriers. Mobility is rethought with slow-traffic streets and pedestrian connections to the river.
-
-This vision reinterprets the garden city: instead of a radial system, it proposes clusters of interconnected common spaces that transform urban monofunctionality into a porous ecosystem of social accessibility and inclusion.`,
-
-    'project.wernigerode2.title': 'Europan 16 - Living the New Ecological Porous Garden City of Wernigerode',
+    'project.wernigerode2.title': 'EUROPAN 16 — Wernigerode',
     'project.wernigerode2.location': 'Wernigerode, Germany',
-    'project.wernigerode2.description': `The architectural competition project is articulated in two complementary areas that dialogue with the existing topography.
+    'project.wernigerode2.description': `Living the New Ecological Porous Garden City
+Competition, Germany, 2021
 
-North Area (32 apartments) - Under construction: The building serves as an urban gateway, connecting the park to the neighborhood. The volumes reconnect the western linear blocks with the northern isolated houses, harmoniously fitting into the organic fabric. Portals and cuts ensure public permeability towards cycle-pedestrian paths. Sustainable materials (wood and concrete), circular water management systems and energy production characterize the intervention. The typological mix favors intergenerational social compositions, with live-work spaces and commercial activities on the ground floor.
+The project is articulated in two complementary areas in dialogue with the existing topography.
 
-South Area (25 apartments): It hybridizes the row house typology with pitched and linear roofs, organically following the site. The porosity connects the internal circular park to the technical museum to the west. A photovoltaic greenhouse in the courtyard allows annual food production, configured as an "agricultural pavilion". Shared gardens, common terraces and private gardens complete the open space system.`,
+North Area — 32 apartments: The building serves as an urban gateway, connecting the park to the neighborhood. The volumes reconnect the western linear blocks with the northern isolated houses, integrating into the organic fabric. Portals and cuts ensure public permeability towards cycle-pedestrian paths. Sustainable materials (wood and concrete), circular water management systems and energy production characterize the intervention. The typological mix favors intergenerational social compositions, with live-work spaces and commercial activities on the ground floor.
+
+South Area — 25 apartments: It hybridizes the row house typology with pitched roofs and linear volumes, organically following the site. The porosity connects the internal circular park to the technical museum to the west. A photovoltaic greenhouse in the courtyard allows annual food production, configured as an agricultural pavilion. Shared gardens, common terraces and private gardens complete the open space system.`,
 
     'project.novecento.title': "Novecentopiù'cento",
     'project.novecento.location': 'Milan, Italy',
@@ -534,23 +532,22 @@ The heart of the project is a diagonal system of public spaces and ramps that no
     'experience.international': 'Internacional',
     
     // Projects
-    'project.wernigerode1.title': 'Living the New Ecological Porous Garden City of Wernigerode. Proyecto',
+    'project.wernigerode1.title': 'EUROPAN 16 — Wernigerode, Lote Norte',
     'project.wernigerode1.location': 'Wernigerode, Alemania',
-    'project.wernigerode1.description': `La propuesta desarrolla una visión urbana basada en tres niveles de porosidad interconectada.
+    'project.wernigerode1.description': `Fase de Permiso de Construcción — encargado por Gebäude- und Wohnungsbaugesellschaft Wernigerode mbH
 
-A escala urbana, una red de corredores ecológicos reconecta los fragmentos naturales de la ciudad, infiltrándose en la fragmentación contemporánea. El área del proyecto se vuelve céntrica en esta nueva sinergia verde-azul entre el Bürgerpark y el río Holtemme, extendiendo la conectividad peatonal y ciclista hacia el centro histórico.
+La fase de permiso de construcción desarrolló el lote norte del proyecto ganador de Europan 16, refinando las tipologías residenciales y las estrategias constructivas definidas en el concurso. Alina Lippiello coordinó el desarrollo del proyecto y mantuvo una colaboración directa con el arquitecto local H+L Hartung & Ludwig, supervisando la traducción del concepto del concurso en una propuesta construible.`,
 
-A escala de barrio, el proyecto define espacios comunes y una estructura permeable. La cima de la colina alberga un parque circular con bosque urbano, áreas de juego y un mirador hacia el castillo. Nuevos huertos se conectan con los existentes, mientras que los senderos peatonales superan las barreras ferroviarias. La movilidad se repiensa con calles de tráfico lento y conexiones peatonales hacia el río.
-
-Esta visión reinterpreta la ciudad jardín: en lugar de un sistema radial, propone clusters de espacios comunes interconectados que transforman la monofuncionalidad urbana en un ecosistema poroso de accesibilidad social e inclusión.`,
-
-    'project.wernigerode2.title': 'Europan 16 - Living the New Ecological Porous Garden City of Wernigerode',
+    'project.wernigerode2.title': 'EUROPAN 16 — Wernigerode',
     'project.wernigerode2.location': 'Wernigerode, Alemania',
-    'project.wernigerode2.description': `El proyecto arquitectónico del concurso se articula en dos áreas complementarias que dialogan con la topografía existente.
+    'project.wernigerode2.description': `Living the New Ecological Porous Garden City
+Concurso, Alemania, 2021
 
-Área Norte (32 viviendas) - En construcción: El edificio funciona como puerta urbana, conectando el parque con el barrio. Los volúmenes reconectan los bloques lineales occidentales con las casas aisladas del norte, integrándose armónicamente en el tejido orgánico. Portales y cortes garantizan permeabilidad pública hacia los senderos ciclopeatonales. Materiales sostenibles (madera y hormigón), sistemas de gestión circular del agua y producción energética caracterizan la intervención. La mixité tipológica favorece composiciones sociales intergeneracionales, con espacios de trabajo-vivienda y actividades comerciales en planta baja.
+El proyecto se articula en dos áreas complementarias en diálogo con la topografía existente.
 
-Área Sur (25 viviendas): Hibrida la tipología de casas en hilera con cubiertas a dos aguas y lineales, siguiendo orgánicamente el sitio. La porosidad conecta el parque circular interno con el museo técnico al oeste. Un invernadero fotovoltaico en el patio permite la producción alimentaria anual, configurándose como "pabellón agrícola". Huertos compartidos, terrazas comunes y jardines privados completan el sistema de espacios abiertos.`,
+Área Norte — 32 viviendas: El edificio funciona como puerta urbana, conectando el parque con el barrio. Los volúmenes reconectan los bloques lineales occidentales con las casas aisladas del norte, integrándose en el tejido orgánico. Portales y cortes garantizan permeabilidad pública hacia los senderos ciclopeatonales. Materiales sostenibles (madera y hormigón), sistemas de gestión circular del agua y producción energética caracterizan la intervención. La mixité tipológica favorece composiciones sociales intergeneracionales, con espacios de trabajo-vivienda y actividades comerciales en planta baja.
+
+Área Sur — 25 viviendas: Hibrida la tipología de casas en hilera con cubiertas a dos aguas y volúmenes lineales, siguiendo orgánicamente el sitio. La porosidad conecta el parque circular interno con el museo técnico al oeste. Un invernadero fotovoltaico en el patio permite la producción alimentaria anual, configurándose como pabellón agrícola. Huertos compartidos, terrazas comunes y jardines privados completan el sistema de espacios abiertos.`,
 
     'project.novecento.title': "Novecentopiù'cento",
     'project.novecento.location': 'Milán, Italia',
