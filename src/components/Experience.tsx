@@ -215,7 +215,6 @@ const projectsData: ProjectData[] = [
     year: 'In corso',
     author: "Alina Lippiello",
     collaborators: `Co-Authors: Leonardo Zuccaro Marchi, Alice Covatta, Piero Medici
-La Porosa | CoPE
 With: H+L Hartung & Ludwig Architektur
 
 Collaborators: Ereza Bokshi, Erica Boncaldo, Lorenzo Bucciarelli, Tarek Diebäcker, Andrea Fumero, Aziz Verna GergesHana, Sedat Gölada, Qian Hao, Alessia Pardi, Cagla Turkoglu, Ettore Varoni, Li Xinwei
