@@ -92,13 +92,13 @@ const translations: Record<Language, Record<string, string>> = {
     'experience.international': 'Internazionale',
     
     // Projects
-    'project.wernigerode1.title': 'EUROPAN 16 — Wernigerode, Lotto Nord',
+    'project.wernigerode1.title': 'Living the New Ecological Porous Garden City. Wernigerode. Progetto',
     'project.wernigerode1.location': 'Wernigerode, Germania',
     'project.wernigerode1.description': `Fase di Permesso di Costruire — commissionato da Gebäude- und Wohnungsbaugesellschaft Wernigerode mbH
 
 La fase di permesso di costruire ha sviluppato il lotto nord del progetto vincitore di Europan 16, affinando le tipologie residenziali e le strategie costruttive definite in sede di concorso. Alina Lippiello ha coordinato lo sviluppo progettuale e mantenuto una collaborazione diretta con l'architetto locale H+L Hartung & Ludwig, seguendo la traduzione del concept di concorso in proposta costruibile.`,
 
-    'project.wernigerode2.title': 'EUROPAN 16 — Wernigerode',
+    'project.wernigerode2.title': 'EUROPAN 16 — Living the New Ecological Porous Garden City. Wernigerode. Concorso',
     'project.wernigerode2.location': 'Wernigerode, Germania',
     'project.wernigerode2.description': `Living the New Ecological Porous Garden City
 Concorso, Germania, 2021
@@ -312,13 +312,13 @@ Il cuore del progetto è un sistema diagonale di spazi pubblici e rampe che non 
     'experience.international': 'International',
     
     // Projects
-    'project.wernigerode1.title': 'EUROPAN 16 — Wernigerode, North Plot',
+    'project.wernigerode1.title': 'Living the New Ecological Porous Garden City. Wernigerode. Project',
     'project.wernigerode1.location': 'Wernigerode, Germany',
     'project.wernigerode1.description': `Building Permit Phase — commissioned by Gebäude- und Wohnungsbaugesellschaft Wernigerode mbH
 
 The building permit phase developed the north plot of the Europan 16 winning project, refining the residential typologies and construction strategies defined during the competition. Alina Lippiello coordinated the design development and maintained direct collaboration with the local architect H+L Hartung & Ludwig, overseeing the translation of the competition concept into a buildable proposal.`,
 
-    'project.wernigerode2.title': 'EUROPAN 16 — Wernigerode',
+    'project.wernigerode2.title': 'EUROPAN 16 — Living the New Ecological Porous Garden City. Wernigerode. Competition',
     'project.wernigerode2.location': 'Wernigerode, Germany',
     'project.wernigerode2.description': `Living the New Ecological Porous Garden City
 Competition, Germany, 2021
@@ -532,13 +532,13 @@ The heart of the project is a diagonal system of public spaces and ramps that no
     'experience.international': 'Internacional',
     
     // Projects
-    'project.wernigerode1.title': 'EUROPAN 16 — Wernigerode, Lote Norte',
+    'project.wernigerode1.title': 'Living the New Ecological Porous Garden City. Wernigerode. Proyecto',
     'project.wernigerode1.location': 'Wernigerode, Alemania',
     'project.wernigerode1.description': `Fase de Permiso de Construcción — encargado por Gebäude- und Wohnungsbaugesellschaft Wernigerode mbH
 
 La fase de permiso de construcción desarrolló el lote norte del proyecto ganador de Europan 16, refinando las tipologías residenciales y las estrategias constructivas definidas en el concurso. Alina Lippiello coordinó el desarrollo del proyecto y mantuvo una colaboración directa con el arquitecto local H+L Hartung & Ludwig, supervisando la traducción del concepto del concurso en una propuesta construible.`,
 
-    'project.wernigerode2.title': 'EUROPAN 16 — Wernigerode',
+    'project.wernigerode2.title': 'EUROPAN 16 — Living the New Ecological Porous Garden City. Wernigerode. Concurso',
     'project.wernigerode2.location': 'Wernigerode, Alemania',
     'project.wernigerode2.description': `Living the New Ecological Porous Garden City
 Concurso, Alemania, 2021
