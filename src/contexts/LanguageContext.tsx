@@ -92,7 +92,7 @@ const translations: Record<Language, Record<string, string>> = {
     'experience.international': 'Internazionale',
     
     // Projects
-    'project.wernigerode1.title': 'EUROPAN 16 — Wernigerode, Lotto Nord',
+    'project.wernigerode1.title': 'Living the New Ecological Porous Garden City. Wernigerode. Progetto',
     'project.wernigerode1.location': 'Wernigerode, Germania',
     'project.wernigerode1.description': `Fase di Permesso di Costruire — commissionato da Gebäude- und Wohnungsbaugesellschaft Wernigerode mbH
 
