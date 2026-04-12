@@ -44,6 +44,12 @@ import wernigerodeTypology3 from "@/assets/portfolio/wernigerode-typology-3.jpg"
 import wernigerodeCourtyard from "@/assets/portfolio/wernigerode-courtyard.jpg";
 import wernigerodeEgPlan from "@/assets/portfolio/wernigerode-eg-plan.jpg";
 import wernigerodeLageplan from "@/assets/portfolio/wernigerode-lageplan.jpg";
+import wernigerodeCourtView from "@/assets/portfolio/wernigerode-courtyard-view.gif";
+import wernigerodeInteriorView from "@/assets/portfolio/wernigerode-interior-view.jpg";
+import wernigerodeElevNorthC from "@/assets/portfolio/wernigerode-elevation-north-c.jpg";
+import wernigerodeElevSouthC from "@/assets/portfolio/wernigerode-elevation-south-c.jpg";
+import wernigerodeFacadeDetail from "@/assets/portfolio/wernigerode-facade-detail.jpg";
+import wernigerodeRoofFacadeDetail from "@/assets/portfolio/wernigerode-roof-facade-detail.png";
 import wernigerodeAPiante from "@/assets/portfolio/wernigerode-a-piante.jpg";
 import wernigerodeAProspetti from "@/assets/portfolio/wernigerode-a-prospetti.jpg";
 import wernigerodeBPiante from "@/assets/portfolio/wernigerode-b-piante.jpg";
