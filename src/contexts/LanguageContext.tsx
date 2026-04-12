@@ -110,7 +110,7 @@ Area Nord — 32 alloggi: L'edificio funge da porta urbana, connettendo il parco
 Area Sud — 25 alloggi: Ibrida la tipologia a schiera con coperture a falde e volumi lineari, seguendo organicamente il sito. La porosità connette il parco circolare interno al museo tecnico ad ovest. Una serra fotovoltaica nel cortile permette produzione alimentare annuale, configurandosi come padiglione agricolo. Orti condivisi, terrazze comuni e giardini privati completano il sistema degli spazi aperti.`,
 
     'project.novecento.title': "Novecentopiù'cento",
-    'project.novecento.location': 'Milano, Italia',
+    'project.novecento.location': 'Concorso per l\'ampliamento del Museo del Novecento\nMilano, 2021',
     'project.novecento.description': `Il progetto intreccia la città con il percorso museale, creando una continuità con lo spazio pubblico del Museo del Novecento. La passerella connette il percorso museale pubblico tra i due Arengari senza interferire con le sequenze espositive, garantendo flessibilità e preservando l'organizzazione museale. Il percorso sospeso estende lo spazio collettivo urbano: il suolo di via Marconi si duplica per diventare collegamento, terrazza e spazio espositivo su piazza Duomo.
 
 L'elemento di connessione stabilisce una continuità con i porticati della città storica, preserva il collegamento visivo tra la Galleria e la Torre Martini, definisce piazza Diaz e l'ingresso alle strutture museali. I due Arengari stabiliscono un dialogo attraverso la luce e installazioni ambientali.
@@ -330,7 +330,7 @@ North Area — 32 apartments: The building serves as an urban gateway, connectin
 South Area — 25 apartments: It hybridizes the row house typology with pitched roofs and linear volumes, organically following the site. The porosity connects the internal circular park to the technical museum to the west. A photovoltaic greenhouse in the courtyard allows annual food production, configured as an agricultural pavilion. Shared gardens, common terraces and private gardens complete the open space system.`,
 
     'project.novecento.title': "Novecentopiù'cento",
-    'project.novecento.location': 'Milan, Italy',
+    'project.novecento.location': 'Competition for the extension of the Museo del Novecento\nMilan, 2021',
     'project.novecento.description': `The project interweaves the city with the museum path, creating continuity with the public space of the Museo del Novecento. The walkway connects the public museum path between the two Arengari without interfering with the exhibition sequences, ensuring flexibility and preserving the museum organization. The suspended path extends the collective urban space: the ground of via Marconi is duplicated to become a connection, terrace and exhibition space on Piazza Duomo.
 
 The connecting element establishes continuity with the porticoes of the historic city, preserves the visual connection between the Galleria and the Martini Tower, defines Piazza Diaz and the entrance to the museum structures. The two Arengari establish a dialogue through light and environmental installations.
@@ -550,7 +550,7 @@ El proyecto se articula en dos áreas complementarias en diálogo con la topogra
 Área Sur — 25 viviendas: Hibrida la tipología de casas en hilera con cubiertas a dos aguas y volúmenes lineales, siguiendo orgánicamente el sitio. La porosidad conecta el parque circular interno con el museo técnico al oeste. Un invernadero fotovoltaico en el patio permite la producción alimentaria anual, configurándose como pabellón agrícola. Huertos compartidos, terrazas comunes y jardines privados completan el sistema de espacios abiertos.`,
 
     'project.novecento.title': "Novecentopiù'cento",
-    'project.novecento.location': 'Milán, Italia',
+    'project.novecento.location': 'Concurso para la ampliación del Museo del Novecento\nMilán, 2021',
     'project.novecento.description': `El proyecto entrelaza la ciudad con el recorrido museístico, creando una continuidad con el espacio público del Museo del Novecento. La pasarela conecta el recorrido museístico público entre los dos Arengari sin interferir con las secuencias expositivas, garantizando flexibilidad y preservando la organización museística. El recorrido suspendido extiende el espacio colectivo urbano: el suelo de via Marconi se duplica para convertirse en conexión, terraza y espacio expositivo sobre Piazza Duomo.
 
 El elemento de conexión establece una continuidad con los pórticos de la ciudad histórica, preserva la conexión visual entre la Galleria y la Torre Martini, define Piazza Diaz y la entrada a las estructuras museísticas. Los dos Arengari establecen un diálogo a través de la luz e instalaciones ambientales.
