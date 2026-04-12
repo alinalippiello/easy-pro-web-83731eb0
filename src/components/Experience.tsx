@@ -222,7 +222,9 @@ const projectsData: ProjectData[] = [
     id: 'wernigerode1',
     yearKey: 'experience.inProgress',
     year: 'In corso',
-    collaborators: `Team di progetto: Leonardo Zuccaro Marchi, Alice Covatta, Alina Lippiello, Piero Medici
+    collaborators: `Cliente: Gebäude- und Wohnungsbaugesellschaft Wernigerode mbH
+
+Team di progetto: Leonardo Zuccaro Marchi, Alice Covatta, Alina Lippiello, Piero Medici
 
 Architetto locale: H+L Hartung & Ludwig Architektur
 
