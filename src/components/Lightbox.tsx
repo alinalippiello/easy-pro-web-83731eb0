@@ -471,7 +471,7 @@ const Lightbox = ({
                   </p>
                 )}
                 {collaborators && (
-                  <p className="font-body text-sm text-muted-foreground">
+                  <p className="font-body text-sm text-muted-foreground whitespace-pre-line">
                     In collaborazione con {collaborators}
                   </p>
                 )}
