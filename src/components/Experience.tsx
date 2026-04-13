@@ -155,6 +155,11 @@ import ilicaPianoTerra2 from "@/assets/portfolio/ilica-piano-terra-2.jpg";
 import ilicaPiano2 from "@/assets/portfolio/ilica-piano-2.jpg";
 import ilicaPiano3 from "@/assets/portfolio/ilica-piano-3.jpg";
 import ilicaPiano22 from "@/assets/portfolio/ilica-piano-2-2.jpg";
+import ilicaSchemaPiani from "@/assets/portfolio/ilica-schema-piani.jpg";
+import ilicaSezioneAa from "@/assets/portfolio/ilica-sezione-aa.jpg";
+import ilicaSezioneBb from "@/assets/portfolio/ilica-sezione-bb.jpg";
+import ilicaSezioneCc from "@/assets/portfolio/ilica-sezione-cc.jpg";
+import ilicaChiaveSezioni from "@/assets/portfolio/ilica-chiave-sezioni.jpg";
 
 import expo1 from "@/assets/portfolio/expo-1.jpg";
 import expo2 from "@/assets/portfolio/expo-2.jpg";
@@ -308,9 +313,11 @@ Contributo di Alina Lippiello: sviluppo del concept per il lotto nord, progettaz
     yearKey: 'experience.competition',
     year: "Concorso",
     author: "Alina Lippiello",
-    images: [ilicaProspetto, ilicaCopertura500, ilicaProspettoStrada, ilicaProspettoParco, ilicaCoperture, ilicaPianoTerra, ilicaP12, ilicaP1, ilicaPianoTerra2, ilicaPiano2, ilicaPiano3, ilicaPiano22],
-    captions: ['Prospetto 1:200', 'Planimetria coperture 1:500', 'Prospetto strada', 'Prospetto parco', 'Coperture 1:500', 'Piano terra', 'Piano -2', 'Piano -1', 'Piano terra', 'Piano 1', 'Piano 2', 'Piano 3'],
-    imageDisplayScales: [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1],
+    images: [ilicaProspetto, ilicaCopertura500, ilicaProspettoStrada, ilicaProspettoParco, ilicaCoperture, ilicaSchemaPiani, ilicaPianoTerra, ilicaP12, ilicaP1, ilicaPianoTerra2, ilicaPiano2, ilicaPiano3, ilicaPiano22, ilicaSezioneAa, ilicaSezioneBb, ilicaSezioneCc],
+    captions: ['Prospetto 1:200', 'Planimetria coperture 1:500', 'Prospetto strada', 'Prospetto parco', 'Planimetria 1:500', 'Schema piani', 'Piano terra', 'Piano -2', 'Piano -1', 'Piano terra', 'Piano 1', 'Piano 2', 'Piano 3', 'Sezione AA', 'Sezione BB', 'Sezione CC'],
+    imageDisplayScales: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    overlayImage: ilicaChiaveSezioni,
+    overlayImageIndices: [13, 14, 15],
     thumbnail: ilicaProspetto,
   },
   {
