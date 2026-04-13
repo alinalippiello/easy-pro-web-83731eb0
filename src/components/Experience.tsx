@@ -160,6 +160,14 @@ import ilicaSezioneAa from "@/assets/portfolio/ilica-sezione-aa.jpg";
 import ilicaSezioneBb from "@/assets/portfolio/ilica-sezione-bb.jpg";
 import ilicaSezioneCc from "@/assets/portfolio/ilica-sezione-cc.jpg";
 import ilicaChiaveSezioni from "@/assets/portfolio/ilica-chiave-sezioni.jpg";
+import ilicaProspetto1 from "@/assets/portfolio/ilica-prospetto-1.jpg";
+import ilicaProspetto2 from "@/assets/portfolio/ilica-prospetto-2.jpg";
+import ilicaSezione500 from "@/assets/portfolio/ilica-sezione-500.jpg";
+import ilicaSezione500_2 from "@/assets/portfolio/ilica-sezione-500-2.jpg";
+import ilicaPiano4 from "@/assets/portfolio/ilica-piano-4.jpg";
+import ilicaPiano5 from "@/assets/portfolio/ilica-piano-5.jpg";
+import ilicaCopertura100 from "@/assets/portfolio/ilica-copertura-100.jpg";
+import ilicaCopertura100_2 from "@/assets/portfolio/ilica-copertura-100-2.jpg";
 
 import expo1 from "@/assets/portfolio/expo-1.jpg";
 import expo2 from "@/assets/portfolio/expo-2.jpg";
