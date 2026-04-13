@@ -325,7 +325,7 @@ Contributo di Alina Lippiello: sviluppo del concept per il lotto nord, progettaz
     captions: ['Prospetto 1:200', 'Planimetria coperture 1:500', 'Prospetto 1:500', 'Sezione 1:500', 'Sezione 1:500', 'Planimetria 1:500', 'Schema piani', 'Piano terra', 'Piano -2', 'Piano -1', 'Piano terra', 'Piano 1', 'Piano 2', 'Piano 3', 'Piano 4', 'Piano 5', 'Copertura', 'Copertura', 'Sezione AA', 'Sezione BB', 'Sezione CC'],
     imageDisplayScales: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.85, 1, 1],
     overlayImage: ilicaChiaveSezioni,
-    overlayImageIndices: [19, 20, 21],
+    overlayImageIndices: [18, 19, 20],
     thumbnail: ilicaProspetto,
   },
   {
