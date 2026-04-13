@@ -155,6 +155,12 @@ import ilicaPiano22 from "@/assets/portfolio/ilica-piano-2-2.jpg";
 import ilicaPianoTerra2 from "@/assets/portfolio/ilica-piano-terra-2.jpg";
 
 import expo1 from "@/assets/portfolio/expo-1.jpg";
+import expo2 from "@/assets/portfolio/expo-2.jpg";
+import expo3 from "@/assets/portfolio/expo-3.jpg";
+import expo4 from "@/assets/portfolio/expo-4.jpg";
+import expo5 from "@/assets/portfolio/expo-5.jpg";
+import expo6 from "@/assets/portfolio/expo-6.jpg";
+import expo7 from "@/assets/portfolio/expo-7.jpg";
 import split1 from "@/assets/portfolio/split-1.jpg";
 import split2 from "@/assets/portfolio/split-2.jpg";
 import split3 from "@/assets/portfolio/split-3.jpg";
@@ -303,11 +309,10 @@ Contributo di Alina Lippiello: sviluppo del concept per il lotto nord, progettaz
     id: 'expo',
     yearKey: 'experience.competition',
     year: "Concorso",
-    author: "Alina Lippiello",
     collaborators: `Team di progetto: Luca Poncellini, Luciano Giorgi, Edoardo Riva, Geert Jan Beun, Alina Lippiello, Ivica Covic, Luca Canova Icis Srl, Tecnicaer Srl, Studio Vigetti Merlo
 
 Contributo di Alina Lippiello: sviluppo del dettaglio costruttivo.`,
-    images: [expo1],
+    images: [expo1, expo2, expo3, expo4, expo5, expo6, expo7],
     thumbnail: expo1,
   },
   {
