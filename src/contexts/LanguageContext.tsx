@@ -182,6 +182,17 @@ Der Gemeinschaftsraum non offre semplicemente alloggi di qualità: propone una n
     
     'project.aluartforum.title': 'Aluartforum',
     'project.aluartforum.location': 'Zagabria, Croazia',
+    'project.aluartforum.description': `Progetto sviluppato per il concorso di progettazione architettonica e urbanistica della nuova Galleria dell'Accademia di Belle Arti, ALUARTFORUM nasce dall'interpretazione di un vuoto urbano di particolare valore, situato tra il fronte storico di Ilica e il parco esistente.
+
+L'intervento si confronta con una condizione delicata: da un lato la possibilità di ricomporre la continuità del prospetto urbano, dall'altro la necessità di preservare l'apertura del verde verso la città. Il progetto sceglie di mantenere questa soglia come spazio di relazione, lasciando che il parco continui a dialogare con la strada e con il tessuto costruito.
+
+L'edificio si configura come un padiglione espositivo verticale, composto da una sequenza di volumi sovrapposti che ospitano spazi per esposizioni temporanee e permanenti, workshop, uffici e una terrazza pubblica. Lo slittamento dei piani genera una composizione dinamica capace di instaurare un rapporto misurato con il contesto storico e, allo stesso tempo, di aprirsi verso il paesaggio del parco.
+
+Elemento centrale della proposta è il sistema di verde verticale, concepito come prosecuzione del paesaggio esistente. Le pareti verdi filtrano la luce, migliorano il microclima e trasformano i fronti laterali in una superficie viva, rafforzando la continuità tra interno ed esterno.
+
+La luce naturale diventa parte integrante del progetto: l'orientamento degli spazi e il disegno volumetrico consentono di modulare intensità e qualità luminosa, creando ambienti espositivi differenti e adattabili.
+
+Più che un semplice edificio, ALUARTFORUM si propone come dispositivo urbano di connessione, capace di mettere in relazione arte, spazio pubblico e paesaggio in una nuova forma di continuità.`,
     
     'project.expo.title': 'EXPO MILANO 2015 — Architetture di Servizio',
     'project.expo.location': 'Milano, Italia',
@@ -409,6 +420,17 @@ Der Gemeinschaftsraum does not simply offer quality housing: it proposes a new q
     
     'project.aluartforum.title': 'Aluartforum',
     'project.aluartforum.location': 'Zagreb, Croatia',
+    'project.aluartforum.description': `Developed for the architectural and urban design competition for the new Gallery of the Academy of Fine Arts, ALUARTFORUM stems from the interpretation of an urban void of particular value, located between the historic front of Ilica and the existing park.
+
+The intervention addresses a delicate condition: on one hand, the possibility of recomposing the continuity of the urban façade; on the other, the need to preserve the openness of the green towards the city. The project chooses to maintain this threshold as a space of relation, allowing the park to continue its dialogue with the street and the built fabric.
+
+The building takes shape as a vertical exhibition pavilion, composed of a sequence of stacked volumes housing spaces for temporary and permanent exhibitions, workshops, offices and a public terrace. The shifting of floors generates a dynamic composition capable of establishing a measured relationship with the historic context while simultaneously opening towards the park landscape.
+
+A central element of the proposal is the vertical green system, conceived as a continuation of the existing landscape. The green walls filter light, improve the microclimate and transform the lateral fronts into a living surface, reinforcing the continuity between interior and exterior.
+
+Natural light becomes an integral part of the project: the orientation of spaces and the volumetric design allow the modulation of luminous intensity and quality, creating different and adaptable exhibition environments.
+
+More than a simple building, ALUARTFORUM proposes itself as an urban device of connection, capable of relating art, public space and landscape in a new form of continuity.`,
     
     'project.expo.title': 'EXPO MILANO 2015 — Service Architectures',
     'project.expo.location': 'Milan, Italy',
@@ -636,6 +658,17 @@ Der Gemeinschaftsraum no ofrece simplemente viviendas de calidad: propone una nu
     
     'project.aluartforum.title': 'Aluartforum',
     'project.aluartforum.location': 'Zagreb, Croacia',
+    'project.aluartforum.description': `Desarrollado para el concurso de diseño arquitectónico y urbanístico de la nueva Galería de la Academia de Bellas Artes, ALUARTFORUM nace de la interpretación de un vacío urbano de particular valor, situado entre el frente histórico de Ilica y el parque existente.
+
+La intervención se enfrenta a una condición delicada: por un lado, la posibilidad de recomponer la continuidad de la fachada urbana; por otro, la necesidad de preservar la apertura del verde hacia la ciudad. El proyecto elige mantener este umbral como espacio de relación, dejando que el parque continúe dialogando con la calle y el tejido construido.
+
+El edificio se configura como un pabellón expositivo vertical, compuesto por una secuencia de volúmenes superpuestos que albergan espacios para exposiciones temporales y permanentes, talleres, oficinas y una terraza pública. El deslizamiento de los planos genera una composición dinámica capaz de establecer una relación medida con el contexto histórico y, al mismo tiempo, abrirse hacia el paisaje del parque.
+
+Elemento central de la propuesta es el sistema de verde vertical, concebido como prolongación del paisaje existente. Las paredes verdes filtran la luz, mejoran el microclima y transforman los frentes laterales en una superficie viva, reforzando la continuidad entre interior y exterior.
+
+La luz natural se convierte en parte integral del proyecto: la orientación de los espacios y el diseño volumétrico permiten modular la intensidad y calidad luminosa, creando ambientes expositivos diferentes y adaptables.
+
+Más que un simple edificio, ALUARTFORUM se propone como dispositivo urbano de conexión, capaz de relacionar arte, espacio público y paisaje en una nueva forma de continuidad.`,
     
     'project.expo.title': 'EXPO MILANO 2015 — Arquitecturas de Servicio',
     'project.expo.location': 'Milán, Italia',

@@ -143,16 +143,18 @@ import europan11Houses from "@/assets/portfolio/europan11-houses.jpg";
 import europan11Apartments from "@/assets/portfolio/europan11-apartments.jpg";
 import europan16Cover from "@/assets/portfolio/europan16-cover.jpg";
 import wernigerodeModels from "@/assets/profile-models.png";
-import ilicaMasterplan from "@/assets/portfolio/ilica-masterplan.jpg";
+import ilicaProspetto from "@/assets/portfolio/ilica-prospetto.jpg";
+import ilicaCopertura500 from "@/assets/portfolio/ilica-copertura-500.jpg";
+import ilicaProspettoStrada from "@/assets/portfolio/ilica-prospetto-strada.jpg";
+import ilicaProspettoParco from "@/assets/portfolio/ilica-prospetto-parco.jpg";
 import ilicaCoperture from "@/assets/portfolio/ilica-coperture.jpg";
-import ilicaP2 from "@/assets/portfolio/ilica-p-2.jpg";
 import ilicaP1 from "@/assets/portfolio/ilica-p-1.jpg";
 import ilicaPianoTerra from "@/assets/portfolio/ilica-piano-terra.jpg";
 import ilicaP12 from "@/assets/portfolio/ilica-p1-2.jpg";
+import ilicaPianoTerra2 from "@/assets/portfolio/ilica-piano-terra-2.jpg";
 import ilicaPiano2 from "@/assets/portfolio/ilica-piano-2.jpg";
 import ilicaPiano3 from "@/assets/portfolio/ilica-piano-3.jpg";
 import ilicaPiano22 from "@/assets/portfolio/ilica-piano-2-2.jpg";
-import ilicaPianoTerra2 from "@/assets/portfolio/ilica-piano-terra-2.jpg";
 
 import expo1 from "@/assets/portfolio/expo-1.jpg";
 import expo2 from "@/assets/portfolio/expo-2.jpg";
@@ -306,9 +308,10 @@ Contributo di Alina Lippiello: sviluppo del concept per il lotto nord, progettaz
     yearKey: 'experience.competition',
     year: "Concorso",
     author: "Alina Lippiello",
-    images: [ilicaMasterplan, ilicaCoperture, ilicaP2, ilicaPianoTerra, ilicaP1, ilicaP12, ilicaPianoTerra2, ilicaPiano2, ilicaPiano3, ilicaPiano22],
-    captions: ['Masterplan 1:500', 'Masterplan 1:500 con piani terra', 'Coperture 1:500', 'Piano terra', 'Piano -1', 'Piano -2', 'Piano terra', 'Piano 1', 'Piano 2', 'Piano 3'],
-    thumbnail: ilicaCoperture,
+    images: [ilicaProspetto, ilicaCopertura500, ilicaProspettoStrada, ilicaProspettoParco, ilicaCoperture, ilicaPianoTerra, ilicaP12, ilicaP1, ilicaPianoTerra2, ilicaPiano2, ilicaPiano3, ilicaPiano22],
+    captions: ['Prospetto 1:200', 'Planimetria coperture 1:500', 'Prospetto strada', 'Prospetto parco', 'Coperture 1:500', 'Piano terra', 'Piano -2', 'Piano -1', 'Piano terra', 'Piano 1', 'Piano 2', 'Piano 3'],
+    imageDisplayScales: [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1],
+    thumbnail: ilicaProspetto,
   },
   {
     id: 'expo',
