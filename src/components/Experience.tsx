@@ -157,6 +157,11 @@ import ilicaPianoTerra2 from "@/assets/portfolio/ilica-piano-terra-2.jpg";
 import expo1 from "@/assets/portfolio/expo-1.jpg";
 import expo2 from "@/assets/portfolio/expo-2.jpg";
 import expo3 from "@/assets/portfolio/expo-3.jpg";
+import expoEst from "@/assets/portfolio/expo-est.jpg";
+import expoOvest from "@/assets/portfolio/expo-ovest.jpg";
+import expoBallatoio from "@/assets/portfolio/expo-ballatoio.jpg";
+import expoTerrazzaVista from "@/assets/portfolio/expo-terrazza-vista.jpg";
+import expoPassaggio from "@/assets/portfolio/expo-passaggio.jpg";
 import expo4 from "@/assets/portfolio/expo-4.jpg";
 import expo5 from "@/assets/portfolio/expo-5.jpg";
 import expo6 from "@/assets/portfolio/expo-6.jpg";
@@ -312,7 +317,8 @@ Contributo di Alina Lippiello: sviluppo del concept per il lotto nord, progettaz
     collaborators: `Team di progetto: Luca Poncellini, Luciano Giorgi, Edoardo Riva, Geert Jan Beun, Alina Lippiello, Ivica Covic, Luca Canova Icis Srl, Tecnicaer Srl, Studio Vigetti Merlo
 
 Contributo di Alina Lippiello: sviluppo del dettaglio costruttivo.`,
-    images: [expo1, expo2, expo3, expo4, expo5, expo6, expo7],
+    images: [expo1, expo2, expo3, expoEst, expoOvest, expoBallatoio, expoTerrazzaVista, expoPassaggio, expo4, expo5, expo6, expo7],
+    captions: ['Vista ovest', 'Vista ovest', 'Vista sud', 'Vista est', 'Vista ovest', 'Ballatoio', 'Terrazza', 'Passaggio', 'Terrazza', 'Ristorante'],
     thumbnail: expo1,
   },
   {
