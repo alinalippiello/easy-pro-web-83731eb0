@@ -472,7 +472,7 @@ const Lightbox = ({
                 )}
                 {collaborators && (
                   <p className="font-body text-sm text-muted-foreground whitespace-pre-line">
-                    {collaborators}
+                    In collaborazione con {collaborators}
                   </p>
                 )}
               </div>

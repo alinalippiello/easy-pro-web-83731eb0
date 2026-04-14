@@ -143,46 +143,18 @@ import europan11Houses from "@/assets/portfolio/europan11-houses.jpg";
 import europan11Apartments from "@/assets/portfolio/europan11-apartments.jpg";
 import europan16Cover from "@/assets/portfolio/europan16-cover.jpg";
 import wernigerodeModels from "@/assets/profile-models.png";
-import ilicaProspetto from "@/assets/portfolio/ilica-prospetto.jpg";
-import ilicaCopertura500 from "@/assets/portfolio/ilica-copertura-500.jpg";
-import ilicaProspettoStrada from "@/assets/portfolio/ilica-prospetto-strada.jpg";
-import ilicaProspettoParco from "@/assets/portfolio/ilica-prospetto-parco.jpg";
+import ilicaMasterplan from "@/assets/portfolio/ilica-masterplan.jpg";
 import ilicaCoperture from "@/assets/portfolio/ilica-coperture.jpg";
+import ilicaP2 from "@/assets/portfolio/ilica-p-2.jpg";
 import ilicaP1 from "@/assets/portfolio/ilica-p-1.jpg";
 import ilicaPianoTerra from "@/assets/portfolio/ilica-piano-terra.jpg";
 import ilicaP12 from "@/assets/portfolio/ilica-p1-2.jpg";
-import ilicaPianoTerra2 from "@/assets/portfolio/ilica-piano-terra-2.jpg";
 import ilicaPiano2 from "@/assets/portfolio/ilica-piano-2.jpg";
 import ilicaPiano3 from "@/assets/portfolio/ilica-piano-3.jpg";
 import ilicaPiano22 from "@/assets/portfolio/ilica-piano-2-2.jpg";
-import ilicaSchemaPiani from "@/assets/portfolio/ilica-schema-piani.jpg";
-import ilicaSezioneAa from "@/assets/portfolio/ilica-sezione-aa.jpg";
-import ilicaSezioneBb from "@/assets/portfolio/ilica-sezione-bb.jpg";
-import ilicaSezioneCc from "@/assets/portfolio/ilica-sezione-cc.jpg";
-import ilicaChiaveSezioni from "@/assets/portfolio/ilica-chiave-sezioni.jpg";
-import ilicaProspetto1 from "@/assets/portfolio/ilica-prospetto-1.jpg";
-import ilicaProspetto2 from "@/assets/portfolio/ilica-prospetto-2.jpg";
-import ilicaSezione500 from "@/assets/portfolio/ilica-sezione-500.jpg";
-import ilicaSezione500_2 from "@/assets/portfolio/ilica-sezione-500-2.jpg";
-import ilicaPiano4 from "@/assets/portfolio/ilica-piano-4.jpg";
-import ilicaPiano5 from "@/assets/portfolio/ilica-piano-5.jpg";
-import ilicaCopertura100 from "@/assets/portfolio/ilica-copertura-100.jpg";
-import ilicaCopertura100_2 from "@/assets/portfolio/ilica-copertura-100-2.jpg";
-import ilicaRenderPt from "@/assets/portfolio/ilica-render-pt.jpg";
-import ilicaRenderInterno from "@/assets/portfolio/ilica-render-interno.jpg";
+import ilicaPianoTerra2 from "@/assets/portfolio/ilica-piano-terra-2.jpg";
 
 import expo1 from "@/assets/portfolio/expo-1.jpg";
-import expo2 from "@/assets/portfolio/expo-2.jpg";
-import expo3 from "@/assets/portfolio/expo-3.jpg";
-import expoEst from "@/assets/portfolio/expo-est.jpg";
-import expoOvest from "@/assets/portfolio/expo-ovest.jpg";
-import expoBallatoio from "@/assets/portfolio/expo-ballatoio.jpg";
-import expoTerrazzaVista from "@/assets/portfolio/expo-terrazza-vista.jpg";
-import expoPassaggio from "@/assets/portfolio/expo-passaggio.jpg";
-import expo4 from "@/assets/portfolio/expo-4.jpg";
-import expo5 from "@/assets/portfolio/expo-5.jpg";
-import expo6 from "@/assets/portfolio/expo-6.jpg";
-import expo7 from "@/assets/portfolio/expo-7.jpg";
 import split1 from "@/assets/portfolio/split-1.jpg";
 import split2 from "@/assets/portfolio/split-2.jpg";
 import split3 from "@/assets/portfolio/split-3.jpg";
@@ -250,16 +222,13 @@ const projectsData: ProjectData[] = [
     id: 'wernigerode1',
     yearKey: 'experience.inProgress',
     year: 'In corso',
-    collaborators: `Cliente: Gebäude- und Wohnungsbaugesellschaft Wernigerode mbH
+    author: "Alina Lippiello",
+    collaborators: `Co-Authors: Leonardo Zuccaro Marchi, Alice Covatta, Piero Medici
+With: H+L Hartung & Ludwig Architektur (local architect)
 
-Team di progetto: Leonardo Zuccaro Marchi, Alice Covatta, Alina Lippiello, Piero Medici
+Renders: Be Maarch
 
-Architetto locale: H+L Hartung & Ludwig Architektur
-
-Contributi:
-Alina Lippiello: sviluppo e coordinamento del progetto, progettazione tipologica, dettaglio costruttivo, rapporto diretto con l'architetto locale
-Leonardo Zuccaro Marchi: modello 3D dell'isolato
-Alice Covatta: progettazione del paesaggio`,
+Client: Gebäude- und Wohnungsbaugesellschaft Wernigerode mbH`,
     images: [wernigerodeAerial2, wernigerodeRender, wernigerodeCourtView, wernigerodeInteriorView, wernigerodeLageplan, wernigerodeEgPlan, wernigerodePlan1og, wernigerodePlan2og, wernigerodePlan3og, wernigerodePlan4og, wernigerodeElevNorthC, wernigerodeElevSouthC, wernigerodeFacadeDetail, wernigerodeRoofFacadeDetail, wernigerodeAPiante, wernigerodeAProspetti, wernigerodeBPiante, wernigerodeBProspetti, wernigerodeC1Piante, wernigerodeC1Prospetti, wernigerodeC2Piante, wernigerodeC2Prospetti, wernigerodeDPiante, wernigerodeDProspetti, wernigerodeEPiante, wernigerodeEProspetti],
     captions: ["Vista aerea", "Vista nord", "Vista corte interna", "Interno", "Planimetria generale", "Planimetria generale piano terra", "Pianta generale 1° piano", "Pianta generale 2° piano", "Pianta generale 3° piano", "Planimetria generale copertura", "Prospetto nord edificio C", "Prospetto sud edificio C", "Dettaglio di facciata", "Dettaglio tetto-facciata", "Haus A - Piante", "Haus A - Prospetti", "Haus B - Piante", "Haus B - Prospetti", "Haus C1 - Piante", "Haus C1 - Prospetti", "Haus C2 - Piante", "Haus C2 - Prospetti", "Haus D - Piante", "Haus D - Prospetti", "Haus E - Piante", "Haus E - Prospetti"],
     imageDisplayScales: [1, 1, 1, 1, 0.97, 1, 1.16, 1.16, 1.16, 1.16],
@@ -268,14 +237,15 @@ Alice Covatta: progettazione del paesaggio`,
   {
     id: 'wernigerode2',
     year: "Concorso",
-    collaborators: `Firmatari del concorso: Leonardo Zuccaro Marchi, Alice Covatta
+    author: "Alina Lippiello",
+    collaborators: `Co-Authors: Leonardo Zuccaro Marchi, Alice Covatta, Piero Medici
+With: H+L Hartung & Ludwig Architektur
 
-Team di progetto: Leonardo Zuccaro Marchi, Alice Covatta, Alina Lippiello, Piero Medici
+Collaborators: Ereza Bokshi, Erica Boncaldo, Lorenzo Bucciarelli, Tarek Diebäcker, Andrea Fumero, Aziz Verna GergesHana, Sedat Gölada, Qian Hao, Alessia Pardi, Cagla Turkoglu, Ettore Varoni, Li Xinwei
 
-Collaboratori: Ereza Bokshi, Erica Boncaldo, Lorenzo Bucciarelli, Tarek Diebäcker, Andrea Fumero, Aziz Verna GergesHana, Sedat Gölada, Qian Hao, Alessia Pardi, Cagla Turkoglu, Ettore Varoni, Li Xinwei
-Render: Be Maarch
+Renders: Be Maarch
 
-Contributo di Alina Lippiello: sviluppo del concept per il lotto nord, progettazione tipologica residenziale per entrambi i lotti, revisione dei processi distributivi per il lotto sud, coordinamento del team e redazione del testo descrittivo.`,
+Concorso: Europan 16, Wernigerode, Germania, 2021`,
     images: [wernigerodeModels, gardenCityMasterplan, gardenCityContext, gardenCityPorosity, gardenCity4, gardenCity5, wernigerodePorosityNorth, gardenCity6, gardenCity7, gardenCity8, wernigerodeDraftNorth1, wernigerodeDraftNorth2, wernigerodeDraftNorth3, wernigerodeElevation4, wernigerodePlanNord, wernigerodeLevel0, wernigerodeLevel1, wernigerodeLevel2, wernigerodeLevel3, wernigerodeLevel4, wernigerodeRoof, wernigerodeSection, wernigerodeSectionsAbc, wernigerodeSectionsDefg, wernigerodeTypologies, wernigerodeRender2, wernigerodeSouthDiagram, wernigerodeMasterplan1, wernigerodePorositySouth, wernigerodeMasterplan2, wernigerodeMorphology, wernigerodeAxonometric, wernigerodeGroundfloor, wernigerodeTypology3, wernigerodeLandscape, wernigerodeEnergy, wernigerodeCourtyard, wernigerodeElevation1, wernigerodeElevation2, wernigerodeElevation3],
     thumbnail: wernigerodeModels,
   },
@@ -283,7 +253,8 @@ Contributo di Alina Lippiello: sviluppo del concept per il lotto nord, progettaz
     id: 'novecento',
     yearKey: 'experience.competition',
     year: "Concorso",
-    collaborators: `Concorso per l'ampliamento del Museo del Novecento\nMilano, 2021\n\nTeam di progetto: Alina Lippiello, Leonardo Zuccaro Marchi, Alessandra Lelli, Iacopo Salce\nRender: Be March\n\nContributo di Alina Lippiello: concept architettonico generale, sviluppo del tema della scatola nella scatola, progettazione degli spazi espositivi interni, coordinamento del progetto.\n\nContributi specifici:\nLeonardo Zuccaro Marchi: progettazione della passerella di collegamento tra i due Arengari\nIacopo Salce: progetto strutturale\nAlessandra Lelli: render interni`,
+    author: "Alina Lippiello",
+    collaborators: "Leonardo Zuccaro Marchi, Alessandra Lelli, Iacopo Salce",
     images: [novecentoNew1, novecentoNew2, novecento4, novecento5, novecentoScatola, novecentoSezioneProspettica, novecentoPercorsoEspositivo, novecentoAssonometria, novecentoSezioneAa, novecentoSezioneBb, novecentoSezioneCc, novecentoQuotaNeg540, novecentoQuota009, novecentoQuota297, novecentoQuota604, novecentoQuota1097, novecentoQuota1533, novecentoQuota1965, novecentoQuota2370, novecentoRender1, novecentoRender2, novecentoSchemaStrutturale],
     captions: ['', '', '', '', 'Scatola nella scatola', 'Sezione prospettica', 'Percorso espositivo', 'Assonometria', 'Sezione AA', 'Sezione BB', 'Sezione CC', 'Quota -5.40', 'Quota +0.09', 'Quota +2.97', 'Quota +6.04', 'Quota +10.97', 'Quota +15.33', 'Quota +19.65', 'Quota +23.70', 'Render interno', 'Render interno', 'Schema strutturale'],
     overlayImage: novecentoChiaviSezioni,
@@ -313,7 +284,8 @@ Contributo di Alina Lippiello: sviluppo del concept per il lotto nord, progettaz
   {
     id: 'europan11',
     year: "Runner up",
-    collaborators: "Team di progetto: Alina Lippiello, Leonardo Zuccaro Marchi, Annalisa Romani, Fausto Cuzzocrea\nConcept del masterplan: Ivo Covic\n\nCollaboratori: Filippo Zordan, Fabio De Ciechi, Manuel Mossoni\n\nContributo di Alina Lippiello: capogruppo, progettazione tipologica residenziale.\n\nContributi specifici:\nIvo Covic: concept del masterplan\nFausto Cuzzocrea: sviluppo grafico del masterplan\nLeonardo Zuccaro Marchi: grafica e impaginazione\nAnnalisa Romani: progettazione del paesaggio",
+    author: "Alina Lippiello",
+    collaborators: "Team di progetto: Alina Lippiello, Leonardo Zuccaro Marchi, Annalisa Romani, Fausto Cuzzocrea\nConcept del masterplan: Ivo Covic\nCollaboratori: Filippo Zordan, Fabio De Ciechi, Manuel Mossoni",
     images: [europan11Synthesis, europan11Plan, europan11Aerial, europan11Concept, europan11Skyline, europan11Panoramic, europan11Typologies, europan11Masterplan, europan11Venice, europan11Axo, europan11Models, europan11Apartments, europan11Render, europan11Strip, europan11Houses],
     captionKeys: ['project.europan11.caption1', 'project.europan11.caption2', 'project.europan11.caption3', 'project.europan11.caption4', '', 'project.europan11.caption6', '', 'project.europan11.caption8', 'project.europan11.caption9', 'project.europan11.caption10', 'project.europan11.caption11', 'project.europan11.caption12', 'project.europan11.caption13', 'project.europan11.caption14', 'project.europan11.caption15'],
     thumbnail: europan11Masterplan,
@@ -323,22 +295,14 @@ Contributo di Alina Lippiello: sviluppo del concept per il lotto nord, progettaz
     yearKey: 'experience.competition',
     year: "Concorso",
     author: "Alina Lippiello",
-    images: [ilicaProspetto, ilicaCopertura500, ilicaRenderPt, ilicaRenderInterno, ilicaProspetto1, ilicaSezione500, ilicaSezione500_2, ilicaCoperture, ilicaSchemaPiani, ilicaPianoTerra, ilicaP12, ilicaP1, ilicaPianoTerra2, ilicaPiano2, ilicaPiano3, ilicaPiano22, ilicaPiano4, ilicaPiano5, ilicaCopertura100, ilicaCopertura100_2, ilicaSezioneAa, ilicaSezioneBb, ilicaSezioneCc],
-    captions: ['Prospetto 1:200', 'Planimetria coperture 1:500', 'Render piano terra', 'Render interno', 'Prospetto 1:500', 'Sezione 1:500', 'Sezione 1:500', 'Planimetria 1:500', 'Schema piani', 'Piano terra', 'Piano -2', 'Piano -1', 'Piano terra', 'Piano 1', 'Piano 2', 'Piano 3', 'Piano 4', 'Piano 5', 'Copertura', 'Copertura', 'Sezione AA', 'Sezione BB', 'Sezione CC'],
-    imageDisplayScales: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.85, 1, 1],
-    overlayImage: ilicaChiaveSezioni,
-    overlayImageIndices: [20, 21, 22],
-    thumbnail: ilicaProspetto,
+    images: [ilicaMasterplan, ilicaCoperture, ilicaP2, ilicaPianoTerra, ilicaP1, ilicaP12, ilicaPianoTerra2, ilicaPiano2, ilicaPiano3, ilicaPiano22],
+    captions: ['Masterplan 1:500', 'Masterplan 1:500 con piani terra', 'Coperture 1:500', 'Piano terra', 'Piano -1', 'Piano -2', 'Piano terra', 'Piano 1', 'Piano 2', 'Piano 3'],
+    thumbnail: ilicaCoperture,
   },
   {
     id: 'expo',
-    yearKey: 'experience.competition',
-    year: "Concorso",
-    collaborators: `Team di progetto: Luca Poncellini, Luciano Giorgi, Edoardo Riva, Geert Jan Beun, Alina Lippiello, Ivica Covic, Luca Canova Icis Srl, Tecnicaer Srl, Studio Vigetti Merlo
-
-Contributo di Alina Lippiello: sviluppo del dettaglio costruttivo.`,
-    images: [expo1, expo2, expo3, expoEst, expoOvest, expoBallatoio, expoTerrazzaVista, expoPassaggio, expo4, expo5, expo6, expo7],
-    captions: ['Vista ovest', 'Vista ovest', 'Vista sud', 'Vista est', 'Vista ovest', 'Ballatoio', 'Terrazza', 'Passaggio', 'Terrazza', 'Ristorante'],
+    year: "2015",
+    images: [expo1],
     thumbnail: expo1,
   },
   {
