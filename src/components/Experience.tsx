@@ -168,6 +168,8 @@ import ilicaPiano4 from "@/assets/portfolio/ilica-piano-4.jpg";
 import ilicaPiano5 from "@/assets/portfolio/ilica-piano-5.jpg";
 import ilicaCopertura100 from "@/assets/portfolio/ilica-copertura-100.jpg";
 import ilicaCopertura100_2 from "@/assets/portfolio/ilica-copertura-100-2.jpg";
+import ilicaRenderPt from "@/assets/portfolio/ilica-render-pt.jpg";
+import ilicaRenderInterno from "@/assets/portfolio/ilica-render-interno.jpg";
 
 import expo1 from "@/assets/portfolio/expo-1.jpg";
 import expo2 from "@/assets/portfolio/expo-2.jpg";
@@ -321,11 +323,11 @@ Contributo di Alina Lippiello: sviluppo del concept per il lotto nord, progettaz
     yearKey: 'experience.competition',
     year: "Concorso",
     author: "Alina Lippiello",
-    images: [ilicaProspetto, ilicaCopertura500, ilicaProspetto1, ilicaSezione500, ilicaSezione500_2, ilicaCoperture, ilicaSchemaPiani, ilicaPianoTerra, ilicaP12, ilicaP1, ilicaPianoTerra2, ilicaPiano2, ilicaPiano3, ilicaPiano22, ilicaPiano4, ilicaPiano5, ilicaCopertura100, ilicaCopertura100_2, ilicaSezioneAa, ilicaSezioneBb, ilicaSezioneCc],
-    captions: ['Prospetto 1:200', 'Planimetria coperture 1:500', 'Prospetto 1:500', 'Sezione 1:500', 'Sezione 1:500', 'Planimetria 1:500', 'Schema piani', 'Piano terra', 'Piano -2', 'Piano -1', 'Piano terra', 'Piano 1', 'Piano 2', 'Piano 3', 'Piano 4', 'Piano 5', 'Copertura', 'Copertura', 'Sezione AA', 'Sezione BB', 'Sezione CC'],
-    imageDisplayScales: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.85, 1, 1],
+    images: [ilicaProspetto, ilicaCopertura500, ilicaRenderPt, ilicaRenderInterno, ilicaProspetto1, ilicaSezione500, ilicaSezione500_2, ilicaCoperture, ilicaSchemaPiani, ilicaPianoTerra, ilicaP12, ilicaP1, ilicaPianoTerra2, ilicaPiano2, ilicaPiano3, ilicaPiano22, ilicaPiano4, ilicaPiano5, ilicaCopertura100, ilicaCopertura100_2, ilicaSezioneAa, ilicaSezioneBb, ilicaSezioneCc],
+    captions: ['Prospetto 1:200', 'Planimetria coperture 1:500', 'Render piano terra', 'Render interno', 'Prospetto 1:500', 'Sezione 1:500', 'Sezione 1:500', 'Planimetria 1:500', 'Schema piani', 'Piano terra', 'Piano -2', 'Piano -1', 'Piano terra', 'Piano 1', 'Piano 2', 'Piano 3', 'Piano 4', 'Piano 5', 'Copertura', 'Copertura', 'Sezione AA', 'Sezione BB', 'Sezione CC'],
+    imageDisplayScales: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.85, 1, 1],
     overlayImage: ilicaChiaveSezioni,
-    overlayImageIndices: [18, 19, 20],
+    overlayImageIndices: [20, 21, 22],
     thumbnail: ilicaProspetto,
   },
   {
