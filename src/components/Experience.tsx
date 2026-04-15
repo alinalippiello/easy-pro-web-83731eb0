@@ -363,7 +363,7 @@ Contributo di Alina Lippiello: sviluppo del dettaglio costruttivo.`,
     author: "Alina Lippiello",
     collaborators: "Ivo Covic",
     images: [split1, split2, split3, split4, splitMasterplan, splitPlanivolumetrico, splitRelazioneContesto, splitMorfologiaDiocleziano, splitMorfologiaBastioni, splitSchemi, splitSchemiMatBuilding, splitStazionePassante, splitTipoMorfologia, splitSezioneAaProspetto, splitSezioneBb, splitTrasversaleCc, splitTrasversaleDd, splitTrasversaleEe],
-    captions: [undefined, undefined, undefined, undefined, 'Masterplan', 'Planivolumetrico', 'Relazione con contesto', 'Morfologia. Il muro e il palazzo di Diocleziano', 'Morfologia. Bastioni', 'Schemi', 'Schemi. Mat building', 'Split da stazione termine a passante', 'Tipo morfologia', 'Sezione AA e prospetto longitudinale', 'Sezione BB', 'Trasversale CC', 'Trasversale DD', 'Trasversale EE'] as any,
+    captionKeys: ['', '', '', '', 'project.split.caption5', 'project.split.caption6', 'project.split.caption7', 'project.split.caption8', 'project.split.caption9', 'project.split.caption10', 'project.split.caption11', 'project.split.caption12', 'project.split.caption13', 'project.split.caption14', 'project.split.caption15', 'project.split.caption16', 'project.split.caption17', 'project.split.caption18'],
     thumbnail: split4,
   },
   {
