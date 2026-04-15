@@ -400,40 +400,38 @@ const Lightbox = ({
             </>
           )}
 
-          <div className="flex items-center justify-center gap-2 md:gap-4 relative">
-            <div className="flex flex-col items-center">
-              <img
-                src={images[currentIndex]}
-                alt={`${title || 'Immagine'} ${currentIndex + 1}`}
-                loading="lazy"
-                decoding="async"
-                draggable="false"
-                onContextMenu={(e) => e.preventDefault()}
-                onClick={toggleZoom}
-                style={{
-                  maxWidth: `${56 * currentImageDisplayScale}rem`,
-                  maxHeight: `${65 * currentImageDisplayScale}vh`,
-                  transform: `scale(${zoomLevel}) translate(${position.x / zoomLevel}px, ${position.y / zoomLevel}px)`,
-                  transition: isDragging ? 'none' : 'transform 0.3s ease-out',
-                }}
-                className="w-full object-contain select-none pointer-events-auto"
-              />
-              {captions && captions[currentIndex] && (
-                <p className="mt-3 font-body text-sm text-muted-foreground text-center">
-                  {captions[currentIndex]}
-                </p>
-              )}
-            </div>
+          <div className="flex flex-col items-center">
+            <img
+              src={images[currentIndex]}
+              alt={`${title || 'Immagine'} ${currentIndex + 1}`}
+              loading="lazy"
+              decoding="async"
+              draggable="false"
+              onContextMenu={(e) => e.preventDefault()}
+              onClick={toggleZoom}
+              style={{
+                maxWidth: `${56 * currentImageDisplayScale}rem`,
+                maxHeight: `${65 * currentImageDisplayScale}vh`,
+                transform: `scale(${zoomLevel}) translate(${position.x / zoomLevel}px, ${position.y / zoomLevel}px)`,
+                transition: isDragging ? 'none' : 'transform 0.3s ease-out',
+              }}
+              className="w-full object-contain select-none pointer-events-auto"
+            />
             {overlayImage && overlayImageIndices?.includes(currentIndex) && !isZoomed && (
-              <div className="flex-shrink-0 self-end mb-2">
+              <div className="mt-4 flex justify-center">
                 <img
                   src={overlayImage}
-                  alt="Chiavi sezioni"
-                  className="w-32 h-32 md:w-48 md:h-48 object-contain"
+                  alt="Chiave sezioni"
+                  className="w-1/4 object-contain"
                   draggable="false"
                   onContextMenu={(e) => e.preventDefault()}
                 />
               </div>
+            )}
+            {captions && captions[currentIndex] && (
+              <p className="mt-3 font-body text-sm text-muted-foreground text-center">
+                {captions[currentIndex]}
+              </p>
             )}
           </div>
         </div>
