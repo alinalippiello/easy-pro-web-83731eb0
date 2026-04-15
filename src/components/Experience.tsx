@@ -205,6 +205,11 @@ import splitSchemiMatBuilding from "@/assets/portfolio/split-schemi-mat-building
 import splitStazionePassante from "@/assets/portfolio/split-stazione-passante.jpg";
 import splitTipoMorfologia from "@/assets/portfolio/split-tipo-morfologia.jpg";
 import splitSezioneAaProspetto from "@/assets/portfolio/split-sezione-aa-prospetto.jpg";
+import splitSezioneBb from "@/assets/portfolio/split-sezione-bb.jpg";
+import splitTrasversaleCc from "@/assets/portfolio/split-trasversale-cc.jpg";
+import splitTrasversaleDd from "@/assets/portfolio/split-trasversale-dd.jpg";
+import splitTrasversaleEe from "@/assets/portfolio/split-trasversale-ee.jpg";
+import splitChiaveSezioni from "@/assets/portfolio/split-chiave-sezioni.jpg";
 import koresnica1 from "@/assets/portfolio/koresnica-1.jpg";
 import koresnica2 from "@/assets/portfolio/koresnica-2.jpg";
 import koresnica3 from "@/assets/portfolio/koresnica-3.jpg";
@@ -357,9 +362,11 @@ Contributo di Alina Lippiello: sviluppo del dettaglio costruttivo.`,
     year: "Concorso",
     author: "Alina Lippiello",
     collaborators: "Ivo Covic",
-    images: [split1, split2, split3, split4, splitMasterplan, splitPlanivolumetrico, splitRelazioneContesto, splitMorfologiaDiocleziano, splitMorfologiaBastioni, splitSchemi, splitSchemiMatBuilding, splitStazionePassante, splitTipoMorfologia, splitSezioneAaProspetto],
-    captions: [undefined, undefined, undefined, undefined, 'Masterplan', 'Planivolumetrico', 'Relazione con contesto', 'Morfologia. Il muro e il palazzo di Diocleziano', 'Morfologia. Bastioni', 'Schemi', 'Schemi. Mat building', 'Split da stazione termine a passante', 'Tipo morfologia', 'Sezione AA e prospetto longitudinale'] as any,
+    images: [split1, split2, split3, split4, splitMasterplan, splitPlanivolumetrico, splitRelazioneContesto, splitMorfologiaDiocleziano, splitMorfologiaBastioni, splitSchemi, splitSchemiMatBuilding, splitStazionePassante, splitTipoMorfologia, splitSezioneAaProspetto, splitSezioneBb, splitTrasversaleCc, splitTrasversaleDd, splitTrasversaleEe],
+    captions: [undefined, undefined, undefined, undefined, 'Masterplan', 'Planivolumetrico', 'Relazione con contesto', 'Morfologia. Il muro e il palazzo di Diocleziano', 'Morfologia. Bastioni', 'Schemi', 'Schemi. Mat building', 'Split da stazione termine a passante', 'Tipo morfologia', 'Sezione AA e prospetto longitudinale', 'Sezione BB', 'Trasversale CC', 'Trasversale DD', 'Trasversale EE'] as any,
     thumbnail: split4,
+    overlayImage: splitChiaveSezioni,
+    overlayImageIndices: [13, 14, 15, 16, 17],
   },
   {
     id: 'koresnica',
