@@ -221,8 +221,6 @@ Il progetto completa una storia già scritta, ricucendo il rapporto tra Spalato 
     'project.split.caption11': 'Schemi. Mat building',
     'project.split.caption12': 'Da stazione termine a stazione passante',
     'project.split.caption13': 'Tipo morfologia',
-    'project.split.caption14': 'Sezione AA e prospetto longitudinale',
-    'project.split.caption15': 'Sezione BB',
     'project.split.caption14': 'Pianta colore',
     'project.split.caption15': 'Sezione AA e prospetto longitudinale',
     'project.split.caption16': 'Sezione BB',
