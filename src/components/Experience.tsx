@@ -365,8 +365,6 @@ Contributo di Alina Lippiello: sviluppo del dettaglio costruttivo.`,
     images: [split1, split2, split3, split4, splitMasterplan, splitPlanivolumetrico, splitRelazioneContesto, splitMorfologiaDiocleziano, splitMorfologiaBastioni, splitSchemi, splitSchemiMatBuilding, splitStazionePassante, splitTipoMorfologia, splitSezioneAaProspetto, splitSezioneBb, splitTrasversaleCc, splitTrasversaleDd, splitTrasversaleEe],
     captions: [undefined, undefined, undefined, undefined, 'Masterplan', 'Planivolumetrico', 'Relazione con contesto', 'Morfologia. Il muro e il palazzo di Diocleziano', 'Morfologia. Bastioni', 'Schemi', 'Schemi. Mat building', 'Split da stazione termine a passante', 'Tipo morfologia', 'Sezione AA e prospetto longitudinale', 'Sezione BB', 'Trasversale CC', 'Trasversale DD', 'Trasversale EE'] as any,
     thumbnail: split4,
-    overlayImage: splitChiaveSezioni,
-    overlayImageIndices: [13, 14, 15, 16, 17],
   },
   {
     id: 'koresnica',
