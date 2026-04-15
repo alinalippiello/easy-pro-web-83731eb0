@@ -195,6 +195,16 @@ import split9 from "@/assets/portfolio/split-9.jpg";
 import split10 from "@/assets/portfolio/split-10.jpg";
 import split11 from "@/assets/portfolio/split-11.jpg";
 import split12 from "@/assets/portfolio/split-12.jpg";
+import splitMasterplan from "@/assets/portfolio/split-masterplan.jpg";
+import splitPlanivolumetrico from "@/assets/portfolio/split-planivolumetrico.jpg";
+import splitRelazioneContesto from "@/assets/portfolio/split-relazione-contesto.jpg";
+import splitMorfologiaDiocleziano from "@/assets/portfolio/split-morfologia-muro-diocleziano.jpg";
+import splitMorfologiaBastioni from "@/assets/portfolio/split-morfologia-bastioni.jpg";
+import splitSchemi from "@/assets/portfolio/split-schemi.jpg";
+import splitSchemiMatBuilding from "@/assets/portfolio/split-schemi-mat-building.jpg";
+import splitStazionePassante from "@/assets/portfolio/split-stazione-passante.jpg";
+import splitTipoMorfologia from "@/assets/portfolio/split-tipo-morfologia.jpg";
+import splitSezioneAaProspetto from "@/assets/portfolio/split-sezione-aa-prospetto.jpg";
 import koresnica1 from "@/assets/portfolio/koresnica-1.jpg";
 import koresnica2 from "@/assets/portfolio/koresnica-2.jpg";
 import koresnica3 from "@/assets/portfolio/koresnica-3.jpg";
@@ -347,7 +357,8 @@ Contributo di Alina Lippiello: sviluppo del dettaglio costruttivo.`,
     year: "Concorso",
     author: "Alina Lippiello",
     collaborators: "Ivo Covic",
-    images: [split1, split2, split3, split4, split5, split6, split7, split8, split9, split10, split11, split12],
+    images: [split1, split2, split3, split4, splitMasterplan, splitPlanivolumetrico, splitRelazioneContesto, splitMorfologiaDiocleziano, splitMorfologiaBastioni, splitSchemi, splitSchemiMatBuilding, splitStazionePassante, splitTipoMorfologia, splitSezioneAaProspetto],
+    captions: [undefined, undefined, undefined, undefined, 'Masterplan', 'Planivolumetrico', 'Relazione con contesto', 'Morfologia. Il muro e il palazzo di Diocleziano', 'Morfologia. Bastioni', 'Schemi', 'Schemi. Mat building', 'Split da stazione termine a passante', 'Tipo morfologia', 'Sezione AA e prospetto longitudinale'] as any,
     thumbnail: split4,
   },
   {
