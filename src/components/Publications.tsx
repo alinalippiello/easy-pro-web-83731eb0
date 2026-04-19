@@ -32,6 +32,7 @@ const Publications = () => {
       title: "Europan 11: Floating Blocks",
       publication: "Europan Europe",
       type: "Publication",
+      cover: europan11Cover,
       link: "https://www.europan-europe.eu/en/project-and-processes/floating-blocks",
     },
     {
