@@ -262,6 +262,7 @@ interface ProjectData {
   overlayImage?: string;
   overlayImageIndices?: number[];
   imageDisplayScales?: number[];
+  link?: { url: string; labelKey: string };
 }
 
 const projectsData: ProjectData[] = [
@@ -336,6 +337,7 @@ Contributo di Alina Lippiello: sviluppo del concept per il lotto nord, progettaz
     images: [europan11Synthesis, europan11Plan, europan11Aerial, europan11Concept, europan11Skyline, europan11Panoramic, europan11Typologies, europan11Masterplan, europan11Venice, europan11Axo, europan11Models, europan11Apartments, europan11Render, europan11Strip, europan11Houses],
     captionKeys: ['project.europan11.caption1', 'project.europan11.caption2', 'project.europan11.caption3', 'project.europan11.caption4', '', 'project.europan11.caption6', '', 'project.europan11.caption8', 'project.europan11.caption9', 'project.europan11.caption10', 'project.europan11.caption11', 'project.europan11.caption12', 'project.europan11.caption13', 'project.europan11.caption14', 'project.europan11.caption15'],
     thumbnail: europan11Masterplan,
+    link: { url: 'https://www.europan-europe.eu/en/project-and-processes/floating-blocks', labelKey: 'publications.viewLink' },
   },
   {
     id: 'aluartforum',
@@ -411,6 +413,7 @@ const Experience = () => {
   const [lightboxOverlayImage, setLightboxOverlayImage] = useState<string | undefined>();
   const [lightboxOverlayIndices, setLightboxOverlayIndices] = useState<number[] | undefined>();
   const [lightboxImageDisplayScales, setLightboxImageDisplayScales] = useState<number[] | undefined>();
+  const [lightboxLink, setLightboxLink] = useState<{ url: string; label: string } | undefined>();
 
   const openLightbox = (project: ProjectData, startIndex = 0) => {
     setLightboxImages(project.images);
@@ -426,6 +429,7 @@ const Experience = () => {
     setLightboxOverlayImage(project.overlayImage);
     setLightboxOverlayIndices(project.overlayImageIndices);
     setLightboxImageDisplayScales(project.imageDisplayScales);
+    setLightboxLink(project.link ? { url: project.link.url, label: t(project.link.labelKey) } : undefined);
     setLightboxOpen(true);
   };
 
@@ -460,6 +464,7 @@ const Experience = () => {
         overlayImage={lightboxOverlayImage}
         overlayImageIndices={lightboxOverlayIndices}
         imageDisplayScales={lightboxImageDisplayScales}
+        link={lightboxLink}
       />
       <div className="container">
         <div className="max-w-5xl mx-auto">
