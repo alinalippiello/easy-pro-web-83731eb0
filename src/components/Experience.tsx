@@ -276,7 +276,7 @@ Team di progetto: Leonardo Zuccaro Marchi, Alice Covatta, Alina Lippiello, Piero
 
 Architetto locale: H+L Hartung & Ludwig Architektur
 
-Alina Lippiello: sviluppo e coordinamento del progetto, progettazione tipologica, dettaglio costruttivo, rapporto diretto con l'architetto locale`,
+**Alina Lippiello**: sviluppo e coordinamento del progetto, progettazione tipologica, dettaglio costruttivo, rapporto diretto con l'architetto locale`,
     images: [wernigerodeAerial2, wernigerodeRender, wernigerodeCourtView, wernigerodeInteriorView, wernigerodeLageplan, wernigerodeEgPlan, wernigerodePlan1og, wernigerodePlan2og, wernigerodePlan3og, wernigerodePlan4og, wernigerodeElevNorthC, wernigerodeElevSouthC, wernigerodeFacadeDetail, wernigerodeRoofFacadeDetail, wernigerodeAPiante, wernigerodeAProspetti, wernigerodeBPiante, wernigerodeBProspetti, wernigerodeC1Piante, wernigerodeC1Prospetti, wernigerodeC2Piante, wernigerodeC2Prospetti, wernigerodeDPiante, wernigerodeDProspetti, wernigerodeEPiante, wernigerodeEProspetti],
     captions: ["Vista aerea", "Vista nord", "Vista corte interna", "Interno", "Planimetria generale", "Planimetria generale piano terra", "Pianta generale 1° piano", "Pianta generale 2° piano", "Pianta generale 3° piano", "Planimetria generale copertura", "Prospetto nord edificio C", "Prospetto sud edificio C", "Dettaglio di facciata", "Dettaglio tetto-facciata", "Haus A - Piante", "Haus A - Prospetti", "Haus B - Piante", "Haus B - Prospetti", "Haus C1 - Piante", "Haus C1 - Prospetti", "Haus C2 - Piante", "Haus C2 - Prospetti", "Haus D - Piante", "Haus D - Prospetti", "Haus E - Piante", "Haus E - Prospetti"],
     imageDisplayScales: [1, 1, 1, 1, 0.97, 1, 1.16, 1.16, 1.16, 1.16],
@@ -285,14 +285,12 @@ Alina Lippiello: sviluppo e coordinamento del progetto, progettazione tipologica
   {
     id: 'wernigerode2',
     year: "Concorso",
-    collaborators: `Firmatari del concorso: Leonardo Zuccaro Marchi, Alice Covatta
-
-Team di progetto: Leonardo Zuccaro Marchi, Alice Covatta, Alina Lippiello, Piero Medici
+    collaborators: `Team di progetto: Leonardo Zuccaro Marchi, Alice Covatta, Alina Lippiello, Piero Medici
 
 Collaboratori: Ereza Bokshi, Erica Boncaldo, Lorenzo Bucciarelli, Tarek Diebäcker, Andrea Fumero, Aziz Verna GergesHana, Sedat Gölada, Qian Hao, Alessia Pardi, Cagla Turkoglu, Ettore Varoni, Li Xinwei
 Render: Be Maarch
 
-Contributo di Alina Lippiello: sviluppo del concept per il lotto nord, progettazione tipologica residenziale per entrambi i lotti, revisione dei processi distributivi per il lotto sud, coordinamento del team e redazione del testo descrittivo.`,
+**Alina Lippiello**: sviluppo del concept per il lotto nord, progettazione tipologica residenziale per entrambi i lotti, revisione dei processi distributivi per il lotto sud.`,
     images: [wernigerodeModels, gardenCityMasterplan, gardenCityContext, gardenCityPorosity, gardenCity4, gardenCity5, wernigerodePorosityNorth, gardenCity6, gardenCity7, gardenCity8, wernigerodeDraftNorth1, wernigerodeDraftNorth2, wernigerodeDraftNorth3, wernigerodeElevation4, wernigerodePlanNord, wernigerodeLevel0, wernigerodeLevel1, wernigerodeLevel2, wernigerodeLevel3, wernigerodeLevel4, wernigerodeRoof, wernigerodeSection, wernigerodeSectionsAbc, wernigerodeSectionsDefg, wernigerodeTypologies, wernigerodeRender2, wernigerodeSouthDiagram, wernigerodeMasterplan1, wernigerodePorositySouth, wernigerodeMasterplan2, wernigerodeMorphology, wernigerodeAxonometric, wernigerodeGroundfloor, wernigerodeTypology3, wernigerodeLandscape, wernigerodeEnergy, wernigerodeCourtyard, wernigerodeElevation1, wernigerodeElevation2, wernigerodeElevation3],
     thumbnail: wernigerodeModels,
   },
