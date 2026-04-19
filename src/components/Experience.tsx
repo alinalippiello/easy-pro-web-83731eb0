@@ -210,7 +210,10 @@ import splitTrasversaleCc from "@/assets/portfolio/split-trasversale-cc.jpg";
 import splitTrasversaleDd from "@/assets/portfolio/split-trasversale-dd.jpg";
 import splitTrasversaleEe from "@/assets/portfolio/split-trasversale-ee.jpg";
 import splitChiaveSezioni from "@/assets/portfolio/split-chiave-sezioni.jpg";
-import splitPiantaColore from "@/assets/portfolio/split-pianta-colore.jpg";
+import splitPiantaQuota2 from "@/assets/portfolio/split-pianta-quota-2.jpg";
+import splitPiantaQuota7 from "@/assets/portfolio/split-pianta-quota-7.jpg";
+import splitPiantaQuota10 from "@/assets/portfolio/split-pianta-quota-10.jpg";
+import splitPianteQuote14_26 from "@/assets/portfolio/split-piante-quote-14-26.jpg";
 import koresnica1 from "@/assets/portfolio/koresnica-1.jpg";
 import koresnica2 from "@/assets/portfolio/koresnica-2.jpg";
 import koresnica3 from "@/assets/portfolio/koresnica-3.jpg";
@@ -363,8 +366,8 @@ Contributo di Alina Lippiello: sviluppo del dettaglio costruttivo.`,
     year: "Concorso",
     author: "Alina Lippiello",
     collaborators: "Ivo Covic",
-    images: [split1, split2, split3, split4, splitMasterplan, splitPlanivolumetrico, splitRelazioneContesto, splitMorfologiaDiocleziano, splitMorfologiaBastioni, splitSchemi, splitSchemiMatBuilding, splitStazionePassante, splitTipoMorfologia, splitPiantaColore, splitSezioneAaProspetto, splitSezioneBb, splitTrasversaleCc, splitTrasversaleDd, splitTrasversaleEe],
-    captionKeys: ['', '', '', '', 'project.split.caption5', 'project.split.caption6', 'project.split.caption7', 'project.split.caption8', 'project.split.caption9', 'project.split.caption10', 'project.split.caption11', 'project.split.caption12', 'project.split.caption13', 'project.split.caption14', 'project.split.caption15', 'project.split.caption16', 'project.split.caption17', 'project.split.caption18', 'project.split.caption19'],
+    images: [split1, split2, split3, split4, splitMasterplan, splitPlanivolumetrico, splitRelazioneContesto, splitMorfologiaDiocleziano, splitMorfologiaBastioni, splitSchemi, splitSchemiMatBuilding, splitStazionePassante, splitTipoMorfologia, splitPiantaQuota2, splitPiantaQuota7, splitPiantaQuota10, splitPianteQuote14_26, splitSezioneAaProspetto, splitSezioneBb, splitTrasversaleCc, splitTrasversaleDd, splitTrasversaleEe],
+    captionKeys: ['', '', '', '', 'project.split.caption5', 'project.split.caption6', 'project.split.caption7', 'project.split.caption8', 'project.split.caption9', 'project.split.caption10', 'project.split.caption11', 'project.split.caption12', 'project.split.caption13', 'project.split.caption14', 'project.split.caption20', 'project.split.caption21', 'project.split.caption22', 'project.split.caption15', 'project.split.caption16', 'project.split.caption17', 'project.split.caption18', 'project.split.caption19'],
     thumbnail: split4,
   },
   {
