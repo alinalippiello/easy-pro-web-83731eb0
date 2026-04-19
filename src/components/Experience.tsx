@@ -285,14 +285,12 @@ Alina Lippiello: sviluppo e coordinamento del progetto, progettazione tipologica
   {
     id: 'wernigerode2',
     year: "Concorso",
-    collaborators: `Firmatari del concorso: Leonardo Zuccaro Marchi, Alice Covatta
-
-Team di progetto: Leonardo Zuccaro Marchi, Alice Covatta, Alina Lippiello, Piero Medici
+    collaborators: `Team di progetto: Leonardo Zuccaro Marchi, Alice Covatta, Alina Lippiello, Piero Medici
 
 Collaboratori: Ereza Bokshi, Erica Boncaldo, Lorenzo Bucciarelli, Tarek Diebäcker, Andrea Fumero, Aziz Verna GergesHana, Sedat Gölada, Qian Hao, Alessia Pardi, Cagla Turkoglu, Ettore Varoni, Li Xinwei
 Render: Be Maarch
 
-Contributo di Alina Lippiello: sviluppo del concept per il lotto nord, progettazione tipologica residenziale per entrambi i lotti, revisione dei processi distributivi per il lotto sud, coordinamento del team e redazione del testo descrittivo.`,
+**Alina Lippiello**: sviluppo del concept per il lotto nord, progettazione tipologica residenziale per entrambi i lotti, revisione dei processi distributivi per il lotto sud.`,
     images: [wernigerodeModels, gardenCityMasterplan, gardenCityContext, gardenCityPorosity, gardenCity4, gardenCity5, wernigerodePorosityNorth, gardenCity6, gardenCity7, gardenCity8, wernigerodeDraftNorth1, wernigerodeDraftNorth2, wernigerodeDraftNorth3, wernigerodeElevation4, wernigerodePlanNord, wernigerodeLevel0, wernigerodeLevel1, wernigerodeLevel2, wernigerodeLevel3, wernigerodeLevel4, wernigerodeRoof, wernigerodeSection, wernigerodeSectionsAbc, wernigerodeSectionsDefg, wernigerodeTypologies, wernigerodeRender2, wernigerodeSouthDiagram, wernigerodeMasterplan1, wernigerodePorositySouth, wernigerodeMasterplan2, wernigerodeMorphology, wernigerodeAxonometric, wernigerodeGroundfloor, wernigerodeTypology3, wernigerodeLandscape, wernigerodeEnergy, wernigerodeCourtyard, wernigerodeElevation1, wernigerodeElevation2, wernigerodeElevation3],
     thumbnail: wernigerodeModels,
   },
