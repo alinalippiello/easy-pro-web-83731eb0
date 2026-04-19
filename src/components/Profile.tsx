@@ -42,28 +42,22 @@ const Profile = () => {
             </div>
           </div>
 
-          {/* Bio */}
+          {/* Ambiti di intervento */}
           <div className="mb-12">
             <p className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground mb-6">
-              {t('profile.bio.title')}
+              {t('profile.areas.title')}
             </p>
-            <h3 className="font-display text-lg md:text-xl font-light tracking-wide mb-6">
-              {t('profile.bio.heading')}
-            </h3>
-            <div className="space-y-4 font-body text-sm md:text-base text-foreground leading-relaxed">
-              <p>{t('profile.bio.p1')}</p>
-              <p>{t('profile.bio.p2')}</p>
-              <p>{t('profile.bio.p3')}</p>
-              <p className="italic">{t('profile.bio.p4')}</p>
-              <p>{t('profile.bio.p5')}</p>
-              <p>{t('profile.bio.p6')}</p>
-              <p>{t('profile.bio.p7')}</p>
-              <p>{t('profile.bio.p8')}</p>
-              <p>{t('profile.bio.p9')}</p>
-              <p>{t('profile.bio.p10')}</p>
-              <p>{t('profile.bio.p11')}</p>
-            </div>
+            <ul className="space-y-2 font-body text-sm md:text-base text-foreground leading-relaxed">
+              <li>{t('profile.areas.item1')}</li>
+              <li>{t('profile.areas.item2')}</li>
+              <li>{t('profile.areas.item3')}</li>
+              <li>{t('profile.areas.item4')}</li>
+            </ul>
+            <p className="font-body text-sm md:text-base text-foreground leading-relaxed mt-6">
+              {t('profile.areas.footer')}
+            </p>
           </div>
+
 
         </div>
       </div>
