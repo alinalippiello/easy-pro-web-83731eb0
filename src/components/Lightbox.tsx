@@ -17,6 +17,7 @@ interface LightboxProps {
   overlayImage?: string;
   overlayImageIndices?: number[];
   imageDisplayScales?: number[];
+  link?: { url: string; label: string };
 }
 
 const Lightbox = ({
@@ -35,6 +36,7 @@ const Lightbox = ({
   overlayImage,
   overlayImageIndices,
   imageDisplayScales,
+  link,
 }: LightboxProps) => {
   const [isZoomed, setIsZoomed] = useState(false);
   const [zoomLevel, setZoomLevel] = useState(1);
@@ -471,6 +473,18 @@ const Lightbox = ({
                 {collaborators && (
                   <p className="font-body text-sm text-muted-foreground whitespace-pre-line">
                     {collaborators}
+                  </p>
+                )}
+                {link && (
+                  <p className="font-body text-sm mt-4">
+                    <a
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-foreground underline underline-offset-4 hover:text-muted-foreground transition-smooth"
+                    >
+                      {link.label}
+                    </a>
                   </p>
                 )}
               </div>
