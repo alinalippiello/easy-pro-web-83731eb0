@@ -4,6 +4,7 @@ import Lightbox from "@/components/Lightbox";
 import bariCover from "@/assets/publications/bari-studi-per-la-metropoli.jpg";
 import stazioniCover from "@/assets/publications/stazioni-un-sipario-urbano.jpg";
 import newYorkMilanoCover from "@/assets/publications/new-york-milano.jpg";
+import europan11Cover from "@/assets/publications/europan-11.jpg";
 
 interface Publication {
   year: string;
