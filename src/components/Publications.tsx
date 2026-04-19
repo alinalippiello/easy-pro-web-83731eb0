@@ -102,9 +102,9 @@ const Publications = () => {
                 className={`group ${pub.cover ? 'cursor-pointer' : ''}`}
                 onClick={() => openLightbox(pub)}
               >
-                {/* Cover or placeholder */}
-                <div className="aspect-[4/3] overflow-hidden mb-3 rounded-sm bg-muted flex items-center justify-center">
-                  {pub.cover ? (
+                {/* Cover slot */}
+                <div className="aspect-[4/3] overflow-hidden mb-3 rounded-sm flex items-center justify-center">
+                  {pub.cover && (
                     <img
                       src={pub.cover}
                       alt={pub.publication}
@@ -114,16 +114,6 @@ const Publications = () => {
                       onContextMenu={(e) => e.preventDefault()}
                       className="w-full h-full object-contain transition-all duration-500 group-hover:scale-105 group-hover:shadow-lg select-none pointer-events-none"
                     />
-                  ) : (
-                    <div className="flex flex-col items-center justify-center gap-2 px-3 text-center">
-                      <span className="font-display text-4xl md:text-5xl font-light text-foreground/70 leading-none tracking-tight">
-                        {pub.year}
-                      </span>
-                      <span className="block w-6 h-px bg-border" />
-                      <p className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground leading-snug">
-                        {pub.publication}
-                      </p>
-                    </div>
                   )}
                 </div>
 
