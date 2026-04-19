@@ -18,6 +18,7 @@ const Publications = () => {
       title: "Europan 11: Floating Blocks",
       publication: "Europan Europe",
       type: "Publication",
+      link: "https://www.europan-europe.eu/en/project-and-processes/floating-blocks",
     },
     {
       year: "2007",
@@ -78,6 +79,18 @@ const Publications = () => {
                   <p className="font-body text-sm font-normal">
                     "{pub.title}", in <em>{pub.publication}</em>
                   </p>
+                  {(pub as any).link && (
+                    <p className="mt-1">
+                      <a
+                        href={(pub as any).link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-body text-sm text-foreground underline underline-offset-4 hover:text-muted-foreground transition-smooth"
+                      >
+                        {t('publications.viewLink')}
+                      </a>
+                    </p>
+                  )}
                 </div>
               </div>
             ))}
