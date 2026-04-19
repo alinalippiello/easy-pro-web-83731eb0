@@ -1,12 +1,25 @@
+import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import Lightbox from "@/components/Lightbox";
 import bariCover from "@/assets/publications/bari-studi-per-la-metropoli.jpg";
 import stazioniCover from "@/assets/publications/stazioni-un-sipario-urbano.jpg";
 import newYorkMilanoCover from "@/assets/publications/new-york-milano.jpg";
 
+interface Publication {
+  year: string;
+  title: string;
+  publication: string;
+  type: string;
+  cover?: string;
+  link?: string;
+}
+
 const Publications = () => {
   const { t } = useLanguage();
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [activePub, setActivePub] = useState<Publication | null>(null);
 
-  const publications = [
+  const publications: Publication[] = [
     {
       year: "2021",
       title: "Europan 16: Living the New Ecological Porous Garden City of Wernigerode",
@@ -49,49 +62,83 @@ const Publications = () => {
     },
   ];
 
+  const openLightbox = (pub: Publication) => {
+    if (!pub.cover) return;
+    setActivePub(pub);
+    setLightboxOpen(true);
+  };
+
+  const closeLightbox = () => {
+    setLightboxOpen(false);
+  };
+
   return (
     <section id="pubblicazioni" className="py-20 md:py-28 border-t border-border">
+      {activePub?.cover && (
+        <Lightbox
+          images={[activePub.cover]}
+          currentIndex={0}
+          isOpen={lightboxOpen}
+          onClose={closeLightbox}
+          onPrev={() => {}}
+          onNext={() => {}}
+          title={activePub.publication}
+          description={`"${activePub.title}"`}
+          link={activePub.link ? { url: activePub.link, label: t('publications.viewLink') } : undefined}
+        />
+      )}
       <div className="container">
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-5xl mx-auto">
           {/* Section title */}
           <p className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground mb-12 text-center">
             {t('publications.title')}
           </p>
 
-          <div className="space-y-6">
+          {/* Tiles grid */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
             {publications.map((pub, index) => (
               <div
                 key={index}
-                className="flex flex-col md:flex-row md:items-start gap-3 md:gap-8 pb-6 border-b border-border last:border-b-0"
+                className={`group ${pub.cover ? 'cursor-pointer' : ''}`}
+                onClick={() => openLightbox(pub)}
               >
-                <p className="font-body text-xs text-muted-foreground md:w-16 shrink-0 md:pt-1">
-                  {pub.year}
-                </p>
-                {pub.cover && (
-                  <img
-                    src={pub.cover}
-                    alt={pub.publication}
-                    loading="lazy"
-                    className="w-20 md:w-24 h-auto object-contain shrink-0"
-                  />
-                )}
-                <div className="flex-1 md:pt-1">
-                  <p className="font-body text-sm font-normal">
-                    "{pub.title}", in <em>{pub.publication}</em>
-                  </p>
-                  {(pub as any).link && (
-                    <p className="mt-1">
-                      <a
-                        href={(pub as any).link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="font-body text-sm text-foreground underline underline-offset-4 hover:text-muted-foreground transition-smooth"
-                      >
-                        {t('publications.viewLink')}
-                      </a>
+                {/* Cover or placeholder */}
+                <div className="aspect-[4/3] overflow-hidden mb-3 rounded-sm bg-muted flex items-center justify-center">
+                  {pub.cover ? (
+                    <img
+                      src={pub.cover}
+                      alt={pub.publication}
+                      loading="lazy"
+                      decoding="async"
+                      draggable="false"
+                      onContextMenu={(e) => e.preventDefault()}
+                      className="w-full h-full object-contain transition-all duration-500 group-hover:scale-105 group-hover:shadow-lg select-none pointer-events-none"
+                    />
+                  ) : (
+                    <p className="font-body text-xs text-muted-foreground text-center px-3 leading-snug">
+                      {pub.publication}
                     </p>
                   )}
                 </div>
+
+                {/* Year + title */}
+                <p className="font-body text-xs text-muted-foreground mb-1">
+                  {pub.year}
+                </p>
+                <h4 className="font-body text-sm font-normal leading-tight">
+                  {pub.title}
+                </h4>
+                {pub.link && (
+                  <a
+                    href={pub.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="inline-block mt-2 font-body text-xs text-foreground underline underline-offset-4 hover:text-muted-foreground transition-smooth"
+                  >
+                    {t('publications.viewLink')}
+                  </a>
+                )}
               </div>
             ))}
           </div>
