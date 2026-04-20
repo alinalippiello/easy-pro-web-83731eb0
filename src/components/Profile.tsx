@@ -9,10 +9,10 @@ const Profile = () => {
         <div className="max-w-3xl mx-auto">
           {/* Header */}
           <div className="text-center mb-16">
-            <h2 className="font-display text-2xl md:text-3xl font-light tracking-wide mb-4">
+            <h2 className="font-display text-2xl md:text-3xl font-light tracking-wide mb-4 text-center">
               Alina Lippiello
             </h2>
-            <p className="font-body text-sm tracking-[0.2em] uppercase text-muted-foreground">
+            <p className="font-body text-sm tracking-[0.2em] uppercase text-muted-foreground text-center">
               {t('profile.subtitle')}
             </p>
           </div>
