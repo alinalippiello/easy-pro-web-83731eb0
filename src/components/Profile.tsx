@@ -29,7 +29,7 @@ const Profile = () => {
           </div>
 
           {/* Profile - continuous justified text like Elemental */}
-          <div className="space-y-4 font-body text-sm md:text-base text-foreground leading-relaxed">
+          <div className="space-y-4 font-body text-sm md:text-base text-foreground leading-[1.6]">
             <p>{t('profile.profile.p1')}</p>
             <p>{t('profile.profile.p2')}</p>
             <p>{t('profile.profile.p3')}</p>
