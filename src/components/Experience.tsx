@@ -314,7 +314,27 @@ Collaboratori: E. Bokshi, E. Boncaldo, L. Bucciarelli, T. Diebäcker, A. Fumero,
     id: 'novecento',
     yearKey: 'experience.competition',
     year: "Concorso",
-    collaborators: `Concorso per l'ampliamento del Museo del Novecento\nMilano, 2021\n\nTeam di progetto: Alina Lippiello, Leonardo Zuccaro Marchi, Alessandra Lelli, Iacopo Salce\nRender: Be March\n\nContributo di Alina Lippiello: concept architettonico generale, sviluppo del tema della scatola nella scatola, progettazione degli spazi espositivi interni, coordinamento del progetto.\n\nContributi specifici:\nLeonardo Zuccaro Marchi: progettazione della passerella di collegamento tra i due Arengari\nIacopo Salce: progetto strutturale\nAlessandra Lelli: render interni`,
+    collaborators: `Team di progetto: **Alina Lippiello**, Leonardo Zuccaro Marchi, Alessandra Lelli, Iacopo Salce
+
+Ruolo (**Alina Lippiello**):
+
+Architectural Concept: Ideazione del linguaggio architettonico generale.
+
+Progettazione Tematica: Sviluppo del concept "scatola nella scatola" (box-in-a-box).
+
+Exhibit Design: Progettazione degli spazi espositivi e della sequenza museografica interna.
+
+Project Coordination: Coordinamento generale della proposta progettuale.
+
+Contributi Specialistici:
+
+Leonardo Zuccaro Marchi: Design architettonico della passerella di connessione tra gli Arengari.
+
+Iacopo Salce: Consulenza e integrazione dei sistemi strutturali.
+
+Alessandra Lelli: Elaborazione dell'immagine coordinata e delle atmosfere interne.
+
+Visualizzazione: Be Maarch`,
     images: [novecentoNew1, novecentoNew2, novecento4, novecento5, novecentoScatola, novecentoSezioneProspettica, novecentoPercorsoEspositivo, novecentoAssonometria, novecentoSezioneAa, novecentoSezioneBb, novecentoSezioneCc, novecentoQuotaNeg540, novecentoQuota009, novecentoQuota297, novecentoQuota604, novecentoQuota1097, novecentoQuota1533, novecentoQuota1965, novecentoQuota2370, novecentoRender1, novecentoRender2, novecentoSchemaStrutturale],
     captions: ['', '', '', '', 'Scatola nella scatola', 'Sezione prospettica', 'Percorso espositivo', 'Assonometria', 'Sezione AA', 'Sezione BB', 'Sezione CC', 'Quota -5.40', 'Quota +0.09', 'Quota +2.97', 'Quota +6.04', 'Quota +10.97', 'Quota +15.33', 'Quota +19.65', 'Quota +23.70', 'Render interno', 'Render interno', 'Schema strutturale'],
     overlayImage: novecentoChiaviSezioni,
@@ -344,7 +364,23 @@ Collaboratori: E. Bokshi, E. Boncaldo, L. Bucciarelli, T. Diebäcker, A. Fumero,
   {
     id: 'europan11',
     year: "Runner up",
-    collaborators: "Team di progetto: Alina Lippiello, Leonardo Zuccaro Marchi, Annalisa Romani, Fausto Cuzzocrea\nConcept del masterplan: Ivo Covic\n\nCollaboratori: Filippo Zordan, Fabio De Ciechi, Manuel Mossoni\n\nContributo di Alina Lippiello: capogruppo, progettazione tipologica residenziale.\n\nContributi specifici:\nIvo Covic: concept del masterplan\nFausto Cuzzocrea: sviluppo grafico del masterplan\nLeonardo Zuccaro Marchi: grafica e impaginazione\nAnnalisa Romani: progettazione del paesaggio",
+    collaborators: `Team di progetto: **Alina Lippiello** (Capogruppo), Leonardo Zuccaro Marchi, Annalisa Romani, Fausto Cuzzocrea
+
+Ruolo (**Alina Lippiello**):
+
+Progettazione Tipologica: Sviluppo dei sistemi residenziali e dei modelli abitativi.
+
+Architectural Development: Traduzione delle strategie urbane alla scala dell'edificio.
+
+Contributi Specialistici:
+
+Ivo Covic: Concept del Masterplan.
+
+Annalisa Romani: Landscape Design.
+
+Leonardo Zuccaro Marchi: Sviluppo della proposta architettonica, comunicazione visiva e impaginazione.
+
+Fausto Cuzzocrea: Sviluppo grafico del masterplan.`,
     images: [europan11Synthesis, europan11Plan, europan11Aerial, europan11Concept, europan11Skyline, europan11Panoramic, europan11Typologies, europan11Masterplan, europan11Venice, europan11Axo, europan11Models, europan11Apartments, europan11Render, europan11Strip, europan11Houses],
     captionKeys: ['project.europan11.caption1', 'project.europan11.caption2', 'project.europan11.caption3', 'project.europan11.caption4', '', 'project.europan11.caption6', '', 'project.europan11.caption8', 'project.europan11.caption9', 'project.europan11.caption10', 'project.europan11.caption11', 'project.europan11.caption12', 'project.europan11.caption13', 'project.europan11.caption14', 'project.europan11.caption15'],
     thumbnail: europan11Masterplan,
@@ -366,9 +402,19 @@ Collaboratori: E. Bokshi, E. Boncaldo, L. Bucciarelli, T. Diebäcker, A. Fumero,
     id: 'expo',
     yearKey: 'experience.competition',
     year: "Concorso",
-    collaborators: `Team di progetto: Luca Poncellini, Luciano Giorgi, Edoardo Riva, Geert Jan Beun, Alina Lippiello, Ivica Covic, Luca Canova Icis Srl, Tecnicaer Srl, Studio Vigetti Merlo
+    collaborators: `Team di progetto: Luca Poncellini, Luciano Giorgi, Edoardo Riva, Geert Jan Beun, **Alina Lippiello**, Ivica Covic, Luca Canova. Ingegneria e Consulenza: Icis Srl, Tecnicaer Srl, Studio Vigetti Merlo.
 
-Contributo di Alina Lippiello: sviluppo del dettaglio costruttivo.`,
+Ruolo (**Alina Lippiello**):
+
+Technical & Detail Design: Sviluppo dei dettagli costruttivi e dei sistemi tecnologici.
+
+Design Development: Supporto alla definizione delle soluzioni architettoniche esecutive.
+
+Contributi principali:
+
+Luca Poncellini: Sviluppo del progetto architettonico.
+
+Luciano Giorgi: Direzione artistica, interior design e definizione dell'involucro architettonico.`,
     images: [expo1, expo2, expo3, expoEst, expoOvest, expoBallatoio, expoTerrazzaVista, expoPassaggio, expo4, expo5, expo6, expo7],
     captions: ['Vista ovest', 'Vista ovest', 'Vista sud', 'Vista est', 'Vista ovest', 'Ballatoio', 'Terrazza', 'Passaggio', 'Terrazza', 'Ristorante'],
     thumbnail: expo1,
@@ -387,7 +433,21 @@ Contributo di Alina Lippiello: sviluppo del dettaglio costruttivo.`,
     id: 'koresnica',
     yearKey: 'experience.competition',
     year: "Concorso",
-    author: "Alina Lippiello",
+    collaborators: `Team di progetto: **Alina Lippiello**, Ivica Covic, in collaborazione con Studio Locale (Croazia).
+
+Ruolo (**Alina Lippiello**):
+
+Progettazione Tipologica: Ricerca e sviluppo dei modelli residenziali e degli schemi distributivi degli alloggi.
+
+Design Development: Definizione del rapporto tra cellule abitative, spazi comuni e sistema dei percorsi.
+
+Architectural Language: Studio della morfologia edilizia in relazione alle pendenze del sito e al contesto mediterraneo.
+
+Contributi specifici:
+
+Ivica Covic: Masterplan e strategia urbana.
+
+Studio Locale: Supporto alla progettazione e adeguamento normativo.`,
     images: [koresnica1, koresnica2, koresnica3, koresnica4],
     thumbnail: koresnica1,
   },
