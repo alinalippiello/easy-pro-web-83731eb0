@@ -10,8 +10,8 @@ const Footer = () => {
           <p className="font-body text-xs text-muted-foreground">
             © {new Date().getFullYear()} Alina Lippiello. {t('footer.rights')}
           </p>
-          <p className="font-body text-xs text-muted-foreground">
-            {t('footer.privacy')}
+          <p className="font-body text-xs text-muted-foreground/60">
+            Privacy Policy &ndash; Cookies Policy &ndash; Change cookies consent
           </p>
         </div>
       </div>
