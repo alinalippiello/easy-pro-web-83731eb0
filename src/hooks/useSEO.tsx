@@ -7,7 +7,7 @@ interface SEOConfig {
 
 const seoTranslations: Record<Language, { title: string; description: string }> = {
   it: {
-    title: 'Alina Lippiello | Architetto, Ricercatrice, Designer',
+    title: 'Alina Lippiello | Architetta, Ricercatrice, Designer',
     description: "Alina Lippiello è un'architetta con oltre 20 anni di esperienza nella progettazione urbana, l'integrazione tra architettura e paesaggio. Studio diffuso tra Milano, Montreal, Rotterdam e Padova.",
   },
   en: {
@@ -27,7 +27,7 @@ const languageCodes: Record<Language, string> = {
 };
 
 const jobTitles: Record<Language, string[]> = {
-  it: ['Architetto', 'Ricercatrice', 'Designer'],
+  it: ['Architetta', 'Ricercatrice', 'Designer'],
   en: ['Architect', 'Researcher', 'Designer'],
   es: ['Arquitecta', 'Investigadora', 'Diseñadora'],
 };
@@ -51,7 +51,7 @@ export const useSEO = ({ language }: SEOConfig) => {
     // Update OG meta tags
     const ogTitle = document.querySelector('meta[property="og:title"]');
     if (ogTitle) {
-      ogTitle.setAttribute('content', title.split(' | ')[0] + ' | Architetto');
+      ogTitle.setAttribute('content', title.split(' | ')[0] + ' | Architetta');
     }
     
     const ogDescription = document.querySelector('meta[property="og:description"]');
