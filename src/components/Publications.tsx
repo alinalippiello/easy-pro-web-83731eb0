@@ -13,6 +13,7 @@ interface Publication {
   type: string;
   cover?: string;
   link?: string;
+  summary?: string;
 }
 
 const Publications = () => {
@@ -48,6 +49,7 @@ const Publications = () => {
       publication: "STAZIONI, un sipario urbano",
       type: "Article",
       cover: stazioniCover,
+      summary: "Fin dalle origini la ferrovia introduce trasformazioni profonde nella struttura del territorio. Le rotaie disegnano una geometria euclidea che si confronta con la morfologia del paesaggio. I luoghi si avvicinano, il viaggio diventa intervallo tra partenza e arrivo, il paesaggio diviene panorama.",
     },
     {
       year: "2005",
@@ -85,7 +87,7 @@ const Publications = () => {
           onPrev={() => {}}
           onNext={() => {}}
           title={activePub.publication}
-          description={`"${activePub.title}"`}
+          description={activePub.summary ? `"${activePub.title}"\n\n${activePub.summary}` : `"${activePub.title}"`}
           link={activePub.link ? { url: activePub.link, label: t('publications.viewLink') } : undefined}
         />
       )}
