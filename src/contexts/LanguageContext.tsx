@@ -19,12 +19,12 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.close': 'Chiudi',
     
     // Hero
-    'hero.title': 'Architetto',
+    'hero.title': 'Architetta',
     'hero.description': "L'architettura come racconto stratificato, tra spazio, tempo e paesaggio.",
     'hero.cta': 'Scopri di più ↓',
     
     // Profile
-    'profile.subtitle': 'Architetto | Concept designer | Direzione artistica',
+    'profile.subtitle': 'Architetta | Concept designer | Direzione artistica',
     'profile.vision.title': 'Visione',
     'profile.vision.quote': "L'architettura non è un oggetto, ma un campo di forze.",
     'profile.vision.text': "È una soglia tra paesaggio e costruito, tra memoria e trasformazione, tra ciò che esiste e ciò che può emergere. Il mio lavoro nasce da questa tensione: progetto spazi che non si impongono, ma si innestano; che non separano, ma connettono; che non si limitano a rispondere a una funzione, ma costruiscono senso.",
