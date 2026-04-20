@@ -151,6 +151,12 @@
     @apply tracking-wide;
   }
 
+  /* Allow text-center to override justify on paragraphs */
+  .text-center p {
+    text-align: center;
+    hyphens: none;
+  }
+
   ::selection {
     @apply bg-primary/20 text-foreground;
   }
