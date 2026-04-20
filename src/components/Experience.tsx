@@ -345,8 +345,17 @@ Visualizzazione: Be Maarch`,
     id: 'illerpark',
     yearKey: 'experience.competition',
     year: "Concorso",
-    author: "Alina Lippiello",
-    collaborators: "Co-Authors: Leonardo Zuccaro Marchi, Alice Covatta, Piero Medici",
+    collaborators: `Team di progetto: **Alina Lippiello**, Leonardo Zuccaro Marchi, Alice Covatta, Piero Medici
+
+Ruolo (**Alina Lippiello**):
+
+Design Development: Sviluppo della proposta progettuale.
+
+Progettazione Tipologica: Ricerca e definizione dei modelli abitativi per il complesso residenziale.
+
+Sviluppo Architettonico: Progettazione della tipologia a ballatoio come elemento di connessione spaziale e sociale.
+
+Ottimizzazione degli alloggi: Definizione degli schemi distributivi interni e della loro flessibilità.`,
     images: [illerparkModel4, illerparkModel2, illerparkModel1, illerpark1, illerpark2, illerpark3, illerpark5, illerpark4, illerpark6, illerparkAxonometric, illerparkSections, illerparkRenderCourt, illerparkRenderStreet, illerparkDetail, illerparkCover],
     captions: ["Modello", "Modello", "Modello", "", "", "", "", "", "", "Assonometria", "Sezioni", "Vista corte interna", "Vista strada", "Dettaglio costruttivo", ""],
     thumbnail: illerparkModel4,
@@ -355,8 +364,17 @@ Visualizzazione: Be Maarch`,
     id: 'shinkenchiku',
     yearKey: 'experience.mention',
     year: "Menzione",
-    author: "Alina Lippiello",
-    collaborators: "Ivica Covic, Leonardo Zuccaro Marchi, Alessandra Lelli",
+    collaborators: `Team di progetto: **Alina Lippiello**, Ivica Covic, Leonardo Zuccaro Marchi, Alessandra Lelli
+
+Ruolo (**Alina Lippiello**):
+
+Architectural Concept: Ideazione della visione architettonica e del linguaggio formale della proposta.
+
+Progettazione Tipologica: Sviluppo del sistema insediativo e dei modelli abitativi.
+
+Sperimentazione Spaziale: Ricerca sulla trasparenza, la rarefazione dei volumi e il rapporto tra spazio domestico e paesaggio.
+
+Design Development: Definizione dei sistemi di involucro e della coerenza visiva del progetto.`,
     images: [shinkenchiku2, shinkenchiku3, shinkenchiku4, shinkenchiku5, shinkenchiku6, shinkenchiku7, shinkenchiku8, shinkenchiku9, shinkenchiku10, shinkenchiku11, shinkenchiku14],
     captionKeys: ['project.shinkenchiku.caption2', 'project.shinkenchiku.caption3', 'project.shinkenchiku.caption4', 'project.shinkenchiku.caption5', 'project.shinkenchiku.caption6', 'project.shinkenchiku.caption7', 'project.shinkenchiku.caption8', 'project.shinkenchiku.caption9', 'project.shinkenchiku.caption10', 'project.shinkenchiku.caption11', 'project.shinkenchiku.caption14'],
     thumbnail: shinkenchiku2,
@@ -390,8 +408,21 @@ Fausto Cuzzocrea: Sviluppo grafico del masterplan.`,
     id: 'aluartforum',
     yearKey: 'experience.competition',
     year: "Concorso",
-    author: "Alina Lippiello",
-    images: [ilicaProspetto, ilicaCopertura500, ilicaRenderPt, ilicaRenderInterno, ilicaProspetto1, ilicaSezione500, ilicaSezione500_2, ilicaCoperture, ilicaSchemaPiani, ilicaPianoTerra, ilicaP12, ilicaP1, ilicaPianoTerra2, ilicaPiano2, ilicaPiano3, ilicaPiano22, ilicaPiano4, ilicaPiano5, ilicaCopertura100, ilicaCopertura100_2, ilicaSezioneAa, ilicaSezioneBb, ilicaSezioneCc],
+    collaborators: `Team di progetto: **Alina Lippiello**, Ivo Covic, Leonardo Zuccaro Marchi
+
+Ruolo e Contributo (**Alina Lippiello**):
+
+Architectural Concept: Ideazione della strategia progettuale e del linguaggio architettonico (in collaborazione con I. Covic).
+
+Sviluppo Tecnico-Spaziale: Elaborazione e definizione delle planimetrie e delle sezioni di progetto.
+
+Design Development: Traduzione dell'idea concettuale in soluzioni spaziali e funzionali.
+
+Contributi Specialistici:
+
+Ivo Covic: Architectural Concept.
+
+Leonardo Zuccaro Marchi: Comunicazione visiva e design grafico.`,
     captions: ['Prospetto 1:200', 'Planimetria coperture 1:500', 'Render piano terra', 'Render interno', 'Prospetto 1:500', 'Sezione 1:500', 'Sezione 1:500', 'Planimetria 1:500', 'Schema piani', 'Piano terra', 'Piano -2', 'Piano -1', 'Piano terra', 'Piano 1', 'Piano 2', 'Piano 3', 'Piano 4', 'Piano 5', 'Copertura', 'Copertura', 'Sezione AA', 'Sezione BB', 'Sezione CC'],
     imageDisplayScales: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.85, 1, 1],
     overlayImage: ilicaChiaveSezioni,
@@ -423,8 +454,21 @@ Luciano Giorgi: Direzione artistica, interior design e definizione dell'involucr
     id: 'split',
     yearKey: 'experience.competition',
     year: "Concorso",
-    author: "Alina Lippiello",
-    collaborators: "Ivo Covic",
+    collaborators: `Team di progetto: **Alina Lippiello**, Ivo Covic
+
+Ruolo e Contributo (**Alina Lippiello**):
+
+Architectural Design: Definizione architettonica e formale del nodo intermodale e della nuova stazione.
+
+Progettazione Complessa: Sviluppo degli edifici direzionali e residenziali sulla piastra infrastrutturale.
+
+Landmark Design: Progettazione dell'edificio pubblico di testa, concepito come volume iconico a matrice cubica.
+
+Sviluppo Tecnico: Studio delle connessioni tra la quota del ferro, la piastra urbana e il fronte mare.
+
+Contributi specifici:
+
+Ivo Covic: Sviluppo del sistema di hotel diffuso e riqualificazione dell'area collinare.`,
     images: [split1, split2, split3, split4, splitMasterplan, splitPlanivolumetrico, splitRelazioneContesto, splitMorfologiaDiocleziano, splitMorfologiaBastioni, splitSchemi, splitSchemiMatBuilding, splitStazionePassante, splitTipoMorfologia, splitPiantaQuota2, splitPiantaQuota7, splitPiantaQuota10, splitPianteQuote14_26, splitSezioneAaProspetto, splitSezioneBb, splitTrasversaleCc, splitTrasversaleDd, splitTrasversaleEe],
     captionKeys: ['', '', '', '', 'project.split.caption5', 'project.split.caption6', 'project.split.caption7', 'project.split.caption8', 'project.split.caption9', 'project.split.caption10', 'project.split.caption11', 'project.split.caption12', 'project.split.caption13', 'project.split.caption14', 'project.split.caption20', 'project.split.caption21', 'project.split.caption22', 'project.split.caption15', 'project.split.caption16', 'project.split.caption17', 'project.split.caption18', 'project.split.caption19'],
     thumbnail: split4,
@@ -455,8 +499,21 @@ Studio Locale: Supporto alla progettazione e adeguamento normativo.`,
     id: 'lorenteggio',
     yearKey: 'experience.competition',
     year: "Concorso",
-    author: "Alina Lippiello",
-    collaborators: "Leonardo Zuccaro Marchi",
+    collaborators: `Team di progetto: **Alina Lippiello**, Leonardo Zuccaro Marchi
+
+Ruolo e Contributo (**Alina Lippiello**):
+
+Architectural Design: Sviluppo integrale del progetto architettonico della biblioteca.
+
+Masterplan & Urban Strategy: Definizione della strategia urbana e del rapporto tra l'edificio e la piazza.
+
+Progettazione Funzionale: Organizzazione dei flussi, degli spazi espositivi e dei sistemi distributivi interni.
+
+Design Development: Traduzione tecnica e morfologica del concept narrativo nella struttura architettonica.
+
+Contributi specifici:
+
+Leonardo Zuccaro Marchi: Concept narrativo, Landscape Design e comunicazione visiva.`,
     images: [lorenteggio1, lorenteggio2, lorenteggio3, lorenteggio4, lorenteggio5, lorenteggio6, lorenteggio7, lorenteggio8],
     thumbnail: lorenteggio1,
   },
@@ -464,8 +521,23 @@ Studio Locale: Supporto alla progettazione e adeguamento normativo.`,
     id: 'zagrebBgg',
     yearKey: 'experience.competition',
     year: "Concorso",
-    author: "Alina Lippiello",
-    collaborators: "Ivo Covic, Marco Visconti architects",
+    collaborators: `Team di progetto: **Alina Lippiello**, Ivo Covic, Marco Visconti Architects
+
+Ruolo e Contributo (**Alina Lippiello**):
+
+Progettazione Funzionale e Distributiva: Sviluppo integrale dell'organizzazione interna e dei flussi della biblioteca.
+
+Architectural Development: Definizione e sviluppo della strategia volumetrica basata sul modello del "mat-building" (in collaborazione con I. Covic).
+
+Space Planning: Studio del sistema di "stecche" funzionali per l'integrazione delle diverse aree accademiche.
+
+Design Development: Traduzione della maglia strutturale in spazi per la ricerca, la consultazione e l'apprendimento.
+
+Contributi specifici:
+
+Ivo Covic: Concept volumetrico e strategia d'area.
+
+Marco Visconti Architects: Consulenza tecnica e produzione dei materiali di visualizzazione architettonica (rendering).`,
     images: [zagrebBgg1, zagrebBgg2, zagrebBgg3, zagrebBgg4, zagrebBgg29, zagrebBgg5, zagrebBgg6, zagrebBgg7, zagrebBgg8, zagrebBgg9, zagrebBgg10, zagrebBgg11, zagrebBgg12, zagrebBgg13, zagrebBgg14, zagrebBgg15, zagrebBgg30, zagrebBgg16, zagrebBgg17, zagrebBgg31, zagrebBgg18, zagrebBgg19],
     thumbnail: zagrebBgg1,
   },
