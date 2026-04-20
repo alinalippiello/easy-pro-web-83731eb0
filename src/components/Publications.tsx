@@ -45,7 +45,7 @@ const Publications = () => {
     },
     {
       year: "2006",
-      title": "Città e ferrovia — Sintesi del saggio di Alina Lippiello in \"Stazioni – un sipario urbano\", Alinea Editrice. pag. 55-71",
+      title: "Città e ferrovia — Sintesi del saggio di Alina Lippiello in \"Stazioni – un sipario urbano\", Alinea Editrice. pag. 55-71",
       publication: "STAZIONI, un sipario urbano",
       type: "Article",
       cover: stazioniCover,
