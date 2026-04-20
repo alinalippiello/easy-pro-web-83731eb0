@@ -285,12 +285,19 @@ Architetto locale: H+L Hartung & Ludwig Architektur
   {
     id: 'wernigerode2',
     year: "Concorso",
-    collaborators: `Team di progetto: Leonardo Zuccaro Marchi, Alice Covatta, Alina Lippiello, Piero Medici
+    collaborators: `Design Team: Leonardo Zuccaro Marchi, Alice Covatta, **Alina Lippiello**, Piero Medici
 
-Collaboratori: Ereza Bokshi, Erica Boncaldo, Lorenzo Bucciarelli, Tarek Diebäcker, Andrea Fumero, Aziz Verna GergesHana, Sedat Gölada, Qian Hao, Alessia Pardi, Cagla Turkoglu, Ettore Varoni, Li Xinwei
-Render: Be Maarch
+Ruolo (**Alina Lippiello**):
 
-**Alina Lippiello**: sviluppo del concept per il lotto nord, progettazione tipologica residenziale per entrambi i lotti, revisione dei processi distributivi per il lotto sud.`,
+Urban & Concept Strategy: Sviluppo del concept per il comparto Nord e definizione della strategia d'innesto urbano.
+
+Progettazione Tipologica: Ricerca e sviluppo dei modelli residenziali sperimentali per entrambi i lotti.
+
+Spatial Design: Revisione dei processi distributivi e dei flussi per entrambi i lotti.
+
+Visualizzazione: Be Maarch
+
+Collaboratori: E. Bokshi, E. Boncaldo, L. Bucciarelli, T. Diebäcker, A. Fumero, A. Verna GergesHana, S. Gölada, Q. Hao, A. Pardi, C. Turkoglu, E. Varoni, L. Xinwei`,
     images: [wernigerodeModels, gardenCityMasterplan, gardenCityContext, gardenCityPorosity, gardenCity4, gardenCity5, wernigerodePorosityNorth, gardenCity6, gardenCity7, gardenCity8, wernigerodeDraftNorth1, wernigerodeDraftNorth2, wernigerodeDraftNorth3, wernigerodeElevation4, wernigerodePlanNord, wernigerodeLevel0, wernigerodeLevel1, wernigerodeLevel2, wernigerodeLevel3, wernigerodeLevel4, wernigerodeRoof, wernigerodeSection, wernigerodeSectionsAbc, wernigerodeSectionsDefg, wernigerodeTypologies, wernigerodeRender2, wernigerodeSouthDiagram, wernigerodeMasterplan1, wernigerodePorositySouth, wernigerodeMasterplan2, wernigerodeMorphology, wernigerodeAxonometric, wernigerodeGroundfloor, wernigerodeTypology3, wernigerodeLandscape, wernigerodeEnergy, wernigerodeCourtyard, wernigerodeElevation1, wernigerodeElevation2, wernigerodeElevation3],
     thumbnail: wernigerodeModels,
   },
