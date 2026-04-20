@@ -20,16 +20,16 @@ const Profile = () => {
 
           {/* Vision - justified block */}
           <div className="mb-10 md:mb-14">
-            <p className="font-body text-sm md:text-base text-foreground leading-relaxed italic">
+            <p className="font-body text-sm md:text-base text-foreground leading-[1.6] italic">
               {t('profile.vision.quote')}
             </p>
-            <p className="font-body text-sm md:text-base text-foreground leading-relaxed mt-4">
+            <p className="font-body text-sm md:text-base text-foreground leading-[1.6] mt-4">
               {t('profile.vision.text')}
             </p>
           </div>
 
           {/* Profile - continuous justified text like Elemental */}
-          <div className="space-y-4 font-body text-sm md:text-base text-foreground leading-relaxed">
+          <div className="space-y-4 font-body text-sm md:text-base text-foreground leading-[1.6]">
             <p>{t('profile.profile.p1')}</p>
             <p>{t('profile.profile.p2')}</p>
             <p>{t('profile.profile.p3')}</p>
