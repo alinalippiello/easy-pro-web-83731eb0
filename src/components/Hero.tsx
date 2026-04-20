@@ -9,7 +9,7 @@ const Hero = () => {
         <div className="max-w-3xl mx-auto text-center">
           {/* Page title */}
           <p
-            className="font-body text-sm tracking-[0.2em] uppercase text-foreground mb-8 opacity-0 animate-fade-in"
+            className="font-body text-sm tracking-[0.2em] uppercase text-foreground mb-8 opacity-0 animate-fade-in text-center"
             style={{ animationDelay: "0.2s" }}
           >
             {t('hero.title')}
