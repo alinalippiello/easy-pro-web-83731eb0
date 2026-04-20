@@ -9,6 +9,7 @@ import europan11Cover from "@/assets/publications/europan-11.jpg";
 interface Publication {
   year: string;
   title: string;
+  fullTitle?: string;
   publication: string;
   type: string;
   cover?: string;
@@ -45,7 +46,8 @@ const Publications = () => {
     },
     {
       year: "2006",
-      title: "Città e ferrovia — Sintesi del saggio di Alina Lippiello in \"Stazioni – un sipario urbano\", Alinea Editrice. pag. 55-71",
+      title: "Città e ferrovia, pag. 55-71",
+      fullTitle: "Città e ferrovia — Sintesi del saggio di Alina Lippiello in \"Stazioni – un sipario urbano\", Alinea Editrice. pag. 55-71",
       publication: "STAZIONI, un sipario urbano",
       type: "Article",
       cover: stazioniCover,
@@ -87,7 +89,7 @@ const Publications = () => {
           onPrev={() => {}}
           onNext={() => {}}
           title={activePub.publication}
-          description={activePub.summary ? `"${activePub.title}"\n\n${activePub.summary}` : `"${activePub.title}"`}
+          description={activePub.summary ? `"${activePub.fullTitle ?? activePub.title}"\n\n${activePub.summary}` : `"${activePub.fullTitle ?? activePub.title}"`}
           link={activePub.link ? { url: activePub.link, label: t('publications.viewLink') } : undefined}
         />
       )}
