@@ -8,7 +8,7 @@ interface SEOConfig {
 const seoTranslations: Record<Language, { title: string; description: string }> = {
   it: {
     title: 'Alina Lippiello | Architetto, Ricercatrice, Designer',
-    description: "Alina Lippiello è un'architetta con oltre 20 anni di esperienza nella progettazione urbana, l'integrazione tra architettura e paesaggio. Studio diffuso tra Milano, Montreal, Rotterdam e Padova.",
+    description: "Alina Lippiello è un architetto con oltre 20 anni di esperienza nella progettazione urbana, l'integrazione tra architettura e paesaggio. Studio diffuso tra Milano, Montreal, Rotterdam e Padova.",
   },
   en: {
     title: 'Alina Lippiello | Architect, Researcher, Designer',
