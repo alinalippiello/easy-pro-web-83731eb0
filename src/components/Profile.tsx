@@ -39,23 +39,9 @@ const Profile = () => {
               <p>{t('profile.profile.p1')}</p>
               <p>{t('profile.profile.p2')}</p>
               <p>{t('profile.profile.p3')}</p>
+              <p>{t('profile.profile.p4')}</p>
+              <p>{t('profile.profile.p5')}</p>
             </div>
-          </div>
-
-          {/* Ambiti di intervento */}
-          <div className="mb-12">
-            <p className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground mb-6">
-              {t('profile.areas.title')}
-            </p>
-            <ul className="space-y-2 font-body text-sm md:text-base text-foreground leading-relaxed">
-              <li>{t('profile.areas.item1')}</li>
-              <li>{t('profile.areas.item2')}</li>
-              <li>{t('profile.areas.item3')}</li>
-              <li>{t('profile.areas.item4')}</li>
-            </ul>
-            <p className="font-body text-sm md:text-base text-foreground leading-relaxed mt-6">
-              {t('profile.areas.footer')}
-            </p>
           </div>
 
 
