@@ -149,8 +149,7 @@ const Publications = () => {
                 {pub.pdfLink && (
                   <a
                     href={pub.pdfLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    download
                     onClick={(e) => e.stopPropagation()}
                     className="inline-block mt-2 font-body text-xs text-foreground underline underline-offset-4 hover:text-muted-foreground transition-smooth"
                   >
