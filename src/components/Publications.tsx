@@ -5,6 +5,7 @@ import bariCover from "@/assets/publications/bari-studi-per-la-metropoli.jpg";
 import stazioniCover from "@/assets/publications/stazioni-un-sipario-urbano.jpg";
 import newYorkMilanoCover from "@/assets/publications/new-york-milano.jpg";
 import europan11Cover from "@/assets/publications/europan-11.jpg";
+import wernigerodeCover from "@/assets/publications/wernigerode-goes-modern.jpg";
 
 interface Publication {
   year: string;
@@ -14,6 +15,7 @@ interface Publication {
   type: string;
   cover?: string;
   link?: string;
+  pdfLink?: string;
   summary?: string;
 }
 
@@ -24,10 +26,13 @@ const Publications = () => {
 
   const publications: Publication[] = [
     {
-      year: "2021",
-      title: "Europan 16: Living the New Ecological Porous Garden City of Wernigerode",
-      publication: "Europan Europe",
-      type: "Winner - Lotto Nord",
+      year: "2023",
+      title: "Wernigerode goes modern",
+      publication: "Stadt und Quartier, DW 07/2023",
+      type: "Article",
+      cover: wernigerodeCover,
+      pdfLink: "/publications/wernigerode-goes-modern.pdf",
+      summary: "Il progetto Living the new ecological Porous Garden City, sviluppato nell'ambito di Europan 16, è presentato come caso studio di trasformazione urbana orientata al futuro.\n\nL'intervento interpreta il tema dell'abitare contemporaneo attraverso il concetto di città porosa, introducendo una struttura aperta, attraversabile, capace di integrare spazio costruito e paesaggio.\n\nL'articolo documenta il processo che ha condotto dalla fase concorsuale allo sviluppo progettuale, evidenziando il ruolo della collaborazione europea e il confronto con il contesto normativo e costruttivo tedesco.",
     },
     {
       year: "2011",
@@ -139,6 +144,17 @@ const Publications = () => {
                     className="inline-block mt-2 font-body text-xs text-foreground underline underline-offset-4 hover:text-muted-foreground transition-smooth"
                   >
                     {t('publications.viewLink')}
+                  </a>
+                )}
+                {pub.pdfLink && (
+                  <a
+                    href={pub.pdfLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="inline-block mt-2 font-body text-xs text-foreground underline underline-offset-4 hover:text-muted-foreground transition-smooth"
+                  >
+                    {t('publications.downloadPdf')}
                   </a>
                 )}
               </div>

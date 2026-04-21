@@ -252,6 +252,7 @@ Il cuore del progetto è un sistema diagonale di spazi pubblici e rampe che non 
     // Publications
     'publications.title': 'Pubblicazioni',
     'publications.viewLink': 'Vedi pubblicazione',
+    'publications.downloadPdf': 'Scarica il PDF',
     
     // Contact
     'contact.title': 'Contatti',
@@ -505,6 +506,7 @@ The heart of the project is a diagonal system of public spaces and ramps that no
     // Publications
     'publications.title': 'Publications',
     'publications.viewLink': 'View publication',
+    'publications.downloadPdf': 'Download PDF',
     
     // Contact
     'contact.title': 'Contact',
@@ -758,6 +760,7 @@ El corazón del proyecto es un sistema diagonal de espacios públicos y rampas q
     // Publications
     'publications.title': 'Publicaciones',
     'publications.viewLink': 'Ver publicación',
+    'publications.downloadPdf': 'Descargar PDF',
     
     // Contact
     'contact.title': 'Contacto',
