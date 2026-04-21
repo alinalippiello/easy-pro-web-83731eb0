@@ -31,7 +31,7 @@ const Publications = () => {
       publication: "Stadt und Quartier, DW 07/2023",
       type: "Article",
       cover: wernigerodeCover,
-      pdfLink: "/publications/wernigerode-goes-modern.pdf",
+      pdfLink: `${import.meta.env.BASE_URL}publications/wernigerode-goes-modern.pdf`,
       summary: "Il progetto Living the new ecological Porous Garden City, sviluppato nell'ambito di Europan 16, è presentato come caso studio di trasformazione urbana orientata al futuro.\n\nL'intervento interpreta il tema dell'abitare contemporaneo attraverso il concetto di città porosa, introducendo una struttura aperta, attraversabile, capace di integrare spazio costruito e paesaggio.\n\nL'articolo documenta il processo che ha condotto dalla fase concorsuale allo sviluppo progettuale, evidenziando il ruolo della collaborazione europea e il confronto con il contesto normativo e costruttivo tedesco.",
     },
     {
