@@ -6,7 +6,7 @@ import { imagetools } from "vite-imagetools";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: './',
+  base: '/easy-pro-web-83731eb0/',
   server: {
     host: "::",
     port: 8080,
