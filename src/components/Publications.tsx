@@ -95,7 +95,7 @@ const Publications = () => {
           onNext={() => {}}
           title={activePub.publication}
           description={activePub.summary ? `"${activePub.fullTitle ?? activePub.title}"\n\n${activePub.summary}` : `"${activePub.fullTitle ?? activePub.title}"`}
-          link={activePub.link ? { url: activePub.link, label: t('publications.viewLink') } : undefined}
+          link={activePub.link ? { url: activePub.link, label: t('publications.viewLink') } : activePub.pdfLink ? { url: activePub.pdfLink, label: t('publications.downloadPdf') } : undefined}
         />
       )}
       <div className="container">
