@@ -35,6 +35,8 @@ const Profile = () => {
             <p>{t('profile.profile.p3')}</p>
             <p>{t('profile.profile.p4')}</p>
             <p>{t('profile.profile.p5')}</p>
+            <p>{t('profile.profile.p6')}</p>
+            <p>{t('profile.profile.p7')}</p>
           </div>
         </div>
       </div>
