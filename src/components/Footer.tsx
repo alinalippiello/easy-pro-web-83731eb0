@@ -33,6 +33,13 @@ const Footer = () => {
             >
               Cookie Policy
             </a>
+            {" "}&ndash;{" "}
+            <a
+              href="#"
+              className="iubenda-cs-preferences-link hover:text-foreground/80 transition-colors"
+            >
+              Change cookies consent
+            </a>
           </p>
           <p className="font-body text-[11px] text-foreground/40 tracking-wide">
             © {new Date().getFullYear()} Alina Lippiello &ndash; P.IVA 13258160962 &ndash; info@alinalippiello.com
