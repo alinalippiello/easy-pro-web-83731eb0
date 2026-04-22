@@ -60,6 +60,16 @@ const Strati = () => {
     <section id="strati" className="py-20 md:py-28 border-t border-border">
       <div className="container">
         <div className="max-w-6xl mx-auto">
+          {/* Text block */}
+          <div className="mb-10 md:mb-14 max-w-2xl">
+            <h3 className="font-display text-lg md:text-xl font-semibold tracking-wide mb-3 text-foreground">
+              L'architettura come paesaggio
+            </h3>
+            <p className="font-body text-sm md:text-base text-muted-foreground leading-[1.6]">
+              L'architettura non come oggetto, ma come campo. Un sistema continuo in cui edificio e paesaggio coincidono, e la forma emerge come rivelazione di condizioni latenti.
+            </p>
+          </div>
+
           {/* Mosaic Grid */}
           <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-6 auto-rows-[80px] md:auto-rows-[100px] gap-1 md:gap-1.5">
             {tiles.map((tile) => (
