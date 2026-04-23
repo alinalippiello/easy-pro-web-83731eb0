@@ -100,7 +100,9 @@ const Strati = () => {
                   className="w-full h-full object-cover select-none pointer-events-none transition-transform duration-700 group-hover:scale-105"
                 />
               </motion.div>
-            ))}
+              );
+            })}
+
           </div>
         </div>
       </div>
