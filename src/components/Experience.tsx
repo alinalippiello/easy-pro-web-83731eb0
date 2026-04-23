@@ -272,6 +272,7 @@ const projectsData: ProjectData[] = [
     yearKey: 'experience.inProgress',
     year: 'In corso',
     collaboratorsKey: 'credits.wernigerode1',
+    collaboratorsKey: 'credits.wernigerode1',
     collaborators: `Cliente: Gebäude- und Wohnungsbaugesellschaft Wernigerode mbH
 
 Team di progetto:
@@ -299,6 +300,7 @@ Visualizzazione: Be Maarch`,
   {
     id: 'wernigerode2',
     year: "Concorso",
+    collaboratorsKey: 'credits.wernigerode2',
     collaborators: `Team di progetto:
 Leonardo Zuccaro Marchi, Alice Covatta, **Alina Lippiello**, Piero Medici
 
@@ -322,6 +324,7 @@ Collaboratori: E. Bokshi, E. Boncaldo, L. Bucciarelli, T. Diebäcker, A. Fumero,
     id: 'novecento',
     yearKey: 'experience.competition',
     year: "Concorso",
+    collaboratorsKey: 'credits.novecento',
     collaborators: `Team di progetto:
 **Alina Lippiello**, Leonardo Zuccaro Marchi, Alessandra Lelli, Iacopo Salce
 
@@ -354,6 +357,7 @@ Visualizzazione: Be Maarch`,
     id: 'illerpark',
     yearKey: 'experience.competition',
     year: "Concorso",
+    collaboratorsKey: 'credits.illerpark',
     collaborators: `Team di progetto:
 **Alina Lippiello**, Leonardo Zuccaro Marchi, Alice Covatta, Piero Medici
 
@@ -376,6 +380,7 @@ Definizione degli schemi distributivi interni e della loro flessibilità.`,
     id: 'shinkenchiku',
     yearKey: 'experience.mention',
     year: "Menzione",
+    collaboratorsKey: 'credits.shinkenchiku',
     collaborators: `Team di progetto:
 **Alina Lippiello**, Ivica Covic, Leonardo Zuccaro Marchi, Alessandra Lelli
 
@@ -397,6 +402,7 @@ Definizione dei sistemi di involucro e della coerenza visiva del progetto.`,
   {
     id: 'europan11',
     year: "Runner up",
+    collaboratorsKey: 'credits.europan11',
     collaborators: `Team di progetto:
 **Alina Lippiello** (Capogruppo), Leonardo Zuccaro Marchi, Annalisa Romani, Fausto Cuzzocrea
 
@@ -424,6 +430,7 @@ Fausto Cuzzocrea: Sviluppo grafico del masterplan.`,
     id: 'aluartforum',
     yearKey: 'experience.competition',
     year: "Concorso",
+    collaboratorsKey: 'credits.aluartforum',
     collaborators: `Team di progetto:
 **Alina Lippiello**, Ivo Covic, Leonardo Zuccaro Marchi
 
@@ -451,6 +458,7 @@ Leonardo Zuccaro Marchi: Comunicazione visiva e design grafico.`,
     id: 'expo',
     yearKey: 'experience.competition',
     year: "Concorso",
+    collaboratorsKey: 'credits.expo',
     collaborators: `Team di progetto:
 Luca Poncellini, Luciano Giorgi, Edoardo Riva, Geert Jan Beun, **Alina Lippiello**, Ivica Covic, Luca Canova. Ingegneria e Consulenza: Icis Srl, Tecnicaer Srl, Studio Vigetti Merlo.
 
@@ -473,6 +481,7 @@ Luciano Giorgi: Direzione artistica, interior design e definizione dell'involucr
     id: 'split',
     yearKey: 'experience.competition',
     year: "Concorso",
+    collaboratorsKey: 'credits.split',
     collaborators: `Team di progetto:
 **Alina Lippiello**, Ivo Covic
 
@@ -497,6 +506,7 @@ Ivo Covic: Sviluppo del sistema di hotel diffuso e riqualificazione dell'area co
     id: 'koresnica',
     yearKey: 'experience.competition',
     year: "Concorso",
+    collaboratorsKey: 'credits.koresnica',
     collaborators: `Team di progetto:
 **Alina Lippiello**, Ivica Covic, in collaborazione con Studio Locale (Croazia).
 
@@ -520,6 +530,7 @@ Studio Locale: Supporto alla progettazione e adeguamento normativo.`,
     id: 'lorenteggio',
     yearKey: 'experience.competition',
     year: "Concorso",
+    collaboratorsKey: 'credits.lorenteggio',
     collaborators: `Team di progetto:
 **Alina Lippiello**, Leonardo Zuccaro Marchi
 
@@ -543,6 +554,7 @@ Leonardo Zuccaro Marchi: Concept narrativo, Landscape Design e comunicazione vis
     id: 'zagrebBgg',
     yearKey: 'experience.competition',
     year: "Concorso",
+    collaboratorsKey: 'credits.zagrebBgg',
     collaborators: `Team di progetto:
 **Alina Lippiello**, Ivo Covic, Marco Visconti Architects
 
