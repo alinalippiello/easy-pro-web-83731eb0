@@ -92,11 +92,15 @@ const translations: Record<Language, Record<string, string>> = {
     // Projects
     'project.wernigerode1.title': 'Living the New Ecological Porous Garden City. Wernigerode. Progetto',
     'project.wernigerode1.location': 'Wernigerode, Germania',
-    'project.wernigerode1.description': `La fase di permesso di costruire traduce in termini costruttivi la visione urbana sviluppata in sede di concorso:
+    'project.wernigerode1.description': `Il progetto residenziale di Wernigerode si configura come una soglia urbana, un dispositivo di connessione tra il Bürgerpark e il tessuto residenziale circostante, costruendo un rapporto diretto e continuo tra paesaggio e città.
 
-La proposta sviluppa una visione urbana basata su tre livelli di porosità interconnessa. A scala urbana, una rete di corridoi ecologici riconnette i frammenti naturali della città, infiltrandosi nella frammentazione contemporanea. L'area di progetto diventa baricentrica in questa nuova sinergia verde-blu tra il Bürgerpark e il fiume Holtemme, estendendo la connettività pedonale e ciclabile verso il centro storico. A scala di quartiere, il progetto definisce spazi comuni e una struttura permeabile. La sommità della collina ospita un parco circolare con bosco urbano, aree gioco e un belvedere verso il castello. Nuovi orti si collegano a quelli esistenti, mentre percorsi pedonali superano le barriere ferroviarie. La mobilità viene ripensata con strade a traffico lento e connessioni pedonali verso il fiume. Questa visione reinterpreta la città giardino: anziché un sistema radiale, propone cluster di spazi comuni interconnessi che trasformano la monofunzionalità urbana in un ecosistema poroso di accessibilità sociale e inclusione.
+Il progetto attiva una strategia di sviluppo ecologico per la città, generando nuovi corridoi verdi e promuovendo una porosità pedonale e ciclabile diffusa. In questa rete di attraversamenti, lo spazio pubblico si articola come sistema capillare di relazioni, in cui mobilità lenta, natura e vita urbana si intrecciano.
 
-La fase di permesso ha affinato le tipologie residenziali e le strategie costruttive del lotto nord. Alina Lippiello ha coordinato lo sviluppo progettuale e mantenuto una collaborazione diretta con l'architetto locale H+L Hartung & Ludwig, seguendo la traduzione del concept di concorso in proposta costruibile.`,
+Gli edifici sono modellati attraverso una logica di riconnessione morfologica: i volumi lineari più alti a ovest si riallineano con le case isolate più basse a nord, integrandosi in modo armonico per completare la struttura "organica" del quartiere esistente. L'insieme costruisce una continuità tra densità e dispersione, tra struttura urbana e paesaggio domestico.
+
+Varchi e incisioni attraversano il costruito, garantendo la permeabilità dello spazio pubblico e il suo legame con i percorsi pedonali e ciclabili del parco. In particolare, a nord, un grande varco coperto si configura come piazza abitabile e punto di ingresso alla città, un dispositivo di soglia tra infrastruttura urbana e vita collettiva.
+
+L'architettura integra materiali sostenibili e tecnologie per la gestione delle acque e la produzione di energia rinnovabile, configurandosi come infrastruttura ecologica attiva. In questo quadro, il progetto promuove forme di abitare inclusive, intergenerazionali e resilienti, dove lo spazio costruito diventa parte di un ecosistema urbano in trasformazione.`,
 
     'project.wernigerode2.title': 'EUROPAN 16 — Living the New Ecological Porous Garden City. Wernigerode. Concorso',
     'project.wernigerode2.location': 'Wernigerode, Germania',
@@ -348,11 +352,15 @@ Il cuore del progetto è un sistema diagonale di spazi pubblici e rampe che non 
     // Projects
     'project.wernigerode1.title': 'Living the New Ecological Porous Garden City. Wernigerode. Project',
     'project.wernigerode1.location': 'Wernigerode, Germany',
-    'project.wernigerode1.description': `The building permit phase translates the urban vision developed during the competition into constructive terms:
+    'project.wernigerode1.description': `The Wernigerode residential project takes shape as an urban threshold, a connective device between the Bürgerpark and the surrounding residential fabric, building a direct and continuous relationship between landscape and city.
 
-The proposal develops an urban vision based on three levels of interconnected porosity. At the urban scale, a network of ecological corridors reconnects the city's natural fragments, infiltrating contemporary fragmentation. The project area becomes central in this new green-blue synergy between the Bürgerpark and the Holtemme river, extending pedestrian and cycling connectivity towards the historic centre. At the neighbourhood scale, the project defines common spaces and a permeable structure. The hilltop hosts a circular park with urban woodland, play areas and a belvedere towards the castle. New allotments connect to existing ones, while pedestrian paths overcome railway barriers. Mobility is rethought with slow-traffic streets and pedestrian connections to the river. This vision reinterprets the garden city: rather than a radial system, it proposes clusters of interconnected common spaces that transform urban mono-functionality into a porous ecosystem of social accessibility and inclusion.
+The project activates an ecological development strategy for the city, generating new green corridors and promoting widespread pedestrian and cycling porosity. Within this network of crossings, public space is articulated as a capillary system of relationships, where slow mobility, nature and urban life intertwine.
 
-The permit phase refined the residential typologies and construction strategies of the north plot. Alina Lippiello coordinated the design development and maintained direct collaboration with the local architect H+L Hartung & Ludwig, overseeing the translation of the competition concept into a buildable proposal.`,
+The buildings are shaped through a logic of morphological reconnection: the taller linear volumes to the west realign with the lower detached houses to the north, integrating harmoniously to complete the "organic" structure of the existing neighbourhood. The ensemble builds a continuity between density and dispersion, between urban structure and domestic landscape.
+
+Gaps and incisions cut through the built fabric, ensuring the permeability of public space and its connection to the park's pedestrian and cycling paths. In particular, to the north, a large covered opening takes the form of a habitable plaza and city entrance point, a threshold device between urban infrastructure and collective life.
+
+The architecture integrates sustainable materials and technologies for water management and renewable energy production, functioning as an active ecological infrastructure. Within this framework, the project promotes inclusive, intergenerational and resilient forms of living, where the built environment becomes part of a transforming urban ecosystem.`,
 
     'project.wernigerode2.title': 'EUROPAN 16 — Living the New Ecological Porous Garden City. Wernigerode. Competition',
     'project.wernigerode2.location': 'Wernigerode, Germany',
@@ -604,11 +612,15 @@ The heart of the project is a diagonal system of public spaces and ramps that no
     // Projects
     'project.wernigerode1.title': 'Living the New Ecological Porous Garden City. Wernigerode. Proyecto',
     'project.wernigerode1.location': 'Wernigerode, Alemania',
-    'project.wernigerode1.description': `La fase de permiso de construcción traduce en términos constructivos la visión urbana desarrollada en el concurso:
+    'project.wernigerode1.description': `El proyecto residencial de Wernigerode se configura como un umbral urbano, un dispositivo de conexión entre el Bürgerpark y el tejido residencial circundante, construyendo una relación directa y continua entre paisaje y ciudad.
 
-La propuesta desarrolla una visión urbana basada en tres niveles de porosidad interconectada. A escala urbana, una red de corredores ecológicos reconecta los fragmentos naturales de la ciudad, infiltrándose en la fragmentación contemporánea. El área del proyecto se convierte en el baricentro de una nueva sinergia verde-azul entre el Bürgerpark y el río Holtemme, extendiendo la conectividad peatonal y ciclista hacia el centro histórico. A escala de barrio, el proyecto define espacios comunes y una estructura permeable. La cima de la colina alberga un parque circular con bosque urbano, áreas de juego y un mirador hacia el castillo. Nuevos huertos se conectan con los existentes, mientras que senderos peatonales superan las barreras ferroviarias. La movilidad se replantea con calles de tráfico lento y conexiones peatonales hacia el río. Esta visión reinterpreta la ciudad jardín: en lugar de un sistema radial, propone clústeres de espacios comunes interconectados que transforman la monofuncionalidad urbana en un ecosistema poroso de accesibilidad social e inclusión.
+El proyecto activa una estrategia de desarrollo ecológico para la ciudad, generando nuevos corredores verdes y promoviendo una porosidad peatonal y ciclista difusa. En esta red de cruces, el espacio público se articula como un sistema capilar de relaciones, donde movilidad lenta, naturaleza y vida urbana se entrelazan.
 
-La fase de permiso afinó las tipologías residenciales y las estrategias constructivas del lote norte. Alina Lippiello coordinó el desarrollo del proyecto y mantuvo una colaboración directa con el arquitecto local H+L Hartung & Ludwig, supervisando la traducción del concepto del concurso en una propuesta construible.`,
+Los edificios se modelan a través de una lógica de reconexión morfológica: los volúmenes lineales más altos al oeste se realinean con las casas aisladas más bajas al norte, integrándose de manera armónica para completar la estructura "orgánica" del barrio existente. El conjunto construye una continuidad entre densidad y dispersión, entre estructura urbana y paisaje doméstico.
+
+Aberturas e incisiones atraviesan lo construido, garantizando la permeabilidad del espacio público y su vínculo con los recorridos peatonales y ciclistas del parque. En particular, al norte, una gran abertura cubierta se configura como plaza habitable y punto de entrada a la ciudad, un dispositivo de umbral entre infraestructura urbana y vida colectiva.
+
+La arquitectura integra materiales sostenibles y tecnologías para la gestión del agua y la producción de energía renovable, configurándose como infraestructura ecológica activa. En este marco, el proyecto promueve formas de habitar inclusivas, intergeneracionales y resilientes, donde el espacio construido se convierte en parte de un ecosistema urbano en transformación.`,
 
     'project.wernigerode2.title': 'EUROPAN 16 — Living the New Ecological Porous Garden City. Wernigerode. Concurso',
     'project.wernigerode2.location': 'Wernigerode, Alemania',
