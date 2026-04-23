@@ -19,8 +19,16 @@ const Legal = () => {
           ← Back
         </a>
 
+        <nav className="font-body text-[11px] uppercase tracking-widest text-muted-foreground space-x-3">
+          <a href="#it" className="hover:text-foreground transition-colors">Italiano</a>
+          <span>&middot;</span>
+          <a href="#en" className="hover:text-foreground transition-colors">English</a>
+          <span>&middot;</span>
+          <a href="#es" className="hover:text-foreground transition-colors">Español</a>
+        </nav>
+
         {/* ITALIANO — rimando a Iubenda */}
-        <section className="space-y-6">
+        <section id="it" className="space-y-6 scroll-mt-24">
           <h1 className="font-display text-2xl sm:text-3xl tracking-[0.2em] uppercase">
             Informativa sulla Privacy
           </h1>
@@ -48,7 +56,7 @@ const Legal = () => {
         </section>
 
         {/* ENGLISH */}
-        <section className="space-y-6">
+        <section id="en" className="space-y-6 scroll-mt-24">
           <h1 className="font-display text-2xl sm:text-3xl tracking-[0.2em] uppercase">
             Privacy Policy
           </h1>
@@ -93,7 +101,7 @@ const Legal = () => {
         </section>
 
         {/* ESPAÑOL */}
-        <section className="space-y-6">
+        <section id="es" className="space-y-6 scroll-mt-24">
           <h1 className="font-display text-2xl sm:text-3xl tracking-[0.2em] uppercase">
             Política de Privacidad
           </h1>
