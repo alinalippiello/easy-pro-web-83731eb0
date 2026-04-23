@@ -590,7 +590,7 @@ const Experience = () => {
     setLightboxTitle(t(`project.${project.id}.title`));
     setLightboxDescription(t(`project.${project.id}.description`) !== `project.${project.id}.description` ? t(`project.${project.id}.description`) : undefined);
     setLightboxAuthor(project.author);
-    setLightboxCollaborators(project.collaborators);
+    setLightboxCollaborators(project.collaboratorsKey ? t(project.collaboratorsKey) : project.collaborators);
     setLightboxOverlayImage(project.overlayImage);
     setLightboxOverlayIndices(project.overlayImageIndices);
     setLightboxImageDisplayScales(project.imageDisplayScales);
