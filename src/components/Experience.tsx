@@ -272,7 +272,6 @@ const projectsData: ProjectData[] = [
     yearKey: 'experience.inProgress',
     year: 'In corso',
     collaboratorsKey: 'credits.wernigerode1',
-    collaboratorsKey: 'credits.wernigerode1',
     collaborators: `Cliente: Gebäude- und Wohnungsbaugesellschaft Wernigerode mbH
 
 Team di progetto:
