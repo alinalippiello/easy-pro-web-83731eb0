@@ -471,7 +471,7 @@ const Lightbox = ({
                   </p>
                 )}
                 {collaborators && (
-                  <p className="font-body text-xs sm:text-sm text-muted-foreground whitespace-pre-line break-words overflow-wrap-anywhere">
+                  <p className="font-body text-xs sm:text-sm text-muted-foreground whitespace-pre-line break-words" style={{ overflowWrap: 'anywhere' }}>
                     {collaborators.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
                       part.startsWith('**') && part.endsWith('**') ? (
                         <strong key={i} className="font-semibold text-foreground">{part.slice(2, -2)}</strong>
