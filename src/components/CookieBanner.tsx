@@ -20,7 +20,7 @@ const CookieBanner = () => {
     <div className="fixed bottom-0 inset-x-0 z-50 bg-foreground text-background px-4 py-3">
       <div className="container max-w-4xl flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
         <p className="font-body text-[11px] leading-relaxed tracking-wide opacity-80">
-          Usiamo cookie tecnici per migliorare l'esperienza. / We use technical cookies. / Usamos cookies técnicas.
+          Usiamo cookie tecnici. / We use technical cookies. / Usamos cookies técnicas.
         </p>
         <div className="flex items-center gap-3 shrink-0">
           <a
