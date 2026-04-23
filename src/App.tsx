@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import Legal from "./pages/Legal";
 import NotFound from "./pages/NotFound";
 
+// Build trigger: ensure Vercel picks up dependency changes
 const queryClient = new QueryClient();
 
 const App = () => (
