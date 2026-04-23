@@ -57,15 +57,19 @@ const Strati = () => {
   }, []);
 
   return (
-    <section id="strati" className="py-20 md:py-28 border-t border-border">
+    <section id="strati" className="py-20 md:py-28">
       <div className="container">
-        <div className="max-w-6xl mx-auto">
-          {/* Text block */}
-          <div className="mb-10 md:mb-14 max-w-2xl">
-            <h3 className="font-display text-lg md:text-xl font-semibold tracking-wide mb-3 text-foreground">
+        <div className="max-w-2xl mx-auto">
+          {/* Header - centered like Profile */}
+          <div className="text-center mb-12 md:mb-16">
+            <h2 className="font-display text-2xl md:text-3xl font-light tracking-wide mb-4 text-center">
               L'architettura come paesaggio
-            </h3>
-            <p className="font-body text-sm md:text-base text-muted-foreground leading-[1.6]">
+            </h2>
+          </div>
+
+          {/* Text block */}
+          <div className="space-y-4 font-body text-sm md:text-base text-foreground leading-[1.6] mb-12 md:mb-16">
+            <p>
               L'architettura non come oggetto, ma come campo. Un sistema continuo in cui edificio e paesaggio coincidono, e la forma emerge come rivelazione di condizioni latenti.
             </p>
           </div>
