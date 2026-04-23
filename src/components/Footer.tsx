@@ -1,17 +1,7 @@
 import { useLanguage } from "@/contexts/LanguageContext";
-import { useEffect } from "react";
 
 const Footer = () => {
   const { t } = useLanguage();
-
-  useEffect(() => {
-    // Load Iubenda script
-    const s = document.createElement("script");
-    s.src = "https://cdn.iubenda.com/iubenda.js";
-    s.async = true;
-    document.body.appendChild(s);
-    return () => { document.body.removeChild(s); };
-  }, []);
 
   return (
     <footer className="py-16 border-t border-border">
