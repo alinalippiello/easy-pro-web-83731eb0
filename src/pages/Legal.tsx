@@ -12,56 +12,10 @@ const Legal = () => {
         </Link>
 
         <nav className="font-body text-[11px] uppercase tracking-widest text-muted-foreground space-x-3">
-          <a href="#it" className="hover:text-foreground transition-colors">Italiano</a>
-          <span>&middot;</span>
           <a href="#en" className="hover:text-foreground transition-colors">English</a>
           <span>&middot;</span>
           <a href="#es" className="hover:text-foreground transition-colors">Español</a>
         </nav>
-
-        <section id="it" className="space-y-6 scroll-mt-24">
-          <h1 className="font-display text-2xl sm:text-3xl tracking-[0.2em] uppercase">
-            Informativa sulla Privacy
-          </h1>
-          <p className="font-body text-xs text-muted-foreground uppercase tracking-widest">
-            Italiano
-          </p>
-          <div className="border-t border-border pt-6 space-y-4 font-body text-sm leading-relaxed text-foreground/80">
-            <p className="text-muted-foreground text-xs">Ultimo aggiornamento: Aprile 2026</p>
-            <p>
-              Questo sito web è un portfolio professionale personale. Rispettiamo la tua privacy e ci impegniamo a proteggerla.
-            </p>
-
-            <h2 className="font-display text-base tracking-widest uppercase pt-4">1. Titolare del Trattamento</h2>
-            <p>
-              <strong>Alina Lippiello</strong> — <a href="mailto:alina.lippiello@gmail.com" className="underline hover:text-foreground">alina.lippiello@gmail.com</a>
-            </p>
-
-            <h2 className="font-display text-base tracking-widest uppercase pt-4">2. Raccolta dei Dati</h2>
-            <p>
-              Questo sito web non raccoglie dati personali identificativi (come nomi, numeri di telefono o indirizzi email) tramite moduli di contatto o newsletter, poiché queste funzionalità non sono presenti nel sito.
-            </p>
-
-            <h2 className="font-display text-base tracking-widest uppercase pt-4">3. Log Tecnici e Cookie</h2>
-            <p>
-              <strong>Dati tecnici:</strong> Come la maggior parte dei siti web, il nostro provider di hosting (Vercel) può raccogliere automaticamente informazioni tecniche limitate (come indirizzi IP e tipi di browser) per finalità di sicurezza e manutenzione.
-            </p>
-            <p>
-              <strong>Cookie:</strong> Questo sito non utilizza cookie di marketing o profilazione. Gli eventuali cookie utilizzati sono strettamente tecnici e necessari al corretto funzionamento del sito.
-            </p>
-
-            <h2 className="font-display text-base tracking-widest uppercase pt-4">4. Link Esterni</h2>
-            <p>
-              Il sito può contenere link a profili social media (ad esempio LinkedIn, Instagram). Una volta cliccati questi link, si applicano le informative privacy delle rispettive piattaforme.
-            </p>
-
-            <h2 className="font-display text-base tracking-widest uppercase pt-4">5. I Tuoi Diritti</h2>
-            <p>
-              Ai sensi del GDPR, hai il diritto di accedere, rettificare o richiedere la cancellazione di eventuali dati tecnici registrati. Per qualsiasi richiesta, puoi contattarmi a{" "}
-              <a href="mailto:alina.lippiello@gmail.com" className="underline hover:text-foreground">alina.lippiello@gmail.com</a>.
-            </p>
-          </div>
-        </section>
 
         <section id="en" className="space-y-6 scroll-mt-24">
           <h1 className="font-display text-2xl sm:text-3xl tracking-[0.2em] uppercase">
