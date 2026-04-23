@@ -255,6 +255,7 @@ interface ProjectData {
   yearKey?: string;
   author?: string;
   collaborators?: string;
+  collaboratorsKey?: string;
   images: string[];
   captions?: string[];
   captionKeys?: string[];
