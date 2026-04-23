@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const CookieBanner = () => {
   const [visible, setVisible] = useState(false);
@@ -23,12 +24,12 @@ const CookieBanner = () => {
           Usiamo cookie tecnici. / We use technical cookies. / Usamos cookies técnicas.
         </p>
         <div className="flex items-center gap-3 shrink-0">
-          <a
-            href="/legal"
+          <Link
+            to="/legal"
             className="font-body text-[10px] uppercase tracking-widest opacity-60 hover:opacity-100 transition-opacity underline"
           >
             Privacy
-          </a>
+          </Link>
           <button
             onClick={accept}
             className="font-body text-[11px] uppercase tracking-widest bg-background text-foreground px-4 py-1.5 hover:opacity-80 transition-opacity"
