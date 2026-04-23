@@ -1,4 +1,14 @@
+import { useEffect } from "react";
+
 const Legal = () => {
+  useEffect(() => {
+    const s = document.createElement("script");
+    s.src = "https://cdn.iubenda.com/iubenda.js";
+    s.async = true;
+    document.body.appendChild(s);
+    return () => { document.body.removeChild(s); };
+  }, []);
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="container max-w-3xl py-16 sm:py-24 space-y-20">
@@ -9,6 +19,35 @@ const Legal = () => {
           ← Back
         </a>
 
+        {/* ITALIANO — rimando a Iubenda */}
+        <section className="space-y-6">
+          <h1 className="font-display text-2xl sm:text-3xl tracking-[0.2em] uppercase">
+            Informativa sulla Privacy
+          </h1>
+          <p className="font-body text-xs text-muted-foreground uppercase tracking-widest">
+            Italiano
+          </p>
+          <div className="border-t border-border pt-6 space-y-4 font-body text-sm leading-relaxed text-foreground/80">
+            <p>
+              La versione completa dell'informativa sulla privacy in italiano è consultabile tramite il nostro fornitore Iubenda:
+            </p>
+            <p>
+              <a
+                href="https://www.iubenda.com/privacy-policy/80078108"
+                className="iubenda-white iubenda-noiframe iubenda-embed underline hover:text-foreground transition-colors"
+                title="Privacy Policy"
+              >
+                Consulta la Privacy Policy completa (IT)
+              </a>
+            </p>
+            <p className="text-muted-foreground text-xs pt-2">
+              Titolare del trattamento: <strong>Alina Lippiello</strong> —{" "}
+              <a href="mailto:alina.lippiello@gmail.com" className="underline hover:text-foreground">alina.lippiello@gmail.com</a>
+            </p>
+          </div>
+        </section>
+
+        {/* ENGLISH */}
         <section className="space-y-6">
           <h1 className="font-display text-2xl sm:text-3xl tracking-[0.2em] uppercase">
             Privacy Policy
@@ -53,6 +92,7 @@ const Legal = () => {
           </div>
         </section>
 
+        {/* ESPAÑOL */}
         <section className="space-y-6">
           <h1 className="font-display text-2xl sm:text-3xl tracking-[0.2em] uppercase">
             Política de Privacidad
