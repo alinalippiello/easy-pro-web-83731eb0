@@ -1,23 +1,15 @@
-import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const Legal = () => {
-  useEffect(() => {
-    const s = document.createElement("script");
-    s.src = "https://cdn.iubenda.com/iubenda.js";
-    s.async = true;
-    document.body.appendChild(s);
-    return () => { document.body.removeChild(s); };
-  }, []);
-
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="container max-w-3xl py-16 sm:py-24 space-y-20">
-        <a
-          href="/"
+        <Link
+          to="/"
           className="inline-block font-body text-xs tracking-widest uppercase text-muted-foreground hover:text-foreground transition-smooth"
         >
           ← Back
-        </a>
+        </Link>
 
         <nav className="font-body text-[11px] uppercase tracking-widest text-muted-foreground space-x-3">
           <a href="#it" className="hover:text-foreground transition-colors">Italiano</a>
@@ -27,7 +19,6 @@ const Legal = () => {
           <a href="#es" className="hover:text-foreground transition-colors">Español</a>
         </nav>
 
-        {/* ITALIANO — rimando a Iubenda */}
         <section id="it" className="space-y-6 scroll-mt-24">
           <h1 className="font-display text-2xl sm:text-3xl tracking-[0.2em] uppercase">
             Informativa sulla Privacy
@@ -36,26 +27,42 @@ const Legal = () => {
             Italiano
           </p>
           <div className="border-t border-border pt-6 space-y-4 font-body text-sm leading-relaxed text-foreground/80">
+            <p className="text-muted-foreground text-xs">Ultimo aggiornamento: Aprile 2026</p>
             <p>
-              La versione completa dell'informativa sulla privacy in italiano è consultabile tramite il nostro fornitore Iubenda:
+              Questo sito web è un portfolio professionale personale. Rispettiamo la tua privacy e ci impegniamo a proteggerla.
+            </p>
+
+            <h2 className="font-display text-base tracking-widest uppercase pt-4">1. Titolare del Trattamento</h2>
+            <p>
+              <strong>Alina Lippiello</strong> — <a href="mailto:alina.lippiello@gmail.com" className="underline hover:text-foreground">alina.lippiello@gmail.com</a>
+            </p>
+
+            <h2 className="font-display text-base tracking-widest uppercase pt-4">2. Raccolta dei Dati</h2>
+            <p>
+              Questo sito web non raccoglie dati personali identificativi (come nomi, numeri di telefono o indirizzi email) tramite moduli di contatto o newsletter, poiché queste funzionalità non sono presenti nel sito.
+            </p>
+
+            <h2 className="font-display text-base tracking-widest uppercase pt-4">3. Log Tecnici e Cookie</h2>
+            <p>
+              <strong>Dati tecnici:</strong> Come la maggior parte dei siti web, il nostro provider di hosting (Vercel) può raccogliere automaticamente informazioni tecniche limitate (come indirizzi IP e tipi di browser) per finalità di sicurezza e manutenzione.
             </p>
             <p>
-              <a
-                href="https://www.iubenda.com/privacy-policy/80078108"
-                className="iubenda-white iubenda-noiframe iubenda-embed underline hover:text-foreground transition-colors"
-                title="Privacy Policy"
-              >
-                Consulta la Privacy Policy completa (IT)
-              </a>
+              <strong>Cookie:</strong> Questo sito non utilizza cookie di marketing o profilazione. Gli eventuali cookie utilizzati sono strettamente tecnici e necessari al corretto funzionamento del sito.
             </p>
-            <p className="text-muted-foreground text-xs pt-2">
-              Titolare del trattamento: <strong>Alina Lippiello</strong> —{" "}
-              <a href="mailto:alina.lippiello@gmail.com" className="underline hover:text-foreground">alina.lippiello@gmail.com</a>
+
+            <h2 className="font-display text-base tracking-widest uppercase pt-4">4. Link Esterni</h2>
+            <p>
+              Il sito può contenere link a profili social media (ad esempio LinkedIn, Instagram). Una volta cliccati questi link, si applicano le informative privacy delle rispettive piattaforme.
+            </p>
+
+            <h2 className="font-display text-base tracking-widest uppercase pt-4">5. I Tuoi Diritti</h2>
+            <p>
+              Ai sensi del GDPR, hai il diritto di accedere, rettificare o richiedere la cancellazione di eventuali dati tecnici registrati. Per qualsiasi richiesta, puoi contattarmi a{" "}
+              <a href="mailto:alina.lippiello@gmail.com" className="underline hover:text-foreground">alina.lippiello@gmail.com</a>.
             </p>
           </div>
         </section>
 
-        {/* ENGLISH */}
         <section id="en" className="space-y-6 scroll-mt-24">
           <h1 className="font-display text-2xl sm:text-3xl tracking-[0.2em] uppercase">
             Privacy Policy
@@ -100,7 +107,6 @@ const Legal = () => {
           </div>
         </section>
 
-        {/* ESPAÑOL */}
         <section id="es" className="space-y-6 scroll-mt-24">
           <h1 className="font-display text-2xl sm:text-3xl tracking-[0.2em] uppercase">
             Política de Privacidad
