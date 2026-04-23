@@ -56,7 +56,7 @@ const Legal = () => {
         </section>
 
         {/* ENGLISH */}
-        <section className="space-y-6">
+        <section id="en" className="space-y-6 scroll-mt-24">
           <h1 className="font-display text-2xl sm:text-3xl tracking-[0.2em] uppercase">
             Privacy Policy
           </h1>
