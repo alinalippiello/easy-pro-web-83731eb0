@@ -7,16 +7,16 @@ interface SEOConfig {
 
 const seoTranslations: Record<Language, { title: string; description: string }> = {
   it: {
-    title: 'Alina Lippiello | Architetto, Ricercatrice, Designer',
-    description: "Alina Lippiello è un architetto con oltre 20 anni di esperienza nella progettazione urbana, l'integrazione tra architettura e paesaggio. Studio diffuso tra Milano, Montreal, Rotterdam e Padova.",
+    title: 'Alina Lippiello | Architetto · Concept Designer · Direzione Artistica',
+    description: "Architettura come paesaggio: concept design, direzione artistica e consulenza strategica per progetti urbani complessi. Studio diffuso tra Milano, Montreal, Rotterdam e Padova.",
   },
   en: {
-    title: 'Alina Lippiello | Architect, Researcher, Designer',
-    description: 'Alina Lippiello is an architect with over 20 years of experience in urban design, integrating architecture and landscape. Distributed studio between Milan, Montreal, Rotterdam and Padua.',
+    title: 'Alina Lippiello | Architect · Concept Designer · Art Direction',
+    description: 'Architecture as landscape: concept design, art direction and strategic consulting for complex urban projects. Distributed practice between Milan, Montreal, Rotterdam and Padua.',
   },
   es: {
-    title: 'Alina Lippiello | Arquitecta, Investigadora, Diseñadora',
-    description: 'Alina Lippiello es una arquitecta con más de 20 años de experiencia en diseño urbano, integrando arquitectura y paisaje. Estudio distribuido entre Milán, Montreal, Róterdam y Padua.',
+    title: 'Alina Lippiello | Arquitecta · Concept Designer · Dirección Artística',
+    description: 'Arquitectura como paisaje: concept design, dirección artística y consultoría estratégica para proyectos urbanos complejos. Práctica distribuida entre Milán, Montreal, Róterdam y Padua.',
   },
 };
 
@@ -27,9 +27,9 @@ const languageCodes: Record<Language, string> = {
 };
 
 const jobTitles: Record<Language, string[]> = {
-  it: ['Architetto', 'Ricercatrice', 'Designer'],
-  en: ['Architect', 'Researcher', 'Designer'],
-  es: ['Arquitecta', 'Investigadora', 'Diseñadora'],
+  it: ['Architetto', 'Concept Designer', 'Direzione Artistica'],
+  en: ['Architect', 'Concept Designer', 'Art Direction'],
+  es: ['Arquitecta', 'Concept Designer', 'Dirección Artística'],
 };
 
 export const useSEO = ({ language }: SEOConfig) => {
