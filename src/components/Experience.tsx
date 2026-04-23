@@ -272,7 +272,7 @@ const projectsData: ProjectData[] = [
     year: 'In corso',
     collaborators: `Cliente: Gebäude- und Wohnungsbaugesellschaft Wernigerode mbH
 
-Team di progetto: Leonardo Zuccaro Marchi, Alice Covatta, Piero Medici
+Team di progetto: Leonardo Zuccaro Marchi, Alice Covatta, **Alina Lippiello**, Piero Medici
 
 Ruolo:
 
