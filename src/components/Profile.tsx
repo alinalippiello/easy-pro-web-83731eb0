@@ -6,9 +6,8 @@ const Profile = () => {
   return (
     <section id="profilo" className="py-20 md:py-28">
       <div className="container">
-        {/* Elemental-style layout: centered title + justified text block */}
         <div className="max-w-2xl mx-auto">
-          {/* Header - centered like Elemental "Acerca" */}
+          {/* Header */}
           <div className="text-center mb-12 md:mb-16">
             <h2 className="font-display text-2xl md:text-3xl font-light tracking-wide mb-4 text-center">
               Alina Lippiello
@@ -18,25 +17,38 @@ const Profile = () => {
             </p>
           </div>
 
-          {/* Vision - justified block */}
-          <div className="mb-10 md:mb-14">
-            <p className="font-body text-sm md:text-base text-foreground leading-[1.6] italic">
+          {/* Vision */}
+          <div className="mb-14 md:mb-20">
+            <p className="font-body text-sm md:text-base text-foreground leading-[1.8] italic">
               {t('profile.vision.quote')}
             </p>
-            <p className="font-body text-sm md:text-base text-foreground leading-[1.6] mt-4">
+            <p className="font-body text-sm md:text-base text-foreground leading-[1.8] mt-5">
               {t('profile.vision.text')}
             </p>
           </div>
 
-          {/* Profile - continuous justified text like Elemental */}
-          <div className="space-y-4 font-body text-sm md:text-base text-foreground leading-[1.6]">
+          {/* Profile - grouped into thematic blocks */}
+          <div className="font-body text-sm md:text-base text-foreground leading-[1.8]">
+            {/* Block 1: Introduction */}
             <p>{t('profile.profile.p1')}</p>
-            <p>{t('profile.profile.p2')}</p>
-            <p>{t('profile.profile.p3')}</p>
-            <p>{t('profile.profile.p4')}</p>
-            <p>{t('profile.profile.p5')}</p>
-            <p>{t('profile.profile.p6')}</p>
-            <p>{t('profile.profile.p7')}</p>
+
+            {/* Block 2: Formation & thesis */}
+            <div className="mt-8 space-y-4">
+              <p>{t('profile.profile.p2')}</p>
+              <p>{t('profile.profile.p3')}</p>
+            </div>
+
+            {/* Block 3: Research evolution */}
+            <div className="mt-8 space-y-4">
+              <p>{t('profile.profile.p4')}</p>
+              <p>{t('profile.profile.p5')}</p>
+            </div>
+
+            {/* Block 4: Practice & vision */}
+            <div className="mt-8 space-y-4">
+              <p>{t('profile.profile.p6')}</p>
+              <p>{t('profile.profile.p7')}</p>
+            </div>
           </div>
         </div>
       </div>
