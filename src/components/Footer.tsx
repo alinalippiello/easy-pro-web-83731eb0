@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const IUBENDA_URL = "https://www.iubenda.com/privacy-policy/";
+const IUBENDA_URL = "https://www.iubenda.com/privacy-policy/80078108";
 
 const Footer = () => {
   return (
