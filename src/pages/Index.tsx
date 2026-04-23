@@ -7,6 +7,7 @@ import Strati from "@/components/Strati";
 import Experience from "@/components/Experience";
 import Publications from "@/components/Publications";
 import Contact from "@/components/Contact";
+import CookieBanner from "@/components/CookieBanner";
 import Footer from "@/components/Footer";
 
 const IndexContent = () => {
@@ -23,6 +24,7 @@ const IndexContent = () => {
       <Publications />
       <Contact />
       <Footer />
+      <CookieBanner />
     </main>
   );
 };
