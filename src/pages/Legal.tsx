@@ -19,8 +19,16 @@ const Legal = () => {
           ← Back
         </a>
 
+        <nav className="font-body text-[11px] uppercase tracking-widest text-muted-foreground space-x-3">
+          <a href="#it" className="hover:text-foreground transition-colors">Italiano</a>
+          <span>&middot;</span>
+          <a href="#en" className="hover:text-foreground transition-colors">English</a>
+          <span>&middot;</span>
+          <a href="#es" className="hover:text-foreground transition-colors">Español</a>
+        </nav>
+
         {/* ITALIANO — rimando a Iubenda */}
-        <section className="space-y-6">
+        <section id="it" className="space-y-6 scroll-mt-24">
           <h1 className="font-display text-2xl sm:text-3xl tracking-[0.2em] uppercase">
             Informativa sulla Privacy
           </h1>
