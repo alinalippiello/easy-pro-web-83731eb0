@@ -75,15 +75,13 @@ const Strati = () => {
           </div>
 
           {/* Mosaic Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 auto-rows-[100px] sm:auto-rows-[90px] md:auto-rows-[100px] gap-1 md:gap-1.5">
-            {tiles.map((tile) => {
-              const mobileSpan = Math.min(tile.colSpan, 2);
-              return (
+          <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-6 auto-rows-[80px] md:auto-rows-[100px] gap-1 md:gap-1.5">
+            {tiles.map((tile) => (
               <motion.div
                 key={tile.id}
                 className="relative overflow-hidden rounded-sm cursor-pointer group"
                 style={{
-                  gridColumn: `span ${mobileSpan}`,
+                  gridColumn: `span ${tile.colSpan}`,
                   gridRow: `span ${tile.rowSpan}`,
                 }}
                 onClick={() => openImage(tile.cover)}
@@ -100,9 +98,7 @@ const Strati = () => {
                   className="w-full h-full object-cover select-none pointer-events-none transition-transform duration-700 group-hover:scale-105"
                 />
               </motion.div>
-              );
-            })}
-
+            ))}
           </div>
         </div>
       </div>
