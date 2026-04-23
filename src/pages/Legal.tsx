@@ -47,7 +47,8 @@ const Legal = () => {
 
             <h2 className="font-display text-base tracking-widest uppercase pt-4">5. Your Rights</h2>
             <p>
-              Under the GDPR, you have the right to access, rectify, or request the deletion of any technical data recorded. For any inquiries, please contact me via email.
+              Under the GDPR, you have the right to access, rectify, or request the deletion of any technical data recorded. For any inquiries, please contact me at{" "}
+              <a href="mailto:alina.lippiello@gmail.com" className="underline hover:text-foreground">alina.lippiello@gmail.com</a>.
             </p>
           </div>
         </section>
@@ -90,7 +91,8 @@ const Legal = () => {
 
             <h2 className="font-display text-base tracking-widest uppercase pt-4">5. Sus Derechos</h2>
             <p>
-              De acuerdo con el RGPD, tiene derecho a acceder, rectificar o solicitar la eliminación de cualquier dato técnico registrado. Para cualquier consulta, póngase en contacto conmigo por correo electrónico.
+              De acuerdo con el RGPD, tiene derecho a acceder, rectificar o solicitar la eliminación de cualquier dato técnico registrado. Para cualquier consulta, póngase en contacto conmigo en{" "}
+              <a href="mailto:alina.lippiello@gmail.com" className="underline hover:text-foreground">alina.lippiello@gmail.com</a>.
             </p>
           </div>
         </section>
