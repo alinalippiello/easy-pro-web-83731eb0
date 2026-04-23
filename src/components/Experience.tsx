@@ -272,17 +272,19 @@ const projectsData: ProjectData[] = [
     year: 'In corso',
     collaborators: `Cliente: Gebäude- und Wohnungsbaugesellschaft Wernigerode mbH
 
-Team di progetto: Leonardo Zuccaro Marchi, Alice Covatta, **Alina Lippiello**, Piero Medici
+Team di progetto: Leonardo Zuccaro Marchi, Alice Covatta, Piero Medici
 
-Ruolo (**Alina Lippiello**):
+Ruolo:
 
-Project Coordination & Development: Coordinamento generale e sviluppo tecnico del progetto.
+Coordinamento generale e sviluppo tecnico del progetto.
 
-Facade & Detail Design: Progettazione del sistema di facciata e definizione dei dettagli architettonici.
+Contributi:
 
-Technical Management: Supervisione tecnica e interfaccia diretta con l'architetto locale per la conformità costruttiva.
+Progettazione del sistema di facciata e definizione dei dettagli architettonici.
 
-Advanced Typology Design: Affinamento tecnico delle soluzioni abitative e dei sistemi distributivi.
+Supervisione tecnica e interfaccia diretta con l'architetto locale per la conformità costruttiva.
+
+Affinamento tecnico delle soluzioni abitative e dei sistemi distributivi.
 
 Architetto locale: H+L Hartung & Ludwig Architektur
 Visualizzazione: Be Maarch`,
