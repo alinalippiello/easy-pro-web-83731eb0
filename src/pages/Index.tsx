@@ -1,4 +1,4 @@
-import { LanguageProvider, useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { useSEO } from "@/hooks/useSEO";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
@@ -30,11 +30,7 @@ const IndexContent = () => {
 };
 
 const Index = () => {
-  return (
-    <LanguageProvider>
-      <IndexContent />
-    </LanguageProvider>
-  );
+  return <IndexContent />;
 };
 
 export default Index;
