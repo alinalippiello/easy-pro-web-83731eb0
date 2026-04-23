@@ -24,6 +24,7 @@ const IndexContent = () => {
       <Publications />
       <Contact />
       <Footer />
+      <CookieBanner />
     </main>
   );
 };
