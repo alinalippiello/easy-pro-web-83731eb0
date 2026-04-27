@@ -640,11 +640,11 @@ The heart of the project is a diagonal system of public spaces and ramps that no
     // Projects
     'project.wernigerode1.title': 'Living the New Ecological Porous Garden City. Wernigerode. Proyecto',
     'project.wernigerode1.location': 'Wernigerode, Alemania',
-    'project.wernigerode1.description': `El proyecto residencial de Wernigerode se configura como un umbral urbano, un dispositivo de conexión entre el Bürgerpark y el tejido residencial circundante, construyendo una relación directa y continua entre paisaje y ciudad.
+    'project.wernigerode1.description': `El proyecto residencial de Wernigerode se configura como un umbral urbano, un dispositivo de conexión entre el Bürgerpark y el tejido residencial circundante, construyendo una relación directa y continua entre paisaje y ciudad. El edificio se concibe como parte de un paisaje construido: asume y prolonga la tipología existente, interpretándola como campo continuo y transformándola en un nuevo punto de intensidad urbana.
 
 El proyecto activa una estrategia de desarrollo ecológico para la ciudad, generando nuevos corredores verdes y promoviendo una porosidad peatonal y ciclista difusa. En esta red de cruces, el espacio público se articula como un sistema capilar de relaciones, donde movilidad lenta, naturaleza y vida urbana se entrelazan.
 
-Los edificios se modelan a través de una lógica de reconexión morfológica: los volúmenes lineales más altos al oeste se realinean con las casas aisladas más bajas al norte, integrándose de manera armónica para completar la estructura "orgánica" del barrio existente. El conjunto construye una continuidad entre densidad y dispersión, entre estructura urbana y paisaje doméstico.
+Los edificios se modelan a través de una lógica de reconexión morfológica: los volúmenes lineales más altos al oeste se realinean con las casas aisladas más bajas al norte, integrándose de manera armónica para completar la estructura orgánica del barrio existente. El conjunto construye una continuidad entre densidad y dispersión, entre estructura urbana y paisaje doméstico.
 
 Aberturas e incisiones atraviesan lo construido, garantizando la permeabilidad del espacio público y su vínculo con los recorridos peatonales y ciclistas del parque. En particular, al norte, una gran abertura cubierta se configura como plaza habitable y punto de entrada a la ciudad, un dispositivo de umbral entre infraestructura urbana y vida colectiva.
 
