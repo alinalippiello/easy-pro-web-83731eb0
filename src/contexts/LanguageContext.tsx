@@ -366,11 +366,11 @@ Il cuore del progetto è un sistema diagonale di spazi pubblici e rampe che non 
     // Projects
     'project.wernigerode1.title': 'Living the New Ecological Porous Garden City. Wernigerode. Project',
     'project.wernigerode1.location': 'Wernigerode, Germany',
-    'project.wernigerode1.description': `The Wernigerode residential project takes shape as an urban threshold, a connective device between the Bürgerpark and the surrounding residential fabric, building a direct and continuous relationship between landscape and city.
+    'project.wernigerode1.description': `The Wernigerode residential project takes shape as an urban threshold, a connective device between the Bürgerpark and the surrounding residential fabric, building a direct and continuous relationship between landscape and city. The building is conceived as part of a constructed landscape: it takes on and continues the existing typology, interpreting it as a continuous field and transforming it into a new point of urban intensity.
 
 The project activates an ecological development strategy for the city, generating new green corridors and promoting widespread pedestrian and cycling porosity. Within this network of crossings, public space is articulated as a capillary system of relationships, where slow mobility, nature and urban life intertwine.
 
-The buildings are shaped through a logic of morphological reconnection: the taller linear volumes to the west realign with the lower detached houses to the north, integrating harmoniously to complete the "organic" structure of the existing neighbourhood. The ensemble builds a continuity between density and dispersion, between urban structure and domestic landscape.
+The buildings are shaped through a logic of morphological reconnection: the taller linear volumes to the west realign with the lower detached houses to the north, integrating harmoniously to complete the organic structure of the existing neighbourhood. The ensemble builds a continuity between density and dispersion, between urban structure and domestic landscape.
 
 Gaps and incisions cut through the built fabric, ensuring the permeability of public space and its connection to the park's pedestrian and cycling paths. In particular, to the north, a large covered opening takes the form of a habitable plaza and city entrance point, a threshold device between urban infrastructure and collective life.
 
