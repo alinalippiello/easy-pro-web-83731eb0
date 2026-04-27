@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 import origine1 from "@/assets/portfolio/origine-1.jpg";
 import origine2 from "@/assets/portfolio/origine-2.jpg";
@@ -46,6 +47,7 @@ const tiles: MosaicTile[] = [
 ];
 
 const Strati = () => {
+  const { t } = useLanguage();
   const [expandedImage, setExpandedImage] = useState<string | null>(null);
 
   const openImage = useCallback((src: string) => {
@@ -63,14 +65,14 @@ const Strati = () => {
           {/* Header - centered like Profile */}
           <div className="text-center mb-12 md:mb-16">
             <h2 className="font-display text-2xl md:text-3xl font-light tracking-wide mb-4 text-center">
-              L'architettura come paesaggio
+              {t('strati.heading')}
             </h2>
           </div>
 
           {/* Text block */}
           <div className="space-y-4 font-body text-sm md:text-base text-foreground leading-[1.6] mb-12 md:mb-16">
             <p>
-              L'architettura non come oggetto, ma come campo. Un sistema continuo in cui edificio e paesaggio coincidono, e la forma emerge come rivelazione di condizioni latenti.
+              {t('strati.text')}
             </p>
           </div>
 
@@ -117,7 +119,7 @@ const Strati = () => {
             <button
               onClick={closeImage}
               className="absolute top-4 right-4 p-2 text-muted-foreground hover:text-foreground transition-colors z-10"
-              aria-label="Chiudi"
+              aria-label={t('strati.close')}
             >
               <X className="w-5 h-5" />
             </button>

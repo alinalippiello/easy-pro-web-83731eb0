@@ -22,6 +22,9 @@ const translations: Record<Language, Record<string, string>> = {
     'hero.title': 'Architetto',
     'hero.description': "L'architettura come racconto stratificato, tra spazio, tempo e paesaggio.",
     'hero.cta': 'Scopri di più ↓',
+
+    'strati.heading': "L'architettura come paesaggio",
+    'strati.text': "L'architettura non come oggetto, ma come campo. Un sistema continuo in cui edificio e paesaggio coincidono, e la forma emerge come rivelazione di condizioni latenti.",
     
     // Profile
     'profile.subtitle': 'Architetto | Concept designer | Direzione artistica',
@@ -296,6 +299,9 @@ Il cuore del progetto è un sistema diagonale di spazi pubblici e rampe che non 
     'hero.title': 'Architect',
     'hero.description': 'Architecture as a layered narrative, between space, time and landscape.',
     'hero.cta': 'Discover more ↓',
+
+    'strati.heading': 'Architecture as landscape',
+    'strati.text': 'Architecture not as an object, but as a field. A continuous system in which building and landscape coincide, and form emerges as the revelation of latent conditions.',
     
     // Profile
     'profile.subtitle': 'Architect | Concept designer | Art direction',
@@ -570,6 +576,9 @@ The heart of the project is a diagonal system of public spaces and ramps that no
     'hero.title': 'Arquitecta',
     'hero.description': 'La arquitectura como narrativa estratificada, entre espacio, tiempo y paisaje.',
     'hero.cta': 'Descubre más ↓',
+
+    'strati.heading': 'La arquitectura como paisaje',
+    'strati.text': 'La arquitectura no como objeto, sino como campo. Un sistema continuo en el que edificio y paisaje coinciden, y la forma emerge como revelación de condiciones latentes.',
     
     // Profile
     'profile.subtitle': 'Arquitecta | Concept designer | Dirección artística',
