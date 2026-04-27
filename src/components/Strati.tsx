@@ -65,7 +65,7 @@ const Strati = () => {
           {/* Header - centered like Profile */}
           <div className="text-center mb-12 md:mb-16">
             <h2 className="font-display text-2xl md:text-3xl font-light tracking-wide mb-4 text-center">
-              {t('strati.title')}
+              {t('strati.heading')}
             </h2>
           </div>
 
