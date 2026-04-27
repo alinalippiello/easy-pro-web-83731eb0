@@ -191,17 +191,13 @@ Il cuore del progetto è un sistema diagonale di spazi pubblici e rampe che non 
 Team di progetto:
 Leonardo Zuccaro Marchi, Alice Covatta, **Alina Lippiello**, Piero Medici
 
-Ruolo:
+Ruolo
+Direzione del progetto e coordinamento dello sviluppo tecnico.
 
-Coordinamento generale e sviluppo tecnico del progetto.
-
-Contributi:
-
-Progettazione del sistema di facciata e definizione dei dettagli architettonici.
-
-Supervisione tecnica e interfaccia diretta con l'architetto locale per la conformità costruttiva.
-
-Affinamento tecnico delle soluzioni abitative e dei sistemi distributivi.
+Contributi
+Definizione del sistema architettonico di facciata e dei principi costruttivi
+Supervisione tecnica e interfaccia diretta con l'architetto locale
+Sviluppo e ottimizzazione delle soluzioni abitative e distributive
 
 Architetto locale: H+L Hartung & Ludwig Architektur
 Visualizzazione: Be Maarch`,"credits.wernigerode2":`Team di progetto:
@@ -470,17 +466,13 @@ The heart of the project is a diagonal system of public spaces and ramps that no
 Design team:
 Leonardo Zuccaro Marchi, Alice Covatta, **Alina Lippiello**, Piero Medici
 
-Role:
+Role
+Project direction and coordination of technical development.
 
-General coordination and technical development of the project.
-
-Contributions:
-
-Design of the façade system and definition of architectural details.
-
-Technical supervision and direct interface with the local architect for building compliance.
-
-Technical refinement of housing solutions and distribution systems.
+Contributions
+Definition of the architectural façade system and construction principles
+Technical supervision and direct interface with the local architect
+Development and optimization of housing and distribution solutions
 
 Local architect: H+L Hartung & Ludwig Architektur
 Visualization: Be Maarch`,"credits.wernigerode2":`Design team:
@@ -749,17 +741,13 @@ El corazón del proyecto es un sistema diagonal de espacios públicos y rampas q
 Equipo de proyecto:
 Leonardo Zuccaro Marchi, Alice Covatta, **Alina Lippiello**, Piero Medici
 
-Rol:
+Rol
+Dirección del proyecto y coordinación del desarrollo técnico.
 
-Coordinación general y desarrollo técnico del proyecto.
-
-Contribuciones:
-
-Diseño del sistema de fachada y definición de los detalles arquitectónicos.
-
-Supervisión técnica e interfaz directa con el arquitecto local para la conformidad constructiva.
-
-Afinamiento técnico de las soluciones habitacionales y los sistemas distributivos.
+Contribuciones
+Definición del sistema arquitectónico de fachada y de los principios constructivos
+Supervisión técnica e interfaz directa con el arquitecto local
+Desarrollo y optimización de las soluciones habitacionales y distributivas
 
 Arquitecto local: H+L Hartung & Ludwig Architektur
 Visualización: Be Maarch`,"credits.wernigerode2":`Equipo de proyecto:
