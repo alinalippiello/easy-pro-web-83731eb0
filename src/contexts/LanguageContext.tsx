@@ -23,9 +23,8 @@ const translations: Record<Language, Record<string, string>> = {
     'hero.description': "L'architettura come racconto stratificato, tra spazio, tempo e paesaggio.",
     'hero.cta': 'Scopri di più ↓',
 
-    'strati.title': "L'architettura come paesaggio",
+    'strati.heading': "L'architettura come paesaggio",
     'strati.text': "L'architettura non come oggetto, ma come campo. Un sistema continuo in cui edificio e paesaggio coincidono, e la forma emerge come rivelazione di condizioni latenti.",
-    'strati.close': 'Chiudi',
     
     // Profile
     'profile.subtitle': 'Architetto | Concept designer | Direzione artistica',
