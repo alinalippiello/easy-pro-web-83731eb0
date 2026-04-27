@@ -92,11 +92,11 @@ const translations: Record<Language, Record<string, string>> = {
     // Projects
     'project.wernigerode1.title': 'Living the New Ecological Porous Garden City. Wernigerode. Progetto',
     'project.wernigerode1.location': 'Wernigerode, Germania',
-    'project.wernigerode1.description': `Il progetto residenziale di Wernigerode si configura come una soglia urbana, un dispositivo di connessione tra il Bürgerpark e il tessuto residenziale circostante, costruendo un rapporto diretto e continuo tra paesaggio e città.
+    'project.wernigerode1.description': `Il progetto residenziale di Wernigerode si configura come una soglia urbana, un dispositivo di connessione tra il Bürgerpark e il tessuto residenziale circostante, costruendo un rapporto diretto e continuo tra paesaggio e città. L'edificio è concepito come parte di un paesaggio costruito: assume e prosegue la tipologia esistente, interpretandola come campo continuo e trasformandola in un nuovo punto di intensità urbana.
 
 Il progetto attiva una strategia di sviluppo ecologico per la città, generando nuovi corridoi verdi e promuovendo una porosità pedonale e ciclabile diffusa. In questa rete di attraversamenti, lo spazio pubblico si articola come sistema capillare di relazioni, in cui mobilità lenta, natura e vita urbana si intrecciano.
 
-Gli edifici sono modellati attraverso una logica di riconnessione morfologica: i volumi lineari più alti a ovest si riallineano con le case isolate più basse a nord, integrandosi in modo armonico per completare la struttura "organica" del quartiere esistente. L'insieme costruisce una continuità tra densità e dispersione, tra struttura urbana e paesaggio domestico.
+Gli edifici sono modellati attraverso una logica di riconnessione morfologica: i volumi lineari più alti a ovest si riallineano con le case isolate più basse a nord, integrandosi in modo armonico per completare la struttura organica del quartiere esistente. L'insieme costruisce una continuità tra densità e dispersione, tra struttura urbana e paesaggio domestico.
 
 Varchi e incisioni attraversano il costruito, garantendo la permeabilità dello spazio pubblico e il suo legame con i percorsi pedonali e ciclabili del parco. In particolare, a nord, un grande varco coperto si configura come piazza abitabile e punto di ingresso alla città, un dispositivo di soglia tra infrastruttura urbana e vita collettiva.
 
