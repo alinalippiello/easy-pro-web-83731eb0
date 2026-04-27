@@ -17,7 +17,7 @@ const Header = () => {
 
   const navItems = [
     { label: t('nav.profile'), href: "#profilo" },
-    { label: "Strati", href: "#strati" },
+    { label: t('strati.title'), href: "#strati" },
     { label: t('nav.projects'), href: "#progetti" },
     { label: t('nav.publications'), href: "#pubblicazioni" },
     { label: t('nav.contact'), href: "#contatti" },
