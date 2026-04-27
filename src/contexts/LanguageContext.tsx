@@ -578,6 +578,10 @@ The heart of the project is a diagonal system of public spaces and ramps that no
     'hero.title': 'Arquitecta',
     'hero.description': 'La arquitectura como narrativa estratificada, entre espacio, tiempo y paisaje.',
     'hero.cta': 'Descubre más ↓',
+
+    'strati.title': 'La arquitectura como paisaje',
+    'strati.text': 'La arquitectura no como objeto, sino como campo. Un sistema continuo en el que edificio y paisaje coinciden, y la forma emerge como revelación de condiciones latentes.',
+    'strati.close': 'Cerrar',
     
     // Profile
     'profile.subtitle': 'Arquitecta | Concept designer | Dirección artística',
