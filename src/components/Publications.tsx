@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from "@/hooks/useLanguage";
 import Lightbox from "@/components/Lightbox";
 import bariCover from "@/assets/publications/bari-studi-per-la-metropoli.jpg";
 import stazioniCover from "@/assets/publications/stazioni-un-sipario-urbano.jpg";

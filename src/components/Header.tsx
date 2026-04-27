@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from "@/hooks/useLanguage";
 import LanguageSelector from "./LanguageSelector";
 
 const Header = () => {
