@@ -107,9 +107,9 @@ Concorso, Germania, 2021
 
 Il progetto si articola su due aree complementari in dialogo con la topografia esistente.
 
-Area Nord — 32 alloggi: L'edificio funge da porta urbana, connettendo il parco al quartiere. Le volumetrie ricuciono i blocchi lineari occidentali con le case isolate settentrionali, integrandosi nel tessuto organico. Portali e tagli garantiscono permeabilità pubblica verso i percorsi ciclopedonali. Materiali sostenibili (legno e calcestruzzo), sistemi di gestione idrica circolare e produzione energetica caratterizzano l'intervento. La mixité tipologica favorisce composizioni sociali intergenerazionali, con spazi lavoro-abitazione e attività commerciali al piano terra.
+Area Nord — 32 alloggi: L'edificio funge da porta urbana, connettendo il parco al quartiere. Il costruito è assunto come parte del paesaggio: le volumetrie proseguono e reinterpretano le tipologie esistenti, ricucendo i blocchi lineari occidentali con le case isolate settentrionali e integrandosi nel tessuto organico. Portali e tagli garantiscono permeabilità pubblica verso i percorsi ciclopedonali. Materiali sostenibili (legno e calcestruzzo), sistemi di gestione idrica circolare e produzione energetica caratterizzano l'intervento. La mixité tipologica favorisce composizioni sociali intergenerazionali, con spazi lavoro-abitazione e attività commerciali al piano terra.
 
-Area Sud — 25 alloggi: Ibrida la tipologia a schiera con coperture a falde e volumi lineari, seguendo organicamente il sito. La porosità connette il parco circolare interno al museo tecnico ad ovest. Una serra fotovoltaica nel cortile permette produzione alimentare annuale, configurandosi come padiglione agricolo. Orti condivisi, terrazze comuni e giardini privati completano il sistema degli spazi aperti.`,"project.novecento.title":"Novecentopiù'cento","project.novecento.location":`Concorso per l'ampliamento del Museo del Novecento
+Area Sud — 25 alloggi: L'intervento ibrida la tipologia a schiera con coperture a falde e volumi lineari, seguendo e amplificando le logiche del sito. Anche qui il progetto si configura come paesaggio costruito, in cui architettura e suolo si articolano in continuità. La porosità connette il parco circolare interno al museo tecnico a ovest. Una serra fotovoltaica nel cortile permette produzione alimentare annuale, configurandosi come padiglione agricolo. Orti condivisi, terrazze comuni e giardini privati completano il sistema degli spazi aperti.`,"project.novecento.title":"Novecentopiù'cento","project.novecento.location":`Concorso per l'ampliamento del Museo del Novecento
 Milano, 2021`,"project.novecento.description":`Il progetto intreccia la città con il percorso museale, creando una continuità con lo spazio pubblico del Museo del Novecento. La passerella connette il percorso museale pubblico tra i due Arengari senza interferire con le sequenze espositive, garantendo flessibilità e preservando l'organizzazione museale. Il percorso sospeso estende lo spazio collettivo urbano: il suolo di via Marconi si duplica per diventare collegamento, terrazza e spazio espositivo su piazza Duomo.
 
 L'elemento di connessione stabilisce una continuità con i porticati della città storica, preserva il collegamento visivo tra la Galleria e la Torre Martini, definisce piazza Diaz e l'ingresso alle strutture museali. I due Arengari stabiliscono un dialogo attraverso la luce e installazioni ambientali.
@@ -203,15 +203,13 @@ Architetto locale: H+L Hartung & Ludwig Architektur
 Visualizzazione: Be Maarch`,"credits.wernigerode2":`Team di progetto:
 Leonardo Zuccaro Marchi, Alice Covatta, **Alina Lippiello**, Piero Medici
 
-Ruolo:
+Ruolo
+Sviluppo del concept urbano per il comparto Nord e definizione della strategia di innesto nel tessuto esistente.
 
-Sviluppo del concept per il comparto Nord e definizione della strategia d'innesto urbano.
-
-Contributi:
-
-Ricerca e sviluppo dei modelli residenziali sperimentali per entrambi i lotti.
-
-Revisione dei processi distributivi e dei flussi per entrambi i lotti.
+Contributi
+Ideazione dei modelli residenziali sperimentali per entrambi i lotti
+Definizione dei principi distributivi e dei flussi spaziali
+Articolazione del rapporto tra sistema edilizio e topografia
 
 Visualizzazione: Be Maarch
 
@@ -382,9 +380,9 @@ Competition, Germany, 2021
 
 The project is articulated in two complementary areas in dialogue with the existing topography.
 
-North Area — 32 apartments: The building serves as an urban gateway, connecting the park to the neighborhood. The volumes reconnect the western linear blocks with the northern isolated houses, integrating into the organic fabric. Portals and cuts ensure public permeability towards cycle-pedestrian paths. Sustainable materials (wood and concrete), circular water management systems and energy production characterize the intervention. The typological mix favors intergenerational social compositions, with live-work spaces and commercial activities on the ground floor.
+North Area — 32 apartments: The building serves as an urban gateway, connecting the park to the neighborhood. The built form is assumed as part of the landscape: the volumes continue and reinterpret existing typologies, stitching together the western linear blocks with the northern isolated houses and integrating into the organic fabric. Portals and cuts ensure public permeability towards cycle-pedestrian paths. Sustainable materials (wood and concrete), circular water management systems and energy production characterize the intervention. The typological mix favors intergenerational social compositions, with live-work spaces and commercial activities on the ground floor.
 
-South Area — 25 apartments: It hybridizes the row house typology with pitched roofs and linear volumes, organically following the site. The porosity connects the internal circular park to the technical museum to the west. A photovoltaic greenhouse in the courtyard allows annual food production, configured as an agricultural pavilion. Shared gardens, common terraces and private gardens complete the open space system.`,"project.novecento.title":"Novecentopiù'cento","project.novecento.location":`Competition for the extension of the Museo del Novecento
+South Area — 25 apartments: The intervention hybridizes the row-house typology with pitched roofs and linear volumes, following and amplifying the logics of the site. Here too the project takes shape as a built landscape, in which architecture and ground are articulated in continuity. The porosity connects the internal circular park to the technical museum to the west. A photovoltaic greenhouse in the courtyard allows annual food production, configured as an agricultural pavilion. Shared gardens, common terraces and private gardens complete the open space system.`,"project.novecento.title":"Novecentopiù'cento","project.novecento.location":`Competition for the extension of the Museo del Novecento
 Milan, 2021`,"project.novecento.description":`The project interweaves the city with the museum path, creating continuity with the public space of the Museo del Novecento. The walkway connects the public museum path between the two Arengari without interfering with the exhibition sequences, ensuring flexibility and preserving the museum organization. The suspended path extends the collective urban space: the ground of via Marconi is duplicated to become a connection, terrace and exhibition space on Piazza Duomo.
 
 The connecting element establishes continuity with the porticoes of the historic city, preserves the visual connection between the Galleria and the Martini Tower, defines Piazza Diaz and the entrance to the museum structures. The two Arengari establish a dialogue through light and environmental installations.
@@ -478,15 +476,13 @@ Local architect: H+L Hartung & Ludwig Architektur
 Visualization: Be Maarch`,"credits.wernigerode2":`Design team:
 Leonardo Zuccaro Marchi, Alice Covatta, **Alina Lippiello**, Piero Medici
 
-Role:
+Role
+Development of the urban concept for the North sector and definition of the grafting strategy into the existing fabric.
 
-Development of the concept for the North sector and definition of the urban grafting strategy.
-
-Contributions:
-
-Research and development of experimental residential models for both lots.
-
-Review of distribution processes and flows for both lots.
+Contributions
+Conception of experimental residential models for both lots
+Definition of distributive principles and spatial flows
+Articulation of the relationship between building system and topography
 
 Visualization: Be Maarch
 
@@ -657,9 +653,9 @@ Concurso, Alemania, 2021
 
 El proyecto se articula en dos áreas complementarias en diálogo con la topografía existente.
 
-Área Norte — 32 viviendas: El edificio funciona como puerta urbana, conectando el parque con el barrio. Los volúmenes reconectan los bloques lineales occidentales con las casas aisladas del norte, integrándose en el tejido orgánico. Portales y cortes garantizan permeabilidad pública hacia los senderos ciclopeatonales. Materiales sostenibles (madera y hormigón), sistemas de gestión circular del agua y producción energética caracterizan la intervención. La mixité tipológica favorece composiciones sociales intergeneracionales, con espacios de trabajo-vivienda y actividades comerciales en planta baja.
+Área Norte — 32 viviendas: El edificio funciona como puerta urbana, conectando el parque con el barrio. Lo construido se asume como parte del paisaje: los volúmenes prolongan y reinterpretan las tipologías existentes, recosiendo los bloques lineales occidentales con las casas aisladas del norte e integrándose en el tejido orgánico. Portales y cortes garantizan permeabilidad pública hacia los senderos ciclopeatonales. Materiales sostenibles (madera y hormigón), sistemas de gestión circular del agua y producción energética caracterizan la intervención. La mixité tipológica favorece composiciones sociales intergeneracionales, con espacios de trabajo-vivienda y actividades comerciales en planta baja.
 
-Área Sur — 25 viviendas: Hibrida la tipología de casas en hilera con cubiertas a dos aguas y volúmenes lineales, siguiendo orgánicamente el sitio. La porosidad conecta el parque circular interno con el museo técnico al oeste. Un invernadero fotovoltaico en el patio permite la producción alimentaria anual, configurándose como pabellón agrícola. Huertos compartidos, terrazas comunes y jardines privados completan el sistema de espacios abiertos.`,"project.novecento.title":"Novecentopiù'cento","project.novecento.location":`Concurso para la ampliación del Museo del Novecento
+Área Sur — 25 viviendas: La intervención hibrida la tipología de casas en hilera con cubiertas a dos aguas y volúmenes lineales, siguiendo y amplificando las lógicas del sitio. También aquí el proyecto se configura como paisaje construido, en el que arquitectura y suelo se articulan en continuidad. La porosidad conecta el parque circular interno con el museo técnico al oeste. Un invernadero fotovoltaico en el patio permite la producción alimentaria anual, configurándose como pabellón agrícola. Huertos compartidos, terrazas comunes y jardines privados completan el sistema de espacios abiertos.`,"project.novecento.title":"Novecentopiù'cento","project.novecento.location":`Concurso para la ampliación del Museo del Novecento
 Milán, 2021`,"project.novecento.description":`El proyecto entrelaza la ciudad con el recorrido museístico, creando una continuidad con el espacio público del Museo del Novecento. La pasarela conecta el recorrido museístico público entre los dos Arengari sin interferir con las secuencias expositivas, garantizando flexibilidad y preservando la organización museística. El recorrido suspendido extiende el espacio colectivo urbano: el suelo de via Marconi se duplica para convertirse en conexión, terraza y espacio expositivo sobre Piazza Duomo.
 
 El elemento de conexión establece una continuidad con los pórticos de la ciudad histórica, preserva la conexión visual entre la Galleria y la Torre Martini, define Piazza Diaz y la entrada a las estructuras museísticas. Los dos Arengari establecen un diálogo a través de la luz e instalaciones ambientales.
@@ -753,15 +749,13 @@ Arquitecto local: H+L Hartung & Ludwig Architektur
 Visualización: Be Maarch`,"credits.wernigerode2":`Equipo de proyecto:
 Leonardo Zuccaro Marchi, Alice Covatta, **Alina Lippiello**, Piero Medici
 
-Rol:
+Rol
+Desarrollo del concepto urbano para el sector Norte y definición de la estrategia de inserción en el tejido existente.
 
-Desarrollo del concepto para el sector Norte y definición de la estrategia de inserción urbana.
-
-Contribuciones:
-
-Investigación y desarrollo de modelos residenciales experimentales para ambos lotes.
-
-Revisión de los procesos distributivos y flujos para ambos lotes.
+Contribuciones
+Ideación de los modelos residenciales experimentales para ambos lotes
+Definición de los principios distributivos y de los flujos espaciales
+Articulación de la relación entre sistema edilicio y topografía
 
 Visualización: Be Maarch
 
