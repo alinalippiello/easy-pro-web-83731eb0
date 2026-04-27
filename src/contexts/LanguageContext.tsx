@@ -1,5 +1,6 @@
 import { useState, ReactNode, useEffect } from 'react';
-import { Language, LanguageContext } from '@/contexts/language';
+import { LanguageContext } from '@/contexts/language';
+import type { Language } from '@/contexts/language';
 
 const translations: Record<Language, Record<string, string>> = {
   it: {
@@ -865,5 +866,3 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
     </LanguageContext.Provider>
   );
 };
-
-export type { Language } from '@/contexts/language';
