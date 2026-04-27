@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Language } from '@/contexts/LanguageContext';
+import type { Language } from '@/contexts/language';
 
 interface SEOConfig {
   language: Language;

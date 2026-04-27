@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { useLanguage } from '@/hooks/useLanguage';
 
 import origine1 from "@/assets/portfolio/origine-1.jpg";
 import origine2 from "@/assets/portfolio/origine-2.jpg";

@@ -1,4 +1,4 @@
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from "@/hooks/useLanguage";
 import { useSEO } from "@/hooks/useSEO";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";

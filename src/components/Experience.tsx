@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Lightbox from './Lightbox';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { useLanguage } from '@/hooks/useLanguage';
 
 // Import portfolio images
 import gardenCityMasterplan from "@/assets/portfolio/garden-city-masterplan.jpg";

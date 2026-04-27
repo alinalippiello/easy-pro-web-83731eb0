@@ -1,4 +1,4 @@
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from "@/hooks/useLanguage";
 
 const Profile = () => {
   const { t } = useLanguage();

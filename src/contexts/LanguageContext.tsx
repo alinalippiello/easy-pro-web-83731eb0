@@ -1,12 +1,6 @@
-import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-
-export type Language = 'it' | 'en' | 'es';
-
-interface LanguageContextType {
-  language: Language;
-  setLanguage: (lang: Language) => void;
-  t: (key: string) => string;
-}
+import { useState, ReactNode, useEffect } from 'react';
+import { LanguageContext } from '@/contexts/language';
+import type { Language } from '@/contexts/language';
 
 const translations: Record<Language, Record<string, string>> = {
   it: {
@@ -842,8 +836,6 @@ El corazón del proyecto es un sistema diagonal de espacios públicos y rampas q
   },
 };
 
-const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
-
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const [language, setLanguage] = useState<Language>(() => {
     // Check localStorage first
@@ -873,12 +865,4 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
       {children}
     </LanguageContext.Provider>
   );
-};
-
-export const useLanguage = () => {
-  const context = useContext(LanguageContext);
-  if (!context) {
-    throw new Error('useLanguage must be used within a LanguageProvider');
-  }
-  return context;
 };
