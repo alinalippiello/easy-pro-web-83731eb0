@@ -92,11 +92,11 @@ const translations: Record<Language, Record<string, string>> = {
     // Projects
     'project.wernigerode1.title': 'Living the New Ecological Porous Garden City. Wernigerode. Progetto',
     'project.wernigerode1.location': 'Wernigerode, Germania',
-    'project.wernigerode1.description': `Il progetto residenziale di Wernigerode si configura come una soglia urbana, un dispositivo di connessione tra il Bürgerpark e il tessuto residenziale circostante, costruendo un rapporto diretto e continuo tra paesaggio e città.
+    'project.wernigerode1.description': `Il progetto residenziale di Wernigerode si configura come una soglia urbana, un dispositivo di connessione tra il Bürgerpark e il tessuto residenziale circostante, costruendo un rapporto diretto e continuo tra paesaggio e città. L'edificio è concepito come parte di un paesaggio costruito: assume e prosegue la tipologia esistente, interpretandola come campo continuo e trasformandola in un nuovo punto di intensità urbana.
 
 Il progetto attiva una strategia di sviluppo ecologico per la città, generando nuovi corridoi verdi e promuovendo una porosità pedonale e ciclabile diffusa. In questa rete di attraversamenti, lo spazio pubblico si articola come sistema capillare di relazioni, in cui mobilità lenta, natura e vita urbana si intrecciano.
 
-Gli edifici sono modellati attraverso una logica di riconnessione morfologica: i volumi lineari più alti a ovest si riallineano con le case isolate più basse a nord, integrandosi in modo armonico per completare la struttura "organica" del quartiere esistente. L'insieme costruisce una continuità tra densità e dispersione, tra struttura urbana e paesaggio domestico.
+Gli edifici sono modellati attraverso una logica di riconnessione morfologica: i volumi lineari più alti a ovest si riallineano con le case isolate più basse a nord, integrandosi in modo armonico per completare la struttura organica del quartiere esistente. L'insieme costruisce una continuità tra densità e dispersione, tra struttura urbana e paesaggio domestico.
 
 Varchi e incisioni attraversano il costruito, garantendo la permeabilità dello spazio pubblico e il suo legame con i percorsi pedonali e ciclabili del parco. In particolare, a nord, un grande varco coperto si configura come piazza abitabile e punto di ingresso alla città, un dispositivo di soglia tra infrastruttura urbana e vita collettiva.
 
@@ -366,11 +366,11 @@ Il cuore del progetto è un sistema diagonale di spazi pubblici e rampe che non 
     // Projects
     'project.wernigerode1.title': 'Living the New Ecological Porous Garden City. Wernigerode. Project',
     'project.wernigerode1.location': 'Wernigerode, Germany',
-    'project.wernigerode1.description': `The Wernigerode residential project takes shape as an urban threshold, a connective device between the Bürgerpark and the surrounding residential fabric, building a direct and continuous relationship between landscape and city.
+    'project.wernigerode1.description': `The Wernigerode residential project takes shape as an urban threshold, a connective device between the Bürgerpark and the surrounding residential fabric, building a direct and continuous relationship between landscape and city. The building is conceived as part of a constructed landscape: it takes on and continues the existing typology, interpreting it as a continuous field and transforming it into a new point of urban intensity.
 
 The project activates an ecological development strategy for the city, generating new green corridors and promoting widespread pedestrian and cycling porosity. Within this network of crossings, public space is articulated as a capillary system of relationships, where slow mobility, nature and urban life intertwine.
 
-The buildings are shaped through a logic of morphological reconnection: the taller linear volumes to the west realign with the lower detached houses to the north, integrating harmoniously to complete the "organic" structure of the existing neighbourhood. The ensemble builds a continuity between density and dispersion, between urban structure and domestic landscape.
+The buildings are shaped through a logic of morphological reconnection: the taller linear volumes to the west realign with the lower detached houses to the north, integrating harmoniously to complete the organic structure of the existing neighbourhood. The ensemble builds a continuity between density and dispersion, between urban structure and domestic landscape.
 
 Gaps and incisions cut through the built fabric, ensuring the permeability of public space and its connection to the park's pedestrian and cycling paths. In particular, to the north, a large covered opening takes the form of a habitable plaza and city entrance point, a threshold device between urban infrastructure and collective life.
 
@@ -640,11 +640,11 @@ The heart of the project is a diagonal system of public spaces and ramps that no
     // Projects
     'project.wernigerode1.title': 'Living the New Ecological Porous Garden City. Wernigerode. Proyecto',
     'project.wernigerode1.location': 'Wernigerode, Alemania',
-    'project.wernigerode1.description': `El proyecto residencial de Wernigerode se configura como un umbral urbano, un dispositivo de conexión entre el Bürgerpark y el tejido residencial circundante, construyendo una relación directa y continua entre paisaje y ciudad.
+    'project.wernigerode1.description': `El proyecto residencial de Wernigerode se configura como un umbral urbano, un dispositivo de conexión entre el Bürgerpark y el tejido residencial circundante, construyendo una relación directa y continua entre paisaje y ciudad. El edificio se concibe como parte de un paisaje construido: asume y prolonga la tipología existente, interpretándola como campo continuo y transformándola en un nuevo punto de intensidad urbana.
 
 El proyecto activa una estrategia de desarrollo ecológico para la ciudad, generando nuevos corredores verdes y promoviendo una porosidad peatonal y ciclista difusa. En esta red de cruces, el espacio público se articula como un sistema capilar de relaciones, donde movilidad lenta, naturaleza y vida urbana se entrelazan.
 
-Los edificios se modelan a través de una lógica de reconexión morfológica: los volúmenes lineales más altos al oeste se realinean con las casas aisladas más bajas al norte, integrándose de manera armónica para completar la estructura "orgánica" del barrio existente. El conjunto construye una continuidad entre densidad y dispersión, entre estructura urbana y paisaje doméstico.
+Los edificios se modelan a través de una lógica de reconexión morfológica: los volúmenes lineales más altos al oeste se realinean con las casas aisladas más bajas al norte, integrándose de manera armónica para completar la estructura orgánica del barrio existente. El conjunto construye una continuidad entre densidad y dispersión, entre estructura urbana y paisaje doméstico.
 
 Aberturas e incisiones atraviesan lo construido, garantizando la permeabilidad del espacio público y su vínculo con los recorridos peatonales y ciclistas del parque. En particular, al norte, una gran abertura cubierta se configura como plaza habitable y punto de entrada a la ciudad, un dispositivo de umbral entre infraestructura urbana y vida colectiva.
 
