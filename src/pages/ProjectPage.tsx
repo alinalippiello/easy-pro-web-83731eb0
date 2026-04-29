@@ -119,8 +119,15 @@ const ProjectPage = () => {
     : project.captions;
 
   const goBack = () => {
-    // Return to the projects grid at the saved scroll position.
-    navigate('/#progetti');
+    // Return to the home page; the unmount effect restores the exact scroll
+    // position to the projects grid (or falls back to #progetti if not saved).
+    let saved: string | null = null;
+    try {
+      saved = sessionStorage.getItem('progettiScrollY');
+    } catch {
+      /* ignore */
+    }
+    navigate(saved !== null ? '/' : '/#progetti');
   };
 
   const goPrev = () =>
