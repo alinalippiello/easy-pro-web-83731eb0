@@ -2,33 +2,31 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://alinalippiello.com</loc>
-    <xhtml:link rel="alternate" hreflang="it-IT" href="https://alinalippiello.com"/>
-    <xhtml:link rel="alternate" hreflang="en-US" href="https://alinalippiello.com?lang=en"/>
-    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alinalippiello.com?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://alinalippiello.com"/>
-    <lastmod>2026-01-03</lastmod>
+    <loc>https://alinalippiello.com/</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://alinalippiello.com/"/>
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://alinalippiello.com/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alinalippiello.com/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alinalippiello.com/"/>
+    <lastmod>2026-04-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
+  <url><loc>https://alinalippiello.com/progetti/wernigerode-fase-1</loc><lastmod>2026-04-29</lastmod><changefreq>yearly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://alinalippiello.com/progetti/wernigerode-fase-2</loc><lastmod>2026-04-29</lastmod><changefreq>yearly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://alinalippiello.com/progetti/novecento-piu-cento-museo</loc><lastmod>2026-04-29</lastmod><changefreq>yearly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://alinalippiello.com/progetti/wohnen-am-illerpark-neu-ulm</loc><lastmod>2026-04-29</lastmod><changefreq>yearly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://alinalippiello.com/progetti/shinkenchiku-4-houses</loc><lastmod>2026-04-29</lastmod><changefreq>yearly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://alinalippiello.com/progetti/europan-11-floating-blocks-venezia</loc><lastmod>2026-04-29</lastmod><changefreq>yearly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://alinalippiello.com/progetti/aluartforum-ilica-residenze</loc><lastmod>2026-04-29</lastmod><changefreq>yearly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://alinalippiello.com/progetti/expo-milano-2015-cluster</loc><lastmod>2026-04-29</lastmod><changefreq>yearly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://alinalippiello.com/progetti/split-mat-building-diocleziano</loc><lastmod>2026-04-29</lastmod><changefreq>yearly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://alinalippiello.com/progetti/koresnica-paesaggio-rurale</loc><lastmod>2026-04-29</lastmod><changefreq>yearly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://alinalippiello.com/progetti/lorenteggio-rigenerazione-urbana-milano</loc><lastmod>2026-04-29</lastmod><changefreq>yearly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://alinalippiello.com/progetti/zagreb-bggp-spazio-pubblico</loc><lastmod>2026-04-29</lastmod><changefreq>yearly</changefreq><priority>0.8</priority></url>
   <url>
-    <loc>https://alinalippiello.com?lang=en</loc>
-    <xhtml:link rel="alternate" hreflang="it-IT" href="https://alinalippiello.com"/>
-    <xhtml:link rel="alternate" hreflang="en-US" href="https://alinalippiello.com?lang=en"/>
-    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alinalippiello.com?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://alinalippiello.com"/>
-    <lastmod>2026-01-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://alinalippiello.com?lang=es</loc>
-    <xhtml:link rel="alternate" hreflang="it-IT" href="https://alinalippiello.com"/>
-    <xhtml:link rel="alternate" hreflang="en-US" href="https://alinalippiello.com?lang=en"/>
-    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alinalippiello.com?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://alinalippiello.com"/>
-    <lastmod>2026-01-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://alinalippiello.com/legal</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
   </url>
 </urlset>
