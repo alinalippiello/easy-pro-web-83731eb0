@@ -131,6 +131,40 @@ function injectMeta(
   return out;
 }
 
+interface SitemapEntry {
+  loc: string;
+  lastmod: string;
+  changefreq: string;
+  priority: string;
+  image?: { loc: string; title: string; caption: string };
+  alternates?: Array<{ hreflang: string; href: string }>;
+}
+
+function buildSitemap(entries: SitemapEntry[]): string {
+  const urls = entries
+    .map((e) => {
+      const alt = (e.alternates ?? [])
+        .map(
+          (a) =>
+            `    <xhtml:link rel="alternate" hreflang="${a.hreflang}" href="${escapeHtml(a.href)}"/>`,
+        )
+        .join('\n');
+      const img = e.image
+        ? `\n    <image:image>\n      <image:loc>${escapeHtml(e.image.loc)}</image:loc>\n      <image:title>${escapeHtml(e.image.title)}</image:title>\n      <image:caption>${escapeHtml(e.image.caption)}</image:caption>\n    </image:image>`
+        : '';
+      return `  <url>\n    <loc>${escapeHtml(e.loc)}</loc>${alt ? '\n' + alt : ''}\n    <lastmod>${e.lastmod}</lastmod>\n    <changefreq>${e.changefreq}</changefreq>\n    <priority>${e.priority}</priority>${img}\n  </url>`;
+    })
+    .join('\n');
+
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+${urls}
+</urlset>
+`;
+}
+
 async function main() {
   const indexPath = path.join(DIST, 'index.html');
   const indexHtml = await fs.readFile(indexPath, 'utf8');
@@ -138,6 +172,24 @@ async function main() {
 
   const fallbackImage =
     'https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/124cc589-c1fe-48eb-893f-c37534e42c31';
+
+  // <lastmod> uses the build date in W3C YYYY-MM-DD form (Google accepts this).
+  const today = new Date().toISOString().slice(0, 10);
+
+  const sitemapEntries: SitemapEntry[] = [
+    {
+      loc: `${SITE}/`,
+      lastmod: today,
+      changefreq: 'monthly',
+      priority: '1.0',
+      alternates: [
+        { hreflang: 'it-IT', href: `${SITE}/` },
+        { hreflang: 'en-US', href: `${SITE}/?lang=en` },
+        { hreflang: 'es-ES', href: `${SITE}/?lang=es` },
+        { hreflang: 'x-default', href: `${SITE}/` },
+      ],
+    },
+  ];
 
   let generated = 0;
   const missingImages: string[] = [];
@@ -159,10 +211,36 @@ async function main() {
     await fs.mkdir(outDir, { recursive: true });
     await fs.writeFile(path.join(outDir, 'index.html'), html, 'utf8');
     generated++;
+
+    sitemapEntries.push({
+      loc: url,
+      lastmod: today,
+      changefreq: 'yearly',
+      priority: '0.8',
+      image: {
+        loc: image,
+        title: p.title,
+        caption: p.description,
+      },
+    });
   }
 
+  // Static auxiliary pages.
+  sitemapEntries.push({
+    loc: `${SITE}/legal`,
+    lastmod: today,
+    changefreq: 'yearly',
+    priority: '0.3',
+  });
+
+  await fs.writeFile(
+    path.join(DIST, 'sitemap.xml'),
+    buildSitemap(sitemapEntries),
+    'utf8',
+  );
+
   console.log(
-    `[prerender] Generated ${generated} project pages under dist/progetti/.`,
+    `[prerender] Generated ${generated} project pages and sitemap.xml (${sitemapEntries.length} URLs).`,
   );
   if (missingImages.length) {
     console.warn(
