@@ -78,6 +78,7 @@ const translations: Record<Language, Record<string, string>> = {
       'strati.close': 'Chiudi',
     'strati.prev': 'Precedente',
     'strati.next': 'Successiva',
+    'project.back': 'Torna ai Progetti',
     
     // Experience
     'experience.title': 'Concorsi e Progetti',
