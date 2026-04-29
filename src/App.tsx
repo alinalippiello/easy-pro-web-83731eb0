@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import Index from "./pages/Index";
 import Legal from "./pages/Legal";
+import ProjectPage from "./pages/ProjectPage";
 import NotFound from "./pages/NotFound";
 
 // Build trigger: ensure Vercel picks up dependency changes
@@ -20,8 +21,7 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
-            <Route path="/progetti/:slug" element={<Index />} />
-            <Route path="/legal" element={<Legal />} />
+            <Route path="/progetti/:slug" element={<ProjectPage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
