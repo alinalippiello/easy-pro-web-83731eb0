@@ -354,6 +354,7 @@ Il cuore del progetto è un sistema diagonale di spazi pubblici e rampe che non 
       'strati.close': 'Close',
     'strati.prev': 'Previous',
     'strati.next': 'Next',
+    'project.back': 'Back to Projects',
     
     // Experience
     'experience.title': 'Competitions and Projects',
@@ -629,6 +630,7 @@ The heart of the project is a diagonal system of public spaces and ramps that no
       'strati.close': 'Cerrar',
     'strati.prev': 'Anterior',
     'strati.next': 'Siguiente',
+    'project.back': 'Volver a Proyectos',
     
     // Experience
     'experience.title': 'Concursos y Proyectos',
