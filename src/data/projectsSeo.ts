@@ -21,6 +21,7 @@ export const projectsSeo: ProjectSeo[] = [
     description:
       "Concorso di architettura Europan 16 a Wernigerode: progettazione tipologica e modelli abitativi per un nuovo quartiere residenziale poroso.",
     location: 'Wernigerode',
+    thumbnailSource: 'wernigerode-aerial-2',
   },
   {
     id: 'wernigerode2',
@@ -29,6 +30,7 @@ export const projectsSeo: ProjectSeo[] = [
     description:
       "Sviluppo del concorso Europan 16 a Wernigerode: dettagli architettonici, sistema di facciata e definizione tipologica del complesso residenziale.",
     location: 'Wernigerode',
+    thumbnailSource: 'profile-models',
   },
   {
     id: 'novecento',
@@ -37,6 +39,7 @@ export const projectsSeo: ProjectSeo[] = [
     description:
       "Concorso di architettura per l'ampliamento del Museo del Novecento di Milano: innesto urbano e dialogo tra acciaio contemporaneo e massa storica in pietra.",
     location: 'Milano',
+    thumbnailSource: 'novecento-5',
   },
   {
     id: 'illerpark',
@@ -45,6 +48,7 @@ export const projectsSeo: ProjectSeo[] = [
     description:
       "Concorso di architettura per un complesso residenziale a Neu-Ulm: ricerca tipologica, modelli abitativi e relazione con il parco fluviale dell'Iller.",
     location: 'Neu-Ulm',
+    thumbnailSource: 'illerpark-model-4',
   },
   {
     id: 'shinkenchiku',
@@ -52,6 +56,7 @@ export const projectsSeo: ProjectSeo[] = [
     title: '4 Houses | Concorso Shinkenchiku Residential Design',
     description:
       "Concorso internazionale Shinkenchiku Residential Design: quattro case come ricerca tipologica sui modelli abitativi e sul rapporto tra abitare e suolo comune.",
+    thumbnailSource: 'shinkenchiku-2',
   },
   {
     id: 'europan11',
@@ -60,6 +65,7 @@ export const projectsSeo: ProjectSeo[] = [
     description:
       "Concorso Europan 11 a Venezia-Marghera: progetto urbano per blocchi residenziali galleggianti, ricerca tipologica e nuovi modelli abitativi sostenibili.",
     location: 'Venezia-Marghera',
+    thumbnailSource: 'europan11-masterplan',
   },
   {
     id: 'aluartforum',
@@ -68,6 +74,7 @@ export const projectsSeo: ProjectSeo[] = [
     description:
       "Concorso di architettura AluArtForum a Zagabria: complesso residenziale Ilica, ricerca tipologica e progettazione urbana lungo la principale arteria storica.",
     location: 'Zagabria',
+    thumbnailSource: 'ilica-prospetto',
   },
   {
     id: 'expo',
@@ -76,6 +83,7 @@ export const projectsSeo: ProjectSeo[] = [
     description:
       "Progetto per Expo Milano 2015: architettura del cluster espositivo, ricerca sul suolo comune e sui modelli di aggregazione tra padiglioni.",
     location: 'Milano',
+    thumbnailSource: 'expo-1',
   },
   {
     id: 'split',
@@ -84,6 +92,7 @@ export const projectsSeo: ProjectSeo[] = [
     description:
       "Concorso di architettura a Spalato: mat-building come dispositivo di ricucitura tra il Palazzo di Diocleziano, i bastioni e il fronte mare.",
     location: 'Split',
+    thumbnailSource: 'split-4',
   },
   {
     id: 'koresnica',
@@ -92,6 +101,7 @@ export const projectsSeo: ProjectSeo[] = [
     description:
       "Progetto di architettura del paesaggio a Koresnica: ricerca tipologica sui modelli insediativi minimi e sul rapporto tra costruito e territorio agricolo.",
     location: 'Koresnica',
+    thumbnailSource: 'koresnica-1',
   },
   {
     id: 'lorenteggio',
@@ -100,6 +110,7 @@ export const projectsSeo: ProjectSeo[] = [
     description:
       "Progetto di rigenerazione urbana per il quartiere Lorenteggio a Milano: ricerca tipologica, modelli abitativi e ridefinizione dello spazio pubblico.",
     location: 'Milano',
+    thumbnailSource: 'lorenteggio-1',
   },
   {
     id: 'zagrebBgg',
@@ -108,6 +119,7 @@ export const projectsSeo: ProjectSeo[] = [
     description:
       "Concorso di architettura BGGP a Zagabria: progetto di rigenerazione dello spazio pubblico e ricerca tipologica sul margine urbano.",
     location: 'Zagabria',
+    thumbnailSource: 'zagreb-bgg-1',
   },
 ];
 
