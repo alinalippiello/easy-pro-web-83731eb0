@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://alinalippiello.com/</loc>
     <xhtml:link rel="alternate" hreflang="it-IT" href="https://alinalippiello.com/"/>
@@ -11,18 +12,138 @@
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
-  <url><loc>https://alinalippiello.com/progetti/wernigerode-fase-1</loc><lastmod>2026-04-29</lastmod><changefreq>yearly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://alinalippiello.com/progetti/wernigerode-fase-2</loc><lastmod>2026-04-29</lastmod><changefreq>yearly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://alinalippiello.com/progetti/novecento-piu-cento-museo</loc><lastmod>2026-04-29</lastmod><changefreq>yearly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://alinalippiello.com/progetti/wohnen-am-illerpark-neu-ulm</loc><lastmod>2026-04-29</lastmod><changefreq>yearly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://alinalippiello.com/progetti/shinkenchiku-4-houses</loc><lastmod>2026-04-29</lastmod><changefreq>yearly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://alinalippiello.com/progetti/europan-11-floating-blocks-venezia</loc><lastmod>2026-04-29</lastmod><changefreq>yearly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://alinalippiello.com/progetti/aluartforum-ilica-residenze</loc><lastmod>2026-04-29</lastmod><changefreq>yearly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://alinalippiello.com/progetti/expo-milano-2015-cluster</loc><lastmod>2026-04-29</lastmod><changefreq>yearly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://alinalippiello.com/progetti/split-mat-building-diocleziano</loc><lastmod>2026-04-29</lastmod><changefreq>yearly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://alinalippiello.com/progetti/koresnica-paesaggio-rurale</loc><lastmod>2026-04-29</lastmod><changefreq>yearly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://alinalippiello.com/progetti/lorenteggio-rigenerazione-urbana-milano</loc><lastmod>2026-04-29</lastmod><changefreq>yearly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://alinalippiello.com/progetti/zagreb-bggp-spazio-pubblico</loc><lastmod>2026-04-29</lastmod><changefreq>yearly</changefreq><priority>0.8</priority></url>
+  <url>
+    <loc>https://alinalippiello.com/progetti/wernigerode-fase-1</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://alinalippiello.com/assets/wernigerode-aerial-2-BatC-uv0.webp</image:loc>
+      <image:title>Wernigerode — Fase 1 | Concorso Europan 16</image:title>
+      <image:caption>Concorso di architettura Europan 16 a Wernigerode: progettazione tipologica e modelli abitativi per un nuovo quartiere residenziale poroso.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://alinalippiello.com/progetti/wernigerode-fase-2</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://alinalippiello.com/assets/profile-models-qAbkGaf0.webp</image:loc>
+      <image:title>Wernigerode — Fase 2 | Sviluppo progettuale</image:title>
+      <image:caption>Sviluppo del concorso Europan 16 a Wernigerode: dettagli architettonici, sistema di facciata e definizione tipologica del complesso residenziale.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://alinalippiello.com/progetti/novecento-piu-cento-museo</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://alinalippiello.com/assets/novecento-5-8spQZzEa.webp</image:loc>
+      <image:title>Novecentopiùcento | Concorso museo del Novecento, Milano</image:title>
+      <image:caption>Concorso di architettura per l'ampliamento del Museo del Novecento di Milano: innesto urbano e dialogo tra acciaio contemporaneo e massa storica in pietra.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://alinalippiello.com/progetti/wohnen-am-illerpark-neu-ulm</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://alinalippiello.com/assets/illerpark-model-4-Cwt3LXkv.webp</image:loc>
+      <image:title>Wohnen am Illerpark | Concorso residenziale, Neu-Ulm</image:title>
+      <image:caption>Concorso di architettura per un complesso residenziale a Neu-Ulm: ricerca tipologica, modelli abitativi e relazione con il parco fluviale dell'Iller.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://alinalippiello.com/progetti/shinkenchiku-4-houses</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://alinalippiello.com/assets/shinkenchiku-2-BEeFgRLz.webp</image:loc>
+      <image:title>4 Houses | Concorso Shinkenchiku Residential Design</image:title>
+      <image:caption>Concorso internazionale Shinkenchiku Residential Design: quattro case come ricerca tipologica sui modelli abitativi e sul rapporto tra abitare e suolo comune.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://alinalippiello.com/progetti/europan-11-floating-blocks-venezia</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://alinalippiello.com/assets/europan11-masterplan-BPDbbPMJ.webp</image:loc>
+      <image:title>Floating Blocks | Concorso Europan 11, Venezia-Marghera</image:title>
+      <image:caption>Concorso Europan 11 a Venezia-Marghera: progetto urbano per blocchi residenziali galleggianti, ricerca tipologica e nuovi modelli abitativi sostenibili.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://alinalippiello.com/progetti/aluartforum-ilica-residenze</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://alinalippiello.com/assets/ilica-prospetto-1-DCIfMrmh.webp</image:loc>
+      <image:title>AluArtForum Ilica | Concorso residenze, Zagabria</image:title>
+      <image:caption>Concorso di architettura AluArtForum a Zagabria: complesso residenziale Ilica, ricerca tipologica e progettazione urbana lungo la principale arteria storica.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://alinalippiello.com/progetti/expo-milano-2015-cluster</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://alinalippiello.com/assets/expo-1-CGFT8-bK.webp</image:loc>
+      <image:title>Expo Milano 2015 | Cluster espositivo</image:title>
+      <image:caption>Progetto per Expo Milano 2015: architettura del cluster espositivo, ricerca sul suolo comune e sui modelli di aggregazione tra padiglioni.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://alinalippiello.com/progetti/split-mat-building-diocleziano</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://alinalippiello.com/assets/split-4-CZ_6Ozyr.webp</image:loc>
+      <image:title>Split | Concorso urbano sul Palazzo di Diocleziano</image:title>
+      <image:caption>Concorso di architettura a Spalato: mat-building come dispositivo di ricucitura tra il Palazzo di Diocleziano, i bastioni e il fronte mare.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://alinalippiello.com/progetti/koresnica-paesaggio-rurale</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://alinalippiello.com/assets/koresnica-1-BKUXPQay.webp</image:loc>
+      <image:title>Koresnica | Progetto di paesaggio rurale</image:title>
+      <image:caption>Progetto di architettura del paesaggio a Koresnica: ricerca tipologica sui modelli insediativi minimi e sul rapporto tra costruito e territorio agricolo.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://alinalippiello.com/progetti/lorenteggio-rigenerazione-urbana-milano</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://alinalippiello.com/assets/lorenteggio-1-gxIzQDgD.webp</image:loc>
+      <image:title>Lorenteggio | Rigenerazione urbana, Milano</image:title>
+      <image:caption>Progetto di rigenerazione urbana per il quartiere Lorenteggio a Milano: ricerca tipologica, modelli abitativi e ridefinizione dello spazio pubblico.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://alinalippiello.com/progetti/zagreb-bggp-spazio-pubblico</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://alinalippiello.com/assets/zagreb-bgg-1-Bi_j5G48.webp</image:loc>
+      <image:title>Zagreb BGGP | Concorso spazio pubblico, Zagabria</image:title>
+      <image:caption>Concorso di architettura BGGP a Zagabria: progetto di rigenerazione dello spazio pubblico e ricerca tipologica sul margine urbano.</image:caption>
+    </image:image>
+  </url>
   <url>
     <loc>https://alinalippiello.com/legal</loc>
     <lastmod>2026-04-29</lastmod>
