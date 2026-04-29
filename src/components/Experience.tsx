@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import Lightbox from './Lightbox';
 import { useLanguage } from '@/hooks/useLanguage';
+import { idToProject, slugToProject } from '@/data/projectsSeo';
 
 // Import portfolio images
 import gardenCityMasterplan from "@/assets/portfolio/garden-city-masterplan.jpg";
@@ -662,7 +664,7 @@ const Experience = () => {
                 <div className="aspect-[4/3] overflow-hidden mb-3 rounded-sm">
                   <img
                     src={project.thumbnail}
-                    alt={t(`project.${project.id}.title`)}
+                    alt={idToProject.get(project.id)?.description ?? t(`project.${project.id}.title`)}
                     loading="lazy"
                     decoding="async"
                     draggable="false"
