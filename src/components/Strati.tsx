@@ -22,28 +22,27 @@ import stratiRender4 from "@/assets/portfolio/strati-render-4.png";
 interface MosaicTile {
   id: string;
   cover: string;
+  alt: string;
   colSpan: number;
   rowSpan: number;
 }
 
 const tiles: MosaicTile[] = [
-  { id: 'piega', cover: origine1, colSpan: 2, rowSpan: 1 },
-  { id: 'chiaroscuro', cover: origine2, colSpan: 1, rowSpan: 1 },
-  { id: 'quartiere', cover: stratiModel1, colSpan: 1, rowSpan: 1 },
-  { id: 'innesto', cover: origine3, colSpan: 1, rowSpan: 1 },
-  { id: 'waterfront', cover: stratiRender1, colSpan: 1, rowSpan: 1 },
-  { id: 'materia', cover: origine4, colSpan: 1, rowSpan: 1 },
-  { id: 'tessuto', cover: stratiAerial1, colSpan: 2, rowSpan: 1 },
-  { id: 'continuita', cover: origine5, colSpan: 1, rowSpan: 1 },
-  { id: 'porto', cover: stratiAerial2, colSpan: 2, rowSpan: 1 },
-  // tile 10 (masterplan) removed
-  { id: 'segno', cover: stratiSketch1, colSpan: 1, rowSpan: 1 },
-  { id: 'nodo', cover: stratiUrban1, colSpan: 2, rowSpan: 1 },
-  // tile 13 (soglia) removed
-  { id: 'facciata', cover: stratiRender3, colSpan: 2, rowSpan: 1 },
-  { id: 'topografia', cover: stratiTopo1, colSpan: 1, rowSpan: 1 },
-  { id: 'topografia2', cover: stratiTopo2, colSpan: 1, rowSpan: 1 },
-  { id: 'orizzonte', cover: stratiRender4, colSpan: 2, rowSpan: 1 },
+  { id: 'piega', cover: origine1, alt: 'Schema concettuale della piega — ricerca tipologica', colSpan: 2, rowSpan: 1 },
+  { id: 'chiaroscuro', cover: origine2, alt: 'Studio chiaroscurale di volumi architettonici', colSpan: 1, rowSpan: 1 },
+  { id: 'quartiere', cover: stratiModel1, alt: 'Modello di studio quartiere residenziale', colSpan: 1, rowSpan: 1 },
+  { id: 'innesto', cover: origine3, alt: 'Disegno planimetrico — innesto urbano', colSpan: 1, rowSpan: 1 },
+  { id: 'waterfront', cover: stratiRender1, alt: 'Render waterfront e fronte urbano', colSpan: 1, rowSpan: 1 },
+  { id: 'materia', cover: origine4, alt: 'Modello fisico — studio della materia', colSpan: 1, rowSpan: 1 },
+  { id: 'tessuto', cover: stratiAerial1, alt: 'Vista aerea del tessuto urbano', colSpan: 2, rowSpan: 1 },
+  { id: 'continuita', cover: origine5, alt: 'Modello volumetrico — studio di continuità', colSpan: 1, rowSpan: 1 },
+  { id: 'porto', cover: stratiAerial2, alt: 'Vista aerea area portuale — masterplan', colSpan: 2, rowSpan: 1 },
+  { id: 'segno', cover: stratiSketch1, alt: 'Schizzo di progetto — segno fondativo', colSpan: 1, rowSpan: 1 },
+  { id: 'nodo', cover: stratiUrban1, alt: 'Schema urbano — nodo infrastrutturale', colSpan: 2, rowSpan: 1 },
+  { id: 'facciata', cover: stratiRender3, alt: 'Render — studio di facciata residenziale', colSpan: 2, rowSpan: 1 },
+  { id: 'topografia', cover: stratiTopo1, alt: 'Pianta topografica del sito di progetto', colSpan: 1, rowSpan: 1 },
+  { id: 'topografia2', cover: stratiTopo2, alt: 'Pianta topografica — variante di progetto', colSpan: 1, rowSpan: 1 },
+  { id: 'orizzonte', cover: stratiRender4, alt: 'Render prospettico — orizzonte urbano', colSpan: 2, rowSpan: 1 },
 ];
 
 const Strati = () => {
@@ -92,7 +91,7 @@ const Strati = () => {
               >
                 <img
                   src={tile.cover}
-                  alt=""
+                  alt={tile.alt}
                   loading="lazy"
                   decoding="async"
                   draggable="false"
