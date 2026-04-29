@@ -18,6 +18,7 @@ interface LightboxProps {
   overlayImageIndices?: number[];
   imageDisplayScales?: number[];
   link?: { url: string; label: string };
+  closeLabel?: string;
 }
 
 const Lightbox = ({
