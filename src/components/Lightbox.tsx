@@ -38,6 +38,7 @@ const Lightbox = ({
   overlayImageIndices,
   imageDisplayScales,
   link,
+  closeLabel = 'Chiudi',
 }: LightboxProps) => {
   const [isZoomed, setIsZoomed] = useState(false);
   const [zoomLevel, setZoomLevel] = useState(1);
@@ -290,9 +291,9 @@ const Lightbox = ({
       <button
         onClick={onClose}
         className="fixed top-6 right-6 font-body text-xs tracking-widest uppercase text-muted-foreground hover:text-foreground transition-smooth z-20"
-        aria-label="Chiudi"
+        aria-label={closeLabel}
       >
-        Chiudi
+        {closeLabel}
       </button>
 
       <div className="fixed top-6 left-6 flex gap-2 z-20">
