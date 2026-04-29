@@ -658,21 +658,74 @@ const Experience = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.slug, location.pathname]);
 
-  // Update <title> and <meta description> when a project is open
+  // Update <title>, meta description, Open Graph and Twitter Card tags
+  // when a project is open. Restores previous values on close / project switch.
   useEffect(() => {
     if (!lightboxOpen || !activeSlug) return;
     const seo = slugToProject.get(activeSlug);
     if (!seo) return;
+    const project = projectsData.find((p) => p.id === seo.id);
+    if (!project) return;
+
+    const SITE_URL = 'https://alinalippiello.com';
+    const projectUrl = `${SITE_URL}/progetti/${seo.slug}`;
+    // First two "lines" of the description (split on sentence/newline).
+    const shortDesc = seo.description.split(/(?<=\.)\s+/).slice(0, 2).join(' ').trim();
+    const ogTitle = `${t(`project.${project.id}.title`)} — Alina Lippiello`;
+    // Resolve cover image to an absolute URL (Vite imports give a relative path)
+    const coverPath = project.thumbnail.startsWith('http')
+      ? project.thumbnail
+      : `${SITE_URL}${project.thumbnail.startsWith('/') ? '' : '/'}${project.thumbnail}`;
+
+    const ensureMeta = (selector: string, attr: 'name' | 'property', key: string) => {
+      let el = document.head.querySelector<HTMLMetaElement>(selector);
+      if (!el) {
+        el = document.createElement('meta');
+        el.setAttribute(attr, key);
+        document.head.appendChild(el);
+      }
+      return el;
+    };
+
+    const ensureLink = (rel: string) => {
+      let el = document.head.querySelector<HTMLLinkElement>(`link[rel="${rel}"]`);
+      if (!el) {
+        el = document.createElement('link');
+        el.setAttribute('rel', rel);
+        document.head.appendChild(el);
+      }
+      return el;
+    };
+
+    const targets: Array<{ el: HTMLMetaElement | HTMLLinkElement; prop: 'content' | 'href'; value: string }> = [
+      { el: ensureMeta('meta[name="description"]', 'name', 'description'), prop: 'content', value: seo.description },
+      { el: ensureMeta('meta[property="og:title"]', 'property', 'og:title'), prop: 'content', value: ogTitle },
+      { el: ensureMeta('meta[property="og:description"]', 'property', 'og:description'), prop: 'content', value: shortDesc },
+      { el: ensureMeta('meta[property="og:url"]', 'property', 'og:url'), prop: 'content', value: projectUrl },
+      { el: ensureMeta('meta[property="og:image"]', 'property', 'og:image'), prop: 'content', value: coverPath },
+      { el: ensureMeta('meta[property="og:type"]', 'property', 'og:type'), prop: 'content', value: 'article' },
+      { el: ensureMeta('meta[name="twitter:card"]', 'name', 'twitter:card'), prop: 'content', value: 'summary_large_image' },
+      { el: ensureMeta('meta[name="twitter:title"]', 'name', 'twitter:title'), prop: 'content', value: ogTitle },
+      { el: ensureMeta('meta[name="twitter:description"]', 'name', 'twitter:description'), prop: 'content', value: shortDesc },
+      { el: ensureMeta('meta[name="twitter:image"]', 'name', 'twitter:image'), prop: 'content', value: coverPath },
+      { el: ensureLink('canonical'), prop: 'href', value: projectUrl },
+    ];
+
+    const previous = targets.map(({ el, prop }) => ({
+      el,
+      prop,
+      value: (prop === 'href' ? (el as HTMLLinkElement).href : (el as HTMLMetaElement).content) ?? '',
+    }));
     const previousTitle = document.title;
-    const metaDesc = document.querySelector('meta[name="description"]');
-    const previousDesc = metaDesc?.getAttribute('content') ?? '';
+
     document.title = `${seo.title} | Alina Lippiello`;
-    metaDesc?.setAttribute('content', seo.description);
+    targets.forEach(({ el, prop, value }) => el.setAttribute(prop, value));
+
     return () => {
       document.title = previousTitle;
-      metaDesc?.setAttribute('content', previousDesc);
+      previous.forEach(({ el, prop, value }) => el.setAttribute(prop, value));
     };
-  }, [lightboxOpen, activeSlug]);
+  }, [lightboxOpen, activeSlug, t]);
 
   const goToPrev = () => {
     setLightboxIndex((prev) => (prev === 0 ? lightboxImages.length - 1 : prev - 1));
