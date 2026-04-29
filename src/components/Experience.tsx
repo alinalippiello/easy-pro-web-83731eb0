@@ -1,8 +1,6 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
-import Lightbox from './Lightbox';
+import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/hooks/useLanguage';
-import { idToProject, slugToProject } from '@/data/projectsSeo';
+import { idToProject } from '@/data/projectsSeo';
 
 // Import portfolio images
 import gardenCityMasterplan from "@/assets/portfolio/garden-city-masterplan.jpg";
