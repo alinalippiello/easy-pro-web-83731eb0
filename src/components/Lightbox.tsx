@@ -460,7 +460,7 @@ const Lightbox = ({
             <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-6 md:gap-12">
               <div className="space-y-2">
                 {title && (
-                  <h3 className="font-body text-base font-medium text-foreground">{title}</h3>
+                  <h1 className="font-body text-base font-medium text-foreground">{title}</h1>
                 )}
                 <p className="font-body text-sm text-muted-foreground">
                   {currentIndex + 1} / {images.length}

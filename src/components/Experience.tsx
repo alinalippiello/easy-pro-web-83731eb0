@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import Lightbox from './Lightbox';
 import { useLanguage } from '@/hooks/useLanguage';
+import { idToProject, slugToProject } from '@/data/projectsSeo';
 
 // Import portfolio images
 import gardenCityMasterplan from "@/assets/portfolio/garden-city-masterplan.jpg";
@@ -579,6 +581,9 @@ Marco Visconti Architects: Consulenza tecnica e produzione dei materiali di visu
 
 const Experience = () => {
   const { t } = useLanguage();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const params = useParams<{ slug?: string }>();
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxImages, setLightboxImages] = useState<string[]>([]);
   const [lightboxCaptions, setLightboxCaptions] = useState<string[] | undefined>();
@@ -591,8 +596,9 @@ const Experience = () => {
   const [lightboxOverlayIndices, setLightboxOverlayIndices] = useState<number[] | undefined>();
   const [lightboxImageDisplayScales, setLightboxImageDisplayScales] = useState<number[] | undefined>();
   const [lightboxLink, setLightboxLink] = useState<{ url: string; label: string } | undefined>();
+  const [activeSlug, setActiveSlug] = useState<string | undefined>();
 
-  const openLightbox = (project: ProjectData, startIndex = 0) => {
+  const applyProjectToLightbox = (project: ProjectData, startIndex = 0) => {
     setLightboxImages(project.images);
     const resolvedCaptions = project.captionKeys
       ? project.captionKeys.map(key => key ? t(key) : '')
@@ -610,10 +616,63 @@ const Experience = () => {
     setLightboxOpen(true);
   };
 
+  const openLightbox = (project: ProjectData, startIndex = 0) => {
+    const seo = idToProject.get(project.id);
+    if (seo) {
+      // Navigate to canonical URL — the effect below will open the lightbox.
+      setActiveSlug(seo.slug);
+      navigate(`/progetti/${seo.slug}`, { replace: false });
+    }
+    applyProjectToLightbox(project, startIndex);
+  };
+
   const closeLightbox = () => {
     setLightboxOpen(false);
     setLightboxImageDisplayScales(undefined);
+    setActiveSlug(undefined);
+    if (location.pathname.startsWith('/progetti/')) {
+      navigate('/', { replace: false });
+    }
   };
+
+  // Open lightbox when arriving via /progetti/:slug (deep link, back/forward)
+  useEffect(() => {
+    const slug = params.slug;
+    if (slug && slug !== activeSlug) {
+      const seo = slugToProject.get(slug);
+      if (!seo) return;
+      const project = projectsData.find((p) => p.id === seo.id);
+      if (!project) return;
+      setActiveSlug(slug);
+      applyProjectToLightbox(project, 0);
+      // Scroll the projects section into view on direct landing
+      requestAnimationFrame(() => {
+        document.getElementById('progetti')?.scrollIntoView({ block: 'start' });
+      });
+    }
+    if (!slug && lightboxOpen && location.pathname === '/') {
+      // User navigated back to /
+      setLightboxOpen(false);
+      setActiveSlug(undefined);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params.slug, location.pathname]);
+
+  // Update <title> and <meta description> when a project is open
+  useEffect(() => {
+    if (!lightboxOpen || !activeSlug) return;
+    const seo = slugToProject.get(activeSlug);
+    if (!seo) return;
+    const previousTitle = document.title;
+    const metaDesc = document.querySelector('meta[name="description"]');
+    const previousDesc = metaDesc?.getAttribute('content') ?? '';
+    document.title = `${seo.title} | Alina Lippiello`;
+    metaDesc?.setAttribute('content', seo.description);
+    return () => {
+      document.title = previousTitle;
+      metaDesc?.setAttribute('content', previousDesc);
+    };
+  }, [lightboxOpen, activeSlug]);
 
   const goToPrev = () => {
     setLightboxIndex((prev) => (prev === 0 ? lightboxImages.length - 1 : prev - 1));
@@ -646,9 +705,9 @@ const Experience = () => {
       <div className="container">
         <div className="max-w-5xl mx-auto">
           {/* Section title */}
-          <p className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground mb-12 text-center">
+          <h2 className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground mb-12 text-center">
             {t('experience.title')}
-          </p>
+          </h2>
 
           {/* Portfolio Grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
@@ -662,7 +721,7 @@ const Experience = () => {
                 <div className="aspect-[4/3] overflow-hidden mb-3 rounded-sm">
                   <img
                     src={project.thumbnail}
-                    alt={t(`project.${project.id}.title`)}
+                    alt={idToProject.get(project.id)?.description ?? t(`project.${project.id}.title`)}
                     loading="lazy"
                     decoding="async"
                     draggable="false"
@@ -675,9 +734,9 @@ const Experience = () => {
                 <p className="font-body text-xs text-muted-foreground mb-1">
                   {project.yearKey ? t(project.yearKey) : project.year}
                 </p>
-                <h4 className="font-body text-sm font-normal leading-tight">
+                <h3 className="font-body text-sm font-normal leading-tight">
                   {t(`project.${project.id}.title`)}
-                </h4>
+                </h3>
               </div>
             ))}
           </div>

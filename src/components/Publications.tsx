@@ -101,9 +101,9 @@ const Publications = () => {
       <div className="container">
         <div className="max-w-5xl mx-auto">
           {/* Section title */}
-          <p className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground mb-12 text-center">
+          <h2 className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground mb-12 text-center">
             {t('publications.title')}
-          </p>
+          </h2>
 
           {/* Tiles grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
@@ -132,9 +132,9 @@ const Publications = () => {
                 <p className="font-body text-xs text-muted-foreground mb-1">
                   {pub.year}
                 </p>
-                <h4 className="font-body text-sm font-normal leading-tight">
+                <h3 className="font-body text-sm font-normal leading-tight">
                   {pub.title}
-                </h4>
+                </h3>
                 {pub.link && (
                   <a
                     href={pub.link}

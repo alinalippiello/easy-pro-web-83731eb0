@@ -8,9 +8,9 @@ const Contact = () => {
       <div className="container">
         <div className="max-w-3xl mx-auto text-center">
           {/* Section title */}
-          <p className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground mb-12">
+          <h2 className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground mb-12">
             {t('contact.title')}
-          </p>
+          </h2>
 
           {/* Contact Info */}
           <div className="space-y-4">
