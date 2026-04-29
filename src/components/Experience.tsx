@@ -251,7 +251,7 @@ import zagrebBgg29 from "@/assets/portfolio/zagreb-bgg-29.jpg";
 import zagrebBgg30 from "@/assets/portfolio/zagreb-bgg-30.jpg";
 import zagrebBgg31 from "@/assets/portfolio/zagreb-bgg-31.jpg";
 
-interface ProjectData {
+export interface ProjectData {
   id: string;
   year: string;
   yearKey?: string;
@@ -268,7 +268,7 @@ interface ProjectData {
   link?: { url: string; labelKey: string };
 }
 
-const projectsData: ProjectData[] = [
+export const projectsData: ProjectData[] = [
   {
     id: 'wernigerode1',
     yearKey: 'experience.inProgress',
