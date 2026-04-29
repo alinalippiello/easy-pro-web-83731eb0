@@ -156,6 +156,7 @@ const ProjectPage = () => {
           ? { url: project.link.url, label: t(project.link.labelKey) }
           : undefined
       }
+      closeLabel={t('project.back')}
     />
   );
 };
