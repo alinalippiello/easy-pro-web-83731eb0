@@ -8,6 +8,9 @@ export interface ProjectSeo {
   title: string;         // human title used in <title>
   description: string;   // <meta name="description">
   location?: string;
+  // Original source filename of the thumbnail (basename without hash).
+  // Used by scripts/prerender.mjs to resolve hashed asset URLs in dist/.
+  thumbnailSource: string;
 }
 
 export const projectsSeo: ProjectSeo[] = [
