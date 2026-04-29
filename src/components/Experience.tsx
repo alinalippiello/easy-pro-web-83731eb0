@@ -580,179 +580,21 @@ Marco Visconti Architects: Consulenza tecnica e produzione dei materiali di visu
 const Experience = () => {
   const { t } = useLanguage();
   const navigate = useNavigate();
-  const location = useLocation();
-  const params = useParams<{ slug?: string }>();
-  const [lightboxOpen, setLightboxOpen] = useState(false);
-  const [lightboxImages, setLightboxImages] = useState<string[]>([]);
-  const [lightboxCaptions, setLightboxCaptions] = useState<string[] | undefined>();
-  const [lightboxIndex, setLightboxIndex] = useState(0);
-  const [lightboxTitle, setLightboxTitle] = useState('');
-  const [lightboxDescription, setLightboxDescription] = useState<string | undefined>();
-  const [lightboxAuthor, setLightboxAuthor] = useState<string | undefined>();
-  const [lightboxCollaborators, setLightboxCollaborators] = useState<string | undefined>();
-  const [lightboxOverlayImage, setLightboxOverlayImage] = useState<string | undefined>();
-  const [lightboxOverlayIndices, setLightboxOverlayIndices] = useState<number[] | undefined>();
-  const [lightboxImageDisplayScales, setLightboxImageDisplayScales] = useState<number[] | undefined>();
-  const [lightboxLink, setLightboxLink] = useState<{ url: string; label: string } | undefined>();
-  const [activeSlug, setActiveSlug] = useState<string | undefined>();
 
-  const applyProjectToLightbox = (project: ProjectData, startIndex = 0) => {
-    setLightboxImages(project.images);
-    const resolvedCaptions = project.captionKeys
-      ? project.captionKeys.map(key => key ? t(key) : '')
-      : project.captions;
-    setLightboxCaptions(resolvedCaptions);
-    setLightboxIndex(startIndex);
-    setLightboxTitle(t(`project.${project.id}.title`));
-    setLightboxDescription(t(`project.${project.id}.description`) !== `project.${project.id}.description` ? t(`project.${project.id}.description`) : undefined);
-    setLightboxAuthor(project.author);
-    setLightboxCollaborators(project.collaboratorsKey ? t(project.collaboratorsKey) : project.collaborators);
-    setLightboxOverlayImage(project.overlayImage);
-    setLightboxOverlayIndices(project.overlayImageIndices);
-    setLightboxImageDisplayScales(project.imageDisplayScales);
-    setLightboxLink(project.link ? { url: project.link.url, label: t(project.link.labelKey) } : undefined);
-    setLightboxOpen(true);
-  };
-
-  const openLightbox = (project: ProjectData, startIndex = 0) => {
-    const seo = idToProject.get(project.id);
-    if (seo) {
-      // Navigate to canonical URL — the effect below will open the lightbox.
-      setActiveSlug(seo.slug);
-      navigate(`/progetti/${seo.slug}`, { replace: false });
-    }
-    applyProjectToLightbox(project, startIndex);
-  };
-
-  const closeLightbox = () => {
-    setLightboxOpen(false);
-    setLightboxImageDisplayScales(undefined);
-    setActiveSlug(undefined);
-    if (location.pathname.startsWith('/progetti/')) {
-      navigate('/', { replace: false });
-    }
-  };
-
-  // Open lightbox when arriving via /progetti/:slug (deep link, back/forward)
-  useEffect(() => {
-    const slug = params.slug;
-    if (slug && slug !== activeSlug) {
-      const seo = slugToProject.get(slug);
-      if (!seo) return;
-      const project = projectsData.find((p) => p.id === seo.id);
-      if (!project) return;
-      setActiveSlug(slug);
-      applyProjectToLightbox(project, 0);
-      // Scroll the projects section into view on direct landing
-      requestAnimationFrame(() => {
-        document.getElementById('progetti')?.scrollIntoView({ block: 'start' });
-      });
-    }
-    if (!slug && lightboxOpen && location.pathname === '/') {
-      // User navigated back to /
-      setLightboxOpen(false);
-      setActiveSlug(undefined);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params.slug, location.pathname]);
-
-  // Update <title>, meta description, Open Graph and Twitter Card tags
-  // when a project is open. Restores previous values on close / project switch.
-  useEffect(() => {
-    if (!lightboxOpen || !activeSlug) return;
-    const seo = slugToProject.get(activeSlug);
+  const handleOpen = (projectId: string) => {
+    const seo = idToProject.get(projectId);
     if (!seo) return;
-    const project = projectsData.find((p) => p.id === seo.id);
-    if (!project) return;
-
-    const SITE_URL = 'https://alinalippiello.com';
-    const projectUrl = `${SITE_URL}/progetti/${seo.slug}`;
-    // First two "lines" of the description (split on sentence/newline).
-    const shortDesc = seo.description.split(/(?<=\.)\s+/).slice(0, 2).join(' ').trim();
-    const ogTitle = `${t(`project.${project.id}.title`)} — Alina Lippiello`;
-    // Resolve cover image to an absolute URL (Vite imports give a relative path)
-    const coverPath = project.thumbnail.startsWith('http')
-      ? project.thumbnail
-      : `${SITE_URL}${project.thumbnail.startsWith('/') ? '' : '/'}${project.thumbnail}`;
-
-    const ensureMeta = (selector: string, attr: 'name' | 'property', key: string) => {
-      let el = document.head.querySelector<HTMLMetaElement>(selector);
-      if (!el) {
-        el = document.createElement('meta');
-        el.setAttribute(attr, key);
-        document.head.appendChild(el);
-      }
-      return el;
-    };
-
-    const ensureLink = (rel: string) => {
-      let el = document.head.querySelector<HTMLLinkElement>(`link[rel="${rel}"]`);
-      if (!el) {
-        el = document.createElement('link');
-        el.setAttribute('rel', rel);
-        document.head.appendChild(el);
-      }
-      return el;
-    };
-
-    const targets: Array<{ el: HTMLMetaElement | HTMLLinkElement; prop: 'content' | 'href'; value: string }> = [
-      { el: ensureMeta('meta[name="description"]', 'name', 'description'), prop: 'content', value: seo.description },
-      { el: ensureMeta('meta[property="og:title"]', 'property', 'og:title'), prop: 'content', value: ogTitle },
-      { el: ensureMeta('meta[property="og:description"]', 'property', 'og:description'), prop: 'content', value: shortDesc },
-      { el: ensureMeta('meta[property="og:url"]', 'property', 'og:url'), prop: 'content', value: projectUrl },
-      { el: ensureMeta('meta[property="og:image"]', 'property', 'og:image'), prop: 'content', value: coverPath },
-      { el: ensureMeta('meta[property="og:type"]', 'property', 'og:type'), prop: 'content', value: 'article' },
-      { el: ensureMeta('meta[name="twitter:card"]', 'name', 'twitter:card'), prop: 'content', value: 'summary_large_image' },
-      { el: ensureMeta('meta[name="twitter:title"]', 'name', 'twitter:title'), prop: 'content', value: ogTitle },
-      { el: ensureMeta('meta[name="twitter:description"]', 'name', 'twitter:description'), prop: 'content', value: shortDesc },
-      { el: ensureMeta('meta[name="twitter:image"]', 'name', 'twitter:image'), prop: 'content', value: coverPath },
-      { el: ensureLink('canonical'), prop: 'href', value: projectUrl },
-    ];
-
-    const previous = targets.map(({ el, prop }) => ({
-      el,
-      prop,
-      value: (prop === 'href' ? (el as HTMLLinkElement).href : (el as HTMLMetaElement).content) ?? '',
-    }));
-    const previousTitle = document.title;
-
-    document.title = `${seo.title} | Alina Lippiello`;
-    targets.forEach(({ el, prop, value }) => el.setAttribute(prop, value));
-
-    return () => {
-      document.title = previousTitle;
-      previous.forEach(({ el, prop, value }) => el.setAttribute(prop, value));
-    };
-  }, [lightboxOpen, activeSlug, t]);
-
-  const goToPrev = () => {
-    setLightboxIndex((prev) => (prev === 0 ? lightboxImages.length - 1 : prev - 1));
-  };
-
-  const goToNext = () => {
-    setLightboxIndex((prev) => (prev === lightboxImages.length - 1 ? 0 : prev + 1));
+    // Save scroll position so the project page can restore it on close.
+    try {
+      sessionStorage.setItem('progettiScrollY', String(window.scrollY));
+    } catch {
+      /* ignore (Safari private mode) */
+    }
+    navigate(`/progetti/${seo.slug}`);
   };
 
   return (
     <section id="progetti" className="py-20 md:py-28 border-t border-border">
-      <Lightbox
-        images={lightboxImages}
-        captions={lightboxCaptions}
-        currentIndex={lightboxIndex}
-        isOpen={lightboxOpen}
-        onClose={closeLightbox}
-        onPrev={goToPrev}
-        onNext={goToNext}
-        title={lightboxTitle}
-        description={lightboxDescription}
-        author={lightboxAuthor}
-        collaborators={lightboxCollaborators}
-        onIndexChange={setLightboxIndex}
-        overlayImage={lightboxOverlayImage}
-        overlayImageIndices={lightboxOverlayIndices}
-        imageDisplayScales={lightboxImageDisplayScales}
-        link={lightboxLink}
-      />
       <div className="container">
         <div className="max-w-5xl mx-auto">
           {/* Section title */}
@@ -763,10 +605,16 @@ const Experience = () => {
           {/* Portfolio Grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
             {projectsData.map((project) => (
-              <div
+              <a
                 key={project.id}
-                className="group cursor-pointer"
-                onClick={() => openLightbox(project)}
+                href={`/progetti/${idToProject.get(project.id)?.slug ?? project.id}`}
+                onClick={(e) => {
+                  // Use SPA navigation; allow modifier-clicks to open in new tab.
+                  if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
+                  e.preventDefault();
+                  handleOpen(project.id);
+                }}
+                className="group cursor-pointer block"
               >
                 {/* Image */}
                 <div className="aspect-[4/3] overflow-hidden mb-3 rounded-sm">
@@ -780,7 +628,7 @@ const Experience = () => {
                     className="w-full h-full object-contain transition-all duration-500 group-hover:scale-105 group-hover:shadow-lg select-none pointer-events-none"
                   />
                 </div>
-                
+
                 {/* Title */}
                 <p className="font-body text-xs text-muted-foreground mb-1">
                   {project.yearKey ? t(project.yearKey) : project.year}
@@ -788,7 +636,7 @@ const Experience = () => {
                 <h3 className="font-body text-sm font-normal leading-tight">
                   {t(`project.${project.id}.title`)}
                 </h3>
-              </div>
+              </a>
             ))}
           </div>
         </div>
