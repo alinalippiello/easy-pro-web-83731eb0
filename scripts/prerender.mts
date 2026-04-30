@@ -204,6 +204,8 @@ async function main() {
   for (const p of projectsSeo) {
     const hashed = findHashedAsset(assets, p.thumbnailSource);
     if (!hashed) missingImages.push(p.thumbnailSource);
+    // Always emit an absolute URL — social crawlers ignore relative paths.
+    // Fallback to the site-wide OG image only when the per-project asset cannot be resolved.
     const image = hashed ? `${SITE}${hashed}` : fallbackImage;
     const url = `${SITE}/progetti/${p.slug}`;
 
@@ -212,12 +214,14 @@ async function main() {
       description: p.description,
       url,
       image,
+      imageAlt: `${p.title} — immagine di copertina`,
     });
 
     const outDir = path.join(DIST, 'progetti', p.slug);
     await fs.mkdir(outDir, { recursive: true });
     await fs.writeFile(path.join(outDir, 'index.html'), html, 'utf8');
     generated++;
+    console.log(`[prerender] ${p.slug} → og:image = ${image}`);
 
     sitemapEntries.push({
       loc: url,
