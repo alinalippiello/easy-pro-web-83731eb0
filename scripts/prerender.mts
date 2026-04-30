@@ -21,6 +21,21 @@ const ROOT = path.resolve(__dirname, '..');
 const DIST = path.join(ROOT, 'dist');
 const SITE = 'https://alinalippiello.com';
 
+/**
+ * Centralized OG fallback image.
+ *
+ * Rules:
+ *  - Absolute URL on our own domain (NO external buckets like GCS / S3).
+ *    Social crawlers trust assets served from the canonical domain far more
+ *    than third-party storage URLs.
+ *  - Must correspond to a real file under public/ (copied verbatim into dist/),
+ *    so the validation pass (isImageAccessible) can confirm it exists.
+ *  - Single source of truth: change this constant to update the fallback
+ *    everywhere (per-project pages + sitemap entries).
+ */
+const FALLBACK_OG_PATH = '/og-image.jpg';
+const FALLBACK_OG_IMAGE = `${SITE}${FALLBACK_OG_PATH}`;
+
 async function readDistAssets(): Promise<string[]> {
   const assetsDir = path.join(DIST, 'assets');
   try {
