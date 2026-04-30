@@ -192,8 +192,18 @@ async function main() {
   const indexHtml = await fs.readFile(indexPath, 'utf8');
   const assets = await readDistAssets();
 
-  const fallbackImage =
-    'https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/124cc589-c1fe-48eb-893f-c37534e42c31';
+  // Verify the centralized fallback image is actually shipped under dist/.
+  // If this is missing the whole strategy collapses, so fail fast.
+  const fallbackLocal = path.join(DIST, FALLBACK_OG_PATH.replace(/^\//, ''));
+  try {
+    const st = await fs.stat(fallbackLocal);
+    if (!st.isFile() || st.size === 0) throw new Error('empty');
+  } catch {
+    throw new Error(
+      `[prerender] Fallback OG image missing in dist/: ${FALLBACK_OG_PATH}. ` +
+        `Place the file under public/${FALLBACK_OG_PATH.replace(/^\//, '')} so it is copied into dist/.`,
+    );
+  }
 
   // <lastmod> uses the build date in W3C YYYY-MM-DD form (Google accepts this).
   const today = new Date().toISOString().slice(0, 10);
