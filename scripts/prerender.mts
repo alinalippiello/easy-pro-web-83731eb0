@@ -342,78 +342,141 @@ async function isImageAccessible(url: string): Promise<boolean> {
   }
 }
 
-async function validateGeneratedPages(): Promise<void> {
-  const errors: string[] = [];
-  const accessibilityCache = new Map<string, boolean>();
+/**
+ * Validate the social meta tags of a single generated HTML file.
+ * Pushes any issues into `errors`. Uses `cache` to avoid re-fetching the same image URL.
+ */
+async function validatePageMeta(
+  label: string,
+  filePath: string,
+  errors: string[],
+  cache: Map<string, boolean>,
+  opts: { expectedImage?: string } = {},
+): Promise<void> {
+  let html: string;
+  try {
+    html = await fs.readFile(filePath, 'utf8');
+  } catch {
+    errors.push(`[${label}] generated HTML missing at ${filePath}`);
+    return;
+  }
 
-  for (const p of projectsSeo) {
-    const filePath = path.join(DIST, 'progetti', p.slug, 'index.html');
-    let html: string;
-    try {
-      html = await fs.readFile(filePath, 'utf8');
-    } catch {
-      errors.push(`[${p.slug}] generated HTML missing at ${filePath}`);
+  const ogImage = extractMetaContent(html, /<meta\s+property="og:image"[^>]*>/i);
+  const ogSecure = extractMetaContent(html, /<meta\s+property="og:image:secure_url"[^>]*>/i);
+  const twImage = extractMetaContent(html, /<meta\s+name="twitter:image"[^>]*>/i);
+
+  const tags: Record<string, string | null> = {
+    'og:image': ogImage,
+    'og:image:secure_url': ogSecure,
+    'twitter:image': twImage,
+  };
+
+  // 1. Presence + absolute https URL.
+  for (const [name, value] of Object.entries(tags)) {
+    if (!value) {
+      errors.push(`[${label}] missing <meta ${name}>`);
       continue;
     }
-
-    const ogImage = extractMetaContent(html, /<meta\s+property="og:image"[^>]*>/i);
-    const ogSecure = extractMetaContent(html, /<meta\s+property="og:image:secure_url"[^>]*>/i);
-    const twImage = extractMetaContent(html, /<meta\s+name="twitter:image"[^>]*>/i);
-
-    const tags = { 'og:image': ogImage, 'og:image:secure_url': ogSecure, 'twitter:image': twImage };
-
-    // 1. Presence + absolute URL with https:// scheme.
-    for (const [name, value] of Object.entries(tags)) {
-      if (!value) {
-        errors.push(`[${p.slug}] missing <meta ${name}>`);
-        continue;
-      }
-      if (!/^https:\/\//i.test(value)) {
-        errors.push(`[${p.slug}] ${name} is not an absolute https URL: "${value}"`);
-      }
+    if (!/^https:\/\//i.test(value)) {
+      errors.push(`[${label}] ${name} is not an absolute https URL: "${value}"`);
     }
+  }
 
-    // 2. Consistency — all three tags must point to the same resource.
-    if (ogImage && ogSecure && twImage) {
-      if (ogImage !== ogSecure || ogImage !== twImage) {
-        errors.push(
-          `[${p.slug}] image tags are inconsistent:\n` +
-            `        og:image            = ${ogImage}\n` +
-            `        og:image:secure_url = ${ogSecure}\n` +
-            `        twitter:image       = ${twImage}`,
-        );
-      }
+  // 2. Consistency.
+  if (ogImage && ogSecure && twImage) {
+    if (ogImage !== ogSecure || ogImage !== twImage) {
+      errors.push(
+        `[${label}] image tags are inconsistent:\n` +
+          `        og:image            = ${ogImage}\n` +
+          `        og:image:secure_url = ${ogSecure}\n` +
+          `        twitter:image       = ${twImage}`,
+      );
     }
+  }
 
-    // 3. Accessibility — resource must actually exist.
-    if (ogImage && /^https:\/\//i.test(ogImage)) {
-      let ok = accessibilityCache.get(ogImage);
-      if (ok === undefined) {
-        ok = await isImageAccessible(ogImage);
-        accessibilityCache.set(ogImage, ok);
-      }
-      if (!ok) {
-        errors.push(`[${p.slug}] image is not accessible: ${ogImage}`);
-      }
+  // 3. Page-specific expectation (e.g. Home must use the canonical fallback).
+  if (opts.expectedImage && ogImage && ogImage !== opts.expectedImage) {
+    errors.push(
+      `[${label}] og:image must be the canonical hero/fallback "${opts.expectedImage}", got "${ogImage}"`,
+    );
+  }
+
+  // 4. Accessibility.
+  if (ogImage && /^https:\/\//i.test(ogImage)) {
+    let ok = cache.get(ogImage);
+    if (ok === undefined) {
+      ok = await isImageAccessible(ogImage);
+      cache.set(ogImage, ok);
     }
+    if (!ok) {
+      errors.push(`[${label}] image is not accessible: ${ogImage}`);
+    }
+  }
+}
+
+async function validateGeneratedPages(): Promise<void> {
+  const errors: string[] = [];
+  const cache = new Map<string, boolean>();
+
+  // Pages to validate: Home + every static auxiliary page + every project page.
+  // Add new top-level pages here (e.g. about, contatti) as the site grows.
+  const pages: Array<{
+    label: string;
+    file: string;
+    expectedImage?: string;
+  }> = [
+    {
+      label: 'home',
+      file: path.join(DIST, 'index.html'),
+      // The Home must advertise the canonical hero/fallback image served from
+      // our own domain — never a per-project asset, never an external bucket.
+      expectedImage: FALLBACK_OG_IMAGE,
+    },
+  ];
+
+  // Auxiliary static pages emitted by Vite (only validate if they actually exist).
+  for (const aux of ['legal']) {
+    const file = path.join(DIST, aux, 'index.html');
+    try {
+      await fs.stat(file);
+      pages.push({ label: `/${aux}`, file });
+    } catch {
+      // not built as a separate HTML file — skip silently
+    }
+  }
+
+  for (const p of projectsSeo) {
+    pages.push({
+      label: p.slug,
+      file: path.join(DIST, 'progetti', p.slug, 'index.html'),
+    });
+  }
+
+  for (const page of pages) {
+    await validatePageMeta(page.label, page.file, errors, cache, {
+      expectedImage: page.expectedImage,
+    });
   }
 
   if (errors.length) {
     console.error(
-      `\n[prerender] Validation FAILED — ${errors.length} issue(s) detected.\n` +
+      `\n[prerender] Validation FAILED — ${errors.length} issue(s) detected across ${pages.length} page(s).\n` +
         `Refusing to ship dist/ with broken social previews:\n\n` +
         errors.map((e) => '  • ' + e).join('\n') +
         '\n',
     );
-    // Remove the project pages so a subsequent deploy cannot accidentally pick
-    // up a half-validated build.
+    // Tear down generated artifacts so a subsequent deploy cannot accidentally
+    // pick up a half-validated build.
     await fs.rm(path.join(DIST, 'progetti'), { recursive: true, force: true });
     await fs.rm(path.join(DIST, 'sitemap.xml'), { force: true });
     process.exit(1);
   }
 
+  const projectCount = projectsSeo.length;
+  const extraCount = pages.length - projectCount - 1; // minus home, minus projects
   console.log(
-    `[prerender] Validation OK — ${projectsSeo.length} pages have absolute, consistent and accessible social images.`,
+    `[prerender] ✓ All pages (Home + ${extraCount} extra + ${projectCount} projects = ${pages.length} total) ` +
+      `have valid OG/Twitter meta tags with absolute, consistent and accessible images.`,
   );
 }
 
