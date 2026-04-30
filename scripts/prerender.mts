@@ -64,12 +64,19 @@ function injectMeta(
     description: string;
     url: string;
     image: string;
+    imageAlt: string;
   },
 ): string {
   const t = escapeHtml(meta.title);
   const d = escapeHtml(meta.description);
   const u = escapeHtml(meta.url);
   const img = escapeHtml(meta.image);
+  const alt = escapeHtml(meta.imageAlt);
+
+  // Sanity: og:image MUST be an absolute URL or social crawlers will ignore it.
+  if (!/^https?:\/\//i.test(meta.image)) {
+    throw new Error(`[prerender] og:image is not absolute: ${meta.image}`);
+  }
 
   // Replace <title>
   let out = html.replace(/<title>[\s\S]*?<\/title>/, `<title>${t}</title>`);
@@ -100,14 +107,14 @@ function injectMeta(
     `<meta name="twitter:description" content="${d}">`,
   );
 
-  // Replace OG/Twitter image
+  // Replace OG/Twitter image (absolute URL).
   out = out.replace(
     /<meta\s+property="og:image"[^>]*>/i,
-    `<meta property="og:image" content="${img}">`,
+    `<meta property="og:image" content="${img}">\n    <meta property="og:image:secure_url" content="${img}">\n    <meta property="og:image:alt" content="${alt}">`,
   );
   out = out.replace(
     /<meta\s+name="twitter:image"[^>]*>/i,
-    `<meta name="twitter:image" content="${img}">`,
+    `<meta name="twitter:image" content="${img}">\n    <meta name="twitter:image:alt" content="${alt}">`,
   );
 
   // Replace og:url
