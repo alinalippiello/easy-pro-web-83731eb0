@@ -64,12 +64,19 @@ function injectMeta(
     description: string;
     url: string;
     image: string;
+    imageAlt: string;
   },
 ): string {
   const t = escapeHtml(meta.title);
   const d = escapeHtml(meta.description);
   const u = escapeHtml(meta.url);
   const img = escapeHtml(meta.image);
+  const alt = escapeHtml(meta.imageAlt);
+
+  // Sanity: og:image MUST be an absolute URL or social crawlers will ignore it.
+  if (!/^https?:\/\//i.test(meta.image)) {
+    throw new Error(`[prerender] og:image is not absolute: ${meta.image}`);
+  }
 
   // Replace <title>
   let out = html.replace(/<title>[\s\S]*?<\/title>/, `<title>${t}</title>`);
@@ -100,14 +107,14 @@ function injectMeta(
     `<meta name="twitter:description" content="${d}">`,
   );
 
-  // Replace OG/Twitter image
+  // Replace OG/Twitter image (absolute URL).
   out = out.replace(
     /<meta\s+property="og:image"[^>]*>/i,
-    `<meta property="og:image" content="${img}">`,
+    `<meta property="og:image" content="${img}">\n    <meta property="og:image:secure_url" content="${img}">\n    <meta property="og:image:alt" content="${alt}">`,
   );
   out = out.replace(
     /<meta\s+name="twitter:image"[^>]*>/i,
-    `<meta name="twitter:image" content="${img}">`,
+    `<meta name="twitter:image" content="${img}">\n    <meta name="twitter:image:alt" content="${alt}">`,
   );
 
   // Replace og:url
@@ -197,6 +204,8 @@ async function main() {
   for (const p of projectsSeo) {
     const hashed = findHashedAsset(assets, p.thumbnailSource);
     if (!hashed) missingImages.push(p.thumbnailSource);
+    // Always emit an absolute URL — social crawlers ignore relative paths.
+    // Fallback to the site-wide OG image only when the per-project asset cannot be resolved.
     const image = hashed ? `${SITE}${hashed}` : fallbackImage;
     const url = `${SITE}/progetti/${p.slug}`;
 
@@ -205,12 +214,14 @@ async function main() {
       description: p.description,
       url,
       image,
+      imageAlt: `${p.title} — immagine di copertina`,
     });
 
     const outDir = path.join(DIST, 'progetti', p.slug);
     await fs.mkdir(outDir, { recursive: true });
     await fs.writeFile(path.join(outDir, 'index.html'), html, 'utf8');
     generated++;
+    console.log(`[prerender] ${p.slug} → og:image = ${image}`);
 
     sitemapEntries.push({
       loc: url,
