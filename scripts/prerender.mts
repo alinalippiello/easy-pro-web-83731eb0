@@ -293,10 +293,97 @@ async function main() {
     );
   }
 
-  // Final validation pass: parse every generated project page and verify that
+  // Before validation, ensure the Home and any auxiliary static pages
+  // (which are emitted as-is by Vite from index.html) carry the full set of
+  // social meta tags. The Home in particular must advertise the canonical
+  // FALLBACK_OG_IMAGE on og:image / og:image:secure_url / twitter:image.
+  await ensureStaticPageMeta(path.join(DIST, 'index.html'), FALLBACK_OG_IMAGE);
+  for (const aux of ['legal']) {
+    const file = path.join(DIST, aux, 'index.html');
+    try {
+      await fs.stat(file);
+      await ensureStaticPageMeta(file, FALLBACK_OG_IMAGE);
+    } catch {
+      // not built as a separate HTML file — skip
+    }
+  }
+
+  // Final validation pass: parse every generated page and verify that
   // og:image, og:image:secure_url and twitter:image are absolute, point to the
   // same resource, and the resource is actually accessible.
   await validateGeneratedPages();
+}
+
+/**
+ * Ensure a static HTML file (Home, /legal, …) has all three social image tags
+ * (og:image, og:image:secure_url, twitter:image) pointing at the same absolute
+ * URL. Missing tags are injected from the base og:image (or from `defaultImage`
+ * if og:image itself is missing). Writes the file back only if changed.
+ */
+async function ensureStaticPageMeta(
+  filePath: string,
+  defaultImage: string,
+): Promise<void> {
+  let html: string;
+  try {
+    html = await fs.readFile(filePath, 'utf8');
+  } catch {
+    return;
+  }
+
+  const original = html;
+  const existing =
+    extractMetaContent(html, /<meta\s+property="og:image"[^>]*>/i) ??
+    extractMetaContent(html, /<meta\s+name="twitter:image"[^>]*>/i) ??
+    defaultImage;
+
+  // Force og:image to the canonical URL (defaultImage). For the Home this
+  // guarantees the canonical hero/fallback wins over any placeholder.
+  const canonical = filePath.endsWith(path.join('dist', 'index.html'))
+    ? defaultImage
+    : existing;
+  const img = escapeHtml(canonical);
+
+  if (/<meta\s+property="og:image"[^>]*>/i.test(html)) {
+    html = html.replace(
+      /<meta\s+property="og:image"[^>]*>/i,
+      `<meta property="og:image" content="${img}">`,
+    );
+  } else {
+    html = html.replace(
+      /<\/head>/i,
+      `    <meta property="og:image" content="${img}">\n  </head>`,
+    );
+  }
+
+  if (/<meta\s+property="og:image:secure_url"[^>]*>/i.test(html)) {
+    html = html.replace(
+      /<meta\s+property="og:image:secure_url"[^>]*>/i,
+      `<meta property="og:image:secure_url" content="${img}">`,
+    );
+  } else {
+    html = html.replace(
+      /<meta\s+property="og:image"[^>]*>/i,
+      (m) => `${m}\n    <meta property="og:image:secure_url" content="${img}">`,
+    );
+  }
+
+  if (/<meta\s+name="twitter:image"[^>]*>/i.test(html)) {
+    html = html.replace(
+      /<meta\s+name="twitter:image"[^>]*>/i,
+      `<meta name="twitter:image" content="${img}">`,
+    );
+  } else {
+    html = html.replace(
+      /<\/head>/i,
+      `    <meta name="twitter:image" content="${img}">\n  </head>`,
+    );
+  }
+
+  if (html !== original) {
+    await fs.writeFile(filePath, html, 'utf8');
+    console.log(`[prerender] ensured social meta tags in ${path.relative(DIST, filePath)} → ${canonical}`);
+  }
 }
 
 /**
