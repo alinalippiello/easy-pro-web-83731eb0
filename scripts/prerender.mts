@@ -21,6 +21,21 @@ const ROOT = path.resolve(__dirname, '..');
 const DIST = path.join(ROOT, 'dist');
 const SITE = 'https://alinalippiello.com';
 
+/**
+ * Centralized OG fallback image.
+ *
+ * Rules:
+ *  - Absolute URL on our own domain (NO external buckets like GCS / S3).
+ *    Social crawlers trust assets served from the canonical domain far more
+ *    than third-party storage URLs.
+ *  - Must correspond to a real file under public/ (copied verbatim into dist/),
+ *    so the validation pass (isImageAccessible) can confirm it exists.
+ *  - Single source of truth: change this constant to update the fallback
+ *    everywhere (per-project pages + sitemap entries).
+ */
+const FALLBACK_OG_PATH = '/og-image.jpg';
+const FALLBACK_OG_IMAGE = `${SITE}${FALLBACK_OG_PATH}`;
+
 async function readDistAssets(): Promise<string[]> {
   const assetsDir = path.join(DIST, 'assets');
   try {
@@ -177,8 +192,18 @@ async function main() {
   const indexHtml = await fs.readFile(indexPath, 'utf8');
   const assets = await readDistAssets();
 
-  const fallbackImage =
-    'https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/124cc589-c1fe-48eb-893f-c37534e42c31';
+  // Verify the centralized fallback image is actually shipped under dist/.
+  // If this is missing the whole strategy collapses, so fail fast.
+  const fallbackLocal = path.join(DIST, FALLBACK_OG_PATH.replace(/^\//, ''));
+  try {
+    const st = await fs.stat(fallbackLocal);
+    if (!st.isFile() || st.size === 0) throw new Error('empty');
+  } catch {
+    throw new Error(
+      `[prerender] Fallback OG image missing in dist/: ${FALLBACK_OG_PATH}. ` +
+        `Place the file under public/${FALLBACK_OG_PATH.replace(/^\//, '')} so it is copied into dist/.`,
+    );
+  }
 
   // <lastmod> uses the build date in W3C YYYY-MM-DD form (Google accepts this).
   const today = new Date().toISOString().slice(0, 10);
@@ -204,9 +229,18 @@ async function main() {
   for (const p of projectsSeo) {
     const hashed = findHashedAsset(assets, p.thumbnailSource);
     if (!hashed) missingImages.push(p.thumbnailSource);
-    // Always emit an absolute URL — social crawlers ignore relative paths.
-    // Fallback to the site-wide OG image only when the per-project asset cannot be resolved.
-    const image = hashed ? `${SITE}${hashed}` : fallbackImage;
+
+    // Priority:
+    //   1. Project-specific thumbnail resolved from projectsSeo.ts (hashed asset).
+    //   2. Centralized fallback (FALLBACK_OG_IMAGE) if the field is empty,
+    //      the asset cannot be resolved, or it is not accessible on disk.
+    let image = hashed ? `${SITE}${hashed}` : FALLBACK_OG_IMAGE;
+    if (hashed && !(await isImageAccessible(image))) {
+      console.warn(
+        `[prerender] ${p.slug}: resolved asset ${image} is not accessible — falling back to ${FALLBACK_OG_IMAGE}`,
+      );
+      image = FALLBACK_OG_IMAGE;
+    }
     const url = `${SITE}/progetti/${p.slug}`;
 
     const html = injectMeta(indexHtml, {
