@@ -258,6 +258,129 @@ async function main() {
       `[prerender] Could not resolve hashed asset for: ${missingImages.join(', ')} — used fallback OG image.`,
     );
   }
+
+  // Final validation pass: parse every generated project page and verify that
+  // og:image, og:image:secure_url and twitter:image are absolute, point to the
+  // same resource, and the resource is actually accessible.
+  await validateGeneratedPages();
+}
+
+/**
+ * Extract the `content` attribute of a meta tag selected by `selector`
+ * (e.g. `property="og:image"` or `name="twitter:image"`).
+ */
+function extractMetaContent(html: string, selector: RegExp): string | null {
+  const tagMatch = html.match(selector);
+  if (!tagMatch) return null;
+  const contentMatch = tagMatch[0].match(/content="([^"]*)"/i);
+  return contentMatch ? contentMatch[1] : null;
+}
+
+/**
+ * Verify that an absolute image URL is actually reachable.
+ *  - URLs under ${SITE}/assets/... are resolved against dist/assets/ on disk.
+ *  - Any other absolute URL (e.g. the remote fallback) is probed via HTTP HEAD,
+ *    falling back to a ranged GET if HEAD is not allowed.
+ */
+async function isImageAccessible(url: string): Promise<boolean> {
+  if (url.startsWith(`${SITE}/`)) {
+    const rel = url.slice(SITE.length); // "/assets/foo-hash.webp"
+    const localPath = path.join(DIST, rel);
+    try {
+      const st = await fs.stat(localPath);
+      return st.isFile() && st.size > 0;
+    } catch {
+      return false;
+    }
+  }
+
+  try {
+    let res = await fetch(url, { method: 'HEAD' });
+    if (!res.ok || res.status === 405) {
+      res = await fetch(url, {
+        method: 'GET',
+        headers: { Range: 'bytes=0-0' },
+      });
+    }
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
+async function validateGeneratedPages(): Promise<void> {
+  const errors: string[] = [];
+  const accessibilityCache = new Map<string, boolean>();
+
+  for (const p of projectsSeo) {
+    const filePath = path.join(DIST, 'progetti', p.slug, 'index.html');
+    let html: string;
+    try {
+      html = await fs.readFile(filePath, 'utf8');
+    } catch {
+      errors.push(`[${p.slug}] generated HTML missing at ${filePath}`);
+      continue;
+    }
+
+    const ogImage = extractMetaContent(html, /<meta\s+property="og:image"[^>]*>/i);
+    const ogSecure = extractMetaContent(html, /<meta\s+property="og:image:secure_url"[^>]*>/i);
+    const twImage = extractMetaContent(html, /<meta\s+name="twitter:image"[^>]*>/i);
+
+    const tags = { 'og:image': ogImage, 'og:image:secure_url': ogSecure, 'twitter:image': twImage };
+
+    // 1. Presence + absolute URL with https:// scheme.
+    for (const [name, value] of Object.entries(tags)) {
+      if (!value) {
+        errors.push(`[${p.slug}] missing <meta ${name}>`);
+        continue;
+      }
+      if (!/^https:\/\//i.test(value)) {
+        errors.push(`[${p.slug}] ${name} is not an absolute https URL: "${value}"`);
+      }
+    }
+
+    // 2. Consistency — all three tags must point to the same resource.
+    if (ogImage && ogSecure && twImage) {
+      if (ogImage !== ogSecure || ogImage !== twImage) {
+        errors.push(
+          `[${p.slug}] image tags are inconsistent:\n` +
+            `        og:image            = ${ogImage}\n` +
+            `        og:image:secure_url = ${ogSecure}\n` +
+            `        twitter:image       = ${twImage}`,
+        );
+      }
+    }
+
+    // 3. Accessibility — resource must actually exist.
+    if (ogImage && /^https:\/\//i.test(ogImage)) {
+      let ok = accessibilityCache.get(ogImage);
+      if (ok === undefined) {
+        ok = await isImageAccessible(ogImage);
+        accessibilityCache.set(ogImage, ok);
+      }
+      if (!ok) {
+        errors.push(`[${p.slug}] image is not accessible: ${ogImage}`);
+      }
+    }
+  }
+
+  if (errors.length) {
+    console.error(
+      `\n[prerender] Validation FAILED — ${errors.length} issue(s) detected.\n` +
+        `Refusing to ship dist/ with broken social previews:\n\n` +
+        errors.map((e) => '  • ' + e).join('\n') +
+        '\n',
+    );
+    // Remove the project pages so a subsequent deploy cannot accidentally pick
+    // up a half-validated build.
+    await fs.rm(path.join(DIST, 'progetti'), { recursive: true, force: true });
+    await fs.rm(path.join(DIST, 'sitemap.xml'), { force: true });
+    process.exit(1);
+  }
+
+  console.log(
+    `[prerender] Validation OK — ${projectsSeo.length} pages have absolute, consistent and accessible social images.`,
+  );
 }
 
 main().catch((err) => {
