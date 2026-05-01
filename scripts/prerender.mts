@@ -601,6 +601,48 @@ async function validatePageMeta(
   return report;
 }
 
+/**
+ * Pretty-print a per-page summary of the social meta tags discovered during
+ * validation. The goal is to make differences between pages immediately
+ * visible in build logs (different titles, mismatched images, missing tags).
+ */
+function printSocialMetaReport(reports: PageMetaReport[]): void {
+  const trunc = (s: string | null, n: number): string => {
+    if (s === null) return '∅ (missing)';
+    if (s.length <= n) return s;
+    return s.slice(0, n - 1) + '…';
+  };
+  const flag = (r: PageMetaReport): string => {
+    if (r.issues > 0) return '✗';
+    if (!r.consistent) return '!';
+    if (r.imageAccessible === false) return '✗';
+    return '✓';
+  };
+
+  console.log('\n[prerender] ───── Social meta report (per page) ─────');
+  for (const r of reports) {
+    const sameImage =
+      r.ogImage && r.ogImage === r.ogImageSecureUrl && r.ogImage === r.twitterImage;
+    console.log(
+      `\n  ${flag(r)} ${r.label}  (${r.file})\n` +
+        `      og:title            : ${trunc(r.ogTitle, 90)}\n` +
+        `      og:description      : ${trunc(r.ogDescription, 110)}\n` +
+        `      og:image            : ${trunc(r.ogImage, 110)}\n` +
+        `      og:image:secure_url : ${
+          sameImage ? '↳ same as og:image' : trunc(r.ogImageSecureUrl, 110)
+        }\n` +
+        `      twitter:image       : ${
+          sameImage ? '↳ same as og:image' : trunc(r.twitterImage, 110)
+        }\n` +
+        `      image accessible    : ${
+          r.imageAccessible === null ? 'n/a' : r.imageAccessible ? 'yes' : 'NO'
+        }` +
+        (r.issues > 0 ? `   [${r.issues} issue(s)]` : ''),
+    );
+  }
+  console.log('\n[prerender] ──────────────────────────────────────────\n');
+}
+
 async function validateGeneratedPages(): Promise<void> {
   const errors: string[] = [];
   const cache = new Map<string, boolean>();
