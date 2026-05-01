@@ -714,6 +714,15 @@ async function validateGeneratedPages(): Promise<void> {
   // Printed before the pass/fail summary so it's visible in build logs even
   // when validation fails. Also persisted as JSON for tooling/diffing.
   printSocialMetaReport(reports);
+
+  // Load the previous build's report (if any) and diff against it.
+  // The historical baseline lives under scripts/ so it survives `dist/` cleans.
+  const previous = await loadPreviousReport();
+  const regressions = diffSocialMetaReports(previous, reports);
+  if (regressions.length) {
+    for (const r of regressions) errors.push(r);
+  }
+
   try {
     await fs.writeFile(
       path.join(DIST, 'social-meta-report.json'),
@@ -739,12 +748,134 @@ async function validateGeneratedPages(): Promise<void> {
     process.exit(1);
   }
 
+  // Persist the validated report as the new baseline for the next build.
+  // Done only after validation passes so a broken build cannot poison the diff.
+  await saveBaselineReport(reports);
+
   const projectCount = projectsSeo.length;
   const extraCount = pages.length - projectCount - 1; // minus home, minus projects
   console.log(
     `[prerender] ✓ All pages (Home + ${extraCount} extra + ${projectCount} projects = ${pages.length} total) ` +
       `have valid OG/Twitter meta tags with absolute, consistent and accessible images.`,
   );
+}
+
+const BASELINE_REPORT_PATH = path.join(ROOT, 'scripts', 'social-meta-report.json');
+
+async function loadPreviousReport(): Promise<PageMetaReport[] | null> {
+  try {
+    const raw = await fs.readFile(BASELINE_REPORT_PATH, 'utf8');
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return null;
+    return parsed as PageMetaReport[];
+  } catch {
+    return null;
+  }
+}
+
+async function saveBaselineReport(reports: PageMetaReport[]): Promise<void> {
+  try {
+    await fs.writeFile(BASELINE_REPORT_PATH, JSON.stringify(reports, null, 2), 'utf8');
+    console.log(`[prerender] Baseline updated at ${path.relative(ROOT, BASELINE_REPORT_PATH)}`);
+  } catch (err) {
+    console.warn('[prerender] Could not persist baseline report:', err);
+  }
+}
+
+/**
+ * Compare the new reports against the previous baseline.
+ *
+ * For each known page:
+ *   - If a tag value differs from the baseline, log it as [CHANGED].
+ *   - If a tag was present before but is now missing, log [REGRESSION] and
+ *     return it as a hard error so the build fails.
+ *
+ * New pages (not in baseline) and removed pages are logged as informational.
+ * Returns the list of regression messages to be appended to `errors`.
+ */
+function diffSocialMetaReports(
+  previous: PageMetaReport[] | null,
+  current: PageMetaReport[],
+): string[] {
+  const regressions: string[] = [];
+
+  if (!previous) {
+    console.log('[prerender] No previous baseline found — skipping diff (first run).');
+    return regressions;
+  }
+
+  const prevByLabel = new Map(previous.map((r) => [r.label, r]));
+  const currByLabel = new Map(current.map((r) => [r.label, r]));
+
+  const trackedFields: Array<keyof PageMetaReport> = [
+    'ogTitle',
+    'ogDescription',
+    'ogImage',
+    'ogImageSecureUrl',
+    'twitterImage',
+  ];
+
+  let unchanged = 0;
+  let updated = 0;
+  const newPages: string[] = [];
+  const removedPages: string[] = [];
+
+  console.log('\n[prerender] ───── Diff vs previous build ─────');
+
+  for (const curr of current) {
+    const prev = prevByLabel.get(curr.label);
+    if (!prev) {
+      newPages.push(curr.label);
+      console.log(`  [NEW] ${curr.label}`);
+      continue;
+    }
+
+    const changes: string[] = [];
+    for (const field of trackedFields) {
+      const before = prev[field] as string | null | undefined;
+      const after = curr[field] as string | null | undefined;
+      if (before === after) continue;
+
+      // Regression: had a value before, now null/empty.
+      if (before && !after) {
+        const msg = `[REGRESSION] ${curr.label}: ${field} was "${before}" but is now missing`;
+        regressions.push(msg);
+        changes.push(`    ✗ ${field}: "${before}" → ∅`);
+      } else if (!before && after) {
+        changes.push(`    + ${field}: ∅ → "${after}"`);
+      } else {
+        changes.push(`    ~ ${field}:\n        before: "${before}"\n        after : "${after}"`);
+      }
+    }
+
+    if (changes.length === 0) {
+      unchanged++;
+    } else {
+      updated++;
+      console.log(`  [CHANGED] ${curr.label}`);
+      for (const c of changes) console.log(c);
+    }
+  }
+
+  for (const prev of previous) {
+    if (!currByLabel.has(prev.label)) {
+      removedPages.push(prev.label);
+      console.log(`  [REMOVED] ${prev.label}`);
+    }
+  }
+
+  console.log(
+    `\n[prerender] Diff summary: ${unchanged} unchanged, ${updated} updated, ` +
+      `${newPages.length} new, ${removedPages.length} removed.`,
+  );
+  if (regressions.length) {
+    console.log(
+      `[prerender] ${regressions.length} regression(s) detected — build will be blocked.`,
+    );
+  }
+  console.log('[prerender] ──────────────────────────────────────\n');
+
+  return regressions;
 }
 
 main().catch((err) => {
