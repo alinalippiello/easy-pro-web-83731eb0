@@ -458,7 +458,11 @@ async function validatePageMeta(
   filePath: string,
   errors: string[],
   cache: Map<string, boolean>,
-  opts: { expectedImage?: string } = {},
+  opts: {
+    expectedImage?: string;
+    requireTitleIncludes?: string[];
+    requireDescriptionIncludesAny?: string[];
+  } = {},
 ): Promise<void> {
   let html: string;
   try {
@@ -468,6 +472,39 @@ async function validatePageMeta(
     return;
   }
 
+  // -------- Text validation (runs BEFORE image checks) --------
+  const ogTitle = extractMetaContent(html, /<meta\s+property="og:title"[^>]*>/i);
+  const ogDescription = extractMetaContent(html, /<meta\s+property="og:description"[^>]*>/i);
+
+  if (!ogTitle || !ogTitle.trim()) {
+    errors.push(`[${label}] missing or empty <meta property="og:title">`);
+  }
+  if (!ogDescription || !ogDescription.trim()) {
+    errors.push(`[${label}] missing or empty <meta property="og:description">`);
+  }
+
+  if (ogTitle && opts.requireTitleIncludes?.length) {
+    for (const needle of opts.requireTitleIncludes) {
+      if (!ogTitle.toLowerCase().includes(needle.toLowerCase())) {
+        errors.push(
+          `[${label}] og:title must contain "${needle}", got "${ogTitle}"`,
+        );
+      }
+    }
+  }
+  if (ogDescription && opts.requireDescriptionIncludesAny?.length) {
+    const lower = ogDescription.toLowerCase();
+    const hit = opts.requireDescriptionIncludesAny.some((n) =>
+      lower.includes(n.toLowerCase()),
+    );
+    if (!hit) {
+      errors.push(
+        `[${label}] og:description must mention at least one of [${opts.requireDescriptionIncludesAny.join(', ')}], got "${ogDescription}"`,
+      );
+    }
+  }
+
+  // -------- Image validation --------
   const ogImage = extractMetaContent(html, /<meta\s+property="og:image"[^>]*>/i);
   const ogSecure = extractMetaContent(html, /<meta\s+property="og:image:secure_url"[^>]*>/i);
   const twImage = extractMetaContent(html, /<meta\s+name="twitter:image"[^>]*>/i);
