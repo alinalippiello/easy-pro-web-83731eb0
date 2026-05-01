@@ -450,8 +450,26 @@ async function isImageAccessible(url: string): Promise<boolean> {
 }
 
 /**
+ * Per-page social meta snapshot, collected during validation and printed
+ * as a final report so differences across pages are easy to eyeball.
+ */
+interface PageMetaReport {
+  label: string;
+  file: string;
+  ogTitle: string | null;
+  ogDescription: string | null;
+  ogImage: string | null;
+  ogImageSecureUrl: string | null;
+  twitterImage: string | null;
+  imageAccessible: boolean | null;
+  consistent: boolean;
+  issues: number;
+}
+
+/**
  * Validate the social meta tags of a single generated HTML file.
  * Pushes any issues into `errors`. Uses `cache` to avoid re-fetching the same image URL.
+ * Returns a structured snapshot of what was found, for the final report.
  */
 async function validatePageMeta(
   label: string,
@@ -463,18 +481,35 @@ async function validatePageMeta(
     requireTitleIncludes?: string[];
     requireDescriptionIncludesAny?: string[];
   } = {},
-): Promise<void> {
+): Promise<PageMetaReport> {
+  const report: PageMetaReport = {
+    label,
+    file: path.relative(DIST, filePath),
+    ogTitle: null,
+    ogDescription: null,
+    ogImage: null,
+    ogImageSecureUrl: null,
+    twitterImage: null,
+    imageAccessible: null,
+    consistent: true,
+    issues: 0,
+  };
+  const errCountBefore = errors.length;
+
   let html: string;
   try {
     html = await fs.readFile(filePath, 'utf8');
   } catch {
     errors.push(`[${label}] generated HTML missing at ${filePath}`);
-    return;
+    report.issues = errors.length - errCountBefore;
+    return report;
   }
 
   // -------- Text validation (runs BEFORE image checks) --------
   const ogTitle = extractMetaContent(html, /<meta\s+property="og:title"[^>]*>/i);
   const ogDescription = extractMetaContent(html, /<meta\s+property="og:description"[^>]*>/i);
+  report.ogTitle = ogTitle;
+  report.ogDescription = ogDescription;
 
   if (!ogTitle || !ogTitle.trim()) {
     errors.push(`[${label}] missing or empty <meta property="og:title">`);
@@ -508,6 +543,9 @@ async function validatePageMeta(
   const ogImage = extractMetaContent(html, /<meta\s+property="og:image"[^>]*>/i);
   const ogSecure = extractMetaContent(html, /<meta\s+property="og:image:secure_url"[^>]*>/i);
   const twImage = extractMetaContent(html, /<meta\s+name="twitter:image"[^>]*>/i);
+  report.ogImage = ogImage;
+  report.ogImageSecureUrl = ogSecure;
+  report.twitterImage = twImage;
 
   const tags: Record<string, string | null> = {
     'og:image': ogImage,
@@ -529,6 +567,7 @@ async function validatePageMeta(
   // 2. Consistency.
   if (ogImage && ogSecure && twImage) {
     if (ogImage !== ogSecure || ogImage !== twImage) {
+      report.consistent = false;
       errors.push(
         `[${label}] image tags are inconsistent:\n` +
           `        og:image            = ${ogImage}\n` +
@@ -552,10 +591,56 @@ async function validatePageMeta(
       ok = await isImageAccessible(ogImage);
       cache.set(ogImage, ok);
     }
+    report.imageAccessible = ok;
     if (!ok) {
       errors.push(`[${label}] image is not accessible: ${ogImage}`);
     }
   }
+
+  report.issues = errors.length - errCountBefore;
+  return report;
+}
+
+/**
+ * Pretty-print a per-page summary of the social meta tags discovered during
+ * validation. The goal is to make differences between pages immediately
+ * visible in build logs (different titles, mismatched images, missing tags).
+ */
+function printSocialMetaReport(reports: PageMetaReport[]): void {
+  const trunc = (s: string | null, n: number): string => {
+    if (s === null) return '∅ (missing)';
+    if (s.length <= n) return s;
+    return s.slice(0, n - 1) + '…';
+  };
+  const flag = (r: PageMetaReport): string => {
+    if (r.issues > 0) return '✗';
+    if (!r.consistent) return '!';
+    if (r.imageAccessible === false) return '✗';
+    return '✓';
+  };
+
+  console.log('\n[prerender] ───── Social meta report (per page) ─────');
+  for (const r of reports) {
+    const sameImage =
+      r.ogImage && r.ogImage === r.ogImageSecureUrl && r.ogImage === r.twitterImage;
+    console.log(
+      `\n  ${flag(r)} ${r.label}  (${r.file})\n` +
+        `      og:title            : ${trunc(r.ogTitle, 90)}\n` +
+        `      og:description      : ${trunc(r.ogDescription, 110)}\n` +
+        `      og:image            : ${trunc(r.ogImage, 110)}\n` +
+        `      og:image:secure_url : ${
+          sameImage ? '↳ same as og:image' : trunc(r.ogImageSecureUrl, 110)
+        }\n` +
+        `      twitter:image       : ${
+          sameImage ? '↳ same as og:image' : trunc(r.twitterImage, 110)
+        }\n` +
+        `      image accessible    : ${
+          r.imageAccessible === null ? 'n/a' : r.imageAccessible ? 'yes' : 'NO'
+        }` +
+        (r.issues > 0 ? `   [${r.issues} issue(s)]` : ''),
+    );
+  }
+  console.log('\n[prerender] ──────────────────────────────────────────\n');
 }
 
 async function validateGeneratedPages(): Promise<void> {
@@ -615,12 +700,29 @@ async function validateGeneratedPages(): Promise<void> {
     });
   }
 
+  const reports: PageMetaReport[] = [];
   for (const page of pages) {
-    await validatePageMeta(page.label, page.file, errors, cache, {
+    const r = await validatePageMeta(page.label, page.file, errors, cache, {
       expectedImage: page.expectedImage,
       requireTitleIncludes: page.requireTitleIncludes,
       requireDescriptionIncludesAny: page.requireDescriptionIncludesAny,
     });
+    reports.push(r);
+  }
+
+  // -------- Detailed per-page report --------
+  // Printed before the pass/fail summary so it's visible in build logs even
+  // when validation fails. Also persisted as JSON for tooling/diffing.
+  printSocialMetaReport(reports);
+  try {
+    await fs.writeFile(
+      path.join(DIST, 'social-meta-report.json'),
+      JSON.stringify(reports, null, 2),
+      'utf8',
+    );
+    console.log('[prerender] Detailed report written to dist/social-meta-report.json');
+  } catch {
+    // best-effort; do not block the build on report serialization
   }
 
   if (errors.length) {
