@@ -271,6 +271,26 @@ async function main() {
   }
 
   // Static auxiliary pages.
+  // We prerender /legal/index.html from index.html so social crawlers see a
+  // dedicated <title> + description, and so the validator can check it as a
+  // standalone page.
+  const legalHtml = injectMeta(indexHtml, {
+    title: 'Note Legali | Alina Lippiello',
+    description:
+      'Note legali, privacy policy e informativa cookie del portfolio professionale di Alina Lippiello, architetto.',
+    url: `${SITE}/legal`,
+    image: FALLBACK_OG_IMAGE,
+    imageAlt: 'Alina Lippiello — Portfolio di Architettura',
+  });
+  // injectMeta forces og:type=article — for /legal we want website.
+  const legalHtmlFinal = legalHtml.replace(
+    /<meta\s+property="og:type"[^>]*>/i,
+    `<meta property="og:type" content="website">`,
+  );
+  await fs.mkdir(path.join(DIST, 'legal'), { recursive: true });
+  await fs.writeFile(path.join(DIST, 'legal', 'index.html'), legalHtmlFinal, 'utf8');
+  console.log('[prerender] legal → static page emitted');
+
   sitemapEntries.push({
     loc: `${SITE}/legal`,
     lastmod: today,
