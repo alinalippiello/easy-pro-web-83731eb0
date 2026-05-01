@@ -450,8 +450,26 @@ async function isImageAccessible(url: string): Promise<boolean> {
 }
 
 /**
+ * Per-page social meta snapshot, collected during validation and printed
+ * as a final report so differences across pages are easy to eyeball.
+ */
+interface PageMetaReport {
+  label: string;
+  file: string;
+  ogTitle: string | null;
+  ogDescription: string | null;
+  ogImage: string | null;
+  ogImageSecureUrl: string | null;
+  twitterImage: string | null;
+  imageAccessible: boolean | null;
+  consistent: boolean;
+  issues: number;
+}
+
+/**
  * Validate the social meta tags of a single generated HTML file.
  * Pushes any issues into `errors`. Uses `cache` to avoid re-fetching the same image URL.
+ * Returns a structured snapshot of what was found, for the final report.
  */
 async function validatePageMeta(
   label: string,
@@ -463,13 +481,28 @@ async function validatePageMeta(
     requireTitleIncludes?: string[];
     requireDescriptionIncludesAny?: string[];
   } = {},
-): Promise<void> {
+): Promise<PageMetaReport> {
+  const report: PageMetaReport = {
+    label,
+    file: path.relative(DIST, filePath),
+    ogTitle: null,
+    ogDescription: null,
+    ogImage: null,
+    ogImageSecureUrl: null,
+    twitterImage: null,
+    imageAccessible: null,
+    consistent: true,
+    issues: 0,
+  };
+  const errCountBefore = errors.length;
+
   let html: string;
   try {
     html = await fs.readFile(filePath, 'utf8');
   } catch {
     errors.push(`[${label}] generated HTML missing at ${filePath}`);
-    return;
+    report.issues = errors.length - errCountBefore;
+    return report;
   }
 
   // -------- Text validation (runs BEFORE image checks) --------
