@@ -658,12 +658,29 @@ async function validateGeneratedPages(): Promise<void> {
     });
   }
 
+  const reports: PageMetaReport[] = [];
   for (const page of pages) {
-    await validatePageMeta(page.label, page.file, errors, cache, {
+    const r = await validatePageMeta(page.label, page.file, errors, cache, {
       expectedImage: page.expectedImage,
       requireTitleIncludes: page.requireTitleIncludes,
       requireDescriptionIncludesAny: page.requireDescriptionIncludesAny,
     });
+    reports.push(r);
+  }
+
+  // -------- Detailed per-page report --------
+  // Printed before the pass/fail summary so it's visible in build logs even
+  // when validation fails. Also persisted as JSON for tooling/diffing.
+  printSocialMetaReport(reports);
+  try {
+    await fs.writeFile(
+      path.join(DIST, 'social-meta-report.json'),
+      JSON.stringify(reports, null, 2),
+      'utf8',
+    );
+    console.log('[prerender] Detailed report written to dist/social-meta-report.json');
+  } catch {
+    // best-effort; do not block the build on report serialization
   }
 
   if (errors.length) {
