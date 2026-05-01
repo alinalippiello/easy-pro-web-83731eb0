@@ -568,6 +568,8 @@ async function validateGeneratedPages(): Promise<void> {
     label: string;
     file: string;
     expectedImage?: string;
+    requireTitleIncludes?: string[];
+    requireDescriptionIncludesAny?: string[];
   }> = [
     {
       label: 'home',
@@ -575,6 +577,18 @@ async function validateGeneratedPages(): Promise<void> {
       // The Home must advertise the canonical hero/fallback image served from
       // our own domain — never a per-project asset, never an external bucket.
       expectedImage: FALLBACK_OG_IMAGE,
+      // The Home title must carry the author name; the description must
+      // reference at least one core research theme so social previews always
+      // communicate what the portfolio is about.
+      requireTitleIncludes: ['Alina Lippiello'],
+      requireDescriptionIncludesAny: [
+        'Hejduk',
+        'Branzi',
+        'tipologia',
+        'tipologica',
+        'modelli abitativi',
+        'ricerca',
+      ],
     },
   ];
 
@@ -583,7 +597,12 @@ async function validateGeneratedPages(): Promise<void> {
     const file = path.join(DIST, aux, 'index.html');
     try {
       await fs.stat(file);
-      pages.push({ label: `/${aux}`, file });
+      pages.push({
+        label: `/${aux}`,
+        file,
+        // /legal must have a clear, branded title to avoid empty social previews.
+        requireTitleIncludes: ['Note Legali', 'Alina Lippiello'],
+      });
     } catch {
       // not built as a separate HTML file — skip silently
     }
@@ -599,6 +618,8 @@ async function validateGeneratedPages(): Promise<void> {
   for (const page of pages) {
     await validatePageMeta(page.label, page.file, errors, cache, {
       expectedImage: page.expectedImage,
+      requireTitleIncludes: page.requireTitleIncludes,
+      requireDescriptionIncludesAny: page.requireDescriptionIncludesAny,
     });
   }
 
