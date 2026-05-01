@@ -508,6 +508,8 @@ async function validatePageMeta(
   // -------- Text validation (runs BEFORE image checks) --------
   const ogTitle = extractMetaContent(html, /<meta\s+property="og:title"[^>]*>/i);
   const ogDescription = extractMetaContent(html, /<meta\s+property="og:description"[^>]*>/i);
+  report.ogTitle = ogTitle;
+  report.ogDescription = ogDescription;
 
   if (!ogTitle || !ogTitle.trim()) {
     errors.push(`[${label}] missing or empty <meta property="og:title">`);
@@ -541,6 +543,9 @@ async function validatePageMeta(
   const ogImage = extractMetaContent(html, /<meta\s+property="og:image"[^>]*>/i);
   const ogSecure = extractMetaContent(html, /<meta\s+property="og:image:secure_url"[^>]*>/i);
   const twImage = extractMetaContent(html, /<meta\s+name="twitter:image"[^>]*>/i);
+  report.ogImage = ogImage;
+  report.ogImageSecureUrl = ogSecure;
+  report.twitterImage = twImage;
 
   const tags: Record<string, string | null> = {
     'og:image': ogImage,
@@ -562,6 +567,7 @@ async function validatePageMeta(
   // 2. Consistency.
   if (ogImage && ogSecure && twImage) {
     if (ogImage !== ogSecure || ogImage !== twImage) {
+      report.consistent = false;
       errors.push(
         `[${label}] image tags are inconsistent:\n` +
           `        og:image            = ${ogImage}\n` +
@@ -585,10 +591,14 @@ async function validatePageMeta(
       ok = await isImageAccessible(ogImage);
       cache.set(ogImage, ok);
     }
+    report.imageAccessible = ok;
     if (!ok) {
       errors.push(`[${label}] image is not accessible: ${ogImage}`);
     }
   }
+
+  report.issues = errors.length - errCountBefore;
+  return report;
 }
 
 async function validateGeneratedPages(): Promise<void> {
