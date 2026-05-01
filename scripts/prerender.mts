@@ -271,6 +271,26 @@ async function main() {
   }
 
   // Static auxiliary pages.
+  // We prerender /legal/index.html from index.html so social crawlers see a
+  // dedicated <title> + description, and so the validator can check it as a
+  // standalone page.
+  const legalHtml = injectMeta(indexHtml, {
+    title: 'Note Legali | Alina Lippiello',
+    description:
+      'Note legali, privacy policy e informativa cookie del portfolio professionale di Alina Lippiello, architetto.',
+    url: `${SITE}/legal`,
+    image: FALLBACK_OG_IMAGE,
+    imageAlt: 'Alina Lippiello — Portfolio di Architettura',
+  });
+  // injectMeta forces og:type=article — for /legal we want website.
+  const legalHtmlFinal = legalHtml.replace(
+    /<meta\s+property="og:type"[^>]*>/i,
+    `<meta property="og:type" content="website">`,
+  );
+  await fs.mkdir(path.join(DIST, 'legal'), { recursive: true });
+  await fs.writeFile(path.join(DIST, 'legal', 'index.html'), legalHtmlFinal, 'utf8');
+  console.log('[prerender] legal → static page emitted');
+
   sitemapEntries.push({
     loc: `${SITE}/legal`,
     lastmod: today,
@@ -438,7 +458,11 @@ async function validatePageMeta(
   filePath: string,
   errors: string[],
   cache: Map<string, boolean>,
-  opts: { expectedImage?: string } = {},
+  opts: {
+    expectedImage?: string;
+    requireTitleIncludes?: string[];
+    requireDescriptionIncludesAny?: string[];
+  } = {},
 ): Promise<void> {
   let html: string;
   try {
@@ -448,6 +472,39 @@ async function validatePageMeta(
     return;
   }
 
+  // -------- Text validation (runs BEFORE image checks) --------
+  const ogTitle = extractMetaContent(html, /<meta\s+property="og:title"[^>]*>/i);
+  const ogDescription = extractMetaContent(html, /<meta\s+property="og:description"[^>]*>/i);
+
+  if (!ogTitle || !ogTitle.trim()) {
+    errors.push(`[${label}] missing or empty <meta property="og:title">`);
+  }
+  if (!ogDescription || !ogDescription.trim()) {
+    errors.push(`[${label}] missing or empty <meta property="og:description">`);
+  }
+
+  if (ogTitle && opts.requireTitleIncludes?.length) {
+    for (const needle of opts.requireTitleIncludes) {
+      if (!ogTitle.toLowerCase().includes(needle.toLowerCase())) {
+        errors.push(
+          `[${label}] og:title must contain "${needle}", got "${ogTitle}"`,
+        );
+      }
+    }
+  }
+  if (ogDescription && opts.requireDescriptionIncludesAny?.length) {
+    const lower = ogDescription.toLowerCase();
+    const hit = opts.requireDescriptionIncludesAny.some((n) =>
+      lower.includes(n.toLowerCase()),
+    );
+    if (!hit) {
+      errors.push(
+        `[${label}] og:description must mention at least one of [${opts.requireDescriptionIncludesAny.join(', ')}], got "${ogDescription}"`,
+      );
+    }
+  }
+
+  // -------- Image validation --------
   const ogImage = extractMetaContent(html, /<meta\s+property="og:image"[^>]*>/i);
   const ogSecure = extractMetaContent(html, /<meta\s+property="og:image:secure_url"[^>]*>/i);
   const twImage = extractMetaContent(html, /<meta\s+name="twitter:image"[^>]*>/i);
@@ -511,6 +568,8 @@ async function validateGeneratedPages(): Promise<void> {
     label: string;
     file: string;
     expectedImage?: string;
+    requireTitleIncludes?: string[];
+    requireDescriptionIncludesAny?: string[];
   }> = [
     {
       label: 'home',
@@ -518,6 +577,18 @@ async function validateGeneratedPages(): Promise<void> {
       // The Home must advertise the canonical hero/fallback image served from
       // our own domain — never a per-project asset, never an external bucket.
       expectedImage: FALLBACK_OG_IMAGE,
+      // The Home title must carry the author name; the description must
+      // reference at least one core research theme so social previews always
+      // communicate what the portfolio is about.
+      requireTitleIncludes: ['Alina Lippiello'],
+      requireDescriptionIncludesAny: [
+        'Hejduk',
+        'Branzi',
+        'tipologia',
+        'tipologica',
+        'modelli abitativi',
+        'ricerca',
+      ],
     },
   ];
 
@@ -526,7 +597,12 @@ async function validateGeneratedPages(): Promise<void> {
     const file = path.join(DIST, aux, 'index.html');
     try {
       await fs.stat(file);
-      pages.push({ label: `/${aux}`, file });
+      pages.push({
+        label: `/${aux}`,
+        file,
+        // /legal must have a clear, branded title to avoid empty social previews.
+        requireTitleIncludes: ['Note Legali', 'Alina Lippiello'],
+      });
     } catch {
       // not built as a separate HTML file — skip silently
     }
@@ -542,6 +618,8 @@ async function validateGeneratedPages(): Promise<void> {
   for (const page of pages) {
     await validatePageMeta(page.label, page.file, errors, cache, {
       expectedImage: page.expectedImage,
+      requireTitleIncludes: page.requireTitleIncludes,
+      requireDescriptionIncludesAny: page.requireDescriptionIncludesAny,
     });
   }
 
