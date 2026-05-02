@@ -750,9 +750,20 @@ async function validateGeneratedPages(): Promise<void> {
   // Load the previous build's report (if any) and diff against it.
   // The historical baseline lives under scripts/ so it survives `dist/` cleans.
   const previous = await loadPreviousReport();
-  const regressions = diffSocialMetaReports(previous, reports);
-  if (regressions.length) {
-    for (const r of regressions) errors.push(r);
+  const diff = diffSocialMetaReports(previous, reports);
+  if (diff.regressions.length) {
+    for (const r of diff.regressions) errors.push(r);
+  }
+
+  // Always emit the HTML diff report (even on first run / failure) so the
+  // user has a single artefact to open and inspect.
+  try {
+    const html = renderDiffReportHtml(diff, reports);
+    const htmlPath = path.join(ROOT, 'scripts', 'diff-report.html');
+    await fs.writeFile(htmlPath, html, 'utf8');
+    console.log(`[prerender] HTML diff report written to ${path.relative(ROOT, htmlPath)}`);
+  } catch (err) {
+    console.warn('[prerender] Could not write HTML diff report:', err);
   }
 
   try {
