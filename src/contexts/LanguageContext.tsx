@@ -23,8 +23,8 @@ const translations: Record<Language, Record<string, string>> = {
     // Profile
     'profile.subtitle': 'Architetto | Concept designer | Direzione artistica',
     'profile.vision.title': 'Visione',
-    'profile.vision.quote': "L'architettura non è un oggetto, ma un campo di forze.",
-    'profile.vision.text': "È una soglia tra paesaggio e costruito, tra memoria e trasformazione, tra ciò che esiste e ciò che può emergere. Il mio lavoro nasce da questa tensione: progetto spazi che non si impongono, ma si innestano; che non separano, ma connettono; che non si limitano a rispondere a una funzione, ma costruiscono senso.",
+    'profile.vision.quote': "La mia ricerca indaga un'idea di architettura che si dissolve nel paesaggio, superando la distinzione tra figura e sfondo.",
+    'profile.vision.text': "Il progetto non si impone come oggetto, ma emerge come rivelazione di condizioni latenti: geografie, infrastrutture, ecologie.\n\nIn questa prospettiva, l'architettura si configura come campo continuo, fatto di relazioni, stratificazioni e processi, in cui lo spazio costruito è parte di un sistema più ampio.",
     'profile.profile.title': 'Profilo',
     'profile.profile.p1': "Sono un architetto e concept designer che lavora al confine tra progetto, ricerca e direzione artistica. Il mio percorso si è sviluppato attraverso concorsi internazionali, progetti residenziali e una riflessione critica sull'architettura contemporanea, con un interesse costante per il rapporto tra spazio, paesaggio e struttura urbana.",
     'profile.profile.p2': "La mia formazione integra pratica progettuale e ricerca teorica.",
@@ -299,8 +299,8 @@ Il cuore del progetto è un sistema diagonale di spazi pubblici e rampe che non 
     // Profile
     'profile.subtitle': 'Architect | Concept designer | Art direction',
     'profile.vision.title': 'Vision',
-    'profile.vision.quote': 'Architecture is not an object, but a field of forces.',
-    'profile.vision.text': "It is a threshold between landscape and built environment, between memory and transformation, between what exists and what can emerge. My work arises from this tension: I design spaces that do not impose themselves, but graft; that do not separate, but connect; that do not merely respond to a function, but construct meaning.",
+    'profile.vision.quote': 'My research investigates an idea of architecture that dissolves into the landscape, overcoming the distinction between figure and ground.',
+    'profile.vision.text': "The project does not impose itself as an object, but emerges as a revelation of latent conditions: geographies, infrastructures, ecologies.\n\nFrom this perspective, architecture takes shape as a continuous field, made of relations, stratifications and processes, in which built space is part of a wider system.",
     'profile.profile.title': 'Profile',
     'profile.profile.p1': "I am an architect and concept designer working at the intersection of design, research and art direction. My path has developed through international competitions, residential projects and a critical reflection on contemporary architecture, with a constant interest in the relationship between space, landscape and urban structure.",
     'profile.profile.p2': "My training integrates design practice and theoretical research.",
@@ -575,8 +575,8 @@ The heart of the project is a diagonal system of public spaces and ramps that no
     // Profile
     'profile.subtitle': 'Arquitecta | Concept designer | Dirección artística',
     'profile.vision.title': 'Visión',
-    'profile.vision.quote': 'La arquitectura no es un objeto, sino un campo de fuerzas.',
-    'profile.vision.text': "Es un umbral entre paisaje y construido, entre memoria y transformación, entre lo que existe y lo que puede emerger. Mi trabajo nace de esta tensión: proyecto espacios que no se imponen, sino que se injertan; que no separan, sino que conectan; que no se limitan a responder a una función, sino que construyen sentido.",
+    'profile.vision.quote': 'Mi investigación indaga una idea de arquitectura que se disuelve en el paisaje, superando la distinción entre figura y fondo.',
+    'profile.vision.text': "El proyecto no se impone como objeto, sino que emerge como revelación de condiciones latentes: geografías, infraestructuras, ecologías.\n\nDesde esta perspectiva, la arquitectura se configura como campo continuo, hecho de relaciones, estratificaciones y procesos, en el que el espacio construido forma parte de un sistema más amplio.",
     'profile.profile.title': 'Perfil',
     'profile.profile.p1': "Soy arquitecta y concept designer que trabaja en la frontera entre proyecto, investigación y dirección artística. Mi trayectoria se ha desarrollado a través de concursos internacionales, proyectos residenciales y una reflexión crítica sobre la arquitectura contemporánea, con un interés constante por la relación entre espacio, paisaje y estructura urbana.",
     'profile.profile.p2': "Mi formación integra práctica proyectual e investigación teórica.",
