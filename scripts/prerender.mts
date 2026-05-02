@@ -815,100 +815,334 @@ async function saveBaselineReport(reports: PageMetaReport[]): Promise<void> {
 }
 
 /**
+ * Per-page diff entry produced by `diffSocialMetaReports`. Drives both the
+ * console output and the HTML report.
+ */
+interface PageDiffEntry {
+  label: string;
+  status: 'OK' | 'CHANGED' | 'REGRESSION' | 'NEW' | 'REMOVED';
+  url: string | null;
+  fieldChanges: Array<{
+    field: string;
+    before: string | null;
+    after: string | null;
+    severity: 'block' | 'warn' | 'info';
+    note: string;
+  }>;
+}
+
+interface DiffResult {
+  entries: PageDiffEntry[];
+  regressions: string[]; // hard-error messages (build-blocking)
+  unchanged: number;
+  updated: number;
+  newCount: number;
+  removedCount: number;
+}
+
+/**
  * Compare the new reports against the previous baseline.
  *
- * For each known page:
- *   - If a tag value differs from the baseline, log it as [CHANGED].
- *   - If a tag was present before but is now missing, log [REGRESSION] and
- *     return it as a hard error so the build fails.
+ * Strict vs soft semantics:
+ *   - BLOCK (regression, build fails): `og:image` or `og:image:secure_url`
+ *     for an existing page either disappears OR changes to a different
+ *     normalised URL. These are critical for social previews.
+ *   - WARN (logged as [CHANGED], does not fail the build): textual fields
+ *     (`og:title`, `og:description`, twitter title/description) and
+ *     `twitter:image` changes.
  *
- * New pages (not in baseline) and removed pages are logged as informational.
- * Returns the list of regression messages to be appended to `errors`.
+ * Image URLs are compared after `normalizeUrl()` so cosmetic differences
+ * (querystrings, trailing slashes) don't trip the strict check.
  */
 function diffSocialMetaReports(
   previous: PageMetaReport[] | null,
   current: PageMetaReport[],
-): string[] {
-  const regressions: string[] = [];
+): DiffResult {
+  const result: DiffResult = {
+    entries: [],
+    regressions: [],
+    unchanged: 0,
+    updated: 0,
+    newCount: 0,
+    removedCount: 0,
+  };
 
   if (!previous) {
-    console.log('[prerender] No previous baseline found — skipping diff (first run).');
-    return regressions;
+    console.log(
+      '[prerender] No previous baseline found — treating this build as the new baseline (point zero).',
+    );
+    for (const curr of current) {
+      result.entries.push({
+        label: curr.label,
+        status: 'NEW',
+        url: curr.url,
+        fieldChanges: [],
+      });
+    }
+    result.newCount = current.length;
+    return result;
   }
 
   const prevByLabel = new Map(previous.map((r) => [r.label, r]));
   const currByLabel = new Map(current.map((r) => [r.label, r]));
 
-  const trackedFields: Array<keyof PageMetaReport> = [
-    'ogTitle',
-    'ogDescription',
-    'ogImage',
-    'ogImageSecureUrl',
-    'twitterImage',
+  // Field config: which fields are block-level (image) vs warn-level (text).
+  const fieldConfig: Array<{
+    field: keyof PageMetaReport;
+    label: string;
+    severity: 'block' | 'warn';
+    normalizeForCompare: boolean;
+  }> = [
+    { field: 'ogImage', label: 'og:image', severity: 'block', normalizeForCompare: true },
+    { field: 'ogImageSecureUrl', label: 'og:image:secure_url', severity: 'block', normalizeForCompare: true },
+    { field: 'twitterImage', label: 'twitter:image', severity: 'warn', normalizeForCompare: true },
+    { field: 'ogTitle', label: 'og:title', severity: 'warn', normalizeForCompare: false },
+    { field: 'ogDescription', label: 'og:description', severity: 'warn', normalizeForCompare: false },
+    { field: 'twitterTitle', label: 'twitter:title', severity: 'warn', normalizeForCompare: false },
+    { field: 'twitterDescription', label: 'twitter:description', severity: 'warn', normalizeForCompare: false },
+    { field: 'twitterCard', label: 'twitter:card', severity: 'warn', normalizeForCompare: false },
   ];
-
-  let unchanged = 0;
-  let updated = 0;
-  const newPages: string[] = [];
-  const removedPages: string[] = [];
 
   console.log('\n[prerender] ───── Diff vs previous build ─────');
 
   for (const curr of current) {
     const prev = prevByLabel.get(curr.label);
     if (!prev) {
-      newPages.push(curr.label);
+      result.entries.push({ label: curr.label, status: 'NEW', url: curr.url, fieldChanges: [] });
+      result.newCount++;
       console.log(`  [NEW] ${curr.label}`);
       continue;
     }
 
-    const changes: string[] = [];
-    for (const field of trackedFields) {
-      const before = prev[field] as string | null | undefined;
-      const after = curr[field] as string | null | undefined;
-      if (before === after) continue;
+    const fieldChanges: PageDiffEntry['fieldChanges'] = [];
+    let hasRegression = false;
 
-      // Regression: had a value before, now null/empty.
-      if (before && !after) {
-        const msg = `[REGRESSION] ${curr.label}: ${field} was "${before}" but is now missing`;
-        regressions.push(msg);
-        changes.push(`    ✗ ${field}: "${before}" → ∅`);
-      } else if (!before && after) {
-        changes.push(`    + ${field}: ∅ → "${after}"`);
+    for (const cfg of fieldConfig) {
+      const beforeRaw = (prev[cfg.field] as string | null | undefined) ?? null;
+      const afterRaw = (curr[cfg.field] as string | null | undefined) ?? null;
+
+      const beforeCmp = cfg.normalizeForCompare ? normalizeUrl(beforeRaw) : beforeRaw;
+      const afterCmp = cfg.normalizeForCompare ? normalizeUrl(afterRaw) : afterRaw;
+      if (beforeCmp === afterCmp) continue;
+
+      // Block-severity rule: image disappears or changes URL → regression.
+      if (cfg.severity === 'block') {
+        if (beforeRaw && !afterRaw) {
+          const msg = `[REGRESSION] ${curr.label}: ${cfg.label} was "${beforeRaw}" but is now missing`;
+          result.regressions.push(msg);
+          hasRegression = true;
+          fieldChanges.push({
+            field: cfg.label,
+            before: beforeRaw,
+            after: afterRaw,
+            severity: 'block',
+            note: 'tag disappeared',
+          });
+          continue;
+        }
+        if (beforeRaw && afterRaw && beforeCmp !== afterCmp) {
+          const msg = `[REGRESSION] ${curr.label}: ${cfg.label} URL changed from "${beforeRaw}" to "${afterRaw}"`;
+          result.regressions.push(msg);
+          hasRegression = true;
+          fieldChanges.push({
+            field: cfg.label,
+            before: beforeRaw,
+            after: afterRaw,
+            severity: 'block',
+            note: 'image URL changed',
+          });
+          continue;
+        }
+      }
+
+      // Warn-severity (or first-time addition for block fields).
+      if (!beforeRaw && afterRaw) {
+        fieldChanges.push({
+          field: cfg.label,
+          before: beforeRaw,
+          after: afterRaw,
+          severity: 'info',
+          note: 'newly added',
+        });
+      } else if (beforeRaw && !afterRaw) {
+        fieldChanges.push({
+          field: cfg.label,
+          before: beforeRaw,
+          after: afterRaw,
+          severity: 'warn',
+          note: 'value removed',
+        });
       } else {
-        changes.push(`    ~ ${field}:\n        before: "${before}"\n        after : "${after}"`);
+        fieldChanges.push({
+          field: cfg.label,
+          before: beforeRaw,
+          after: afterRaw,
+          severity: 'warn',
+          note: 'value updated',
+        });
       }
     }
 
-    if (changes.length === 0) {
-      unchanged++;
+    if (fieldChanges.length === 0) {
+      result.unchanged++;
+      result.entries.push({ label: curr.label, status: 'OK', url: curr.url, fieldChanges: [] });
     } else {
-      updated++;
-      console.log(`  [CHANGED] ${curr.label}`);
-      for (const c of changes) console.log(c);
+      const status: PageDiffEntry['status'] = hasRegression ? 'REGRESSION' : 'CHANGED';
+      result.updated++;
+      result.entries.push({ label: curr.label, status, url: curr.url, fieldChanges });
+      console.log(`  [${status}] ${curr.label}`);
+      for (const c of fieldChanges) {
+        const tag = c.severity === 'block' ? '✗' : c.severity === 'warn' ? '~' : '+';
+        console.log(`    ${tag} ${c.field} (${c.note}):\n        before: "${c.before ?? '∅'}"\n        after : "${c.after ?? '∅'}"`);
+      }
     }
   }
 
   for (const prev of previous) {
     if (!currByLabel.has(prev.label)) {
-      removedPages.push(prev.label);
+      result.entries.push({ label: prev.label, status: 'REMOVED', url: prev.url, fieldChanges: [] });
+      result.removedCount++;
       console.log(`  [REMOVED] ${prev.label}`);
     }
   }
 
   console.log(
-    `\n[prerender] Diff summary: ${unchanged} unchanged, ${updated} updated, ` +
-      `${newPages.length} new, ${removedPages.length} removed.`,
+    `\n[prerender] Diff summary: ${result.unchanged} unchanged, ${result.updated} updated, ` +
+      `${result.newCount} new, ${result.removedCount} removed.`,
   );
-  if (regressions.length) {
+  if (result.regressions.length) {
     console.log(
-      `[prerender] ${regressions.length} regression(s) detected — build will be blocked.`,
+      `[prerender] ${result.regressions.length} regression(s) detected — build will be blocked.`,
     );
   }
   console.log('[prerender] ──────────────────────────────────────\n');
 
-  return regressions;
+  return result;
 }
+
+/**
+ * Render a self-contained HTML diff report for human inspection.
+ * Saved to scripts/diff-report.html so it survives `dist/` cleans.
+ */
+function renderDiffReportHtml(diff: DiffResult, current: PageMetaReport[]): string {
+  const esc = (s: string | null | undefined): string =>
+    s == null ? '' : String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+  const statusBadge = (s: PageDiffEntry['status']): string => {
+    const colors: Record<PageDiffEntry['status'], string> = {
+      OK: '#1a7f37',
+      CHANGED: '#9a6700',
+      REGRESSION: '#cf222e',
+      NEW: '#0969da',
+      REMOVED: '#6e7781',
+    };
+    return `<span style="background:${colors[s]};color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;letter-spacing:.04em;">[${s}]</span>`;
+  };
+
+  const currByLabel = new Map(current.map((r) => [r.label, r]));
+
+  const rows = diff.entries
+    .map((entry) => {
+      const meta = currByLabel.get(entry.label);
+      const link = entry.url
+        ? `<a href="${esc(entry.url)}" target="_blank" rel="noopener noreferrer">${esc(entry.label)}</a>`
+        : esc(entry.label);
+
+      const changesHtml = entry.fieldChanges.length
+        ? `<table class="changes"><thead><tr><th>Field</th><th>Severity</th><th>Before</th><th>After</th></tr></thead><tbody>` +
+          entry.fieldChanges
+            .map(
+              (c) =>
+                `<tr class="sev-${c.severity}"><td><code>${esc(c.field)}</code></td><td>${c.severity.toUpperCase()}</td><td><code>${esc(c.before) || '<em>∅</em>'}</code></td><td><code>${esc(c.after) || '<em>∅</em>'}</code></td></tr>`,
+            )
+            .join('') +
+          `</tbody></table>`
+        : entry.status === 'OK'
+          ? `<span class="muted">no changes</span>`
+          : `<span class="muted">—</span>`;
+
+      const currentSnapshot = meta
+        ? `<details><summary>current meta snapshot</summary>
+            <ul class="snapshot">
+              <li><code>og:title</code>: ${esc(meta.ogTitle)}</li>
+              <li><code>og:description</code>: ${esc(meta.ogDescription)}</li>
+              <li><code>og:image</code>: ${esc(meta.ogImage)}</li>
+              <li><code>og:image:secure_url</code>: ${esc(meta.ogImageSecureUrl)}</li>
+              <li><code>twitter:card</code>: ${esc(meta.twitterCard)}</li>
+              <li><code>twitter:title</code>: ${esc(meta.twitterTitle)}</li>
+              <li><code>twitter:description</code>: ${esc(meta.twitterDescription)}</li>
+              <li><code>twitter:image</code>: ${esc(meta.twitterImage)}</li>
+            </ul>
+          </details>`
+        : '';
+
+      return `<tr>
+        <td class="page">${link}<div class="file">${esc(meta?.file ?? '')}</div></td>
+        <td>${statusBadge(entry.status)}</td>
+        <td>${changesHtml}${currentSnapshot}</td>
+      </tr>`;
+    })
+    .join('\n');
+
+  const generatedAt = new Date().toISOString();
+
+  return `<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <title>Social meta diff report — Alina Lippiello</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 32px; color: #1f2328; background: #f6f8fa; }
+    h1 { margin: 0 0 8px; font-size: 22px; }
+    .meta { color: #6e7781; font-size: 13px; margin-bottom: 20px; }
+    .summary { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+    .summary div { background: #fff; border: 1px solid #d0d7de; padding: 10px 14px; border-radius: 6px; font-size: 13px; }
+    table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid #d0d7de; border-radius: 6px; overflow: hidden; }
+    th, td { padding: 10px 12px; text-align: left; vertical-align: top; border-bottom: 1px solid #eaeef2; font-size: 13px; }
+    th { background: #f6f8fa; font-weight: 600; }
+    td.page { width: 24%; word-break: break-word; }
+    td.page a { color: #0969da; text-decoration: none; font-weight: 600; }
+    td.page a:hover { text-decoration: underline; }
+    .file { color: #6e7781; font-size: 11px; margin-top: 2px; font-family: ui-monospace, SFMono-Regular, monospace; }
+    .muted { color: #6e7781; font-style: italic; }
+    table.changes { margin: 0; border: 1px solid #eaeef2; border-radius: 4px; }
+    table.changes th { background: #fafbfc; font-size: 11px; text-transform: uppercase; letter-spacing: .05em; }
+    table.changes td { font-size: 12px; word-break: break-word; }
+    table.changes code { background: #f6f8fa; padding: 1px 4px; border-radius: 3px; font-size: 11px; }
+    tr.sev-block td { background: #ffebe9; }
+    tr.sev-warn td { background: #fff8c5; }
+    tr.sev-info td { background: #ddf4ff; }
+    details.snapshot, details summary { font-size: 12px; }
+    details { margin-top: 8px; }
+    details summary { cursor: pointer; color: #6e7781; }
+    ul.snapshot { margin: 8px 0 0; padding-left: 18px; }
+    ul.snapshot li { margin-bottom: 2px; font-size: 12px; word-break: break-word; }
+    ul.snapshot code { background: #f6f8fa; padding: 1px 4px; border-radius: 3px; }
+  </style>
+</head>
+<body>
+  <h1>Social meta diff report</h1>
+  <p class="meta">Generated ${esc(generatedAt)} — comparing current build against <code>scripts/social-meta-report.json</code> baseline.</p>
+  <div class="summary">
+    <div><strong>${diff.unchanged}</strong> unchanged</div>
+    <div><strong>${diff.updated}</strong> updated</div>
+    <div><strong>${diff.newCount}</strong> new</div>
+    <div><strong>${diff.removedCount}</strong> removed</div>
+    <div><strong>${diff.regressions.length}</strong> regression(s)</div>
+  </div>
+  <table>
+    <thead>
+      <tr><th>Page</th><th>Status</th><th>Changes / current snapshot</th></tr>
+    </thead>
+    <tbody>
+${rows}
+    </tbody>
+  </table>
+</body>
+</html>
+`;
+}
+
 
 main().catch((err) => {
   console.error('[prerender] Failed:', err);
