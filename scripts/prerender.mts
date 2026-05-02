@@ -506,14 +506,14 @@ async function validatePageMeta(
   const report: PageMetaReport = {
     label,
     file: path.relative(DIST, filePath),
-    url: extractMetaContent(html, /<meta\s+property="og:url"[^>]*>/i),
+    url: null,
     ogTitle: null,
     ogDescription: null,
     ogImage: null,
     ogImageSecureUrl: null,
-    twitterCard: extractMetaContent(html, /<meta\s+name="twitter:card"[^>]*>/i),
-    twitterTitle: extractMetaContent(html, /<meta\s+name="twitter:title"[^>]*>/i),
-    twitterDescription: extractMetaContent(html, /<meta\s+name="twitter:description"[^>]*>/i),
+    twitterCard: null,
+    twitterTitle: null,
+    twitterDescription: null,
     twitterImage: null,
     imageAccessible: null,
     consistent: true,
@@ -529,6 +529,13 @@ async function validatePageMeta(
     report.issues = errors.length - errCountBefore;
     return report;
   }
+
+  // Capture the full Twitter set + canonical URL alongside OG tags so the
+  // diff/report can highlight any divergence between the two card systems.
+  report.url = extractMetaContent(html, /<meta\s+property="og:url"[^>]*>/i);
+  report.twitterCard = extractMetaContent(html, /<meta\s+name="twitter:card"[^>]*>/i);
+  report.twitterTitle = extractMetaContent(html, /<meta\s+name="twitter:title"[^>]*>/i);
+  report.twitterDescription = extractMetaContent(html, /<meta\s+name="twitter:description"[^>]*>/i);
 
   // -------- Text validation (runs BEFORE image checks) --------
   const ogTitle = extractMetaContent(html, /<meta\s+property="og:title"[^>]*>/i);
