@@ -456,14 +456,35 @@ async function isImageAccessible(url: string): Promise<boolean> {
 interface PageMetaReport {
   label: string;
   file: string;
+  url: string | null;
   ogTitle: string | null;
   ogDescription: string | null;
   ogImage: string | null;
   ogImageSecureUrl: string | null;
+  twitterCard: string | null;
+  twitterTitle: string | null;
+  twitterDescription: string | null;
   twitterImage: string | null;
   imageAccessible: boolean | null;
   consistent: boolean;
   issues: number;
+}
+
+/**
+ * Normalize an image/page URL for diff comparison.
+ *
+ * Removes querystring, hash fragment and trailing slash so cosmetic changes
+ * (cache-busting params, normalisation differences) don't surface as false
+ * positives in the diff. Returns null if the input is empty.
+ */
+function normalizeUrl(value: string | null | undefined): string | null {
+  if (!value) return null;
+  let v = value.trim();
+  if (!v) return null;
+  v = v.split('#')[0];
+  v = v.split('?')[0];
+  if (v.length > 1 && v.endsWith('/')) v = v.slice(0, -1);
+  return v;
 }
 
 /**
