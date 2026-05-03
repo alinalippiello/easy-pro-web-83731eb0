@@ -1134,12 +1134,25 @@ function renderDiffReportHtml(diff: DiffResult, current: PageMetaReport[]): stri
         ? `<a href="${esc(entry.url)}" target="_blank" rel="noopener noreferrer">${esc(entry.label)}</a>`
         : esc(entry.label);
 
+      const hashOnlyCount = entry.fieldChanges.filter(
+        (c) => c.severity === 'info' && c.note === 'hash-only change (ignored)',
+      ).length;
+      const hashNotice = hashOnlyCount
+        ? `<div class="hash-notice">⚠ ${hashOnlyCount} hash-only change(s) ignored (Vite content hash)</div>`
+        : '';
+
+      const sevBadge = (s: 'block' | 'warn' | 'info'): string => {
+        const map = { block: ['REGRESSION', '#cf222e'], warn: ['CHANGED', '#9a6700'], info: ['OK', '#0969da'] } as const;
+        const [label, color] = map[s];
+        return `<span style="background:${color};color:#fff;padding:1px 6px;border-radius:3px;font-size:10px;font-weight:600;letter-spacing:.04em;">[${label}]</span>`;
+      };
+
       const changesHtml = entry.fieldChanges.length
-        ? `<table class="changes"><thead><tr><th>Field</th><th>Severity</th><th>Before</th><th>After</th></tr></thead><tbody>` +
+        ? `<table class="changes"><thead><tr><th>Field</th><th>Severity</th><th>Note</th><th>Before</th><th>After</th></tr></thead><tbody>` +
           entry.fieldChanges
             .map(
               (c) =>
-                `<tr class="sev-${c.severity}"><td><code>${esc(c.field)}</code></td><td>${c.severity.toUpperCase()}</td><td><code>${esc(c.before) || '<em>∅</em>'}</code></td><td><code>${esc(c.after) || '<em>∅</em>'}</code></td></tr>`,
+                `<tr class="sev-${c.severity}"><td><code>${esc(c.field)}</code></td><td>${sevBadge(c.severity)}</td><td>${esc(c.note)}</td><td><code>${esc(c.before) || '<em>∅</em>'}</code></td><td><code>${esc(c.after) || '<em>∅</em>'}</code></td></tr>`,
             )
             .join('') +
           `</tbody></table>`
@@ -1164,7 +1177,7 @@ function renderDiffReportHtml(diff: DiffResult, current: PageMetaReport[]): stri
 
       return `<tr>
         <td class="page">${link}<div class="file">${esc(meta?.file ?? '')}</div></td>
-        <td>${statusBadge(entry.status)}</td>
+        <td>${statusBadge(entry.status)}${hashNotice}</td>
         <td>${changesHtml}${currentSnapshot}</td>
       </tr>`;
     })
