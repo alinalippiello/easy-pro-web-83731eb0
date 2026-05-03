@@ -484,6 +484,10 @@ function normalizeUrl(value: string | null | undefined): string | null {
   v = v.split('#')[0];
   v = v.split('?')[0];
   if (v.length > 1 && v.endsWith('/')) v = v.slice(0, -1);
+  // Strip Vite hash from /assets/<basename>-<hash>.<ext> so re-builds that only
+  // change the content-hash don't surface as image regressions.
+  // Matches: -<8+ hex/alnum> right before the extension.
+  v = v.replace(/(\/assets\/[^/?#]+?)-[A-Za-z0-9_-]{8,}(\.[A-Za-z0-9]+)$/, '$1$2');
   return v;
 }
 
