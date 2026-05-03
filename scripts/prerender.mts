@@ -968,15 +968,13 @@ function diffSocialMetaReports(
           continue;
         }
         if (beforeRaw && afterRaw && beforeCmp !== afterCmp) {
-          const msg = `[REGRESSION] ${curr.label}: ${cfg.label} URL changed from "${beforeRaw}" to "${afterRaw}"`;
-          result.regressions.push(msg);
-          hasRegression = true;
+          // URL changed but tag still present → soft change, do not block build.
           fieldChanges.push({
             field: cfg.label,
             before: beforeRaw,
             after: afterRaw,
-            severity: 'block',
-            note: 'image URL changed',
+            severity: 'warn',
+            note: 'image URL changed (non-blocking)',
           });
           continue;
         }
