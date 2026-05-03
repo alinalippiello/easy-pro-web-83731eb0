@@ -766,6 +766,18 @@ async function validateGeneratedPages(): Promise<void> {
     console.warn('[prerender] Could not write HTML diff report:', err);
   }
 
+  // Machine-readable diff report for CI / automated checks. Includes a
+  // summary plus, for every page, the baseline snapshot, the current
+  // snapshot and the per-field changes (Twitter tags included).
+  try {
+    const diffJson = buildDiffReportJson(diff, previous, reports);
+    const diffJsonPath = path.join(ROOT, 'scripts', 'diff-report.json');
+    await fs.writeFile(diffJsonPath, JSON.stringify(diffJson, null, 2), 'utf8');
+    console.log(`[prerender] JSON diff report written to ${path.relative(ROOT, diffJsonPath)}`);
+  } catch (err) {
+    console.warn('[prerender] Could not write JSON diff report:', err);
+  }
+
   try {
     await fs.writeFile(
       path.join(DIST, 'social-meta-report.json'),
@@ -1035,6 +1047,45 @@ function diffSocialMetaReports(
  * Render a self-contained HTML diff report for human inspection.
  * Saved to scripts/diff-report.html so it survives `dist/` cleans.
  */
+/**
+ * Build the machine-readable diff report payload (saved as
+ * scripts/diff-report.json). Designed for CI consumption: a stable summary
+ * plus per-page entries with baseline + current snapshots and field-level
+ * changes (Twitter tags included).
+ */
+function buildDiffReportJson(
+  diff: DiffResult,
+  previous: PageMetaReport[] | null,
+  current: PageMetaReport[],
+) {
+  const prevByLabel = new Map((previous ?? []).map((r) => [r.label, r]));
+  const currByLabel = new Map(current.map((r) => [r.label, r]));
+
+  const pages = diff.entries.map((entry) => ({
+    label: entry.label,
+    status: entry.status,
+    url: entry.url,
+    baseline: prevByLabel.get(entry.label) ?? null,
+    current: currByLabel.get(entry.label) ?? null,
+    changes: entry.fieldChanges,
+  }));
+
+  return {
+    generatedAt: new Date().toISOString(),
+    baselineExisted: previous !== null,
+    summary: {
+      totalPages: current.length,
+      unchanged: diff.unchanged,
+      updated: diff.updated,
+      new: diff.newCount,
+      removed: diff.removedCount,
+      regressions: diff.regressions.length,
+    },
+    regressions: diff.regressions,
+    pages,
+  };
+}
+
 function renderDiffReportHtml(diff: DiffResult, current: PageMetaReport[]): string {
   const esc = (s: string | null | undefined): string =>
     s == null ? '' : String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
