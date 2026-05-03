@@ -766,6 +766,18 @@ async function validateGeneratedPages(): Promise<void> {
     console.warn('[prerender] Could not write HTML diff report:', err);
   }
 
+  // Machine-readable diff report for CI / automated checks. Includes a
+  // summary plus, for every page, the baseline snapshot, the current
+  // snapshot and the per-field changes (Twitter tags included).
+  try {
+    const diffJson = buildDiffReportJson(diff, previous, reports);
+    const diffJsonPath = path.join(ROOT, 'scripts', 'diff-report.json');
+    await fs.writeFile(diffJsonPath, JSON.stringify(diffJson, null, 2), 'utf8');
+    console.log(`[prerender] JSON diff report written to ${path.relative(ROOT, diffJsonPath)}`);
+  } catch (err) {
+    console.warn('[prerender] Could not write JSON diff report:', err);
+  }
+
   try {
     await fs.writeFile(
       path.join(DIST, 'social-meta-report.json'),
