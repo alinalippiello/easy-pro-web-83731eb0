@@ -950,7 +950,21 @@ function diffSocialMetaReports(
 
       const beforeCmp = cfg.normalizeForCompare ? normalizeUrl(beforeRaw) : beforeRaw;
       const afterCmp = cfg.normalizeForCompare ? normalizeUrl(afterRaw) : afterRaw;
-      if (beforeCmp === afterCmp) continue;
+      if (beforeCmp === afterCmp) {
+        // Raw value differs but normalized matches → only the Vite content-hash
+        // changed. Surface as an informational note so the HTML report can warn
+        // the reader that this diff was intentionally ignored.
+        if (cfg.normalizeForCompare && beforeRaw && afterRaw && beforeRaw !== afterRaw) {
+          fieldChanges.push({
+            field: cfg.label,
+            before: beforeRaw,
+            after: afterRaw,
+            severity: 'info',
+            note: 'hash-only change (ignored)',
+          });
+        }
+        continue;
+      }
 
       // Block-severity rule: image disappears or changes URL → regression.
       if (cfg.severity === 'block') {
