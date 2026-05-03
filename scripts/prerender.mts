@@ -1022,9 +1022,17 @@ function diffSocialMetaReports(
       }
     }
 
+    const onlyHashOnly =
+      fieldChanges.length > 0 &&
+      fieldChanges.every((c) => c.severity === 'info' && c.note === 'hash-only change (ignored)');
+
     if (fieldChanges.length === 0) {
       result.unchanged++;
       result.entries.push({ label: curr.label, status: 'OK', url: curr.url, fieldChanges: [] });
+    } else if (onlyHashOnly) {
+      result.unchanged++;
+      result.entries.push({ label: curr.label, status: 'OK', url: curr.url, fieldChanges });
+      console.log(`  [OK] ${curr.label} (hash-only changes ignored)`);
     } else {
       const status: PageDiffEntry['status'] = hasRegression ? 'REGRESSION' : 'CHANGED';
       result.updated++;
