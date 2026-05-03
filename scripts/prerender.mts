@@ -1047,6 +1047,45 @@ function diffSocialMetaReports(
  * Render a self-contained HTML diff report for human inspection.
  * Saved to scripts/diff-report.html so it survives `dist/` cleans.
  */
+/**
+ * Build the machine-readable diff report payload (saved as
+ * scripts/diff-report.json). Designed for CI consumption: a stable summary
+ * plus per-page entries with baseline + current snapshots and field-level
+ * changes (Twitter tags included).
+ */
+function buildDiffReportJson(
+  diff: DiffResult,
+  previous: PageMetaReport[] | null,
+  current: PageMetaReport[],
+) {
+  const prevByLabel = new Map((previous ?? []).map((r) => [r.label, r]));
+  const currByLabel = new Map(current.map((r) => [r.label, r]));
+
+  const pages = diff.entries.map((entry) => ({
+    label: entry.label,
+    status: entry.status,
+    url: entry.url,
+    baseline: prevByLabel.get(entry.label) ?? null,
+    current: currByLabel.get(entry.label) ?? null,
+    changes: entry.fieldChanges,
+  }));
+
+  return {
+    generatedAt: new Date().toISOString(),
+    baselineExisted: previous !== null,
+    summary: {
+      totalPages: current.length,
+      unchanged: diff.unchanged,
+      updated: diff.updated,
+      new: diff.newCount,
+      removed: diff.removedCount,
+      regressions: diff.regressions.length,
+    },
+    regressions: diff.regressions,
+    pages,
+  };
+}
+
 function renderDiffReportHtml(diff: DiffResult, current: PageMetaReport[]): string {
   const esc = (s: string | null | undefined): string =>
     s == null ? '' : String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
