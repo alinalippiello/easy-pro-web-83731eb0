@@ -950,7 +950,21 @@ function diffSocialMetaReports(
 
       const beforeCmp = cfg.normalizeForCompare ? normalizeUrl(beforeRaw) : beforeRaw;
       const afterCmp = cfg.normalizeForCompare ? normalizeUrl(afterRaw) : afterRaw;
-      if (beforeCmp === afterCmp) continue;
+      if (beforeCmp === afterCmp) {
+        // Raw value differs but normalized matches → only the Vite content-hash
+        // changed. Surface as an informational note so the HTML report can warn
+        // the reader that this diff was intentionally ignored.
+        if (cfg.normalizeForCompare && beforeRaw && afterRaw && beforeRaw !== afterRaw) {
+          fieldChanges.push({
+            field: cfg.label,
+            before: beforeRaw,
+            after: afterRaw,
+            severity: 'info',
+            note: 'hash-only change (ignored)',
+          });
+        }
+        continue;
+      }
 
       // Block-severity rule: image disappears or changes URL → regression.
       if (cfg.severity === 'block') {
@@ -1008,9 +1022,17 @@ function diffSocialMetaReports(
       }
     }
 
+    const onlyHashOnly =
+      fieldChanges.length > 0 &&
+      fieldChanges.every((c) => c.severity === 'info' && c.note === 'hash-only change (ignored)');
+
     if (fieldChanges.length === 0) {
       result.unchanged++;
       result.entries.push({ label: curr.label, status: 'OK', url: curr.url, fieldChanges: [] });
+    } else if (onlyHashOnly) {
+      result.unchanged++;
+      result.entries.push({ label: curr.label, status: 'OK', url: curr.url, fieldChanges });
+      console.log(`  [OK] ${curr.label} (hash-only changes ignored)`);
     } else {
       const status: PageDiffEntry['status'] = hasRegression ? 'REGRESSION' : 'CHANGED';
       result.updated++;
@@ -1112,12 +1134,25 @@ function renderDiffReportHtml(diff: DiffResult, current: PageMetaReport[]): stri
         ? `<a href="${esc(entry.url)}" target="_blank" rel="noopener noreferrer">${esc(entry.label)}</a>`
         : esc(entry.label);
 
+      const hashOnlyCount = entry.fieldChanges.filter(
+        (c) => c.severity === 'info' && c.note === 'hash-only change (ignored)',
+      ).length;
+      const hashNotice = hashOnlyCount
+        ? `<div class="hash-notice">⚠ ${hashOnlyCount} hash-only change(s) ignored (Vite content hash)</div>`
+        : '';
+
+      const sevBadge = (s: 'block' | 'warn' | 'info'): string => {
+        const map = { block: ['REGRESSION', '#cf222e'], warn: ['CHANGED', '#9a6700'], info: ['OK', '#0969da'] } as const;
+        const [label, color] = map[s];
+        return `<span style="background:${color};color:#fff;padding:1px 6px;border-radius:3px;font-size:10px;font-weight:600;letter-spacing:.04em;">[${label}]</span>`;
+      };
+
       const changesHtml = entry.fieldChanges.length
-        ? `<table class="changes"><thead><tr><th>Field</th><th>Severity</th><th>Before</th><th>After</th></tr></thead><tbody>` +
+        ? `<table class="changes"><thead><tr><th>Field</th><th>Severity</th><th>Note</th><th>Before</th><th>After</th></tr></thead><tbody>` +
           entry.fieldChanges
             .map(
               (c) =>
-                `<tr class="sev-${c.severity}"><td><code>${esc(c.field)}</code></td><td>${c.severity.toUpperCase()}</td><td><code>${esc(c.before) || '<em>∅</em>'}</code></td><td><code>${esc(c.after) || '<em>∅</em>'}</code></td></tr>`,
+                `<tr class="sev-${c.severity}"><td><code>${esc(c.field)}</code></td><td>${sevBadge(c.severity)}</td><td>${esc(c.note)}</td><td><code>${esc(c.before) || '<em>∅</em>'}</code></td><td><code>${esc(c.after) || '<em>∅</em>'}</code></td></tr>`,
             )
             .join('') +
           `</tbody></table>`
@@ -1142,7 +1177,7 @@ function renderDiffReportHtml(diff: DiffResult, current: PageMetaReport[]): stri
 
       return `<tr>
         <td class="page">${link}<div class="file">${esc(meta?.file ?? '')}</div></td>
-        <td>${statusBadge(entry.status)}</td>
+        <td>${statusBadge(entry.status)}${hashNotice}</td>
         <td>${changesHtml}${currentSnapshot}</td>
       </tr>`;
     })
@@ -1182,6 +1217,7 @@ function renderDiffReportHtml(diff: DiffResult, current: PageMetaReport[]): stri
     ul.snapshot { margin: 8px 0 0; padding-left: 18px; }
     ul.snapshot li { margin-bottom: 2px; font-size: 12px; word-break: break-word; }
     ul.snapshot code { background: #f6f8fa; padding: 1px 4px; border-radius: 3px; }
+    .hash-notice { margin-top: 6px; font-size: 11px; color: #9a6700; background: #fff8c5; border: 1px solid #d4a72c; padding: 3px 6px; border-radius: 3px; display: inline-block; }
   </style>
 </head>
 <body>
