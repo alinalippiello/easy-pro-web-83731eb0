@@ -1217,6 +1217,7 @@ function renderDiffReportHtml(diff: DiffResult, current: PageMetaReport[]): stri
     ul.snapshot { margin: 8px 0 0; padding-left: 18px; }
     ul.snapshot li { margin-bottom: 2px; font-size: 12px; word-break: break-word; }
     ul.snapshot code { background: #f6f8fa; padding: 1px 4px; border-radius: 3px; }
+    .hash-notice { margin-top: 6px; font-size: 11px; color: #9a6700; background: #fff8c5; border: 1px solid #d4a72c; padding: 3px 6px; border-radius: 3px; display: inline-block; }
   </style>
 </head>
 <body>
