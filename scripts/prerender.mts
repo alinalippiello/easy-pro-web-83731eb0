@@ -1085,14 +1085,34 @@ function buildDiffReportJson(
   const prevByLabel = new Map((previous ?? []).map((r) => [r.label, r]));
   const currByLabel = new Map(current.map((r) => [r.label, r]));
 
-  const pages = diff.entries.map((entry) => ({
-    label: entry.label,
-    status: entry.status,
-    url: entry.url,
-    baseline: prevByLabel.get(entry.label) ?? null,
-    current: currByLabel.get(entry.label) ?? null,
-    changes: entry.fieldChanges,
-  }));
+  const isHashOnly = (c: { severity: string; note?: string }) =>
+    c.severity === 'info' && c.note === 'hash-only change (ignored)';
+
+  let hashOnlyPages = 0;
+  let hashOnlyChangesTotal = 0;
+
+  const pages = diff.entries.map((entry) => {
+    const hashOnlyCount = entry.fieldChanges.filter(isHashOnly).length;
+    const hasHashOnlyChanges = hashOnlyCount > 0;
+    if (hasHashOnlyChanges) {
+      hashOnlyPages += 1;
+      hashOnlyChangesTotal += hashOnlyCount;
+    }
+    return {
+      label: entry.label,
+      status: entry.status,
+      url: entry.url,
+      hasHashOnlyChanges,
+      hashOnlyCount,
+      baseline: prevByLabel.get(entry.label) ?? null,
+      current: currByLabel.get(entry.label) ?? null,
+      // Field-level changes (kept in sync with the HTML report). Each entry
+      // includes severity ('block' | 'warn' | 'info') and a human-readable
+      // note. Vite content-hash changes are recorded with severity 'info'
+      // and note 'hash-only change (ignored)'.
+      changes: entry.fieldChanges,
+    };
+  });
 
   return {
     generatedAt: new Date().toISOString(),
@@ -1104,6 +1124,8 @@ function buildDiffReportJson(
       new: diff.newCount,
       removed: diff.removedCount,
       regressions: diff.regressions.length,
+      hashOnlyPages,
+      hashOnlyChangesTotal,
     },
     regressions: diff.regressions,
     pages,
