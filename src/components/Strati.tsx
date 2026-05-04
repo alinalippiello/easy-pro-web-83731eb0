@@ -47,10 +47,18 @@ const tiles: MosaicTile[] = [
 
 const Strati = () => {
   const { t } = useLanguage();
+  const [activeId, setActiveId] = useState<string | null>(null);
   const [expandedImage, setExpandedImage] = useState<string | null>(null);
 
-  const openImage = useCallback((src: string) => {
-    setExpandedImage(src);
+  const handleTileClick = useCallback((tile: MosaicTile) => {
+    setActiveId((prev) => {
+      if (prev === tile.id) {
+        // second click: open lightbox
+        setExpandedImage(tile.cover);
+        return null;
+      }
+      return tile.id;
+    });
   }, []);
 
   const closeImage = useCallback(() => {
@@ -77,29 +85,73 @@ const Strati = () => {
 
           {/* Mosaic Grid */}
           <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-6 auto-rows-[80px] md:auto-rows-[100px] gap-1 md:gap-1.5">
-            {tiles.map((tile) => (
-              <motion.div
-                key={tile.id}
-                className="relative overflow-hidden rounded-sm cursor-pointer group"
-                style={{
-                  gridColumn: `span ${tile.colSpan}`,
-                  gridRow: `span ${tile.rowSpan}`,
-                }}
-                onClick={() => openImage(tile.cover)}
-                whileHover={{ scale: 1.015 }}
-                transition={{ duration: 0.3, ease: 'easeOut' }}
-              >
-                <img
-                  src={tile.cover}
-                  alt={tile.alt}
-                  loading="lazy"
-                  decoding="async"
-                  draggable="false"
-                  onContextMenu={(e) => e.preventDefault()}
-                  className="w-full h-full object-cover select-none pointer-events-none transition-transform duration-700 group-hover:scale-105"
-                />
-              </motion.div>
-            ))}
+            {tiles.map((tile) => {
+              const isActive = activeId === tile.id;
+              const labelKey = `strati.${tile.id.replace(/[0-9]+$/, '')}.label`;
+              const conceptKey = `strati.${tile.id.replace(/[0-9]+$/, '')}.concept`;
+              const label = t(labelKey);
+              const concept = t(conceptKey);
+              return (
+                <motion.button
+                  key={tile.id}
+                  type="button"
+                  className="relative overflow-hidden rounded-sm cursor-pointer group focus:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40"
+                  style={{
+                    gridColumn: `span ${tile.colSpan}`,
+                    gridRow: `span ${tile.rowSpan}`,
+                  }}
+                  onClick={() => handleTileClick(tile)}
+                  onMouseLeave={() => setActiveId((prev) => (prev === tile.id ? null : prev))}
+                  whileHover={{ scale: 1.015 }}
+                  transition={{ duration: 0.3, ease: 'easeOut' }}
+                  aria-label={label !== labelKey ? label : tile.alt}
+                  aria-expanded={isActive}
+                >
+                  <img
+                    src={tile.cover}
+                    alt={tile.alt}
+                    loading="lazy"
+                    decoding="async"
+                    draggable="false"
+                    onContextMenu={(e) => e.preventDefault()}
+                    className="w-full h-full object-cover select-none pointer-events-none transition-transform duration-700 group-hover:scale-105"
+                  />
+
+                  {/* Concept overlay */}
+                  <AnimatePresence>
+                    {isActive && (
+                      <motion.div
+                        key="overlay"
+                        className="absolute inset-0 flex items-center justify-center bg-background/85 backdrop-blur-[2px] px-3 text-center pointer-events-none"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.45, ease: 'easeOut' }}
+                      >
+                        <motion.div
+                          initial={{ opacity: 0, y: 6 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 4 }}
+                          transition={{ duration: 0.5, ease: 'easeOut', delay: 0.08 }}
+                          className="max-w-[90%]"
+                        >
+                          {label !== labelKey && (
+                            <p className="font-display text-[11px] md:text-xs uppercase tracking-[0.2em] text-foreground mb-1">
+                              {label}
+                            </p>
+                          )}
+                          {concept !== conceptKey && (
+                            <p className="font-body text-[10px] md:text-xs leading-snug text-muted-foreground hidden sm:block">
+                              {concept}
+                            </p>
+                          )}
+                        </motion.div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.button>
+              );
+            })}
           </div>
         </div>
       </div>
