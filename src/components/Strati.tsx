@@ -98,15 +98,15 @@ const tiles: MosaicTile[] = [
 
 const Strati = () => {
   const { t } = useLanguage();
-  const [expandedImage, setExpandedImage] = useState<string | null>(null);
+  const [expandedTile, setExpandedTile] = useState<MosaicTile | null>(null);
   const [activeTile, setActiveTile] = useState<string | null>(null);
 
-  const openImage = useCallback((src: string) => {
-    setExpandedImage(src);
+  const openTile = useCallback((tile: MosaicTile) => {
+    setExpandedTile(tile);
   }, []);
 
   const closeImage = useCallback(() => {
-    setExpandedImage(null);
+    setExpandedTile(null);
   }, []);
 
   return (
