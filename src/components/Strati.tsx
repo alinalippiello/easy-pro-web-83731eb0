@@ -163,21 +163,28 @@ const Strati = () => {
                         animate={{ opacity: isActive ? 1 : 0 }}
                         transition={{ duration: 0.6, ease: 'easeOut' }}
                       />
-                      {/* Concept text */}
+                      {/* Concept text — museum-caption scale */}
                       <AnimatePresence>
                         {isActive && (
                           <motion.div
                             key="concept"
-                            className="absolute inset-0 flex flex-col items-center justify-center text-center px-3 md:px-6 pointer-events-none"
+                            className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none"
+                            style={{ padding: 'clamp(0.75rem, 4%, 2rem)' }}
                             initial={{ opacity: 0, y: 4 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: 4 }}
                             transition={{ duration: 1.1, ease: [0.22, 0.61, 0.36, 1] }}
                           >
-                            <span className="font-display font-medium tracking-[0.22em] text-white text-sm md:text-lg lg:text-xl leading-tight drop-shadow-[0_1px_8px_rgba(0,0,0,0.6)]">
+                            <span
+                              className="font-display font-light tracking-[0.2em] text-white leading-tight drop-shadow-[0_1px_8px_rgba(0,0,0,0.6)]"
+                              style={{ fontSize: 'clamp(0.7rem, 1.6vw, 1.05rem)', maxWidth: '80%' }}
+                            >
                               {concept.title}
                             </span>
-                            <span className="font-body font-light text-white/90 text-[10px] md:text-xs lg:text-sm leading-snug mt-2 md:mt-3 max-w-[92%] hidden md:block drop-shadow-[0_1px_6px_rgba(0,0,0,0.6)]">
+                            <span
+                              className="font-body font-light text-white/85 leading-snug mt-2 hidden md:block drop-shadow-[0_1px_6px_rgba(0,0,0,0.6)]"
+                              style={{ fontSize: 'clamp(0.6rem, 0.9vw, 0.8rem)', maxWidth: '80%' }}
+                            >
                               {concept.phrase}
                             </span>
                           </motion.div>
