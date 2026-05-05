@@ -138,13 +138,7 @@ const Strati = () => {
                     gridColumn: `span ${tile.colSpan}`,
                     gridRow: `span ${tile.rowSpan}`,
                   }}
-                  onClick={() => {
-                    if (concept) {
-                      setActiveTile(isActive ? null : tile.id);
-                    } else {
-                      openImage(tile.cover);
-                    }
-                  }}
+                  onClick={() => openTile(tile)}
                   onMouseEnter={() => concept && setActiveTile(tile.id)}
                   onMouseLeave={() => concept && setActiveTile((prev) => (prev === tile.id ? null : prev))}
                   whileHover={{ scale: 1.015 }}
@@ -162,9 +156,9 @@ const Strati = () => {
 
                   {concept && (
                     <>
-                      {/* Dim overlay */}
+                      {/* Dim overlay — stronger for legibility */}
                       <motion.div
-                        className="absolute inset-0 bg-background/35 pointer-events-none"
+                        className="absolute inset-0 bg-black/55 pointer-events-none"
                         initial={false}
                         animate={{ opacity: isActive ? 1 : 0 }}
                         transition={{ duration: 0.6, ease: 'easeOut' }}
@@ -180,10 +174,10 @@ const Strati = () => {
                             exit={{ opacity: 0, y: 4 }}
                             transition={{ duration: 1.1, ease: [0.22, 0.61, 0.36, 1] }}
                           >
-                            <span className="font-display font-light tracking-[0.18em] text-foreground text-[11px] md:text-sm lg:text-base leading-tight">
+                            <span className="font-display font-medium tracking-[0.22em] text-white text-sm md:text-lg lg:text-xl leading-tight drop-shadow-[0_1px_8px_rgba(0,0,0,0.6)]">
                               {concept.title}
                             </span>
-                            <span className="font-body font-light text-foreground/80 text-[9px] md:text-[11px] lg:text-xs leading-snug mt-2 md:mt-3 max-w-[90%] hidden md:block">
+                            <span className="font-body font-light text-white/90 text-[10px] md:text-xs lg:text-sm leading-snug mt-2 md:mt-3 max-w-[92%] hidden md:block drop-shadow-[0_1px_6px_rgba(0,0,0,0.6)]">
                               {concept.phrase}
                             </span>
                           </motion.div>
@@ -198,36 +192,53 @@ const Strati = () => {
         </div>
       </div>
 
-      {/* Lightbox overlay */}
+      {/* Lightbox overlay — editorial archive */}
       <AnimatePresence>
-        {expandedImage && (
+        {expandedTile && (
           <motion.div
-            className="fixed inset-0 z-50 bg-background/95 flex items-center justify-center"
+            className="fixed inset-0 z-50 bg-black/95 flex flex-col items-center justify-center p-6 md:p-10"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
             onClick={closeImage}
           >
             <button
               onClick={closeImage}
-              className="absolute top-4 right-4 p-2 text-muted-foreground hover:text-foreground transition-colors z-10"
+              className="absolute top-4 right-4 p-2 text-white/70 hover:text-white transition-colors z-10"
               aria-label={t('strati.close')}
             >
               <X className="w-5 h-5" />
             </button>
             <motion.img
-              src={expandedImage}
-              alt=""
+              src={expandedTile.cover}
+              alt={expandedTile.alt}
               draggable="false"
               onContextMenu={(e) => e.preventDefault()}
-              className="max-w-[90vw] max-h-[85vh] object-contain select-none"
-              initial={{ scale: 0.9, opacity: 0 }}
+              className="max-w-[92vw] max-h-[78vh] object-contain select-none"
+              initial={{ scale: 0.96, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ duration: 0.3 }}
+              exit={{ scale: 0.96, opacity: 0 }}
+              transition={{ duration: 0.7, ease: [0.22, 0.61, 0.36, 1] }}
               onClick={(e) => e.stopPropagation()}
             />
+            {expandedTile.concept && (
+              <motion.div
+                className="mt-6 md:mt-8 text-center px-6 max-w-2xl"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 8 }}
+                transition={{ duration: 1, delay: 0.2, ease: 'easeOut' }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="font-display font-medium tracking-[0.28em] text-white text-base md:text-xl lg:text-2xl">
+                  {concepts[expandedTile.concept].title}
+                </div>
+                <div className="font-body font-light text-white/80 text-xs md:text-sm lg:text-base leading-relaxed mt-3 md:mt-4">
+                  {concepts[expandedTile.concept].phrase}
+                </div>
+              </motion.div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
