@@ -66,8 +66,10 @@ const concepts: Record<ConceptKey, Concept> = {
 
 interface MosaicTile {
   id: string;
-  cover: string;
-  alt: string;
+  /** image tile by default; 'text' = white-bg filler with concept words only */
+  kind?: 'image' | 'text';
+  cover?: string;
+  alt?: string;
   colSpan: number;
   rowSpan: number;
   /** Optional concept key. Tiles without it remain mute. */
@@ -75,29 +77,35 @@ interface MosaicTile {
 }
 
 // ─────────────────────────────────────────────────────────────
-// TILES — associate (or not) each image with a concept.
-// Leave `concept` undefined to keep an image mute.
+// TILES — mosaic composed of horizontal, vertical and text-only tiles.
+// Total cells are tuned to pack into a rectangle via grid-auto-flow:dense.
+//
+// Span conventions (always 1 grid unit = 1 row, 1 col):
+//  - Horizontal wide image  → 2 × 1
+//  - Square image           → 1 × 1
+//  - Vertical image         → 1 × 2
+//  - Text filler            → 1 × 1 or 2 × 1 (white bg, concept text)
 // ─────────────────────────────────────────────────────────────
-// Spans reflect image orientation:
-//  - Horizontal wide → colSpan 2, rowSpan 1
-//  - Horizontal standard → colSpan 1, rowSpan 1
-//  - Vertical → colSpan 1, rowSpan 2 (so the tile itself is vertical)
 const tiles: MosaicTile[] = [
-  { id: 'piega', cover: origine1, alt: 'Schema concettuale della piega — ricerca tipologica', colSpan: 2, rowSpan: 1, concept: 'piegare' },
-  { id: 'chiaroscuro', cover: origine2, alt: 'Studio chiaroscurale di volumi architettonici', colSpan: 1, rowSpan: 1 },
-  { id: 'quartiere', cover: stratiModel1, alt: 'Modello di studio quartiere residenziale', colSpan: 1, rowSpan: 1, concept: 'mat-building' },
-  { id: 'innesto', cover: origine3, alt: 'Disegno planimetrico — innesto urbano', colSpan: 2, rowSpan: 1, concept: 'innestare' },
-  { id: 'waterfront', cover: stratiRender1, alt: 'Render waterfront e fronte urbano', colSpan: 1, rowSpan: 1, concept: 'dissolvere' },
-  { id: 'materia', cover: origine4, alt: 'Modello fisico — studio della materia', colSpan: 1, rowSpan: 2 },
-  { id: 'tessuto', cover: stratiAerial1, alt: 'Vista aerea del tessuto urbano', colSpan: 2, rowSpan: 1, concept: 'mat-building' },
-  { id: 'continuita', cover: origine5, alt: 'Modello volumetrico — studio di continuità', colSpan: 1, rowSpan: 2 },
-  { id: 'porto', cover: stratiAerial2, alt: 'Vista aerea area portuale — masterplan', colSpan: 2, rowSpan: 1, concept: 'porosita' },
-  { id: 'segno', cover: stratiSketch1, alt: 'Schizzo di progetto — segno fondativo', colSpan: 1, rowSpan: 2 },
-  { id: 'nodo', cover: stratiUrban1, alt: 'Schema urbano — nodo infrastrutturale', colSpan: 2, rowSpan: 1, concept: 'porosita' },
-  { id: 'facciata', cover: stratiRender3, alt: 'Render — studio di facciata residenziale', colSpan: 2, rowSpan: 1, concept: 'innestare' },
-  { id: 'topografia', cover: stratiTopo1, alt: 'Pianta topografica del sito di progetto', colSpan: 1, rowSpan: 1, concept: 'stratificare' },
-  { id: 'topografia2', cover: stratiTopo2, alt: 'Pianta topografica — variante di progetto', colSpan: 1, rowSpan: 2, concept: 'stratificare' },
-  { id: 'orizzonte', cover: stratiRender4, alt: 'Render prospettico — orizzonte urbano', colSpan: 1, rowSpan: 2, concept: 'dissolvere' },
+  { id: 'piega',       kind: 'image', cover: origine1,      alt: 'Schema concettuale della piega — ricerca tipologica', colSpan: 2, rowSpan: 1, concept: 'piegare' },
+  { id: 'chiaroscuro', kind: 'image', cover: origine2,      alt: 'Studio chiaroscurale di volumi architettonici',       colSpan: 1, rowSpan: 1 },
+  { id: 'quartiere',   kind: 'image', cover: stratiModel1,  alt: 'Modello di studio quartiere residenziale',            colSpan: 1, rowSpan: 1, concept: 'mat-building' },
+  { id: 'materia',     kind: 'image', cover: origine4,      alt: 'Modello fisico — studio della materia',               colSpan: 1, rowSpan: 2 },
+  { id: 'innesto',     kind: 'image', cover: origine3,      alt: 'Disegno planimetrico — innesto urbano',               colSpan: 2, rowSpan: 1, concept: 'innestare' },
+  { id: 'waterfront',  kind: 'image', cover: stratiRender1, alt: 'Render waterfront e fronte urbano',                   colSpan: 1, rowSpan: 1, concept: 'dissolvere' },
+  { id: 'txt-piegare', kind: 'text',  colSpan: 1, rowSpan: 1, concept: 'piegare' },
+  { id: 'tessuto',     kind: 'image', cover: stratiAerial1, alt: 'Vista aerea del tessuto urbano',                      colSpan: 2, rowSpan: 1, concept: 'mat-building' },
+  { id: 'continuita',  kind: 'image', cover: origine5,      alt: 'Modello volumetrico — studio di continuità',          colSpan: 1, rowSpan: 2 },
+  { id: 'segno',       kind: 'image', cover: stratiSketch1, alt: 'Schizzo di progetto — segno fondativo',               colSpan: 1, rowSpan: 2 },
+  { id: 'porto',       kind: 'image', cover: stratiAerial2, alt: 'Vista aerea area portuale — masterplan',              colSpan: 2, rowSpan: 1, concept: 'porosita' },
+  { id: 'txt-dissolvere', kind: 'text', colSpan: 1, rowSpan: 1, concept: 'dissolvere' },
+  { id: 'nodo',        kind: 'image', cover: stratiUrban1,  alt: 'Schema urbano — nodo infrastrutturale',               colSpan: 2, rowSpan: 1, concept: 'porosita' },
+  { id: 'topografia',  kind: 'image', cover: stratiTopo1,   alt: 'Pianta topografica del sito di progetto',             colSpan: 1, rowSpan: 1, concept: 'stratificare' },
+  { id: 'topografia2', kind: 'image', cover: stratiTopo2,   alt: 'Pianta topografica — variante di progetto',           colSpan: 1, rowSpan: 2, concept: 'stratificare' },
+  { id: 'facciata',    kind: 'image', cover: stratiRender3, alt: 'Render — studio di facciata residenziale',            colSpan: 2, rowSpan: 1, concept: 'innestare' },
+  { id: 'orizzonte',   kind: 'image', cover: stratiRender4, alt: 'Render prospettico — orizzonte urbano',               colSpan: 1, rowSpan: 2, concept: 'dissolvere' },
+  { id: 'txt-mat',     kind: 'text',  colSpan: 1, rowSpan: 1, concept: 'mat-building' },
+  { id: 'txt-stratificare', kind: 'text', colSpan: 1, rowSpan: 1, concept: 'stratificare' },
 ];
 
 const Strati = () => {
