@@ -206,7 +206,7 @@ const Strati = () => {
           </div>
 
           {/* Bento Puzzle */}
-          <div className="grid grid-cols-3 md:grid-cols-6 auto-rows-[90px] md:auto-rows-[120px] gap-1.5 md:gap-2">
+          <div className="grid grid-cols-3 md:grid-cols-6 auto-rows-[70px] md:auto-rows-[80px] gap-1 md:gap-1.5">
             {tiles.map((tile) => {
               const spanClasses = [
                 colClass(tile.colSpan),
@@ -241,7 +241,7 @@ const Strati = () => {
               return (
                 <motion.div
                   key={tile.id}
-                  className={`${spanClasses} relative overflow-hidden rounded-sm cursor-pointer group bg-muted`}
+                  className={`${spanClasses} relative overflow-hidden rounded-sm cursor-pointer group bg-background`}
                   onClick={() => openTile(tile)}
                   onMouseEnter={() => concept && setActiveTile(tile.id)}
                   onMouseLeave={() => concept && setActiveTile((prev) => (prev === tile.id ? null : prev))}
@@ -255,7 +255,7 @@ const Strati = () => {
                     decoding="async"
                     draggable="false"
                     onContextMenu={(e) => e.preventDefault()}
-                    className="w-full h-full object-cover select-none pointer-events-none transition-transform duration-700 group-hover:scale-[1.03]"
+                    className="w-full h-full object-contain select-none pointer-events-none transition-transform duration-700 group-hover:scale-[1.02]"
                   />
 
                   {concept && (
