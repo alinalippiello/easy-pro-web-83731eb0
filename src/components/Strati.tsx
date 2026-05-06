@@ -161,7 +161,7 @@ const Strati = () => {
                     decoding="async"
                     draggable="false"
                     onContextMenu={(e) => e.preventDefault()}
-                    className="w-full h-full object-cover select-none pointer-events-none transition-transform duration-700 group-hover:scale-105"
+                    className="w-full h-full object-contain bg-background select-none pointer-events-none transition-transform duration-700 group-hover:scale-105"
                   />
 
                   {concept && (
