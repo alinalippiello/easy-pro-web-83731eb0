@@ -137,51 +137,71 @@ const Strati = () => {
             <p>{t('strati.text')}</p>
           </div>
 
-          {/* Mosaic Grid */}
-          <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-6 auto-rows-[80px] md:auto-rows-[100px] gap-1 md:gap-1.5">
+          {/* Mosaic Grid — dense packing for a perfect rectangle on every breakpoint */}
+          <div
+            className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-6 auto-rows-[80px] md:auto-rows-[100px] gap-1 md:gap-1.5"
+            style={{ gridAutoFlow: 'dense' }}
+          >
             {tiles.map((tile) => {
               const concept = tile.concept ? concepts[tile.concept] : undefined;
               const isActive = activeTile === tile.id;
+              const isText = tile.kind === 'text';
               return (
                 <motion.div
                   key={tile.id}
-                  className="relative overflow-hidden rounded-sm cursor-pointer group"
+                  className={`relative overflow-hidden rounded-sm group ${
+                    isText ? 'bg-background cursor-default' : 'cursor-pointer'
+                  }`}
                   style={{
                     gridColumn: `span ${tile.colSpan}`,
                     gridRow: `span ${tile.rowSpan}`,
                   }}
                   onClick={() => {
+                    if (isText) return;
                     if (concept) {
                       setActiveTile(isActive ? null : tile.id);
-                    } else {
+                    } else if (tile.cover) {
                       openImage(tile.cover);
                     }
                   }}
-                  onMouseEnter={() => concept && setActiveTile(tile.id)}
-                  onMouseLeave={() => concept && setActiveTile((prev) => (prev === tile.id ? null : prev))}
-                  whileHover={{ scale: 1.015 }}
+                  onMouseEnter={() => !isText && concept && setActiveTile(tile.id)}
+                  onMouseLeave={() => !isText && concept && setActiveTile((prev) => (prev === tile.id ? null : prev))}
+                  whileHover={isText ? undefined : { scale: 1.015 }}
                   transition={{ duration: 0.3, ease: 'easeOut' }}
                 >
-                  <img
-                    src={tile.cover}
-                    alt={tile.alt}
-                    loading="lazy"
-                    decoding="async"
-                    draggable="false"
-                    onContextMenu={(e) => e.preventDefault()}
-                    className="w-full h-full object-contain bg-background select-none pointer-events-none transition-transform duration-700 group-hover:scale-105"
-                  />
+                  {!isText && tile.cover && (
+                    <img
+                      src={tile.cover}
+                      alt={tile.alt ?? ''}
+                      loading="lazy"
+                      decoding="async"
+                      draggable="false"
+                      onContextMenu={(e) => e.preventDefault()}
+                      className="w-full h-full object-contain bg-background select-none pointer-events-none transition-transform duration-700 group-hover:scale-105"
+                    />
+                  )}
 
-                  {concept && (
+                  {/* Text-only filler tile */}
+                  {isText && concept && (
+                    <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-3 md:px-5">
+                      <span className="font-display font-light tracking-[0.18em] text-foreground text-[11px] md:text-sm lg:text-base leading-tight">
+                        {concept.title}
+                      </span>
+                      <span className="font-body font-light text-foreground/70 text-[9px] md:text-[11px] lg:text-xs leading-snug mt-2 md:mt-3 max-w-[92%] hidden md:block">
+                        {concept.phrase}
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Image + concept overlay */}
+                  {!isText && concept && (
                     <>
-                      {/* Dim overlay */}
                       <motion.div
                         className="absolute inset-0 bg-background/35 pointer-events-none"
                         initial={false}
                         animate={{ opacity: isActive ? 1 : 0 }}
                         transition={{ duration: 0.6, ease: 'easeOut' }}
                       />
-                      {/* Concept text */}
                       <AnimatePresence>
                         {isActive && (
                           <motion.div
@@ -207,8 +227,6 @@ const Strati = () => {
               );
             })}
           </div>
-        </div>
-      </div>
 
       {/* Lightbox overlay */}
       <AnimatePresence>
