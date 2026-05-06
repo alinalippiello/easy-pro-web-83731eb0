@@ -227,8 +227,11 @@ const Strati = () => {
               );
             })}
           </div>
+        </div>
+      </div>
 
       {/* Lightbox overlay */}
+
       <AnimatePresence>
         {expandedImage && (
           <motion.div
