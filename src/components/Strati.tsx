@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { useLanguage } from '@/hooks/useLanguage';
@@ -21,8 +21,6 @@ import stratiRender4 from "@/assets/portfolio/strati-render-4.png";
 
 // ─────────────────────────────────────────────────────────────
 // CONCEPT REGISTRY — easily editable archive
-// Add / rename / remove concepts here. Each concept has a key
-// (used to associate images) plus a title and a short phrase.
 // ─────────────────────────────────────────────────────────────
 type ConceptKey =
   | 'innestare'
@@ -38,88 +36,206 @@ interface Concept {
 }
 
 const concepts: Record<ConceptKey, Concept> = {
-  innestare: {
-    title: 'INNESTARE',
-    phrase: 'Abitare una condizione esistente senza cancellarne la memoria.',
-  },
-  piegare: {
-    title: 'PIEGARE',
-    phrase: 'Trasformare il paesaggio in spazio attraversabile.',
-  },
-  dissolvere: {
-    title: 'DISSOLVERE',
-    phrase: 'Superare il limite tra figura, infrastruttura e paesaggio.',
-  },
-  porosita: {
-    title: 'POROSITÀ',
-    phrase: 'Aprire il costruito a flussi ecologici, sociali e visivi.',
-  },
-  stratificare: {
-    title: 'STRATIFICARE',
-    phrase: 'Far emergere il tempo attraverso materia e territorio.',
-  },
-  'mat-building': {
-    title: 'MAT-BUILDING',
-    phrase: 'Costruire continuità attraverso densità, ripetizione e relazione.',
-  },
+  innestare:     { title: 'INNESTARE',     phrase: 'Abitare una condizione esistente senza cancellarne la memoria.' },
+  piegare:       { title: 'PIEGARE',       phrase: 'Trasformare il paesaggio in spazio attraversabile.' },
+  dissolvere:    { title: 'DISSOLVERE',    phrase: 'Superare il limite tra figura, infrastruttura e paesaggio.' },
+  porosita:      { title: 'POROSITÀ',      phrase: 'Aprire il costruito a flussi ecologici, sociali e visivi.' },
+  stratificare:  { title: 'STRATIFICARE',  phrase: 'Far emergere il tempo attraverso materia e territorio.' },
+  'mat-building':{ title: 'MAT-BUILDING',  phrase: 'Costruire continuità attraverso densità, ripetizione e relazione.' },
 };
 
-interface MosaicTile {
+// ─────────────────────────────────────────────────────────────
+// SOURCE TILES — declare only image + concept; spans are computed.
+// ─────────────────────────────────────────────────────────────
+interface SourceTile {
   id: string;
-  /** image tile by default; 'text' = white-bg filler with concept words only */
-  kind?: 'image' | 'text';
+  cover: string;
+  alt: string;
+  concept?: ConceptKey;
+}
+
+const sourceTiles: SourceTile[] = [
+  { id: 'piega',       cover: origine1,      alt: 'Schema concettuale della piega — ricerca tipologica', concept: 'piegare' },
+  { id: 'chiaroscuro', cover: origine2,      alt: 'Studio chiaroscurale di volumi architettonici' },
+  { id: 'quartiere',   cover: stratiModel1,  alt: 'Modello di studio quartiere residenziale',            concept: 'mat-building' },
+  { id: 'materia',     cover: origine4,      alt: 'Modello fisico — studio della materia' },
+  { id: 'innesto',     cover: origine3,      alt: 'Disegno planimetrico — innesto urbano',               concept: 'innestare' },
+  { id: 'waterfront',  cover: stratiRender1, alt: 'Render waterfront e fronte urbano',                   concept: 'dissolvere' },
+  { id: 'tessuto',     cover: stratiAerial1, alt: 'Vista aerea del tessuto urbano',                      concept: 'mat-building' },
+  { id: 'continuita',  cover: origine5,      alt: 'Modello volumetrico — studio di continuità' },
+  { id: 'segno',       cover: stratiSketch1, alt: 'Schizzo di progetto — segno fondativo' },
+  { id: 'porto',       cover: stratiAerial2, alt: 'Vista aerea area portuale — masterplan',              concept: 'porosita' },
+  { id: 'nodo',        cover: stratiUrban1,  alt: 'Schema urbano — nodo infrastrutturale',               concept: 'porosita' },
+  { id: 'topografia',  cover: stratiTopo1,   alt: 'Pianta topografica del sito di progetto',             concept: 'stratificare' },
+  { id: 'topografia2', cover: stratiTopo2,   alt: 'Pianta topografica — variante di progetto',           concept: 'stratificare' },
+  { id: 'facciata',    cover: stratiRender3, alt: 'Render — studio di facciata residenziale',            concept: 'innestare' },
+  { id: 'orizzonte',   cover: stratiRender4, alt: 'Render prospettico — orizzonte urbano',               concept: 'dissolvere' },
+];
+
+type Orientation = 'portrait' | 'landscape' | 'square';
+
+interface LayoutTile {
+  id: string;
+  kind: 'image' | 'text';
   cover?: string;
   alt?: string;
   colSpan: number;
   rowSpan: number;
-  /** Optional concept key. Tiles without it remain mute. */
   concept?: ConceptKey;
 }
 
-// ─────────────────────────────────────────────────────────────
-// TILES — mosaic composed of horizontal, vertical and text-only tiles.
-// Total cells are tuned to pack into a rectangle via grid-auto-flow:dense.
-//
-// Span conventions (always 1 grid unit = 1 row, 1 col):
-//  - Horizontal wide image  → 2 × 1
-//  - Square image           → 1 × 1
-//  - Vertical image         → 1 × 2
-//  - Text filler            → 1 × 1 or 2 × 1 (white bg, concept text)
-// ─────────────────────────────────────────────────────────────
-const tiles: MosaicTile[] = [
-  { id: 'piega',       kind: 'image', cover: origine1,      alt: 'Schema concettuale della piega — ricerca tipologica', colSpan: 2, rowSpan: 1, concept: 'piegare' },
-  { id: 'chiaroscuro', kind: 'image', cover: origine2,      alt: 'Studio chiaroscurale di volumi architettonici',       colSpan: 1, rowSpan: 1 },
-  { id: 'quartiere',   kind: 'image', cover: stratiModel1,  alt: 'Modello di studio quartiere residenziale',            colSpan: 1, rowSpan: 1, concept: 'mat-building' },
-  { id: 'materia',     kind: 'image', cover: origine4,      alt: 'Modello fisico — studio della materia',               colSpan: 1, rowSpan: 2 },
-  { id: 'innesto',     kind: 'image', cover: origine3,      alt: 'Disegno planimetrico — innesto urbano',               colSpan: 2, rowSpan: 1, concept: 'innestare' },
-  { id: 'waterfront',  kind: 'image', cover: stratiRender1, alt: 'Render waterfront e fronte urbano',                   colSpan: 1, rowSpan: 1, concept: 'dissolvere' },
-  { id: 'txt-piegare', kind: 'text',  colSpan: 1, rowSpan: 1, concept: 'piegare' },
-  { id: 'tessuto',     kind: 'image', cover: stratiAerial1, alt: 'Vista aerea del tessuto urbano',                      colSpan: 2, rowSpan: 1, concept: 'mat-building' },
-  { id: 'continuita',  kind: 'image', cover: origine5,      alt: 'Modello volumetrico — studio di continuità',          colSpan: 1, rowSpan: 2 },
-  { id: 'segno',       kind: 'image', cover: stratiSketch1, alt: 'Schizzo di progetto — segno fondativo',               colSpan: 1, rowSpan: 2 },
-  { id: 'porto',       kind: 'image', cover: stratiAerial2, alt: 'Vista aerea area portuale — masterplan',              colSpan: 2, rowSpan: 1, concept: 'porosita' },
-  { id: 'txt-dissolvere', kind: 'text', colSpan: 1, rowSpan: 1, concept: 'dissolvere' },
-  { id: 'nodo',        kind: 'image', cover: stratiUrban1,  alt: 'Schema urbano — nodo infrastrutturale',               colSpan: 2, rowSpan: 1, concept: 'porosita' },
-  { id: 'topografia',  kind: 'image', cover: stratiTopo1,   alt: 'Pianta topografica del sito di progetto',             colSpan: 1, rowSpan: 1, concept: 'stratificare' },
-  { id: 'topografia2', kind: 'image', cover: stratiTopo2,   alt: 'Pianta topografica — variante di progetto',           colSpan: 1, rowSpan: 2, concept: 'stratificare' },
-  { id: 'facciata',    kind: 'image', cover: stratiRender3, alt: 'Render — studio di facciata residenziale',            colSpan: 2, rowSpan: 1, concept: 'innestare' },
-  { id: 'orizzonte',   kind: 'image', cover: stratiRender4, alt: 'Render prospettico — orizzonte urbano',               colSpan: 1, rowSpan: 2, concept: 'dissolvere' },
-  { id: 'txt-mat',     kind: 'text',  colSpan: 1, rowSpan: 1, concept: 'mat-building' },
-  { id: 'txt-stratificare', kind: 'text', colSpan: 1, rowSpan: 1, concept: 'stratificare' },
-];
+// Span rules per orientation per breakpoint (cols)
+// Keep spans <= cols and conservative on small screens.
+function spansFor(orientation: Orientation, cols: number): { c: number; r: number } {
+  if (cols <= 3) {
+    // mobile: keep things compact
+    if (orientation === 'portrait')  return { c: 1, r: 2 };
+    if (orientation === 'landscape') return { c: 2, r: 1 };
+    return { c: 1, r: 1 };
+  }
+  if (orientation === 'portrait')  return { c: 1, r: 2 };
+  if (orientation === 'landscape') return { c: 2, r: 1 };
+  return { c: 1, r: 1 };
+}
+
+function classify(w: number, h: number): Orientation {
+  const ratio = w / h;
+  if (ratio > 1.15) return 'landscape';
+  if (ratio < 0.87) return 'portrait';
+  return 'square';
+}
+
+// Greedy 2D packing onto a `cols`-wide grid with dense flow,
+// returns total rows used.
+function packAndFill(
+  tiles: LayoutTile[],
+  cols: number,
+): { tiles: LayoutTile[]; rows: number } {
+  // We simulate the grid to know which cells stay empty,
+  // then add 1×1 text fillers (cycling through concepts) so the
+  // final composition is always a perfect rectangle.
+  const grid: boolean[][] = []; // grid[row][col] = occupied
+  const ensureRow = (r: number) => {
+    while (grid.length <= r) grid.push(new Array(cols).fill(false));
+  };
+  const fits = (r: number, c: number, cs: number, rs: number) => {
+    if (c + cs > cols) return false;
+    for (let i = 0; i < rs; i++) {
+      ensureRow(r + i);
+      for (let j = 0; j < cs; j++) {
+        if (grid[r + i][c + j]) return false;
+      }
+    }
+    return true;
+  };
+  const place = (r: number, c: number, cs: number, rs: number) => {
+    for (let i = 0; i < rs; i++) {
+      ensureRow(r + i);
+      for (let j = 0; j < cs; j++) grid[r + i][c + j] = true;
+    }
+  };
+  const findSlot = (cs: number, rs: number): [number, number] => {
+    for (let r = 0; ; r++) {
+      ensureRow(r);
+      for (let c = 0; c <= cols - cs; c++) {
+        if (fits(r, c, cs, rs)) return [r, c];
+      }
+    }
+  };
+
+  for (const t of tiles) {
+    const [r, c] = findSlot(t.colSpan, t.rowSpan);
+    place(r, c, t.colSpan, t.rowSpan);
+  }
+
+  // Fill any empty cells with 1×1 text tiles to complete the rectangle.
+  const conceptKeys = Object.keys(concepts) as ConceptKey[];
+  let fillerIdx = 0;
+  const fillers: LayoutTile[] = [];
+  for (let r = 0; r < grid.length; r++) {
+    for (let c = 0; c < cols; c++) {
+      if (!grid[r][c]) {
+        const concept = conceptKeys[fillerIdx % conceptKeys.length];
+        fillerIdx++;
+        fillers.push({
+          id: `filler-${r}-${c}`,
+          kind: 'text',
+          colSpan: 1,
+          rowSpan: 1,
+          concept,
+        });
+        grid[r][c] = true;
+      }
+    }
+  }
+
+  return { tiles: [...tiles, ...fillers], rows: grid.length };
+}
+
+// Tailwind breakpoints used: <768 = 3 cols, <1024 = 5 cols, ≥1024 = 6 cols
+function colsForWidth(w: number): number {
+  if (w >= 1024) return 6;
+  if (w >= 768) return 5;
+  return 3;
+}
 
 const Strati = () => {
   const { t } = useLanguage();
   const [expandedImage, setExpandedImage] = useState<string | null>(null);
   const [activeTile, setActiveTile] = useState<string | null>(null);
 
-  const openImage = useCallback((src: string) => {
-    setExpandedImage(src);
+  // ── Measure natural orientation of every image once ──
+  const [orientations, setOrientations] = useState<Record<string, Orientation>>({});
+  useEffect(() => {
+    let cancelled = false;
+    sourceTiles.forEach((t) => {
+      const img = new Image();
+      img.onload = () => {
+        if (cancelled) return;
+        setOrientations((prev) =>
+          prev[t.id] ? prev : { ...prev, [t.id]: classify(img.naturalWidth, img.naturalHeight) },
+        );
+      };
+      img.src = t.cover;
+    });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  const closeImage = useCallback(() => {
-    setExpandedImage(null);
+  // ── Track current breakpoint (cols) ──
+  const [cols, setCols] = useState<number>(() =>
+    typeof window === 'undefined' ? 6 : colsForWidth(window.innerWidth),
+  );
+  useEffect(() => {
+    const onResize = () => setCols(colsForWidth(window.innerWidth));
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
   }, []);
+
+  // ── Compute layout: assign spans, pack, fill to a rectangle ──
+  const layout = useMemo(() => {
+    const imageTiles: LayoutTile[] = sourceTiles.map((t) => {
+      const o = orientations[t.id] ?? 'square';
+      const { c, r } = spansFor(o, cols);
+      return {
+        id: t.id,
+        kind: 'image',
+        cover: t.cover,
+        alt: t.alt,
+        concept: t.concept,
+        colSpan: c,
+        rowSpan: r,
+      };
+    });
+    return packAndFill(imageTiles, cols);
+  }, [orientations, cols]);
+
+  const openImage = useCallback((src: string) => setExpandedImage(src), []);
+  const closeImage = useCallback(() => setExpandedImage(null), []);
+
+  const gridColsClass =
+    cols === 6 ? 'grid-cols-6' : cols === 5 ? 'grid-cols-5' : 'grid-cols-3';
 
   return (
     <section id="strati" className="py-20 md:py-28">
@@ -137,12 +253,12 @@ const Strati = () => {
             <p>{t('strati.text')}</p>
           </div>
 
-          {/* Mosaic Grid — dense packing for a perfect rectangle on every breakpoint */}
+          {/* Mosaic Grid — auto-computed spans + filler text tiles → perfect rectangle */}
           <div
-            className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-6 auto-rows-[80px] md:auto-rows-[100px] gap-1 md:gap-1.5"
+            className={`grid ${gridColsClass} auto-rows-[80px] md:auto-rows-[100px] gap-1 md:gap-1.5`}
             style={{ gridAutoFlow: 'dense' }}
           >
-            {tiles.map((tile) => {
+            {layout.tiles.map((tile) => {
               const concept = tile.concept ? concepts[tile.concept] : undefined;
               const isActive = activeTile === tile.id;
               const isText = tile.kind === 'text';
@@ -181,7 +297,6 @@ const Strati = () => {
                     />
                   )}
 
-                  {/* Text-only filler tile */}
                   {isText && concept && (
                     <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-3 md:px-5">
                       <span className="font-display font-light tracking-[0.18em] text-foreground text-[11px] md:text-sm lg:text-base leading-tight">
@@ -193,7 +308,6 @@ const Strati = () => {
                     </div>
                   )}
 
-                  {/* Image + concept overlay */}
                   {!isText && concept && (
                     <>
                       <motion.div
@@ -231,7 +345,6 @@ const Strati = () => {
       </div>
 
       {/* Lightbox overlay */}
-
       <AnimatePresence>
         {expandedImage && (
           <motion.div
