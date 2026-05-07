@@ -255,7 +255,7 @@ const Strati = () => {
 
           {/* Mosaic Grid — auto-computed spans + filler text tiles → perfect rectangle */}
           <div
-            className={`grid ${gridColsClass} auto-rows-[80px] md:auto-rows-[100px] gap-1 md:gap-1.5`}
+            className={`grid ${gridColsClass} auto-rows-[90px] md:auto-rows-[110px] lg:auto-rows-[120px] gap-[2px] md:gap-[3px]`}
             style={{ gridAutoFlow: 'dense' }}
           >
             {layout.tiles.map((tile) => {
@@ -293,7 +293,7 @@ const Strati = () => {
                       decoding="async"
                       draggable="false"
                       onContextMenu={(e) => e.preventDefault()}
-                      className="w-full h-full object-contain bg-background select-none pointer-events-none transition-transform duration-700 group-hover:scale-105"
+                      className="w-full h-full object-cover select-none pointer-events-none transition-transform duration-700 group-hover:scale-105"
                     />
                   )}
 
