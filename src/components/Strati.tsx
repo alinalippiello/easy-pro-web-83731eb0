@@ -366,9 +366,9 @@ const Strati = () => {
 
       {/* Lightbox overlay */}
       <AnimatePresence>
-        {expandedImage && (
+        {expandedTile && (
           <motion.div
-            className="fixed inset-0 z-50 bg-background/95 flex items-center justify-center"
+            className="fixed inset-0 z-50 bg-background/95 flex flex-col items-center justify-center p-6"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -383,17 +383,41 @@ const Strati = () => {
               <X className="w-5 h-5" />
             </button>
             <motion.img
-              src={expandedImage}
-              alt=""
+              src={expandedTile.src}
+              alt={expandedTile.alt}
               draggable="false"
               onContextMenu={(e) => e.preventDefault()}
-              className="max-w-[90vw] max-h-[85vh] object-contain select-none"
+              className="max-w-[90vw] max-h-[78vh] object-contain select-none"
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.35, ease: 'easeOut' }}
               onClick={(e) => e.stopPropagation()}
             />
+            <motion.div
+              className="mt-6 max-w-xl text-center px-4"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 4 }}
+              transition={{ duration: 0.9, ease: [0.22, 0.61, 0.36, 1], delay: 0.2 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {expandedTile.concept && (
+                <div className="font-display tracking-[0.18em] text-foreground text-sm md:text-base mb-2">
+                  {concepts[expandedTile.concept].title}
+                </div>
+              )}
+              {expandedTile.concept && (
+                <div className="font-body font-light text-foreground/80 text-xs md:text-sm leading-relaxed mb-2">
+                  {concepts[expandedTile.concept].phrase}
+                </div>
+              )}
+              {expandedTile.alt && (
+                <div className="font-body font-light text-muted-foreground text-[11px] md:text-xs leading-snug">
+                  {expandedTile.alt}
+                </div>
+              )}
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
