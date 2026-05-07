@@ -190,7 +190,7 @@ function colsForWidth(w: number): number {
 
 const Strati = () => {
   const { t } = useLanguage();
-  const [expandedImage, setExpandedImage] = useState<string | null>(null);
+  const [expandedTile, setExpandedTile] = useState<{ src: string; alt: string; concept?: ConceptKey } | null>(null);
   const [activeTile, setActiveTile] = useState<string | null>(null);
 
   // ── Measure natural orientation of every image once ──
@@ -222,12 +222,13 @@ const Strati = () => {
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
-  // ── Compute layout: assign spans, pack, fill to a rectangle ──
+  // ── Compute layout: assign spans, insert explicit text tiles, pack & fill ──
   const layout = useMemo(() => {
-    const imageTiles: LayoutTile[] = sourceTiles.map((t) => {
+    const tiles: LayoutTile[] = [];
+    sourceTiles.forEach((t, i) => {
       const o = orientations[t.id] ?? 'square';
       const { c, r } = spansFor(o, cols);
-      return {
+      tiles.push({
         id: t.id,
         kind: 'image',
         cover: t.cover,
@@ -235,13 +236,27 @@ const Strati = () => {
         concept: t.concept,
         colSpan: c,
         rowSpan: r,
-      };
+      });
+      const txt = explicitTextTiles.find((x) => x.afterIndex === i);
+      if (txt) {
+        tiles.push({
+          id: `text-${txt.concept}`,
+          kind: 'text',
+          colSpan: 1,
+          rowSpan: 1,
+          concept: txt.concept,
+        });
+      }
     });
-    return packAndFill(imageTiles, cols);
+    return packAndFill(tiles, cols);
   }, [orientations, cols]);
 
-  const openImage = useCallback((src: string) => setExpandedImage(src), []);
-  const closeImage = useCallback(() => setExpandedImage(null), []);
+  const openImage = useCallback(
+    (tile: LayoutTile) =>
+      setExpandedTile({ src: tile.cover!, alt: tile.alt ?? '', concept: tile.concept }),
+    [],
+  );
+  const closeImage = useCallback(() => setExpandedTile(null), []);
 
   const gridColsClass =
     cols === 6 ? 'grid-cols-6' : cols === 5 ? 'grid-cols-5' : 'grid-cols-3';
