@@ -54,22 +54,31 @@ interface SourceTile {
   concept?: ConceptKey;
 }
 
+// Order is intentional: alternate orientations and keep tiles that share
+// a concept far apart, so the mosaic feels varied and never repetitive.
 const sourceTiles: SourceTile[] = [
   { id: 'piega',       cover: origine1,      alt: 'Schema concettuale della piega — ricerca tipologica', concept: 'piegare' },
-  { id: 'chiaroscuro', cover: origine2,      alt: 'Studio chiaroscurale di volumi architettonici' },
-  { id: 'quartiere',   cover: stratiModel1,  alt: 'Modello di studio quartiere residenziale',            concept: 'mat-building' },
+  { id: 'tessuto',     cover: stratiAerial1, alt: 'Vista aerea del tessuto urbano',                      concept: 'mat-building' },
   { id: 'materia',     cover: origine4,      alt: 'Modello fisico — studio della materia' },
   { id: 'innesto',     cover: origine3,      alt: 'Disegno planimetrico — innesto urbano',               concept: 'innestare' },
-  { id: 'waterfront',  cover: stratiRender1, alt: 'Render waterfront e fronte urbano',                   concept: 'dissolvere' },
-  { id: 'tessuto',     cover: stratiAerial1, alt: 'Vista aerea del tessuto urbano',                      concept: 'mat-building' },
-  { id: 'continuita',  cover: origine5,      alt: 'Modello volumetrico — studio di continuità' },
-  { id: 'segno',       cover: stratiSketch1, alt: 'Schizzo di progetto — segno fondativo' },
-  { id: 'porto',       cover: stratiAerial2, alt: 'Vista aerea area portuale — masterplan',              concept: 'porosita' },
-  { id: 'nodo',        cover: stratiUrban1,  alt: 'Schema urbano — nodo infrastrutturale',               concept: 'porosita' },
   { id: 'topografia',  cover: stratiTopo1,   alt: 'Pianta topografica del sito di progetto',             concept: 'stratificare' },
-  { id: 'topografia2', cover: stratiTopo2,   alt: 'Pianta topografica — variante di progetto',           concept: 'stratificare' },
+  { id: 'chiaroscuro', cover: origine2,      alt: 'Studio chiaroscurale di volumi architettonici' },
+  { id: 'porto',       cover: stratiAerial2, alt: 'Vista aerea area portuale — masterplan',              concept: 'porosita' },
+  { id: 'segno',       cover: stratiSketch1, alt: 'Schizzo di progetto — segno fondativo' },
+  { id: 'waterfront',  cover: stratiRender1, alt: 'Render waterfront e fronte urbano',                   concept: 'dissolvere' },
+  { id: 'quartiere',   cover: stratiModel1,  alt: 'Modello di studio quartiere residenziale',            concept: 'mat-building' },
+  { id: 'continuita',  cover: origine5,      alt: 'Modello volumetrico — studio di continuità' },
   { id: 'facciata',    cover: stratiRender3, alt: 'Render — studio di facciata residenziale',            concept: 'innestare' },
+  { id: 'topografia2', cover: stratiTopo2,   alt: 'Pianta topografica — variante di progetto',           concept: 'stratificare' },
+  { id: 'nodo',        cover: stratiUrban1,  alt: 'Schema urbano — nodo infrastrutturale',               concept: 'porosita' },
   { id: 'orizzonte',   cover: stratiRender4, alt: 'Render prospettico — orizzonte urbano',               concept: 'dissolvere' },
+];
+
+// Explicit text tiles inserted into the packing flow at distant positions.
+// They are guaranteed to appear (not just as fillers) and stay far apart.
+const explicitTextTiles: { afterIndex: number; concept: ConceptKey }[] = [
+  { afterIndex: 4,  concept: 'stratificare' },
+  { afterIndex: 11, concept: 'mat-building' },
 ];
 
 type Orientation = 'portrait' | 'landscape' | 'square';
@@ -181,7 +190,7 @@ function colsForWidth(w: number): number {
 
 const Strati = () => {
   const { t } = useLanguage();
-  const [expandedImage, setExpandedImage] = useState<string | null>(null);
+  const [expandedTile, setExpandedTile] = useState<{ src: string; alt: string; concept?: ConceptKey } | null>(null);
   const [activeTile, setActiveTile] = useState<string | null>(null);
 
   // ── Measure natural orientation of every image once ──
@@ -213,12 +222,13 @@ const Strati = () => {
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
-  // ── Compute layout: assign spans, pack, fill to a rectangle ──
+  // ── Compute layout: assign spans, insert explicit text tiles, pack & fill ──
   const layout = useMemo(() => {
-    const imageTiles: LayoutTile[] = sourceTiles.map((t) => {
+    const tiles: LayoutTile[] = [];
+    sourceTiles.forEach((t, i) => {
       const o = orientations[t.id] ?? 'square';
       const { c, r } = spansFor(o, cols);
-      return {
+      tiles.push({
         id: t.id,
         kind: 'image',
         cover: t.cover,
@@ -226,13 +236,27 @@ const Strati = () => {
         concept: t.concept,
         colSpan: c,
         rowSpan: r,
-      };
+      });
+      const txt = explicitTextTiles.find((x) => x.afterIndex === i);
+      if (txt) {
+        tiles.push({
+          id: `text-${txt.concept}`,
+          kind: 'text',
+          colSpan: 1,
+          rowSpan: 1,
+          concept: txt.concept,
+        });
+      }
     });
-    return packAndFill(imageTiles, cols);
+    return packAndFill(tiles, cols);
   }, [orientations, cols]);
 
-  const openImage = useCallback((src: string) => setExpandedImage(src), []);
-  const closeImage = useCallback(() => setExpandedImage(null), []);
+  const openImage = useCallback(
+    (tile: LayoutTile) =>
+      setExpandedTile({ src: tile.cover!, alt: tile.alt ?? '', concept: tile.concept }),
+    [],
+  );
+  const closeImage = useCallback(() => setExpandedTile(null), []);
 
   const gridColsClass =
     cols === 6 ? 'grid-cols-6' : cols === 5 ? 'grid-cols-5' : 'grid-cols-3';
@@ -274,11 +298,7 @@ const Strati = () => {
                   }}
                   onClick={() => {
                     if (isText) return;
-                    if (concept) {
-                      setActiveTile(isActive ? null : tile.id);
-                    } else if (tile.cover) {
-                      openImage(tile.cover);
-                    }
+                    if (tile.cover) openImage(tile);
                   }}
                   onMouseEnter={() => !isText && concept && setActiveTile(tile.id)}
                   onMouseLeave={() => !isText && concept && setActiveTile((prev) => (prev === tile.id ? null : prev))}
@@ -346,9 +366,9 @@ const Strati = () => {
 
       {/* Lightbox overlay */}
       <AnimatePresence>
-        {expandedImage && (
+        {expandedTile && (
           <motion.div
-            className="fixed inset-0 z-50 bg-background/95 flex items-center justify-center"
+            className="fixed inset-0 z-50 bg-background/95 flex flex-col items-center justify-center p-6"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -363,17 +383,41 @@ const Strati = () => {
               <X className="w-5 h-5" />
             </button>
             <motion.img
-              src={expandedImage}
-              alt=""
+              src={expandedTile.src}
+              alt={expandedTile.alt}
               draggable="false"
               onContextMenu={(e) => e.preventDefault()}
-              className="max-w-[90vw] max-h-[85vh] object-contain select-none"
+              className="max-w-[90vw] max-h-[78vh] object-contain select-none"
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.35, ease: 'easeOut' }}
               onClick={(e) => e.stopPropagation()}
             />
+            <motion.div
+              className="mt-6 max-w-xl text-center px-4"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 4 }}
+              transition={{ duration: 0.9, ease: [0.22, 0.61, 0.36, 1], delay: 0.2 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {expandedTile.concept && (
+                <div className="font-display tracking-[0.18em] text-foreground text-sm md:text-base mb-2">
+                  {concepts[expandedTile.concept].title}
+                </div>
+              )}
+              {expandedTile.concept && (
+                <div className="font-body font-light text-foreground/80 text-xs md:text-sm leading-relaxed mb-2">
+                  {concepts[expandedTile.concept].phrase}
+                </div>
+              )}
+              {expandedTile.alt && (
+                <div className="font-body font-light text-muted-foreground text-[11px] md:text-xs leading-snug">
+                  {expandedTile.alt}
+                </div>
+              )}
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
