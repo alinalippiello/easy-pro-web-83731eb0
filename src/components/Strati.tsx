@@ -298,11 +298,7 @@ const Strati = () => {
                   }}
                   onClick={() => {
                     if (isText) return;
-                    if (concept) {
-                      setActiveTile(isActive ? null : tile.id);
-                    } else if (tile.cover) {
-                      openImage(tile.cover);
-                    }
+                    if (tile.cover) openImage(tile);
                   }}
                   onMouseEnter={() => !isText && concept && setActiveTile(tile.id)}
                   onMouseLeave={() => !isText && concept && setActiveTile((prev) => (prev === tile.id ? null : prev))}
