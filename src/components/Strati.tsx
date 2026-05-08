@@ -484,6 +484,11 @@ const Strati = () => {
                   {concepts[expandedTile.concept].phrase}
                 </div>
               )}
+              {expandedTile.description && (
+                <div className="font-body font-light text-foreground/80 text-xs md:text-sm leading-relaxed whitespace-pre-line mb-2">
+                  {expandedTile.description}
+                </div>
+              )}
               {expandedTile.alt && (
                 <div className="font-body font-light text-muted-foreground text-[11px] md:text-xs leading-snug">
                   {expandedTile.alt}
