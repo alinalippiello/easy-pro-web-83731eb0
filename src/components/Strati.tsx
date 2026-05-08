@@ -540,16 +540,37 @@ const Strati = () => {
                   {concepts[expandedTile.concept].phrase}
                 </div>
               )}
-              {expandedTile.description && (
-                <div className="font-body font-light text-foreground/80 text-xs md:text-sm leading-relaxed whitespace-pre-line mb-2">
-                  {expandedTile.description}
-                </div>
-              )}
               {expandedTile.alt && (
-                <div className="font-body font-light text-muted-foreground text-[11px] md:text-xs leading-snug">
+                <div className="font-body font-light text-muted-foreground text-[11px] md:text-xs leading-snug mb-4">
                   {expandedTile.alt}
                 </div>
               )}
+
+              {/* Editable description field */}
+              <div className="mt-4 text-left" onClick={(e) => e.stopPropagation()}>
+                <label className="block font-body text-[10px] md:text-xs uppercase tracking-[0.2em] text-muted-foreground mb-2">
+                  Descrizione
+                </label>
+                <textarea
+                  value={draftDescription}
+                  onChange={(e) => setDraftDescription(e.target.value)}
+                  placeholder="Aggiungi o modifica la descrizione di questa immagine…"
+                  rows={4}
+                  className="w-full resize-y rounded-sm border border-border bg-background/60 p-3 font-body text-xs md:text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-foreground/40 transition"
+                />
+                <div className="mt-2 flex items-center justify-end gap-3">
+                  {savedFlash && (
+                    <span className="font-body text-[11px] text-muted-foreground">Salvato</span>
+                  )}
+                  <button
+                    type="button"
+                    onClick={handleSaveDescription}
+                    className="px-4 py-1.5 rounded-sm border border-foreground/70 bg-foreground text-background font-body text-[11px] md:text-xs uppercase tracking-[0.18em] hover:bg-foreground/90 transition"
+                  >
+                    Salva
+                  </button>
+                </div>
+              </div>
             </motion.div>
           </motion.div>
         )}
