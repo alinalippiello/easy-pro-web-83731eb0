@@ -78,7 +78,25 @@ const sourceTiles: SourceTile[] = [
 
 // Maximum number of text tiles in the mosaic (concepts shown as words).
 // Includes both explicit and filler tiles. Keeps the grid image-dominant.
-const MAX_TEXT_TILES = 5;
+const MAX_TEXT_TILES = 8;
+
+// localStorage key for per-image editable descriptions
+const DESC_STORAGE_KEY = 'strati:descriptions';
+const loadDescriptions = (): Record<string, string> => {
+  if (typeof window === 'undefined') return {};
+  try {
+    return JSON.parse(localStorage.getItem(DESC_STORAGE_KEY) || '{}');
+  } catch {
+    return {};
+  }
+};
+const saveDescription = (id: string, text: string) => {
+  if (typeof window === 'undefined') return;
+  const all = loadDescriptions();
+  if (text.trim()) all[id] = text;
+  else delete all[id];
+  localStorage.setItem(DESC_STORAGE_KEY, JSON.stringify(all));
+};
 
 type Orientation = 'portrait' | 'landscape' | 'square';
 
@@ -267,8 +285,12 @@ function colsForWidth(w: number): number {
 
 const Strati = () => {
   const { t } = useLanguage();
-  const [expandedTile, setExpandedTile] = useState<{ src: string; alt: string; concept?: ConceptKey; description?: string } | null>(null);
+  const [expandedTile, setExpandedTile] = useState<{ id: string; src: string; alt: string; concept?: ConceptKey; description?: string } | null>(null);
   const [activeTile, setActiveTile] = useState<string | null>(null);
+  const [activeTextTile, setActiveTextTile] = useState<string | null>(null);
+  const [descriptions, setDescriptions] = useState<Record<string, string>>(() => loadDescriptions());
+  const [draftDescription, setDraftDescription] = useState<string>('');
+  const [savedFlash, setSavedFlash] = useState(false);
 
   // ── Measure natural orientation of every image once ──
   const [orientations, setOrientations] = useState<Record<string, Orientation>>({});
@@ -309,26 +331,45 @@ const Strati = () => {
         kind: 'image' as const,
         cover: t.cover,
         alt: t.alt,
-        description: t.description,
+        description: descriptions[t.id] ?? t.description,
         concept: t.concept,
         colSpan: c,
         rowSpan: r,
       };
     });
     return packAndFill(tiles, cols);
-  }, [orientations, cols]);
+  }, [orientations, cols, descriptions]);
 
   const openImage = useCallback(
-    (tile: LayoutTile) =>
+    (tile: LayoutTile) => {
+      const desc = descriptions[tile.id] ?? tile.description ?? '';
       setExpandedTile({
+        id: tile.id,
         src: tile.cover!,
         alt: tile.alt ?? '',
         concept: tile.concept,
-        description: tile.description,
-      }),
-    [],
+        description: desc,
+      });
+      setDraftDescription(desc);
+      setSavedFlash(false);
+    },
+    [descriptions],
   );
   const closeImage = useCallback(() => setExpandedTile(null), []);
+
+  const handleSaveDescription = useCallback(() => {
+    if (!expandedTile) return;
+    saveDescription(expandedTile.id, draftDescription);
+    setDescriptions((prev) => {
+      const next = { ...prev };
+      if (draftDescription.trim()) next[expandedTile.id] = draftDescription;
+      else delete next[expandedTile.id];
+      return next;
+    });
+    setExpandedTile((prev) => (prev ? { ...prev, description: draftDescription } : prev));
+    setSavedFlash(true);
+    setTimeout(() => setSavedFlash(false), 1600);
+  }, [expandedTile, draftDescription]);
 
   const gridColsClass =
     cols === 6 ? 'grid-cols-6' : cols === 5 ? 'grid-cols-5' : 'grid-cols-3';
@@ -358,18 +399,22 @@ const Strati = () => {
               const concept = tile.concept ? concepts[tile.concept] : undefined;
               const isActive = activeTile === tile.id;
               const isText = tile.kind === 'text';
+              const isTextActive = activeTextTile === tile.id;
               return (
                 <motion.div
                   key={tile.id}
-                  className={`relative overflow-hidden rounded-sm group ${
-                    isText ? 'bg-background cursor-default' : 'cursor-pointer'
+                  className={`relative overflow-hidden rounded-sm group cursor-pointer ${
+                    isText ? 'bg-background border border-border/40' : ''
                   }`}
                   style={{
                     gridColumn: `span ${tile.colSpan}`,
                     gridRow: `span ${tile.rowSpan}`,
                   }}
                   onClick={() => {
-                    if (isText) return;
+                    if (isText) {
+                      setActiveTextTile((prev) => (prev === tile.id ? null : tile.id));
+                      return;
+                    }
                     if (tile.cover) openImage(tile);
                   }}
                   onMouseEnter={() => !isText && concept && setActiveTile(tile.id)}
@@ -394,19 +439,30 @@ const Strati = () => {
                       <span className="font-display font-light tracking-[0.18em] text-foreground text-[11px] md:text-sm lg:text-base leading-tight">
                         {concept.title}
                       </span>
-                      <span className="font-body font-light text-foreground/70 text-[9px] md:text-[11px] lg:text-xs leading-snug mt-2 md:mt-3 max-w-[92%] hidden md:block">
-                        {concept.phrase}
-                      </span>
+                      <AnimatePresence>
+                        {isTextActive && (
+                          <motion.span
+                            key="phrase"
+                            className="font-body font-light text-foreground/80 text-[9px] md:text-[11px] lg:text-xs leading-snug mt-2 md:mt-3 max-w-[92%]"
+                            initial={{ opacity: 0, y: 4 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 4 }}
+                            transition={{ duration: 0.5, ease: 'easeOut' }}
+                          >
+                            {concept.phrase}
+                          </motion.span>
+                        )}
+                      </AnimatePresence>
                     </div>
                   )}
 
                   {!isText && concept && (
                     <>
                       <motion.div
-                        className="absolute inset-0 bg-background/35 pointer-events-none"
+                        className="absolute inset-0 bg-background/75 backdrop-blur-[2px] pointer-events-none"
                         initial={false}
                         animate={{ opacity: isActive ? 1 : 0 }}
-                        transition={{ duration: 0.6, ease: 'easeOut' }}
+                        transition={{ duration: 0.5, ease: 'easeOut' }}
                       />
                       <AnimatePresence>
                         {isActive && (
@@ -416,12 +472,12 @@ const Strati = () => {
                             initial={{ opacity: 0, y: 4 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: 4 }}
-                            transition={{ duration: 1.1, ease: [0.22, 0.61, 0.36, 1] }}
+                            transition={{ duration: 0.8, ease: [0.22, 0.61, 0.36, 1] }}
                           >
-                            <span className="font-display font-light tracking-[0.18em] text-foreground text-[11px] md:text-sm lg:text-base leading-tight">
+                            <span className="font-display font-medium tracking-[0.2em] text-foreground text-xs md:text-base lg:text-lg leading-tight">
                               {concept.title}
                             </span>
-                            <span className="font-body font-light text-foreground/80 text-[9px] md:text-[11px] lg:text-xs leading-snug mt-2 md:mt-3 max-w-[90%] hidden md:block">
+                            <span className="font-body font-normal text-foreground/90 text-[10px] md:text-xs lg:text-sm leading-snug mt-2 md:mt-3 max-w-[92%] hidden md:block">
                               {concept.phrase}
                             </span>
                           </motion.div>
@@ -484,16 +540,37 @@ const Strati = () => {
                   {concepts[expandedTile.concept].phrase}
                 </div>
               )}
-              {expandedTile.description && (
-                <div className="font-body font-light text-foreground/80 text-xs md:text-sm leading-relaxed whitespace-pre-line mb-2">
-                  {expandedTile.description}
-                </div>
-              )}
               {expandedTile.alt && (
-                <div className="font-body font-light text-muted-foreground text-[11px] md:text-xs leading-snug">
+                <div className="font-body font-light text-muted-foreground text-[11px] md:text-xs leading-snug mb-4">
                   {expandedTile.alt}
                 </div>
               )}
+
+              {/* Editable description field */}
+              <div className="mt-4 text-left" onClick={(e) => e.stopPropagation()}>
+                <label className="block font-body text-[10px] md:text-xs uppercase tracking-[0.2em] text-muted-foreground mb-2">
+                  Descrizione
+                </label>
+                <textarea
+                  value={draftDescription}
+                  onChange={(e) => setDraftDescription(e.target.value)}
+                  placeholder="Aggiungi o modifica la descrizione di questa immagine…"
+                  rows={4}
+                  className="w-full resize-y rounded-sm border border-border bg-background/60 p-3 font-body text-xs md:text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-foreground/40 transition"
+                />
+                <div className="mt-2 flex items-center justify-end gap-3">
+                  {savedFlash && (
+                    <span className="font-body text-[11px] text-muted-foreground">Salvato</span>
+                  )}
+                  <button
+                    type="button"
+                    onClick={handleSaveDescription}
+                    className="px-4 py-1.5 rounded-sm border border-foreground/70 bg-foreground text-background font-body text-[11px] md:text-xs uppercase tracking-[0.18em] hover:bg-foreground/90 transition"
+                  >
+                    Salva
+                  </button>
+                </div>
+              </div>
             </motion.div>
           </motion.div>
         )}
