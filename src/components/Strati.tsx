@@ -52,6 +52,8 @@ interface SourceTile {
   cover: string;
   alt: string;
   concept?: ConceptKey;
+  /** Optional descriptive text shown in the lightbox for this image. */
+  description?: string;
 }
 
 // Order is intentional: alternate orientations and keep tiles that share
