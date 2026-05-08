@@ -78,7 +78,25 @@ const sourceTiles: SourceTile[] = [
 
 // Maximum number of text tiles in the mosaic (concepts shown as words).
 // Includes both explicit and filler tiles. Keeps the grid image-dominant.
-const MAX_TEXT_TILES = 5;
+const MAX_TEXT_TILES = 8;
+
+// localStorage key for per-image editable descriptions
+const DESC_STORAGE_KEY = 'strati:descriptions';
+const loadDescriptions = (): Record<string, string> => {
+  if (typeof window === 'undefined') return {};
+  try {
+    return JSON.parse(localStorage.getItem(DESC_STORAGE_KEY) || '{}');
+  } catch {
+    return {};
+  }
+};
+const saveDescription = (id: string, text: string) => {
+  if (typeof window === 'undefined') return;
+  const all = loadDescriptions();
+  if (text.trim()) all[id] = text;
+  else delete all[id];
+  localStorage.setItem(DESC_STORAGE_KEY, JSON.stringify(all));
+};
 
 type Orientation = 'portrait' | 'landscape' | 'square';
 
