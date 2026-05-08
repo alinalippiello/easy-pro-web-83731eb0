@@ -299,38 +299,33 @@ const Strati = () => {
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
-  // ── Compute layout: assign spans, insert explicit text tiles, pack & fill ──
+  // ── Compute layout: assign spans, pack images, then add text tiles in empties ──
   const layout = useMemo(() => {
-    const tiles: LayoutTile[] = [];
-    sourceTiles.forEach((t, i) => {
+    const tiles: LayoutTile[] = sourceTiles.map((t) => {
       const o = orientations[t.id] ?? 'square';
       const { c, r } = spansFor(o, cols);
-      tiles.push({
+      return {
         id: t.id,
-        kind: 'image',
+        kind: 'image' as const,
         cover: t.cover,
         alt: t.alt,
+        description: t.description,
         concept: t.concept,
         colSpan: c,
         rowSpan: r,
-      });
-      const txt = explicitTextTiles.find((x) => x.afterIndex === i);
-      if (txt) {
-        tiles.push({
-          id: `text-${txt.concept}`,
-          kind: 'text',
-          colSpan: 1,
-          rowSpan: 1,
-          concept: txt.concept,
-        });
-      }
+      };
     });
     return packAndFill(tiles, cols);
   }, [orientations, cols]);
 
   const openImage = useCallback(
     (tile: LayoutTile) =>
-      setExpandedTile({ src: tile.cover!, alt: tile.alt ?? '', concept: tile.concept }),
+      setExpandedTile({
+        src: tile.cover!,
+        alt: tile.alt ?? '',
+        concept: tile.concept,
+        description: tile.description,
+      }),
     [],
   );
   const closeImage = useCallback(() => setExpandedTile(null), []);
