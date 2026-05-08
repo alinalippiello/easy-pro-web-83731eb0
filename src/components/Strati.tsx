@@ -399,18 +399,22 @@ const Strati = () => {
               const concept = tile.concept ? concepts[tile.concept] : undefined;
               const isActive = activeTile === tile.id;
               const isText = tile.kind === 'text';
+              const isTextActive = activeTextTile === tile.id;
               return (
                 <motion.div
                   key={tile.id}
-                  className={`relative overflow-hidden rounded-sm group ${
-                    isText ? 'bg-background cursor-default' : 'cursor-pointer'
+                  className={`relative overflow-hidden rounded-sm group cursor-pointer ${
+                    isText ? 'bg-background border border-border/40' : ''
                   }`}
                   style={{
                     gridColumn: `span ${tile.colSpan}`,
                     gridRow: `span ${tile.rowSpan}`,
                   }}
                   onClick={() => {
-                    if (isText) return;
+                    if (isText) {
+                      setActiveTextTile((prev) => (prev === tile.id ? null : tile.id));
+                      return;
+                    }
                     if (tile.cover) openImage(tile);
                   }}
                   onMouseEnter={() => !isText && concept && setActiveTile(tile.id)}
@@ -435,19 +439,30 @@ const Strati = () => {
                       <span className="font-display font-light tracking-[0.18em] text-foreground text-[11px] md:text-sm lg:text-base leading-tight">
                         {concept.title}
                       </span>
-                      <span className="font-body font-light text-foreground/70 text-[9px] md:text-[11px] lg:text-xs leading-snug mt-2 md:mt-3 max-w-[92%] hidden md:block">
-                        {concept.phrase}
-                      </span>
+                      <AnimatePresence>
+                        {isTextActive && (
+                          <motion.span
+                            key="phrase"
+                            className="font-body font-light text-foreground/80 text-[9px] md:text-[11px] lg:text-xs leading-snug mt-2 md:mt-3 max-w-[92%]"
+                            initial={{ opacity: 0, y: 4 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 4 }}
+                            transition={{ duration: 0.5, ease: 'easeOut' }}
+                          >
+                            {concept.phrase}
+                          </motion.span>
+                        )}
+                      </AnimatePresence>
                     </div>
                   )}
 
                   {!isText && concept && (
                     <>
                       <motion.div
-                        className="absolute inset-0 bg-background/35 pointer-events-none"
+                        className="absolute inset-0 bg-background/75 backdrop-blur-[2px] pointer-events-none"
                         initial={false}
                         animate={{ opacity: isActive ? 1 : 0 }}
-                        transition={{ duration: 0.6, ease: 'easeOut' }}
+                        transition={{ duration: 0.5, ease: 'easeOut' }}
                       />
                       <AnimatePresence>
                         {isActive && (
@@ -457,12 +472,12 @@ const Strati = () => {
                             initial={{ opacity: 0, y: 4 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: 4 }}
-                            transition={{ duration: 1.1, ease: [0.22, 0.61, 0.36, 1] }}
+                            transition={{ duration: 0.8, ease: [0.22, 0.61, 0.36, 1] }}
                           >
-                            <span className="font-display font-light tracking-[0.18em] text-foreground text-[11px] md:text-sm lg:text-base leading-tight">
+                            <span className="font-display font-medium tracking-[0.2em] text-foreground text-xs md:text-base lg:text-lg leading-tight">
                               {concept.title}
                             </span>
-                            <span className="font-body font-light text-foreground/80 text-[9px] md:text-[11px] lg:text-xs leading-snug mt-2 md:mt-3 max-w-[90%] hidden md:block">
+                            <span className="font-body font-normal text-foreground/90 text-[10px] md:text-xs lg:text-sm leading-snug mt-2 md:mt-3 max-w-[92%] hidden md:block">
                               {concept.phrase}
                             </span>
                           </motion.div>
