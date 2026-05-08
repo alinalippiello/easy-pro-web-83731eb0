@@ -351,7 +351,7 @@ const Strati = () => {
 
           {/* Mosaic Grid — auto-computed spans + filler text tiles → perfect rectangle */}
           <div
-            className={`grid ${gridColsClass} auto-rows-[90px] md:auto-rows-[110px] lg:auto-rows-[120px] gap-[2px] md:gap-[3px]`}
+            className={`grid ${gridColsClass} auto-rows-[90px] md:auto-rows-[110px] lg:auto-rows-[120px] gap-1 md:gap-2 lg:gap-2.5`}
             style={{ gridAutoFlow: 'dense' }}
           >
             {layout.tiles.map((tile) => {
