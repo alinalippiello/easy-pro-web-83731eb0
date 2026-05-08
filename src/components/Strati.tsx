@@ -285,8 +285,12 @@ function colsForWidth(w: number): number {
 
 const Strati = () => {
   const { t } = useLanguage();
-  const [expandedTile, setExpandedTile] = useState<{ src: string; alt: string; concept?: ConceptKey; description?: string } | null>(null);
+  const [expandedTile, setExpandedTile] = useState<{ id: string; src: string; alt: string; concept?: ConceptKey; description?: string } | null>(null);
   const [activeTile, setActiveTile] = useState<string | null>(null);
+  const [activeTextTile, setActiveTextTile] = useState<string | null>(null);
+  const [descriptions, setDescriptions] = useState<Record<string, string>>(() => loadDescriptions());
+  const [draftDescription, setDraftDescription] = useState<string>('');
+  const [savedFlash, setSavedFlash] = useState(false);
 
   // ── Measure natural orientation of every image once ──
   const [orientations, setOrientations] = useState<Record<string, Orientation>>({});
@@ -327,26 +331,45 @@ const Strati = () => {
         kind: 'image' as const,
         cover: t.cover,
         alt: t.alt,
-        description: t.description,
+        description: descriptions[t.id] ?? t.description,
         concept: t.concept,
         colSpan: c,
         rowSpan: r,
       };
     });
     return packAndFill(tiles, cols);
-  }, [orientations, cols]);
+  }, [orientations, cols, descriptions]);
 
   const openImage = useCallback(
-    (tile: LayoutTile) =>
+    (tile: LayoutTile) => {
+      const desc = descriptions[tile.id] ?? tile.description ?? '';
       setExpandedTile({
+        id: tile.id,
         src: tile.cover!,
         alt: tile.alt ?? '',
         concept: tile.concept,
-        description: tile.description,
-      }),
-    [],
+        description: desc,
+      });
+      setDraftDescription(desc);
+      setSavedFlash(false);
+    },
+    [descriptions],
   );
   const closeImage = useCallback(() => setExpandedTile(null), []);
+
+  const handleSaveDescription = useCallback(() => {
+    if (!expandedTile) return;
+    saveDescription(expandedTile.id, draftDescription);
+    setDescriptions((prev) => {
+      const next = { ...prev };
+      if (draftDescription.trim()) next[expandedTile.id] = draftDescription;
+      else delete next[expandedTile.id];
+      return next;
+    });
+    setExpandedTile((prev) => (prev ? { ...prev, description: draftDescription } : prev));
+    setSavedFlash(true);
+    setTimeout(() => setSavedFlash(false), 1600);
+  }, [expandedTile, draftDescription]);
 
   const gridColsClass =
     cols === 6 ? 'grid-cols-6' : cols === 5 ? 'grid-cols-5' : 'grid-cols-3';
