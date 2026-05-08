@@ -76,12 +76,9 @@ const sourceTiles: SourceTile[] = [
   { id: 'orizzonte',   cover: stratiRender4, alt: 'Render prospettico — orizzonte urbano',               concept: 'dissolvere' },
 ];
 
-// Explicit text tiles inserted into the packing flow at distant positions.
-// They are guaranteed to appear (not just as fillers) and stay far apart.
-const explicitTextTiles: { afterIndex: number; concept: ConceptKey }[] = [
-  { afterIndex: 4,  concept: 'stratificare' },
-  { afterIndex: 11, concept: 'mat-building' },
-];
+// Maximum number of text tiles in the mosaic (concepts shown as words).
+// Includes both explicit and filler tiles. Keeps the grid image-dominant.
+const MAX_TEXT_TILES = 5;
 
 type Orientation = 'portrait' | 'landscape' | 'square';
 
@@ -90,16 +87,15 @@ interface LayoutTile {
   kind: 'image' | 'text';
   cover?: string;
   alt?: string;
+  description?: string;
   colSpan: number;
   rowSpan: number;
   concept?: ConceptKey;
 }
 
 // Span rules per orientation per breakpoint (cols)
-// Keep spans <= cols and conservative on small screens.
 function spansFor(orientation: Orientation, cols: number): { c: number; r: number } {
   if (cols <= 3) {
-    // mobile: keep things compact
     if (orientation === 'portrait')  return { c: 1, r: 2 };
     if (orientation === 'landscape') return { c: 2, r: 1 };
     return { c: 1, r: 1 };
@@ -116,33 +112,34 @@ function classify(w: number, h: number): Orientation {
   return 'square';
 }
 
-// Greedy 2D packing onto a `cols`-wide grid with dense flow,
-// returns total rows used.
+// Greedy 2D packing onto a `cols`-wide grid, plus:
+// - cap text tiles to MAX_TEXT_TILES, spread evenly
+// - absorb remaining empty cells into adjacent image tiles
 function packAndFill(
-  tiles: LayoutTile[],
+  imageTiles: LayoutTile[],
   cols: number,
 ): { tiles: LayoutTile[]; rows: number } {
-  // We simulate the grid to know which cells stay empty,
-  // then add 1×1 text fillers (cycling through concepts) so the
-  // final composition is always a perfect rectangle.
-  const grid: boolean[][] = []; // grid[row][col] = occupied
+  // owner[r][c] = index into `placed` (or -1 if empty)
+  const owner: number[][] = [];
+  const placed: { tile: LayoutTile; r: number; c: number }[] = [];
+
   const ensureRow = (r: number) => {
-    while (grid.length <= r) grid.push(new Array(cols).fill(false));
+    while (owner.length <= r) owner.push(new Array(cols).fill(-1));
   };
   const fits = (r: number, c: number, cs: number, rs: number) => {
     if (c + cs > cols) return false;
     for (let i = 0; i < rs; i++) {
       ensureRow(r + i);
       for (let j = 0; j < cs; j++) {
-        if (grid[r + i][c + j]) return false;
+        if (owner[r + i][c + j] !== -1) return false;
       }
     }
     return true;
   };
-  const place = (r: number, c: number, cs: number, rs: number) => {
+  const stamp = (r: number, c: number, cs: number, rs: number, idx: number) => {
     for (let i = 0; i < rs; i++) {
       ensureRow(r + i);
-      for (let j = 0; j < cs; j++) grid[r + i][c + j] = true;
+      for (let j = 0; j < cs; j++) owner[r + i][c + j] = idx;
     }
   };
   const findSlot = (cs: number, rs: number): [number, number] => {
@@ -154,33 +151,111 @@ function packAndFill(
     }
   };
 
-  for (const t of tiles) {
+  for (const t of imageTiles) {
     const [r, c] = findSlot(t.colSpan, t.rowSpan);
-    place(r, c, t.colSpan, t.rowSpan);
+    const idx = placed.length;
+    placed.push({ tile: t, r, c });
+    stamp(r, c, t.colSpan, t.rowSpan, idx);
   }
 
-  // Fill any empty cells with 1×1 text tiles to complete the rectangle.
-  const conceptKeys = Object.keys(concepts) as ConceptKey[];
-  let fillerIdx = 0;
-  const fillers: LayoutTile[] = [];
-  for (let r = 0; r < grid.length; r++) {
+  // Trim trailing fully-empty rows
+  while (owner.length && owner[owner.length - 1].every((v) => v === -1)) {
+    owner.pop();
+  }
+  if (owner.length === 0) return { tiles: imageTiles, rows: 0 };
+
+  // Collect empty cells
+  const empties: { r: number; c: number }[] = [];
+  for (let r = 0; r < owner.length; r++) {
     for (let c = 0; c < cols; c++) {
-      if (!grid[r][c]) {
-        const concept = conceptKeys[fillerIdx % conceptKeys.length];
-        fillerIdx++;
-        fillers.push({
-          id: `filler-${r}-${c}`,
-          kind: 'text',
-          colSpan: 1,
-          rowSpan: 1,
-          concept,
-        });
-        grid[r][c] = true;
-      }
+      if (owner[r][c] === -1) empties.push({ r, c });
     }
   }
 
-  return { tiles: [...tiles, ...fillers], rows: grid.length };
+  // Pick up to MAX_TEXT_TILES empty cells, spread evenly across the list
+  const textCount = Math.min(MAX_TEXT_TILES, empties.length);
+  const chosen = new Set<number>();
+  if (textCount > 0) {
+    for (let i = 0; i < textCount; i++) {
+      const idx = Math.floor((i + 0.5) * (empties.length / textCount));
+      chosen.add(idx);
+    }
+  }
+
+  const conceptKeys = Object.keys(concepts) as ConceptKey[];
+  const fillers: LayoutTile[] = [];
+  let conceptIdx = 0;
+  empties.forEach((cell, i) => {
+    if (!chosen.has(i)) return;
+    const concept = conceptKeys[conceptIdx % conceptKeys.length];
+    conceptIdx++;
+    const idx = placed.length + fillers.length;
+    fillers.push({
+      id: `text-filler-${cell.r}-${cell.c}`,
+      kind: 'text',
+      colSpan: 1,
+      rowSpan: 1,
+      concept,
+    });
+    owner[cell.r][cell.c] = idx;
+  });
+
+  // Absorb remaining empties into a neighboring image tile by extending its span,
+  // but only when the extension stays inside the grid AND covers only empty cells.
+  const tryExtend = (cell: { r: number; c: number }): boolean => {
+    // try extending a neighbor right→left, left→right, down, up
+    const candidates: { ownerIdx: number; newCs?: number; newRs?: number }[] = [];
+
+    // left neighbor (extend its colSpan to the right by 1, but only if cell is exactly to the right of its right edge)
+    if (cell.c > 0 && owner[cell.r][cell.c - 1] !== -1) {
+      const oi = owner[cell.r][cell.c - 1];
+      const p = placed[oi];
+      if (p && p.tile.kind === 'image' && p.r <= cell.r && cell.r < p.r + p.tile.rowSpan && p.c + p.tile.colSpan === cell.c) {
+        // ensure all rows in p's rowspan at column cell.c are empty
+        let ok = true;
+        for (let i = 0; i < p.tile.rowSpan; i++) if (owner[p.r + i]?.[cell.c] !== -1) { ok = false; break; }
+        if (ok) candidates.push({ ownerIdx: oi, newCs: p.tile.colSpan + 1 });
+      }
+    }
+    // top neighbor
+    if (cell.r > 0 && owner[cell.r - 1][cell.c] !== -1) {
+      const oi = owner[cell.r - 1][cell.c];
+      const p = placed[oi];
+      if (p && p.tile.kind === 'image' && p.c <= cell.c && cell.c < p.c + p.tile.colSpan && p.r + p.tile.rowSpan === cell.r) {
+        let ok = true;
+        for (let j = 0; j < p.tile.colSpan; j++) if (owner[cell.r]?.[p.c + j] !== -1) { ok = false; break; }
+        if (ok) candidates.push({ ownerIdx: oi, newRs: p.tile.rowSpan + 1 });
+      }
+    }
+
+    if (candidates.length === 0) return false;
+    const ch = candidates[0];
+    const p = placed[ch.ownerIdx];
+    if (ch.newCs) {
+      for (let i = 0; i < p.tile.rowSpan; i++) owner[p.r + i][p.c + p.tile.colSpan] = ch.ownerIdx;
+      p.tile.colSpan = ch.newCs;
+    } else if (ch.newRs) {
+      ensureRow(p.r + p.tile.rowSpan);
+      for (let j = 0; j < p.tile.colSpan; j++) owner[p.r + p.tile.rowSpan][p.c + j] = ch.ownerIdx;
+      p.tile.rowSpan = ch.newRs;
+    }
+    return true;
+  };
+
+  // Iterate (multiple passes) to absorb leftover empties
+  for (let pass = 0; pass < 4; pass++) {
+    let changed = false;
+    for (let r = 0; r < owner.length; r++) {
+      for (let c = 0; c < cols; c++) {
+        if (owner[r][c] === -1) {
+          if (tryExtend({ r, c })) changed = true;
+        }
+      }
+    }
+    if (!changed) break;
+  }
+
+  return { tiles: [...placed.map((p) => p.tile), ...fillers], rows: owner.length };
 }
 
 // Tailwind breakpoints used: <768 = 3 cols, <1024 = 5 cols, ≥1024 = 6 cols
