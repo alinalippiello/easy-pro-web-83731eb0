@@ -111,7 +111,7 @@ const descriptionTemplates: DescriptionTemplate[] = [
 
 // Maximum number of text tiles in the mosaic (concepts shown as words).
 // Includes both explicit and filler tiles. Keeps the grid image-dominant.
-const MAX_TEXT_TILES = 8;
+const MAX_TEXT_TILES = 11;
 
 // localStorage key for per-image editable descriptions
 const DESC_STORAGE_KEY = 'strati:descriptions';
@@ -242,7 +242,7 @@ function packAndFill(
     conceptIdx++;
     const idx = placed.length + fillers.length;
     fillers.push({
-      id: `text-filler-${cell.r}-${cell.c}`,
+      id: `text-${concept}`,
       kind: 'text',
       colSpan: 1,
       rowSpan: 1,
@@ -318,9 +318,9 @@ function colsForWidth(w: number): number {
 
 const Strati = () => {
   const { t } = useLanguage();
-  const [expandedTile, setExpandedTile] = useState<{ id: string; src: string; alt: string; concept?: ConceptKey; description?: string } | null>(null);
+  const [expandedTile, setExpandedTile] = useState<{ id: string; kind: 'image' | 'text'; src?: string; alt: string; concept?: ConceptKey; description?: string } | null>(null);
   const [activeTile, setActiveTile] = useState<string | null>(null);
-  const [activeTextTile, setActiveTextTile] = useState<string | null>(null);
+  
   const [descriptions, setDescriptions] = useState<Record<string, string>>(() => loadDescriptions());
   const [draftDescription, setDraftDescription] = useState<string>('');
   const [savedFlash, setSavedFlash] = useState(false);
@@ -373,12 +373,13 @@ const Strati = () => {
     return packAndFill(tiles, cols);
   }, [orientations, cols, descriptions]);
 
-  const openImage = useCallback(
+  const openTile = useCallback(
     (tile: LayoutTile) => {
       const desc = descriptions[tile.id] ?? tile.description ?? '';
       setExpandedTile({
         id: tile.id,
-        src: tile.cover!,
+        kind: tile.kind,
+        src: tile.cover,
         alt: tile.alt ?? '',
         concept: tile.concept,
         description: desc,
@@ -432,7 +433,6 @@ const Strati = () => {
               const concept = tile.concept ? concepts[tile.concept] : undefined;
               const isActive = activeTile === tile.id;
               const isText = tile.kind === 'text';
-              const isTextActive = activeTextTile === tile.id;
               return (
                 <motion.div
                   key={tile.id}
@@ -443,13 +443,7 @@ const Strati = () => {
                     gridColumn: `span ${tile.colSpan}`,
                     gridRow: `span ${tile.rowSpan}`,
                   }}
-                  onClick={() => {
-                    if (isText) {
-                      setActiveTextTile((prev) => (prev === tile.id ? null : tile.id));
-                      return;
-                    }
-                    if (tile.cover) openImage(tile);
-                  }}
+                  onClick={() => openTile(tile)}
                   onMouseEnter={() => !isText && concept && setActiveTile(tile.id)}
                   onMouseLeave={() => !isText && concept && setActiveTile((prev) => (prev === tile.id ? null : prev))}
                   whileHover={isText ? undefined : { scale: 1.015 }}
@@ -472,20 +466,6 @@ const Strati = () => {
                       <span className="font-display font-light tracking-[0.18em] text-foreground text-[11px] md:text-sm lg:text-base leading-tight">
                         {concept.title}
                       </span>
-                      <AnimatePresence>
-                        {isTextActive && (
-                          <motion.span
-                            key="phrase"
-                            className="font-body font-light text-foreground/80 text-[9px] md:text-[11px] lg:text-xs leading-snug mt-2 md:mt-3 max-w-[92%]"
-                            initial={{ opacity: 0, y: 4 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: 4 }}
-                            transition={{ duration: 0.5, ease: 'easeOut' }}
-                          >
-                            {concept.phrase}
-                          </motion.span>
-                        )}
-                      </AnimatePresence>
                     </div>
                   )}
 
@@ -543,18 +523,38 @@ const Strati = () => {
             >
               <X className="w-5 h-5" />
             </button>
-            <motion.img
-              src={expandedTile.src}
-              alt={expandedTile.alt}
-              draggable="false"
-              onContextMenu={(e) => e.preventDefault()}
-              className="max-w-[90vw] max-h-[78vh] object-contain select-none"
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ duration: 0.35, ease: 'easeOut' }}
-              onClick={(e) => e.stopPropagation()}
-            />
+            {expandedTile.kind === 'image' && expandedTile.src ? (
+              <motion.img
+                src={expandedTile.src}
+                alt={expandedTile.alt}
+                draggable="false"
+                onContextMenu={(e) => e.preventDefault()}
+                className="max-w-[90vw] max-h-[78vh] object-contain select-none"
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                transition={{ duration: 0.35, ease: 'easeOut' }}
+                onClick={(e) => e.stopPropagation()}
+              />
+            ) : (
+              expandedTile.concept && (
+                <motion.div
+                  className="max-w-[90vw] text-center px-6"
+                  initial={{ scale: 0.95, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.95, opacity: 0 }}
+                  transition={{ duration: 0.4, ease: 'easeOut' }}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className="font-display font-light tracking-[0.22em] text-foreground text-3xl md:text-5xl lg:text-6xl leading-tight">
+                    {concepts[expandedTile.concept].title}
+                  </div>
+                  <div className="font-body font-light text-foreground/80 text-sm md:text-base lg:text-lg leading-relaxed mt-6 md:mt-8 max-w-2xl mx-auto">
+                    {concepts[expandedTile.concept].phrase}
+                  </div>
+                </motion.div>
+              )
+            )}
             <motion.div
               className="mt-6 max-w-xl text-center px-4"
               initial={{ opacity: 0, y: 8 }}
@@ -563,17 +563,17 @@ const Strati = () => {
               transition={{ duration: 0.9, ease: [0.22, 0.61, 0.36, 1], delay: 0.2 }}
               onClick={(e) => e.stopPropagation()}
             >
-              {expandedTile.concept && (
+              {expandedTile.kind === 'image' && expandedTile.concept && (
                 <div className="font-display tracking-[0.18em] text-foreground text-sm md:text-base mb-2">
                   {concepts[expandedTile.concept].title}
                 </div>
               )}
-              {expandedTile.concept && (
+              {expandedTile.kind === 'image' && expandedTile.concept && (
                 <div className="font-body font-light text-foreground/80 text-xs md:text-sm leading-relaxed mb-2">
                   {concepts[expandedTile.concept].phrase}
                 </div>
               )}
-              {expandedTile.alt && (
+              {expandedTile.kind === 'image' && expandedTile.alt && (
                 <div className="font-body font-light text-muted-foreground text-[11px] md:text-xs leading-snug mb-4">
                   {expandedTile.alt}
                 </div>
