@@ -433,7 +433,6 @@ const Strati = () => {
               const concept = tile.concept ? concepts[tile.concept] : undefined;
               const isActive = activeTile === tile.id;
               const isText = tile.kind === 'text';
-              const isTextActive = activeTextTile === tile.id;
               return (
                 <motion.div
                   key={tile.id}
