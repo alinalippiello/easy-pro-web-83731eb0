@@ -76,6 +76,39 @@ const sourceTiles: SourceTile[] = [
   { id: 'orizzonte',   cover: stratiRender4, alt: 'Render prospettico — orizzonte urbano',               concept: 'dissolvere' },
 ];
 
+// ─────────────────────────────────────────────────────────────
+// DESCRIPTION TEMPLATES — base texts selectable in the lightbox.
+// Edit / add entries here to change the dropdown options.
+// ─────────────────────────────────────────────────────────────
+interface DescriptionTemplate {
+  id: string;
+  label: string;
+  text: string;
+}
+
+const descriptionTemplates: DescriptionTemplate[] = [
+  {
+    id: 'concept',
+    label: 'Concept',
+    text: 'Studio concettuale che esplora la relazione tra forma costruita e contesto, indagando il rapporto tra figura, suolo e paesaggio.',
+  },
+  {
+    id: 'masterplan',
+    label: 'Masterplan',
+    text: 'Disegno urbano alla scala del territorio: definizione di tessuti, percorsi e relazioni con le preesistenze morfologiche e infrastrutturali.',
+  },
+  {
+    id: 'tipologia',
+    label: 'Tipologia',
+    text: 'Ricerca tipologica sull\'unità abitativa e sulle sue aggregazioni, con attenzione a soglie, distribuzioni e affacci.',
+  },
+  {
+    id: 'materia',
+    label: 'Materia',
+    text: 'Indagine sulla materia costruttiva: textures, stratificazioni e comportamento della luce sulle superfici.',
+  },
+];
+
 // Maximum number of text tiles in the mosaic (concepts shown as words).
 // Includes both explicit and filler tiles. Keeps the grid image-dominant.
 const MAX_TEXT_TILES = 8;
@@ -548,9 +581,27 @@ const Strati = () => {
 
               {/* Editable description field */}
               <div className="mt-4 text-left" onClick={(e) => e.stopPropagation()}>
-                <label className="block font-body text-[10px] md:text-xs uppercase tracking-[0.2em] text-muted-foreground mb-2">
-                  Descrizione
-                </label>
+                <div className="flex items-center justify-between gap-3 mb-2">
+                  <label className="block font-body text-[10px] md:text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                    Descrizione
+                  </label>
+                  <select
+                    value=""
+                    onChange={(e) => {
+                      const tpl = descriptionTemplates.find((d) => d.id === e.target.value);
+                      if (tpl) setDraftDescription(tpl.text);
+                      e.target.value = '';
+                    }}
+                    className="rounded-sm border border-border bg-background/60 px-2 py-1 font-body text-[11px] md:text-xs text-foreground focus:outline-none focus:ring-1 focus:ring-foreground/40"
+                  >
+                    <option value="">Modello…</option>
+                    {descriptionTemplates.map((tpl) => (
+                      <option key={tpl.id} value={tpl.id}>
+                        {tpl.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
                 <textarea
                   value={draftDescription}
                   onChange={(e) => setDraftDescription(e.target.value)}
