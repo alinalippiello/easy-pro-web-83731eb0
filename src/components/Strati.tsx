@@ -242,7 +242,7 @@ function packAndFill(
     conceptIdx++;
     const idx = placed.length + fillers.length;
     fillers.push({
-      id: `text-filler-${cell.r}-${cell.c}`,
+      id: `text-${concept}`,
       kind: 'text',
       colSpan: 1,
       rowSpan: 1,
