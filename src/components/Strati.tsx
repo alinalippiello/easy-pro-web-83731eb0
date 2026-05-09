@@ -466,20 +466,6 @@ const Strati = () => {
                       <span className="font-display font-light tracking-[0.18em] text-foreground text-[11px] md:text-sm lg:text-base leading-tight">
                         {concept.title}
                       </span>
-                      <AnimatePresence>
-                        {isTextActive && (
-                          <motion.span
-                            key="phrase"
-                            className="font-body font-light text-foreground/80 text-[9px] md:text-[11px] lg:text-xs leading-snug mt-2 md:mt-3 max-w-[92%]"
-                            initial={{ opacity: 0, y: 4 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: 4 }}
-                            transition={{ duration: 0.5, ease: 'easeOut' }}
-                          >
-                            {concept.phrase}
-                          </motion.span>
-                        )}
-                      </AnimatePresence>
                     </div>
                   )}
 
