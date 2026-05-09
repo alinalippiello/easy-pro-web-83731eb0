@@ -2,134 +2,15 @@ import { useState, useCallback, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { useLanguage } from '@/hooks/useLanguage';
-
-import origine1 from "@/assets/portfolio/origine-1.jpg";
-import origine2 from "@/assets/portfolio/origine-2.jpg";
-import origine3 from "@/assets/portfolio/origine-3.jpg";
-import origine4 from "@/assets/portfolio/origine-4.png";
-import origine5 from "@/assets/portfolio/origine-5.png";
-import stratiModel1 from "@/assets/portfolio/strati-model-1.png";
-import stratiRender1 from "@/assets/portfolio/strati-render-1.png";
-import stratiAerial1 from "@/assets/portfolio/strati-aerial-1.png";
-import stratiAerial2 from "@/assets/portfolio/strati-aerial-2.png";
-import stratiSketch1 from "@/assets/portfolio/strati-sketch-1.png";
-import stratiUrban1 from "@/assets/portfolio/strati-urban-1.png";
-import stratiRender3 from "@/assets/portfolio/strati-render-3.png";
-import stratiTopo1 from "@/assets/portfolio/strati-topo-1.png";
-import stratiTopo2 from "@/assets/portfolio/strati-topo-2.png";
-import stratiRender4 from "@/assets/portfolio/strati-render-4.png";
-
-// ─────────────────────────────────────────────────────────────
-// CONCEPT REGISTRY — easily editable archive
-// ─────────────────────────────────────────────────────────────
-type ConceptKey =
-  | 'innestare'
-  | 'piegare'
-  | 'dissolvere'
-  | 'porosita'
-  | 'stratificare'
-  | 'mat-building';
-
-interface Concept {
-  title: string;
-  phrase: string;
-}
-
-const concepts: Record<ConceptKey, Concept> = {
-  innestare:     { title: 'INNESTARE',     phrase: 'Abitare una condizione esistente senza cancellarne la memoria.' },
-  piegare:       { title: 'PIEGARE',       phrase: 'Trasformare il paesaggio in spazio attraversabile.' },
-  dissolvere:    { title: 'DISSOLVERE',    phrase: 'Superare il limite tra figura, infrastruttura e paesaggio.' },
-  porosita:      { title: 'POROSITÀ',      phrase: 'Aprire il costruito a flussi ecologici, sociali e visivi.' },
-  stratificare:  { title: 'STRATIFICARE',  phrase: 'Far emergere il tempo attraverso materia e territorio.' },
-  'mat-building':{ title: 'MAT-BUILDING',  phrase: 'Costruire continuità attraverso densità, ripetizione e relazione.' },
-};
-
-// ─────────────────────────────────────────────────────────────
-// SOURCE TILES — declare only image + concept; spans are computed.
-// ─────────────────────────────────────────────────────────────
-interface SourceTile {
-  id: string;
-  cover: string;
-  alt: string;
-  concept?: ConceptKey;
-  /** Optional descriptive text shown in the lightbox for this image. */
-  description?: string;
-}
-
-// Order is intentional: alternate orientations and keep tiles that share
-// a concept far apart, so the mosaic feels varied and never repetitive.
-const sourceTiles: SourceTile[] = [
-  { id: 'piega',       cover: origine1,      alt: 'Schema concettuale della piega — ricerca tipologica', concept: 'piegare' },
-  { id: 'tessuto',     cover: stratiAerial1, alt: 'Vista aerea del tessuto urbano',                      concept: 'mat-building' },
-  { id: 'materia',     cover: origine4,      alt: 'Modello fisico — studio della materia' },
-  { id: 'innesto',     cover: origine3,      alt: 'Disegno planimetrico — innesto urbano',               concept: 'innestare' },
-  { id: 'topografia',  cover: stratiTopo1,   alt: 'Pianta topografica del sito di progetto',             concept: 'stratificare' },
-  { id: 'chiaroscuro', cover: origine2,      alt: 'Studio chiaroscurale di volumi architettonici' },
-  { id: 'porto',       cover: stratiAerial2, alt: 'Vista aerea area portuale — masterplan',              concept: 'porosita' },
-  { id: 'segno',       cover: stratiSketch1, alt: 'Schizzo di progetto — segno fondativo' },
-  { id: 'waterfront',  cover: stratiRender1, alt: 'Render waterfront e fronte urbano',                   concept: 'dissolvere' },
-  { id: 'quartiere',   cover: stratiModel1,  alt: 'Modello di studio quartiere residenziale',            concept: 'mat-building' },
-  { id: 'continuita',  cover: origine5,      alt: 'Modello volumetrico — studio di continuità' },
-  { id: 'facciata',    cover: stratiRender3, alt: 'Render — studio di facciata residenziale',            concept: 'innestare' },
-  { id: 'topografia2', cover: stratiTopo2,   alt: 'Pianta topografica — variante di progetto',           concept: 'stratificare' },
-  { id: 'nodo',        cover: stratiUrban1,  alt: 'Schema urbano — nodo infrastrutturale',               concept: 'porosita' },
-  { id: 'orizzonte',   cover: stratiRender4, alt: 'Render prospettico — orizzonte urbano',               concept: 'dissolvere' },
-];
-
-// ─────────────────────────────────────────────────────────────
-// DESCRIPTION TEMPLATES — base texts selectable in the lightbox.
-// Edit / add entries here to change the dropdown options.
-// ─────────────────────────────────────────────────────────────
-interface DescriptionTemplate {
-  id: string;
-  label: string;
-  text: string;
-}
-
-const descriptionTemplates: DescriptionTemplate[] = [
-  {
-    id: 'concept',
-    label: 'Concept',
-    text: 'Studio concettuale che esplora la relazione tra forma costruita e contesto, indagando il rapporto tra figura, suolo e paesaggio.',
-  },
-  {
-    id: 'masterplan',
-    label: 'Masterplan',
-    text: 'Disegno urbano alla scala del territorio: definizione di tessuti, percorsi e relazioni con le preesistenze morfologiche e infrastrutturali.',
-  },
-  {
-    id: 'tipologia',
-    label: 'Tipologia',
-    text: 'Ricerca tipologica sull\'unità abitativa e sulle sue aggregazioni, con attenzione a soglie, distribuzioni e affacci.',
-  },
-  {
-    id: 'materia',
-    label: 'Materia',
-    text: 'Indagine sulla materia costruttiva: textures, stratificazioni e comportamento della luce sulle superfici.',
-  },
-];
-
-// Maximum number of text tiles in the mosaic (concepts shown as words).
-// Includes both explicit and filler tiles. Keeps the grid image-dominant.
-const MAX_TEXT_TILES = 11;
-
-// localStorage key for per-image editable descriptions
-const DESC_STORAGE_KEY = 'strati:descriptions';
-const loadDescriptions = (): Record<string, string> => {
-  if (typeof window === 'undefined') return {};
-  try {
-    return JSON.parse(localStorage.getItem(DESC_STORAGE_KEY) || '{}');
-  } catch {
-    return {};
-  }
-};
-const saveDescription = (id: string, text: string) => {
-  if (typeof window === 'undefined') return;
-  const all = loadDescriptions();
-  if (text.trim()) all[id] = text;
-  else delete all[id];
-  localStorage.setItem(DESC_STORAGE_KEY, JSON.stringify(all));
-};
+import { supabase } from '@/integrations/supabase/client';
+import {
+  sourceTiles,
+  defaultConcepts,
+  descriptionTemplates,
+  MAX_TEXT_TILES,
+  slugifyKey,
+  type Concept,
+} from './stratiConfig';
 
 type Orientation = 'portrait' | 'landscape' | 'square';
 
@@ -141,10 +22,9 @@ interface LayoutTile {
   description?: string;
   colSpan: number;
   rowSpan: number;
-  concept?: ConceptKey;
+  conceptKey?: string;
 }
 
-// Span rules per orientation per breakpoint (cols)
 function spansFor(orientation: Orientation, cols: number): { c: number; r: number } {
   if (cols <= 3) {
     if (orientation === 'portrait')  return { c: 1, r: 2 };
@@ -163,27 +43,20 @@ function classify(w: number, h: number): Orientation {
   return 'square';
 }
 
-// Greedy 2D packing onto a `cols`-wide grid, plus:
-// - cap text tiles to MAX_TEXT_TILES, spread evenly
-// - absorb remaining empty cells into adjacent image tiles
 function packAndFill(
   imageTiles: LayoutTile[],
   cols: number,
+  conceptKeys: string[],
 ): { tiles: LayoutTile[]; rows: number } {
-  // owner[r][c] = index into `placed` (or -1 if empty)
   const owner: number[][] = [];
   const placed: { tile: LayoutTile; r: number; c: number }[] = [];
 
-  const ensureRow = (r: number) => {
-    while (owner.length <= r) owner.push(new Array(cols).fill(-1));
-  };
+  const ensureRow = (r: number) => { while (owner.length <= r) owner.push(new Array(cols).fill(-1)); };
   const fits = (r: number, c: number, cs: number, rs: number) => {
     if (c + cs > cols) return false;
     for (let i = 0; i < rs; i++) {
       ensureRow(r + i);
-      for (let j = 0; j < cs; j++) {
-        if (owner[r + i][c + j] !== -1) return false;
-      }
+      for (let j = 0; j < cs; j++) if (owner[r + i][c + j] !== -1) return false;
     }
     return true;
   };
@@ -196,9 +69,7 @@ function packAndFill(
   const findSlot = (cs: number, rs: number): [number, number] => {
     for (let r = 0; ; r++) {
       ensureRow(r);
-      for (let c = 0; c <= cols - cs; c++) {
-        if (fits(r, c, cs, rs)) return [r, c];
-      }
+      for (let c = 0; c <= cols - cs; c++) if (fits(r, c, cs, rs)) return [r, c];
     }
   };
 
@@ -209,66 +80,48 @@ function packAndFill(
     stamp(r, c, t.colSpan, t.rowSpan, idx);
   }
 
-  // Trim trailing fully-empty rows
-  while (owner.length && owner[owner.length - 1].every((v) => v === -1)) {
-    owner.pop();
-  }
+  while (owner.length && owner[owner.length - 1].every((v) => v === -1)) owner.pop();
   if (owner.length === 0) return { tiles: imageTiles, rows: 0 };
 
-  // Collect empty cells
   const empties: { r: number; c: number }[] = [];
-  for (let r = 0; r < owner.length; r++) {
-    for (let c = 0; c < cols; c++) {
-      if (owner[r][c] === -1) empties.push({ r, c });
-    }
-  }
+  for (let r = 0; r < owner.length; r++)
+    for (let c = 0; c < cols; c++) if (owner[r][c] === -1) empties.push({ r, c });
 
-  // Pick up to MAX_TEXT_TILES empty cells, spread evenly across the list
-  const textCount = Math.min(MAX_TEXT_TILES, empties.length);
+  const textCount = Math.min(MAX_TEXT_TILES, empties.length, conceptKeys.length);
   const chosen = new Set<number>();
-  if (textCount > 0) {
-    for (let i = 0; i < textCount; i++) {
-      const idx = Math.floor((i + 0.5) * (empties.length / textCount));
-      chosen.add(idx);
-    }
+  for (let i = 0; i < textCount; i++) {
+    const idx = Math.floor((i + 0.5) * (empties.length / textCount));
+    chosen.add(idx);
   }
 
-  const conceptKeys = Object.keys(concepts) as ConceptKey[];
   const fillers: LayoutTile[] = [];
   let conceptIdx = 0;
   empties.forEach((cell, i) => {
     if (!chosen.has(i)) return;
-    const concept = conceptKeys[conceptIdx % conceptKeys.length];
+    const conceptKey = conceptKeys[conceptIdx % conceptKeys.length];
     conceptIdx++;
     const idx = placed.length + fillers.length;
     fillers.push({
-      id: `text-${concept}`,
+      id: `text-${conceptKey}`,
       kind: 'text',
       colSpan: 1,
       rowSpan: 1,
-      concept,
+      conceptKey,
     });
     owner[cell.r][cell.c] = idx;
   });
 
-  // Absorb remaining empties into a neighboring image tile by extending its span,
-  // but only when the extension stays inside the grid AND covers only empty cells.
   const tryExtend = (cell: { r: number; c: number }): boolean => {
-    // try extending a neighbor right→left, left→right, down, up
     const candidates: { ownerIdx: number; newCs?: number; newRs?: number }[] = [];
-
-    // left neighbor (extend its colSpan to the right by 1, but only if cell is exactly to the right of its right edge)
     if (cell.c > 0 && owner[cell.r][cell.c - 1] !== -1) {
       const oi = owner[cell.r][cell.c - 1];
       const p = placed[oi];
       if (p && p.tile.kind === 'image' && p.r <= cell.r && cell.r < p.r + p.tile.rowSpan && p.c + p.tile.colSpan === cell.c) {
-        // ensure all rows in p's rowspan at column cell.c are empty
         let ok = true;
         for (let i = 0; i < p.tile.rowSpan; i++) if (owner[p.r + i]?.[cell.c] !== -1) { ok = false; break; }
         if (ok) candidates.push({ ownerIdx: oi, newCs: p.tile.colSpan + 1 });
       }
     }
-    // top neighbor
     if (cell.r > 0 && owner[cell.r - 1][cell.c] !== -1) {
       const oi = owner[cell.r - 1][cell.c];
       const p = placed[oi];
@@ -278,7 +131,6 @@ function packAndFill(
         if (ok) candidates.push({ ownerIdx: oi, newRs: p.tile.rowSpan + 1 });
       }
     }
-
     if (candidates.length === 0) return false;
     const ch = candidates[0];
     const p = placed[ch.ownerIdx];
@@ -293,58 +145,121 @@ function packAndFill(
     return true;
   };
 
-  // Iterate (multiple passes) to absorb leftover empties
   for (let pass = 0; pass < 4; pass++) {
     let changed = false;
-    for (let r = 0; r < owner.length; r++) {
-      for (let c = 0; c < cols; c++) {
-        if (owner[r][c] === -1) {
-          if (tryExtend({ r, c })) changed = true;
-        }
-      }
-    }
+    for (let r = 0; r < owner.length; r++)
+      for (let c = 0; c < cols; c++)
+        if (owner[r][c] === -1) if (tryExtend({ r, c })) changed = true;
     if (!changed) break;
   }
 
   return { tiles: [...placed.map((p) => p.tile), ...fillers], rows: owner.length };
 }
 
-// Tailwind breakpoints used: <768 = 3 cols, <1024 = 5 cols, ≥1024 = 6 cols
 function colsForWidth(w: number): number {
   if (w >= 1024) return 6;
   if (w >= 768) return 5;
   return 3;
 }
 
+interface Override { description: string; conceptKey?: string | null }
+
 const Strati = () => {
   const { t } = useLanguage();
-  const [expandedTile, setExpandedTile] = useState<{ id: string; kind: 'image' | 'text'; src?: string; alt: string; concept?: ConceptKey; description?: string } | null>(null);
+
+  // ── Cloud-backed state ──
+  const [conceptsMap, setConceptsMap] = useState<Record<string, Concept>>(() => {
+    const m: Record<string, Concept> = {};
+    defaultConcepts.forEach((c) => (m[c.key] = c));
+    return m;
+  });
+  const [overrides, setOverrides] = useState<Record<string, Override>>({});
+
+  // Load + realtime subscribe
+  useEffect(() => {
+    let alive = true;
+
+    const seed = async () => {
+      // Ensure default concepts exist in DB (idempotent upsert, ignore on conflict)
+      await supabase.from('strati_concepts').upsert(
+        defaultConcepts.map((c) => ({ key: c.key, title: c.title, phrase: c.phrase })),
+        { onConflict: 'key', ignoreDuplicates: true },
+      );
+      const [{ data: cs }, { data: os }] = await Promise.all([
+        supabase.from('strati_concepts').select('*'),
+        supabase.from('strati_overrides').select('*'),
+      ]);
+      if (!alive) return;
+      if (cs) {
+        const m: Record<string, Concept> = {};
+        defaultConcepts.forEach((c) => (m[c.key] = c));
+        cs.forEach((c) => (m[c.key] = { key: c.key, title: c.title, phrase: c.phrase }));
+        setConceptsMap(m);
+      }
+      if (os) {
+        const o: Record<string, Override> = {};
+        os.forEach((row) => (o[row.tile_id] = { description: row.description ?? '', conceptKey: row.concept_key }));
+        setOverrides(o);
+      }
+    };
+    seed();
+
+    const ch = supabase
+      .channel('strati-sync')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'strati_concepts' }, (p) => {
+        const row = (p.new ?? p.old) as { key: string; title?: string; phrase?: string };
+        if (!row?.key) return;
+        setConceptsMap((prev) => {
+          const next = { ...prev };
+          if (p.eventType === 'DELETE') {
+            const def = defaultConcepts.find((d) => d.key === row.key);
+            if (def) next[row.key] = def; else delete next[row.key];
+          } else {
+            next[row.key] = { key: row.key, title: row.title ?? row.key, phrase: row.phrase ?? '' };
+          }
+          return next;
+        });
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'strati_overrides' }, (p) => {
+        const row = (p.new ?? p.old) as { tile_id: string; description?: string; concept_key?: string | null };
+        if (!row?.tile_id) return;
+        setOverrides((prev) => {
+          const next = { ...prev };
+          if (p.eventType === 'DELETE') delete next[row.tile_id];
+          else next[row.tile_id] = { description: row.description ?? '', conceptKey: row.concept_key };
+          return next;
+        });
+      })
+      .subscribe();
+
+    return () => { alive = false; supabase.removeChannel(ch); };
+  }, []);
+
+  // ── Lightbox state ──
+  const [expandedTile, setExpandedTile] = useState<{ id: string; kind: 'image' | 'text'; src?: string; alt: string; conceptKey?: string } | null>(null);
   const [activeTile, setActiveTile] = useState<string | null>(null);
-  
-  const [descriptions, setDescriptions] = useState<Record<string, string>>(() => loadDescriptions());
   const [draftDescription, setDraftDescription] = useState<string>('');
+  const [draftKeyword, setDraftKeyword] = useState<string>(''); // free-text keyword (title)
   const [savedFlash, setSavedFlash] = useState(false);
 
-  // ── Measure natural orientation of every image once ──
+  // ── Measure orientations ──
   const [orientations, setOrientations] = useState<Record<string, Orientation>>({});
   useEffect(() => {
     let cancelled = false;
-    sourceTiles.forEach((t) => {
+    sourceTiles.forEach((tile) => {
       const img = new Image();
       img.onload = () => {
         if (cancelled) return;
         setOrientations((prev) =>
-          prev[t.id] ? prev : { ...prev, [t.id]: classify(img.naturalWidth, img.naturalHeight) },
+          prev[tile.id] ? prev : { ...prev, [tile.id]: classify(img.naturalWidth, img.naturalHeight) },
         );
       };
-      img.src = t.cover;
+      img.src = tile.cover;
     });
-    return () => {
-      cancelled = true;
-    };
+    return () => { cancelled = true; };
   }, []);
 
-  // ── Track current breakpoint (cols) ──
+  // ── Breakpoint ──
   const [cols, setCols] = useState<number>(() =>
     typeof window === 'undefined' ? 6 : colsForWidth(window.innerWidth),
   );
@@ -354,83 +269,129 @@ const Strati = () => {
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
-  // ── Compute layout: assign spans, pack images, then add text tiles in empties ──
+  // ── Layout ──
   const layout = useMemo(() => {
-    const tiles: LayoutTile[] = sourceTiles.map((t) => {
-      const o = orientations[t.id] ?? 'square';
+    const tiles: LayoutTile[] = sourceTiles.map((tile) => {
+      const o = orientations[tile.id] ?? 'square';
       const { c, r } = spansFor(o, cols);
+      const ov = overrides[tile.id];
       return {
-        id: t.id,
+        id: tile.id,
         kind: 'image' as const,
-        cover: t.cover,
-        alt: t.alt,
-        description: descriptions[t.id] ?? t.description,
-        concept: t.concept,
+        cover: tile.cover,
+        alt: tile.alt,
+        description: ov?.description || tile.description,
+        conceptKey: ov?.conceptKey ?? tile.conceptKey,
         colSpan: c,
         rowSpan: r,
       };
     });
-    return packAndFill(tiles, cols);
-  }, [orientations, cols, descriptions]);
+    // text tiles cycle through ALL known concept keys (default + custom)
+    const conceptKeys = Object.keys(conceptsMap);
+    return packAndFill(tiles, cols, conceptKeys);
+  }, [orientations, cols, overrides, conceptsMap]);
 
   const openTile = useCallback(
     (tile: LayoutTile) => {
-      const desc = descriptions[tile.id] ?? tile.description ?? '';
+      const ov = overrides[tile.id];
+      const desc = ov?.description ?? tile.description ?? '';
+      const ck = tile.conceptKey;
       setExpandedTile({
         id: tile.id,
         kind: tile.kind,
         src: tile.cover,
         alt: tile.alt ?? '',
-        concept: tile.concept,
-        description: desc,
+        conceptKey: ck,
       });
       setDraftDescription(desc);
+      setDraftKeyword(ck ? conceptsMap[ck]?.title ?? '' : '');
       setSavedFlash(false);
     },
-    [descriptions],
+    [overrides, conceptsMap],
   );
   const closeImage = useCallback(() => setExpandedTile(null), []);
 
-  const handleSaveDescription = useCallback(() => {
+  const handleSave = useCallback(async () => {
     if (!expandedTile) return;
-    saveDescription(expandedTile.id, draftDescription);
-    setDescriptions((prev) => {
-      const next = { ...prev };
-      if (draftDescription.trim()) next[expandedTile.id] = draftDescription;
-      else delete next[expandedTile.id];
-      return next;
-    });
-    setExpandedTile((prev) => (prev ? { ...prev, description: draftDescription } : prev));
+    let resolvedKey: string | null = null;
+    const titleInput = draftKeyword.trim();
+
+    if (titleInput) {
+      // Match an existing concept by title (case-insensitive); else create new.
+      const existing = Object.values(conceptsMap).find(
+        (c) => c.title.trim().toLowerCase() === titleInput.toLowerCase(),
+      );
+      if (existing) {
+        resolvedKey = existing.key;
+      } else {
+        const baseKey = slugifyKey(titleInput) || `k-${Date.now()}`;
+        let key = baseKey;
+        let n = 2;
+        while (conceptsMap[key]) key = `${baseKey}-${n++}`;
+        const newConcept: Concept = { key, title: titleInput.toUpperCase(), phrase: '' };
+        await supabase.from('strati_concepts').insert(newConcept);
+        setConceptsMap((prev) => ({ ...prev, [key]: newConcept }));
+        resolvedKey = key;
+      }
+    }
+
+    await supabase.from('strati_overrides').upsert(
+      {
+        tile_id: expandedTile.id,
+        description: draftDescription,
+        concept_key: resolvedKey,
+      },
+      { onConflict: 'tile_id' },
+    );
+    setOverrides((prev) => ({
+      ...prev,
+      [expandedTile.id]: { description: draftDescription, conceptKey: resolvedKey },
+    }));
+    setExpandedTile((prev) => (prev ? { ...prev, conceptKey: resolvedKey ?? undefined } : prev));
     setSavedFlash(true);
     setTimeout(() => setSavedFlash(false), 1600);
-  }, [expandedTile, draftDescription]);
+  }, [expandedTile, draftDescription, draftKeyword, conceptsMap]);
+
+  // For text-tile lightbox: allow editing the phrase (the concept's extended text)
+  const handleSaveTextTile = useCallback(async () => {
+    if (!expandedTile || expandedTile.kind !== 'text' || !expandedTile.conceptKey) return;
+    const key = expandedTile.conceptKey;
+    const titleInput = draftKeyword.trim();
+    const newTitle = titleInput ? titleInput.toUpperCase() : conceptsMap[key]?.title ?? key;
+    await supabase.from('strati_concepts').upsert(
+      { key, title: newTitle, phrase: draftDescription },
+      { onConflict: 'key' },
+    );
+    setConceptsMap((prev) => ({ ...prev, [key]: { key, title: newTitle, phrase: draftDescription } }));
+    setSavedFlash(true);
+    setTimeout(() => setSavedFlash(false), 1600);
+  }, [expandedTile, draftDescription, draftKeyword, conceptsMap]);
 
   const gridColsClass =
     cols === 6 ? 'grid-cols-6' : cols === 5 ? 'grid-cols-5' : 'grid-cols-3';
+
+  const expandedConcept = expandedTile?.conceptKey ? conceptsMap[expandedTile.conceptKey] : undefined;
 
   return (
     <section id="strati" className="py-20 md:py-28">
       <div className="container">
         <div className="max-w-2xl mx-auto">
-          {/* Header */}
           <div className="text-center mb-12 md:mb-16">
             <h2 className="font-display text-2xl md:text-3xl font-light tracking-wide mb-4 text-center">
               {t('strati.heading')}
             </h2>
           </div>
 
-          {/* Text block */}
           <div className="space-y-4 font-body text-sm md:text-base text-foreground leading-[1.6] mb-12 md:mb-16">
             <p>{t('strati.text')}</p>
           </div>
 
-          {/* Mosaic Grid — auto-computed spans + filler text tiles → perfect rectangle */}
           <div
             className={`grid ${gridColsClass} auto-rows-[90px] md:auto-rows-[110px] lg:auto-rows-[120px] gap-1 md:gap-2 lg:gap-2.5`}
             style={{ gridAutoFlow: 'dense' }}
           >
             {layout.tiles.map((tile) => {
-              const concept = tile.concept ? concepts[tile.concept] : undefined;
+              const concept = tile.conceptKey ? conceptsMap[tile.conceptKey] : undefined;
               const isActive = activeTile === tile.id;
               const isText = tile.kind === 'text';
               return (
@@ -509,7 +470,7 @@ const Strati = () => {
       <AnimatePresence>
         {expandedTile && (
           <motion.div
-            className="fixed inset-0 z-50 bg-background/95 flex flex-col items-center justify-center p-6"
+            className="fixed inset-0 z-50 bg-background/95 flex flex-col items-center justify-center p-6 overflow-y-auto"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -523,13 +484,14 @@ const Strati = () => {
             >
               <X className="w-5 h-5" />
             </button>
+
             {expandedTile.kind === 'image' && expandedTile.src ? (
               <motion.img
                 src={expandedTile.src}
                 alt={expandedTile.alt}
                 draggable="false"
                 onContextMenu={(e) => e.preventDefault()}
-                className="max-w-[90vw] max-h-[78vh] object-contain select-none"
+                className="max-w-[90vw] max-h-[60vh] object-contain select-none"
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.9, opacity: 0 }}
@@ -537,7 +499,7 @@ const Strati = () => {
                 onClick={(e) => e.stopPropagation()}
               />
             ) : (
-              expandedTile.concept && (
+              expandedConcept && (
                 <motion.div
                   className="max-w-[90vw] text-center px-6"
                   initial={{ scale: 0.95, opacity: 0 }}
@@ -547,75 +509,93 @@ const Strati = () => {
                   onClick={(e) => e.stopPropagation()}
                 >
                   <div className="font-display font-light tracking-[0.22em] text-foreground text-3xl md:text-5xl lg:text-6xl leading-tight">
-                    {concepts[expandedTile.concept].title}
+                    {expandedConcept.title}
                   </div>
-                  <div className="font-body font-light text-foreground/80 text-sm md:text-base lg:text-lg leading-relaxed mt-6 md:mt-8 max-w-2xl mx-auto">
-                    {concepts[expandedTile.concept].phrase}
-                  </div>
+                  {expandedConcept.phrase && (
+                    <div className="font-body font-light text-foreground/80 text-sm md:text-base lg:text-lg leading-relaxed mt-6 md:mt-8 max-w-2xl mx-auto whitespace-pre-line">
+                      {expandedConcept.phrase}
+                    </div>
+                  )}
                 </motion.div>
               )
             )}
+
             <motion.div
-              className="mt-6 max-w-xl text-center px-4"
+              className="mt-6 w-full max-w-xl text-center px-4"
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 4 }}
-              transition={{ duration: 0.9, ease: [0.22, 0.61, 0.36, 1], delay: 0.2 }}
+              transition={{ duration: 0.7, ease: [0.22, 0.61, 0.36, 1], delay: 0.15 }}
               onClick={(e) => e.stopPropagation()}
             >
-              {expandedTile.kind === 'image' && expandedTile.concept && (
-                <div className="font-display tracking-[0.18em] text-foreground text-sm md:text-base mb-2">
-                  {concepts[expandedTile.concept].title}
-                </div>
-              )}
-              {expandedTile.kind === 'image' && expandedTile.concept && (
-                <div className="font-body font-light text-foreground/80 text-xs md:text-sm leading-relaxed mb-2">
-                  {concepts[expandedTile.concept].phrase}
-                </div>
-              )}
               {expandedTile.kind === 'image' && expandedTile.alt && (
                 <div className="font-body font-light text-muted-foreground text-[11px] md:text-xs leading-snug mb-4">
                   {expandedTile.alt}
                 </div>
               )}
 
-              {/* Editable description field */}
-              <div className="mt-4 text-left" onClick={(e) => e.stopPropagation()}>
-                <div className="flex items-center justify-between gap-3 mb-2">
-                  <label className="block font-body text-[10px] md:text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                    Descrizione
+              <div className="mt-2 text-left grid gap-3">
+                {/* Keyword field — editable + datalist of existing concepts */}
+                <div>
+                  <label className="block font-body text-[10px] md:text-xs uppercase tracking-[0.2em] text-muted-foreground mb-2">
+                    Keyword
                   </label>
-                  <select
-                    value=""
-                    onChange={(e) => {
-                      const tpl = descriptionTemplates.find((d) => d.id === e.target.value);
-                      if (tpl) setDraftDescription(tpl.text);
-                      e.target.value = '';
-                    }}
-                    className="rounded-sm border border-border bg-background/60 px-2 py-1 font-body text-[11px] md:text-xs text-foreground focus:outline-none focus:ring-1 focus:ring-foreground/40"
-                  >
-                    <option value="">Modello…</option>
-                    {descriptionTemplates.map((tpl) => (
-                      <option key={tpl.id} value={tpl.id}>
-                        {tpl.label}
-                      </option>
+                  <input
+                    type="text"
+                    list="strati-keywords"
+                    value={draftKeyword}
+                    onChange={(e) => setDraftKeyword(e.target.value)}
+                    placeholder="Scegli o scrivi una keyword (es. POROSITÀ)"
+                    className="w-full rounded-sm border border-border bg-background/60 px-3 py-2 font-body text-xs md:text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-foreground/40"
+                  />
+                  <datalist id="strati-keywords">
+                    {Object.values(conceptsMap).map((c) => (
+                      <option key={c.key} value={c.title} />
                     ))}
-                  </select>
+                  </datalist>
                 </div>
-                <textarea
-                  value={draftDescription}
-                  onChange={(e) => setDraftDescription(e.target.value)}
-                  placeholder="Aggiungi o modifica la descrizione di questa immagine…"
-                  rows={4}
-                  className="w-full resize-y rounded-sm border border-border bg-background/60 p-3 font-body text-xs md:text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-foreground/40 transition"
-                />
-                <div className="mt-2 flex items-center justify-end gap-3">
+
+                {/* Description field + template selector */}
+                <div>
+                  <div className="flex items-center justify-between gap-3 mb-2">
+                    <label className="block font-body text-[10px] md:text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                      {expandedTile.kind === 'text' ? 'Frase del concetto' : 'Descrizione'}
+                    </label>
+                    <select
+                      value=""
+                      onChange={(e) => {
+                        const tpl = descriptionTemplates.find((d) => d.id === e.target.value);
+                        if (tpl) setDraftDescription(tpl.text);
+                        e.target.value = '';
+                      }}
+                      className="rounded-sm border border-border bg-background/60 px-2 py-1 font-body text-[11px] md:text-xs text-foreground focus:outline-none focus:ring-1 focus:ring-foreground/40"
+                    >
+                      <option value="">Modello…</option>
+                      {descriptionTemplates.map((tpl) => (
+                        <option key={tpl.id} value={tpl.id}>{tpl.label}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <textarea
+                    value={draftDescription}
+                    onChange={(e) => setDraftDescription(e.target.value)}
+                    placeholder={
+                      expandedTile.kind === 'text'
+                        ? 'Frase descrittiva associata alla keyword…'
+                        : 'Aggiungi o modifica la descrizione di questa immagine…'
+                    }
+                    rows={4}
+                    className="w-full resize-y rounded-sm border border-border bg-background/60 p-3 font-body text-xs md:text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-foreground/40 transition"
+                  />
+                </div>
+
+                <div className="mt-1 flex items-center justify-end gap-3">
                   {savedFlash && (
                     <span className="font-body text-[11px] text-muted-foreground">Salvato</span>
                   )}
                   <button
                     type="button"
-                    onClick={handleSaveDescription}
+                    onClick={expandedTile.kind === 'text' ? handleSaveTextTile : handleSave}
                     className="px-4 py-1.5 rounded-sm border border-foreground/70 bg-foreground text-background font-body text-[11px] md:text-xs uppercase tracking-[0.18em] hover:bg-foreground/90 transition"
                   >
                     Salva
