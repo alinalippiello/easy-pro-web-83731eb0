@@ -14,7 +14,56 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      strati_concepts: {
+        Row: {
+          key: string
+          phrase: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          key: string
+          phrase?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          key?: string
+          phrase?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      strati_overrides: {
+        Row: {
+          concept_key: string | null
+          description: string
+          tile_id: string
+          updated_at: string
+        }
+        Insert: {
+          concept_key?: string | null
+          description?: string
+          tile_id: string
+          updated_at?: string
+        }
+        Update: {
+          concept_key?: string | null
+          description?: string
+          tile_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "strati_overrides_concept_key_fkey"
+            columns: ["concept_key"]
+            isOneToOne: false
+            referencedRelation: "strati_concepts"
+            referencedColumns: ["key"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
