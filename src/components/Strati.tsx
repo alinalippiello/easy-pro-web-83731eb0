@@ -111,7 +111,7 @@ const descriptionTemplates: DescriptionTemplate[] = [
 
 // Maximum number of text tiles in the mosaic (concepts shown as words).
 // Includes both explicit and filler tiles. Keeps the grid image-dominant.
-const MAX_TEXT_TILES = 8;
+const MAX_TEXT_TILES = 11;
 
 // localStorage key for per-image editable descriptions
 const DESC_STORAGE_KEY = 'strati:descriptions';
