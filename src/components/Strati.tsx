@@ -318,7 +318,7 @@ function colsForWidth(w: number): number {
 
 const Strati = () => {
   const { t } = useLanguage();
-  const [expandedTile, setExpandedTile] = useState<{ id: string; src: string; alt: string; concept?: ConceptKey; description?: string } | null>(null);
+  const [expandedTile, setExpandedTile] = useState<{ id: string; kind: 'image' | 'text'; src?: string; alt: string; concept?: ConceptKey; description?: string } | null>(null);
   const [activeTile, setActiveTile] = useState<string | null>(null);
   const [activeTextTile, setActiveTextTile] = useState<string | null>(null);
   const [descriptions, setDescriptions] = useState<Record<string, string>>(() => loadDescriptions());
