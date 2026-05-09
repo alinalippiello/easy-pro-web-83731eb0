@@ -444,13 +444,7 @@ const Strati = () => {
                     gridColumn: `span ${tile.colSpan}`,
                     gridRow: `span ${tile.rowSpan}`,
                   }}
-                  onClick={() => {
-                    if (isText) {
-                      setActiveTextTile((prev) => (prev === tile.id ? null : tile.id));
-                      return;
-                    }
-                    if (tile.cover) openImage(tile);
-                  }}
+                  onClick={() => openTile(tile)}
                   onMouseEnter={() => !isText && concept && setActiveTile(tile.id)}
                   onMouseLeave={() => !isText && concept && setActiveTile((prev) => (prev === tile.id ? null : prev))}
                   whileHover={isText ? undefined : { scale: 1.015 }}
