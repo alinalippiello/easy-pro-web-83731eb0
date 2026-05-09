@@ -76,6 +76,39 @@ const sourceTiles: SourceTile[] = [
   { id: 'orizzonte',   cover: stratiRender4, alt: 'Render prospettico — orizzonte urbano',               concept: 'dissolvere' },
 ];
 
+// ─────────────────────────────────────────────────────────────
+// DESCRIPTION TEMPLATES — base texts selectable in the lightbox.
+// Edit / add entries here to change the dropdown options.
+// ─────────────────────────────────────────────────────────────
+interface DescriptionTemplate {
+  id: string;
+  label: string;
+  text: string;
+}
+
+const descriptionTemplates: DescriptionTemplate[] = [
+  {
+    id: 'concept',
+    label: 'Concept',
+    text: 'Studio concettuale che esplora la relazione tra forma costruita e contesto, indagando il rapporto tra figura, suolo e paesaggio.',
+  },
+  {
+    id: 'masterplan',
+    label: 'Masterplan',
+    text: 'Disegno urbano alla scala del territorio: definizione di tessuti, percorsi e relazioni con le preesistenze morfologiche e infrastrutturali.',
+  },
+  {
+    id: 'tipologia',
+    label: 'Tipologia',
+    text: 'Ricerca tipologica sull\'unità abitativa e sulle sue aggregazioni, con attenzione a soglie, distribuzioni e affacci.',
+  },
+  {
+    id: 'materia',
+    label: 'Materia',
+    text: 'Indagine sulla materia costruttiva: textures, stratificazioni e comportamento della luce sulle superfici.',
+  },
+];
+
 // Maximum number of text tiles in the mosaic (concepts shown as words).
 // Includes both explicit and filler tiles. Keeps the grid image-dominant.
 const MAX_TEXT_TILES = 8;
