@@ -538,18 +538,38 @@ const Strati = () => {
             >
               <X className="w-5 h-5" />
             </button>
-            <motion.img
-              src={expandedTile.src}
-              alt={expandedTile.alt}
-              draggable="false"
-              onContextMenu={(e) => e.preventDefault()}
-              className="max-w-[90vw] max-h-[78vh] object-contain select-none"
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ duration: 0.35, ease: 'easeOut' }}
-              onClick={(e) => e.stopPropagation()}
-            />
+            {expandedTile.kind === 'image' && expandedTile.src ? (
+              <motion.img
+                src={expandedTile.src}
+                alt={expandedTile.alt}
+                draggable="false"
+                onContextMenu={(e) => e.preventDefault()}
+                className="max-w-[90vw] max-h-[78vh] object-contain select-none"
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                transition={{ duration: 0.35, ease: 'easeOut' }}
+                onClick={(e) => e.stopPropagation()}
+              />
+            ) : (
+              expandedTile.concept && (
+                <motion.div
+                  className="max-w-[90vw] text-center px-6"
+                  initial={{ scale: 0.95, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.95, opacity: 0 }}
+                  transition={{ duration: 0.4, ease: 'easeOut' }}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className="font-display font-light tracking-[0.22em] text-foreground text-3xl md:text-5xl lg:text-6xl leading-tight">
+                    {concepts[expandedTile.concept].title}
+                  </div>
+                  <div className="font-body font-light text-foreground/80 text-sm md:text-base lg:text-lg leading-relaxed mt-6 md:mt-8 max-w-2xl mx-auto">
+                    {concepts[expandedTile.concept].phrase}
+                  </div>
+                </motion.div>
+              )
+            )}
             <motion.div
               className="mt-6 max-w-xl text-center px-4"
               initial={{ opacity: 0, y: 8 }}
@@ -558,17 +578,17 @@ const Strati = () => {
               transition={{ duration: 0.9, ease: [0.22, 0.61, 0.36, 1], delay: 0.2 }}
               onClick={(e) => e.stopPropagation()}
             >
-              {expandedTile.concept && (
+              {expandedTile.kind === 'image' && expandedTile.concept && (
                 <div className="font-display tracking-[0.18em] text-foreground text-sm md:text-base mb-2">
                   {concepts[expandedTile.concept].title}
                 </div>
               )}
-              {expandedTile.concept && (
+              {expandedTile.kind === 'image' && expandedTile.concept && (
                 <div className="font-body font-light text-foreground/80 text-xs md:text-sm leading-relaxed mb-2">
                   {concepts[expandedTile.concept].phrase}
                 </div>
               )}
-              {expandedTile.alt && (
+              {expandedTile.kind === 'image' && expandedTile.alt && (
                 <div className="font-body font-light text-muted-foreground text-[11px] md:text-xs leading-snug mb-4">
                   {expandedTile.alt}
                 </div>
