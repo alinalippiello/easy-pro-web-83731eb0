@@ -373,12 +373,13 @@ const Strati = () => {
     return packAndFill(tiles, cols);
   }, [orientations, cols, descriptions]);
 
-  const openImage = useCallback(
+  const openTile = useCallback(
     (tile: LayoutTile) => {
       const desc = descriptions[tile.id] ?? tile.description ?? '';
       setExpandedTile({
         id: tile.id,
-        src: tile.cover!,
+        kind: tile.kind,
+        src: tile.cover,
         alt: tile.alt ?? '',
         concept: tile.concept,
         description: desc,
