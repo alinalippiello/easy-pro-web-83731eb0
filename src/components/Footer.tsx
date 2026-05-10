@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
+import { useAdmin } from "@/hooks/useAdmin";
 
 const IUBENDA_URL = "https://www.iubenda.com/privacy-policy/80078108";
 
 const Footer = () => {
+  const { isAdmin } = useAdmin();
   return (
     <footer className="border-t border-border py-16">
       <div className="container">
@@ -37,6 +39,17 @@ const Footer = () => {
               className="ml-2 inline-block w-1 h-1 rounded-full bg-foreground/10 hover:bg-foreground/40 transition-colors align-middle"
             />
           </p>
+          {isAdmin && (
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new Event('open-admin-gate'))}
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-foreground/30 bg-background font-body text-[10px] uppercase tracking-[0.2em] text-foreground/70 hover:text-foreground hover:border-foreground/60 transition"
+              aria-label="Sessione admin attiva"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-foreground animate-pulse" />
+              Admin attivo
+            </button>
+          )}
         </div>
       </div>
     </footer>
