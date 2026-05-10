@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { useLanguage } from '@/hooks/useLanguage';
+import { useAdmin } from '@/hooks/useAdmin';
 import { supabase } from '@/integrations/supabase/client';
 import {
   sourceTiles,
@@ -166,6 +167,7 @@ interface Override { description: string; conceptKey?: string | null }
 
 const Strati = () => {
   const { t } = useLanguage();
+  const { isAdmin } = useAdmin();
 
   // ── Cloud-backed state ──
   const [conceptsMap, setConceptsMap] = useState<Record<string, Concept>>(() => {
@@ -534,74 +536,82 @@ const Strati = () => {
                 </div>
               )}
 
-              <div className="mt-2 text-left grid gap-3">
-                {/* Keyword field — editable + datalist of existing concepts */}
-                <div>
-                  <label className="block font-body text-[10px] md:text-xs uppercase tracking-[0.2em] text-muted-foreground mb-2">
-                    Keyword
-                  </label>
-                  <input
-                    type="text"
-                    list="strati-keywords"
-                    value={draftKeyword}
-                    onChange={(e) => setDraftKeyword(e.target.value)}
-                    placeholder="Scegli o scrivi una keyword (es. POROSITÀ)"
-                    className="w-full rounded-sm border border-border bg-background/60 px-3 py-2 font-body text-xs md:text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-foreground/40"
-                  />
-                  <datalist id="strati-keywords">
-                    {Object.values(conceptsMap).map((c) => (
-                      <option key={c.key} value={c.title} />
-                    ))}
-                  </datalist>
-                </div>
-
-                {/* Description field + template selector */}
-                <div>
-                  <div className="flex items-center justify-between gap-3 mb-2">
-                    <label className="block font-body text-[10px] md:text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                      {expandedTile.kind === 'text' ? 'Frase del concetto' : 'Descrizione'}
+              {isAdmin ? (
+                <div className="mt-2 text-left grid gap-3">
+                  {/* Keyword field — editable + datalist of existing concepts */}
+                  <div>
+                    <label className="block font-body text-[10px] md:text-xs uppercase tracking-[0.2em] text-muted-foreground mb-2">
+                      Keyword
                     </label>
-                    <select
-                      value=""
-                      onChange={(e) => {
-                        const tpl = descriptionTemplates.find((d) => d.id === e.target.value);
-                        if (tpl) setDraftDescription(tpl.text);
-                        e.target.value = '';
-                      }}
-                      className="rounded-sm border border-border bg-background/60 px-2 py-1 font-body text-[11px] md:text-xs text-foreground focus:outline-none focus:ring-1 focus:ring-foreground/40"
-                    >
-                      <option value="">Modello…</option>
-                      {descriptionTemplates.map((tpl) => (
-                        <option key={tpl.id} value={tpl.id}>{tpl.label}</option>
+                    <input
+                      type="text"
+                      list="strati-keywords"
+                      value={draftKeyword}
+                      onChange={(e) => setDraftKeyword(e.target.value)}
+                      placeholder="Scegli o scrivi una keyword (es. POROSITÀ)"
+                      className="w-full rounded-sm border border-border bg-background/60 px-3 py-2 font-body text-xs md:text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-foreground/40"
+                    />
+                    <datalist id="strati-keywords">
+                      {Object.values(conceptsMap).map((c) => (
+                        <option key={c.key} value={c.title} />
                       ))}
-                    </select>
+                    </datalist>
                   </div>
-                  <textarea
-                    value={draftDescription}
-                    onChange={(e) => setDraftDescription(e.target.value)}
-                    placeholder={
-                      expandedTile.kind === 'text'
-                        ? 'Frase descrittiva associata alla keyword…'
-                        : 'Aggiungi o modifica la descrizione di questa immagine…'
-                    }
-                    rows={4}
-                    className="w-full resize-y rounded-sm border border-border bg-background/60 p-3 font-body text-xs md:text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-foreground/40 transition"
-                  />
-                </div>
 
-                <div className="mt-1 flex items-center justify-end gap-3">
-                  {savedFlash && (
-                    <span className="font-body text-[11px] text-muted-foreground">Salvato</span>
-                  )}
-                  <button
-                    type="button"
-                    onClick={expandedTile.kind === 'text' ? handleSaveTextTile : handleSave}
-                    className="px-4 py-1.5 rounded-sm border border-foreground/70 bg-foreground text-background font-body text-[11px] md:text-xs uppercase tracking-[0.18em] hover:bg-foreground/90 transition"
-                  >
-                    Salva
-                  </button>
+                  {/* Description field + template selector */}
+                  <div>
+                    <div className="flex items-center justify-between gap-3 mb-2">
+                      <label className="block font-body text-[10px] md:text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                        {expandedTile.kind === 'text' ? 'Frase del concetto' : 'Descrizione'}
+                      </label>
+                      <select
+                        value=""
+                        onChange={(e) => {
+                          const tpl = descriptionTemplates.find((d) => d.id === e.target.value);
+                          if (tpl) setDraftDescription(tpl.text);
+                          e.target.value = '';
+                        }}
+                        className="rounded-sm border border-border bg-background/60 px-2 py-1 font-body text-[11px] md:text-xs text-foreground focus:outline-none focus:ring-1 focus:ring-foreground/40"
+                      >
+                        <option value="">Modello…</option>
+                        {descriptionTemplates.map((tpl) => (
+                          <option key={tpl.id} value={tpl.id}>{tpl.label}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <textarea
+                      value={draftDescription}
+                      onChange={(e) => setDraftDescription(e.target.value)}
+                      placeholder={
+                        expandedTile.kind === 'text'
+                          ? 'Frase descrittiva associata alla keyword…'
+                          : 'Aggiungi o modifica la descrizione di questa immagine…'
+                      }
+                      rows={4}
+                      className="w-full resize-y rounded-sm border border-border bg-background/60 p-3 font-body text-xs md:text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-foreground/40 transition"
+                    />
+                  </div>
+
+                  <div className="mt-1 flex items-center justify-end gap-3">
+                    {savedFlash && (
+                      <span className="font-body text-[11px] text-muted-foreground">Salvato</span>
+                    )}
+                    <button
+                      type="button"
+                      onClick={expandedTile.kind === 'text' ? handleSaveTextTile : handleSave}
+                      className="px-4 py-1.5 rounded-sm border border-foreground/70 bg-foreground text-background font-body text-[11px] md:text-xs uppercase tracking-[0.18em] hover:bg-foreground/90 transition"
+                    >
+                      Salva
+                    </button>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                expandedTile.kind === 'image' && draftDescription && (
+                  <div className="mt-2 font-body font-light text-foreground/80 text-sm md:text-base leading-relaxed text-center max-w-2xl mx-auto whitespace-pre-line">
+                    {draftDescription}
+                  </div>
+                )
+              )}
             </motion.div>
           </motion.div>
         )}
