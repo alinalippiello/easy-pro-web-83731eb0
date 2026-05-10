@@ -30,6 +30,12 @@ const Footer = () => {
           </p>
           <p className="font-body text-[10px] uppercase tracking-[0.12em] text-foreground/40">
             © {new Date().getFullYear()} Alina Lippiello
+            <button
+              type="button"
+              aria-label="admin"
+              onClick={() => window.dispatchEvent(new Event('open-admin-gate'))}
+              className="ml-2 inline-block w-1 h-1 rounded-full bg-foreground/10 hover:bg-foreground/40 transition-colors align-middle"
+            />
           </p>
         </div>
       </div>
