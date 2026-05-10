@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import Legal from "./pages/Legal";
 import ProjectPage from "./pages/ProjectPage";
 import NotFound from "./pages/NotFound";
+import AdminGate from "./components/AdminGate";
 
 // Build trigger: ensure Vercel picks up dependency changes
 const queryClient = new QueryClient();
@@ -19,6 +20,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <AdminGate />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/progetti/:slug" element={<ProjectPage />} />
