@@ -157,9 +157,10 @@ function packAndFill(
   return { tiles: [...placed.map((p) => p.tile), ...fillers], rows: owner.length };
 }
 
+// Fixed breakpoints — keep grid identical between Lovable preview (≈941px)
+// and the published site (≥1024px). Single md breakpoint at 768px.
 function colsForWidth(w: number): number {
-  if (w >= 1024) return 6;
-  if (w >= 768) return 5;
+  if (w >= 768) return 6;
   return 3;
 }
 
