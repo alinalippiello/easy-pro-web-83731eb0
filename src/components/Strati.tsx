@@ -169,6 +169,15 @@ const Strati = () => {
   const { t } = useLanguage();
   const { isAdmin } = useAdmin();
 
+  // i18n helper: returns translation if defined, otherwise the provided fallback.
+  const tr = (key: string, fallback: string) => {
+    const v = t(key);
+    return v === key ? fallback : v;
+  };
+  const trConceptTitle = (c?: Concept) => (c ? tr(`strati.concept.${c.key}.title`, c.title) : '');
+  const trConceptPhrase = (c?: Concept) => (c ? tr(`strati.concept.${c.key}.phrase`, c.phrase) : '');
+  const trAlt = (id: string, fallback: string) => tr(`strati.alt.${id}`, fallback);
+
   // ── Cloud-backed state ──
   const [conceptsMap, setConceptsMap] = useState<Record<string, Concept>>(() => {
     const m: Record<string, Concept> = {};
@@ -415,7 +424,7 @@ const Strati = () => {
                   {!isText && tile.cover && (
                     <img
                       src={tile.cover}
-                      alt={tile.alt ?? ''}
+                      alt={trAlt(tile.id, tile.alt ?? '')}
                       loading="lazy"
                       decoding="async"
                       draggable="false"
@@ -427,7 +436,7 @@ const Strati = () => {
                   {isText && concept && (
                     <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-3 md:px-5">
                       <span className="font-display font-light tracking-[0.18em] text-foreground text-[11px] md:text-sm lg:text-base leading-tight">
-                        {concept.title}
+                        {trConceptTitle(concept)}
                       </span>
                     </div>
                   )}
@@ -451,10 +460,10 @@ const Strati = () => {
                             transition={{ duration: 0.8, ease: [0.22, 0.61, 0.36, 1] }}
                           >
                             <span className="font-display font-medium tracking-[0.2em] text-foreground text-xs md:text-base lg:text-lg leading-tight">
-                              {concept.title}
+                              {trConceptTitle(concept)}
                             </span>
                             <span className="font-body font-normal text-foreground/90 text-[10px] md:text-xs lg:text-sm leading-snug mt-2 md:mt-3 max-w-[92%] hidden md:block">
-                              {concept.phrase}
+                              {trConceptPhrase(concept)}
                             </span>
                           </motion.div>
                         )}
@@ -511,11 +520,11 @@ const Strati = () => {
                   onClick={(e) => e.stopPropagation()}
                 >
                   <div className="font-display font-light tracking-[0.22em] text-foreground text-3xl md:text-5xl lg:text-6xl leading-tight">
-                    {expandedConcept.title}
+                    {trConceptTitle(expandedConcept)}
                   </div>
-                  {expandedConcept.phrase && (
+                  {trConceptPhrase(expandedConcept) && (
                     <div className="font-body font-light text-foreground/80 text-sm md:text-base lg:text-lg leading-relaxed mt-6 md:mt-8 max-w-2xl mx-auto whitespace-pre-line">
-                      {expandedConcept.phrase}
+                      {trConceptPhrase(expandedConcept)}
                     </div>
                   )}
                 </motion.div>
@@ -532,7 +541,7 @@ const Strati = () => {
             >
               {expandedTile.kind === 'image' && expandedTile.alt && (
                 <div className="font-body font-light text-muted-foreground text-[11px] md:text-xs leading-snug mb-4">
-                  {expandedTile.alt}
+                  {trAlt(expandedTile.id, expandedTile.alt)}
                 </div>
               )}
 
