@@ -479,7 +479,7 @@ const Strati = () => {
                       decoding="async"
                       draggable="false"
                       onContextMenu={(e) => e.preventDefault()}
-                      className="w-full h-full object-contain select-none pointer-events-none transition-transform duration-700 group-hover:scale-[1.02]"
+                      className="w-full h-full object-cover select-none pointer-events-none transition-transform duration-700 group-hover:scale-[1.02]"
                     />
                   )}
 
@@ -487,13 +487,21 @@ const Strati = () => {
                     const title = trConceptTitle(concept);
                     const isVertical = tile.rowSpan > tile.colSpan || title.length > 8;
                     return (
-                      <div className="absolute inset-0 flex items-center justify-center text-center px-2 md:px-3">
+                      <div className="absolute inset-0 flex items-center justify-center text-center px-1 md:px-2 overflow-hidden">
                         <span
-                          className="font-display font-light tracking-[0.18em] text-foreground text-[11px] md:text-sm lg:text-base leading-[1.05]"
+                          className="font-display font-light text-foreground leading-none"
                           style={
                             isVertical
-                              ? { writingMode: 'vertical-rl', textOrientation: 'upright', letterSpacing: '0.15em' }
-                              : undefined
+                              ? {
+                                  writingMode: 'vertical-rl',
+                                  textOrientation: 'upright',
+                                  letterSpacing: '0.08em',
+                                  fontSize: 'clamp(9px, 1.1vw, 13px)',
+                                }
+                              : {
+                                  letterSpacing: '0.12em',
+                                  fontSize: 'clamp(9px, 1.1vw, 14px)',
+                                }
                           }
                         >
                           {title}
