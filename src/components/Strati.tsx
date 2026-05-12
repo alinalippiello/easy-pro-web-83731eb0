@@ -564,35 +564,8 @@ const Strati = () => {
   const closeImage = useCallback(() => setExpandedTile(null), []);
 
   // ── Drag & drop reordering (admin) ──
-  // Resolved index of an image tile in the current sorted source list.
-  const imageOrderIndex = useCallback((id: string): number => {
-    const indexed = sourceTiles.map((t, i) => ({ id: t.id, i }));
-    indexed.sort((a, b) => {
-      const pa = overrides[a.id]?.position;
-      const pb = overrides[b.id]?.position;
-      const ka = pa != null ? pa : a.i;
-      const kb = pb != null ? pb : b.i;
-      if (ka !== kb) return ka - kb;
-      return a.i - b.i;
-    });
-    return indexed.findIndex((x) => x.id === id);
-  }, [overrides]);
-
-  const conceptOrderIndex = useCallback((key: string): number => {
-    const allKeys = Object.keys(conceptsMap);
-    const idx: Record<string, number> = {};
-    allKeys.forEach((k, i) => (idx[k] = i));
-    const sorted = [...allKeys].sort((a, b) => {
-      const pa = conceptPositions[a];
-      const pb = conceptPositions[b];
-      const ka = pa != null ? pa : idx[a];
-      const kb = pb != null ? pb : idx[b];
-      if (ka !== kb) return ka - kb;
-      return idx[a] - idx[b];
-    });
-    return sorted.indexOf(key);
-  }, [conceptsMap, conceptPositions]);
-
+  // Insert-before reorder: source tile is moved to the slot occupied by target.
+  // All affected tiles get a new sequential position so the order is stable.
   const handleTileDrop = useCallback(async (sourceTile: LayoutTile, targetTile: LayoutTile) => {
     if (!isAdmin) return;
     if (sourceTile.id === targetTile.id) return;
@@ -615,35 +588,87 @@ const Strati = () => {
     }
 
     if (sourceTile.kind === 'image') {
-      const a = imageOrderIndex(sourceTile.id);
-      const b = imageOrderIndex(targetTile.id);
-      if (a < 0 || b < 0) return;
-      const { error } = await supabase.from('strati_overrides').upsert([
-        { tile_id: sourceTile.id, position: b, description: overrides[sourceTile.id]?.description ?? '', concept_key: overrides[sourceTile.id]?.conceptKey ?? null },
-        { tile_id: targetTile.id, position: a, description: overrides[targetTile.id]?.description ?? '', concept_key: overrides[targetTile.id]?.conceptKey ?? null },
-      ], { onConflict: 'tile_id' });
-      if (error) { toast.error('Permesso negato: solo l\'admin reale può salvare lo spostamento'); return; }
-      setOverrides((prev) => ({
-        ...prev,
-        [sourceTile.id]: { ...(prev[sourceTile.id] ?? { description: '' }), position: b },
-        [targetTile.id]: { ...(prev[targetTile.id] ?? { description: '' }), position: a },
-      }));
+      // Reorder within the full ordered list (sources + customs, including hidden).
+      const order = orderedImageSources.map((s) => s.id);
+      const from = order.indexOf(sourceTile.id);
+      const to = order.indexOf(targetTile.id);
+      if (from < 0 || to < 0) return;
+      const next = order.slice();
+      const [moved] = next.splice(from, 1);
+      next.splice(to, 0, moved);
+      // Persist positions for all tiles whose index changed.
+      const changed: { id: string; pos: number }[] = [];
+      next.forEach((id, i) => {
+        const prevPos = orderedImageSources.find((s) => s.id === id)?.position ?? null;
+        if (prevPos !== i) changed.push({ id, pos: i });
+      });
+      // Optimistic local update first.
+      setOverrides((prev) => {
+        const np = { ...prev };
+        changed.forEach(({ id, pos }) => {
+          if (customTiles.find((c) => c.id === id)) {
+            // For custom tiles, position lives on strati_custom_tiles, but we also
+            // mirror it into overrides so the in-memory ordering recomputes.
+            np[id] = { ...(np[id] ?? { description: '' }), position: pos };
+          } else {
+            np[id] = { ...(np[id] ?? { description: '' }), position: pos };
+          }
+        });
+        return np;
+      });
+      // Split between source-tile updates (overrides) and custom-tile updates.
+      const customIds = new Set(customTiles.map((c) => c.id));
+      const ovRows = changed
+        .filter((c) => !customIds.has(c.id))
+        .map(({ id, pos }) => ({
+          tile_id: id,
+          position: pos,
+          description: overrides[id]?.description ?? '',
+          concept_key: overrides[id]?.conceptKey ?? null,
+        }));
+      const ctRows = changed
+        .filter((c) => customIds.has(c.id))
+        .map(({ id, pos }) => ({ id, position: pos }));
+      const tasks: Promise<any>[] = [];
+      if (ovRows.length) tasks.push(supabase.from('strati_overrides').upsert(ovRows, { onConflict: 'tile_id' }));
+      ctRows.forEach((row) => tasks.push(
+        (supabase.from('strati_custom_tiles' as any).update({ position: row.position }).eq('id', row.id)) as any,
+      ));
+      const results = await Promise.all(tasks);
+      const err = results.find((r: any) => r?.error)?.error;
+      if (err) { toast.error('Permesso negato: solo l\'admin reale può salvare lo spostamento'); return; }
     } else if (sourceTile.kind === 'text' && sourceTile.conceptKey && targetTile.conceptKey) {
-      const a = conceptOrderIndex(sourceTile.conceptKey);
-      const b = conceptOrderIndex(targetTile.conceptKey);
-      if (a < 0 || b < 0) return;
-      const { error } = await supabase.from('strati_concepts').upsert([
-        { key: sourceTile.conceptKey, title: conceptsMap[sourceTile.conceptKey].title, phrase: conceptsMap[sourceTile.conceptKey].phrase, position: b },
-        { key: targetTile.conceptKey, title: conceptsMap[targetTile.conceptKey].title, phrase: conceptsMap[targetTile.conceptKey].phrase, position: a },
-      ], { onConflict: 'key' });
-      if (error) { toast.error('Permesso negato: solo l\'admin reale può salvare lo spostamento'); return; }
-      setConceptPositions((prev) => ({
-        ...prev,
-        [sourceTile.conceptKey!]: b,
-        [targetTile.conceptKey!]: a,
+      // Insert-before reorder for text tiles too.
+      const allKeys = Object.keys(conceptsMap);
+      const idx: Record<string, number> = {};
+      allKeys.forEach((k, i) => (idx[k] = i));
+      const sorted = [...allKeys].sort((a, b) => {
+        const pa = conceptPositions[a];
+        const pb = conceptPositions[b];
+        const ka = pa != null ? pa : idx[a];
+        const kb = pb != null ? pb : idx[b];
+        if (ka !== kb) return ka - kb;
+        return idx[a] - idx[b];
+      });
+      const from = sorted.indexOf(sourceTile.conceptKey);
+      const to = sorted.indexOf(targetTile.conceptKey);
+      if (from < 0 || to < 0) return;
+      const reordered = sorted.slice();
+      const [moved] = reordered.splice(from, 1);
+      reordered.splice(to, 0, moved);
+      const rows = reordered.map((key, i) => ({
+        key,
+        title: conceptsMap[key].title,
+        phrase: conceptsMap[key].phrase,
+        position: i,
       }));
+      const { error } = await supabase.from('strati_concepts').upsert(rows, { onConflict: 'key' });
+      if (error) { toast.error('Permesso negato: solo l\'admin reale può salvare lo spostamento'); return; }
+      const newPos: Record<string, number> = {};
+      reordered.forEach((k, i) => (newPos[k] = i));
+      setConceptPositions((prev) => ({ ...prev, ...newPos }));
     }
-  }, [isAdmin, overrides, conceptsMap, conceptPositions, imageOrderIndex, conceptOrderIndex]);
+  }, [isAdmin, overrides, conceptsMap, conceptPositions, orderedImageSources, customTiles]);
 
   const handleSave = useCallback(async () => {
     if (!expandedTile) return;
