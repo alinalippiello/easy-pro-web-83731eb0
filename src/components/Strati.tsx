@@ -1065,6 +1065,7 @@ const Strati = () => {
                 title={redoCount === 0 ? 'Nessuna modifica da ripetere' : `Ripeti ultima modifica annullata (${redoCount} disponibili)`}
               >
                 ↷ Ripeti ultimo riordino{redoCount > 0 ? ` (${redoCount})` : ''}
+              </button>
             </div>
           )}
 
