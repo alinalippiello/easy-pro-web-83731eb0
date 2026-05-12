@@ -812,7 +812,16 @@ const Strati = () => {
                       <label className="block font-body text-[10px] md:text-xs uppercase tracking-[0.2em] text-muted-foreground">
                         Inquadratura immagine
                       </label>
-                      <div className="relative w-full overflow-hidden rounded-sm border border-border bg-card aspect-[3/2]">
+                      <div
+                        className="relative w-full overflow-hidden rounded-sm border border-border bg-card aspect-[3/2] cursor-crosshair"
+                        onClick={(e) => {
+                          const r = e.currentTarget.getBoundingClientRect();
+                          const x = ((e.clientX - r.left) / r.width) * 100;
+                          const y = ((e.clientY - r.top) / r.height) * 100;
+                          setDraftPosX(Math.max(0, Math.min(100, Math.round(x * 10) / 10)));
+                          setDraftPosY(Math.max(0, Math.min(100, Math.round(y * 10) / 10)));
+                        }}
+                      >
                         <img
                           src={expandedTile.src}
                           alt=""
@@ -824,7 +833,27 @@ const Strati = () => {
                             objectPosition: `${draftPosX}% ${draftPosY}%`,
                           }}
                         />
+                        {/* Rule-of-thirds grid */}
+                        <div className="pointer-events-none absolute inset-0">
+                          <div className="absolute inset-y-0 left-1/3 w-px bg-foreground/25" />
+                          <div className="absolute inset-y-0 left-2/3 w-px bg-foreground/25" />
+                          <div className="absolute inset-x-0 top-1/3 h-px bg-foreground/25" />
+                          <div className="absolute inset-x-0 top-2/3 h-px bg-foreground/25" />
+                          {/* Center crosshair */}
+                          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4">
+                            <div className="absolute inset-x-0 top-1/2 h-px bg-foreground/60" />
+                            <div className="absolute inset-y-0 left-1/2 w-px bg-foreground/60" />
+                          </div>
+                          {/* Current focus marker */}
+                          <div
+                            className="absolute w-3 h-3 rounded-full border border-background bg-foreground/80 -translate-x-1/2 -translate-y-1/2 shadow"
+                            style={{ left: `${draftPosX}%`, top: `${draftPosY}%` }}
+                          />
+                        </div>
                       </div>
+                      <p className="font-body text-[10px] text-muted-foreground/80 normal-case tracking-normal -mt-1">
+                        Clicca sull'anteprima per posizionare il punto focale.
+                      </p>
                       <div className="grid grid-cols-3 gap-3 mt-1">
                         <label className="flex flex-col gap-1 font-body text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
                           Zoom
@@ -833,34 +862,67 @@ const Strati = () => {
                             value={draftScale}
                             onChange={(e) => setDraftScale(parseFloat(e.target.value))}
                           />
-                          <span className="text-[10px] text-foreground/70 normal-case tracking-normal">{draftScale.toFixed(2)}×</span>
+                          <input
+                            type="number" min={1} max={4} step={0.01}
+                            value={Number(draftScale.toFixed(2))}
+                            onChange={(e) => {
+                              const v = parseFloat(e.target.value);
+                              if (!isNaN(v)) setDraftScale(Math.max(1, Math.min(4, v)));
+                            }}
+                            className="w-full rounded-sm border border-border bg-background/60 px-2 py-1 font-body text-[11px] text-foreground normal-case tracking-normal focus:outline-none focus:ring-1 focus:ring-foreground/40"
+                          />
                         </label>
                         <label className="flex flex-col gap-1 font-body text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
                           Pos. X
                           <input
-                            type="range" min={0} max={100} step={1}
+                            type="range" min={0} max={100} step={0.5}
                             value={draftPosX}
-                            onChange={(e) => setDraftPosX(parseInt(e.target.value, 10))}
+                            onChange={(e) => setDraftPosX(parseFloat(e.target.value))}
                           />
-                          <span className="text-[10px] text-foreground/70 normal-case tracking-normal">{draftPosX}%</span>
+                          <input
+                            type="number" min={0} max={100} step={0.5}
+                            value={Number(draftPosX.toFixed(1))}
+                            onChange={(e) => {
+                              const v = parseFloat(e.target.value);
+                              if (!isNaN(v)) setDraftPosX(Math.max(0, Math.min(100, v)));
+                            }}
+                            className="w-full rounded-sm border border-border bg-background/60 px-2 py-1 font-body text-[11px] text-foreground normal-case tracking-normal focus:outline-none focus:ring-1 focus:ring-foreground/40"
+                          />
                         </label>
                         <label className="flex flex-col gap-1 font-body text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
                           Pos. Y
                           <input
-                            type="range" min={0} max={100} step={1}
+                            type="range" min={0} max={100} step={0.5}
                             value={draftPosY}
-                            onChange={(e) => setDraftPosY(parseInt(e.target.value, 10))}
+                            onChange={(e) => setDraftPosY(parseFloat(e.target.value))}
                           />
-                          <span className="text-[10px] text-foreground/70 normal-case tracking-normal">{draftPosY}%</span>
+                          <input
+                            type="number" min={0} max={100} step={0.5}
+                            value={Number(draftPosY.toFixed(1))}
+                            onChange={(e) => {
+                              const v = parseFloat(e.target.value);
+                              if (!isNaN(v)) setDraftPosY(Math.max(0, Math.min(100, v)));
+                            }}
+                            className="w-full rounded-sm border border-border bg-background/60 px-2 py-1 font-body text-[11px] text-foreground normal-case tracking-normal focus:outline-none focus:ring-1 focus:ring-foreground/40"
+                          />
                         </label>
                       </div>
-                      <button
-                        type="button"
-                        onClick={() => { setDraftScale(1); setDraftPosX(50); setDraftPosY(50); }}
-                        className="justify-self-start font-body text-[10px] uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground transition"
-                      >
-                        Reset inquadratura
-                      </button>
+                      <div className="flex items-center gap-4 flex-wrap">
+                        <button
+                          type="button"
+                          onClick={() => { setDraftScale(1); setDraftPosX(50); setDraftPosY(50); }}
+                          className="font-body text-[10px] uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground transition"
+                        >
+                          Reset inquadratura
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => { setDraftPosX(50); setDraftPosY(50); }}
+                          className="font-body text-[10px] uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground transition"
+                        >
+                          Centra punto focale
+                        </button>
+                      </div>
                     </div>
                   )}
 
