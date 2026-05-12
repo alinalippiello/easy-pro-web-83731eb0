@@ -688,11 +688,81 @@ const Strati = () => {
       }));
       const { error } = await supabase.from('strati_concepts').upsert(rows, { onConflict: 'key' });
       if (error) { toast.error('Permesso negato: solo l\'admin reale può salvare lo spostamento'); return; }
+      pushUndo({
+        kind: 'text',
+        prevPositions: sorted.map((k) => ({ key: k, pos: conceptPositions[k] ?? null })),
+      });
       const newPos: Record<string, number> = {};
       reordered.forEach((k, i) => (newPos[k] = i));
       setConceptPositions((prev) => ({ ...prev, ...newPos }));
     }
-  }, [isAdmin, overrides, conceptsMap, conceptPositions, orderedImageSources, customTiles]);
+  }, [isAdmin, overrides, conceptsMap, conceptPositions, conceptAnchors, orderedImageSources, customTiles, pushUndo]);
+
+  // Undo last reorder operation.
+  const handleUndoReorder = useCallback(async () => {
+    if (!isAdmin) return;
+    const stack = undoStackRef.current;
+    if (stack.length === 0) return;
+    const last = stack[stack.length - 1];
+    undoStackRef.current = stack.slice(0, -1);
+    setUndoCount(undoStackRef.current.length);
+    try {
+      if (last.kind === 'anchor') {
+        const c = conceptsMap[last.conceptKey];
+        if (!c) return;
+        const { error } = await supabase.from('strati_concepts').upsert(
+          { key: c.key, title: c.title, phrase: c.phrase, anchor_image_id: last.prevAnchorId } as any,
+          { onConflict: 'key' },
+        );
+        if (error) throw error;
+        setConceptAnchors((prev) => ({ ...prev, [c.key]: last.prevAnchorId }));
+      } else if (last.kind === 'image') {
+        const customIds = new Set(customTiles.map((c) => c.id));
+        const ovRows = last.prevPositions
+          .filter((p) => !customIds.has(p.id))
+          .map((p) => ({
+            tile_id: p.id,
+            position: p.pos,
+            description: overrides[p.id]?.description ?? '',
+            concept_key: overrides[p.id]?.conceptKey ?? null,
+          }));
+        const ctRows = last.prevPositions.filter((p) => customIds.has(p.id));
+        const tasks: Promise<any>[] = [];
+        if (ovRows.length) tasks.push(Promise.resolve(supabase.from('strati_overrides').upsert(ovRows, { onConflict: 'tile_id' })));
+        ctRows.forEach((row) => tasks.push(
+          Promise.resolve((supabase.from('strati_custom_tiles' as any) as any).update({ position: row.pos }).eq('id', row.id)),
+        ));
+        const results = await Promise.all(tasks);
+        const err = results.find((r: any) => r?.error)?.error;
+        if (err) throw err;
+        setOverrides((prev) => {
+          const np = { ...prev };
+          last.prevPositions.forEach(({ id, pos }) => {
+            np[id] = { ...(np[id] ?? { description: '' }), position: pos };
+          });
+          return np;
+        });
+      } else if (last.kind === 'text') {
+        const rows = last.prevPositions.map((p) => ({
+          key: p.key,
+          title: conceptsMap[p.key]?.title ?? p.key,
+          phrase: conceptsMap[p.key]?.phrase ?? '',
+          position: p.pos,
+        }));
+        const { error } = await supabase.from('strati_concepts').upsert(rows, { onConflict: 'key' });
+        if (error) throw error;
+        const newPos: Record<string, number | null> = {};
+        last.prevPositions.forEach((p) => (newPos[p.key] = p.pos));
+        setConceptPositions((prev) => ({ ...prev, ...newPos }));
+      }
+      toast.success('Ultima modifica annullata');
+    } catch (e) {
+      toast.error('Impossibile annullare: permesso negato o errore di rete');
+      // Restore the undo entry so the user can retry.
+      undoStackRef.current = [...undoStackRef.current, last];
+      setUndoCount(undoStackRef.current.length);
+    }
+  }, [isAdmin, conceptsMap, conceptAnchors, customTiles, overrides]);
 
   const handleSave = useCallback(async () => {
     if (!expandedTile) return;
