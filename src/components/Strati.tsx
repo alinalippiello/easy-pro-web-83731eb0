@@ -297,12 +297,15 @@ const Strati = () => {
         const m: Record<string, Concept> = {};
         defaultConcepts.forEach((c) => (m[c.key] = c));
         const pos: Record<string, number | null> = {};
+        const anc: Record<string, string | null> = {};
         cs.forEach((c: any) => {
           m[c.key] = { key: c.key, title: c.title, phrase: c.phrase };
           pos[c.key] = c.position ?? null;
+          anc[c.key] = c.anchor_image_id ?? null;
         });
         setConceptsMap(m);
         setConceptPositions(pos);
+        setConceptAnchors(anc);
       }
       if (os) {
         const o: Record<string, Override> = {};
