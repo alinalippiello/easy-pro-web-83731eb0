@@ -879,10 +879,21 @@ const Strati = () => {
 
               {isAdmin ? (
                 <div className="mt-2 text-left grid gap-3">
+                  {expandedTile.kind === 'text' && (
+                    <div className="rounded-sm border border-foreground/20 bg-foreground/5 px-3 py-2">
+                      <p className="font-display text-[11px] uppercase tracking-[0.22em] text-foreground">
+                        Modifica tassello-keyword
+                      </p>
+                      <p className="font-body text-[10px] text-muted-foreground mt-1 normal-case tracking-normal">
+                        Cambia la parola e/o la frase descrittiva, poi premi <strong>Salva</strong>.
+                      </p>
+                    </div>
+                  )}
+
                   {/* Keyword field — editable + datalist of existing concepts */}
                   <div>
                     <label className="block font-body text-[10px] md:text-xs uppercase tracking-[0.2em] text-muted-foreground mb-2">
-                      Keyword
+                      {expandedTile.kind === 'text' ? 'Parola (Keyword)' : 'Keyword associata'}
                     </label>
                     <input
                       type="text"
@@ -890,7 +901,7 @@ const Strati = () => {
                       value={draftKeyword}
                       onChange={(e) => setDraftKeyword(e.target.value)}
                       placeholder="Scegli o scrivi una keyword (es. POROSITÀ)"
-                      className="w-full rounded-sm border border-border bg-background/60 px-3 py-2 font-body text-xs md:text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-foreground/40"
+                      className="w-full rounded-sm border border-border bg-background px-3 py-2 font-body text-sm md:text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-foreground/40"
                     />
                     <datalist id="strati-keywords">
                       {Object.values(conceptsMap).map((c) => (
