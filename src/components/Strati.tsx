@@ -48,10 +48,20 @@ function classify(w: number, h: number): Orientation {
   return 'square';
 }
 
+function textTileSize(title: string): { c: number; r: number } {
+  const len = (title ?? '').trim().length;
+  // Long keywords need more vertical room (rendered with vertical writing-mode).
+  if (len > 14) return { c: 1, r: 3 };
+  if (len > 8) return { c: 1, r: 2 };
+  return { c: 1, r: 1 };
+}
+
 function buildLayout(
   imageTiles: LayoutTile[],
   cols: number,
   conceptKeys: string[],
+  conceptTitles: Record<string, string>,
+  conceptAnchors: Record<string, string | null>,
 ): { tiles: LayoutTile[]; rows: number } {
   // Alternate image orientations: portrait / non-portrait, preserving order.
   const portraits = imageTiles.filter((t) => t.rowSpan > t.colSpan);
@@ -67,24 +77,41 @@ function buildLayout(
   const textCount = Math.min(5, conceptKeys.length);
   const textTiles: LayoutTile[] = [];
   for (let i = 0; i < textCount; i++) {
+    const key = conceptKeys[i];
+    const sz = textTileSize(conceptTitles[key] ?? key);
     textTiles.push({
-      id: `text-${conceptKeys[i]}`,
+      id: `text-${key}`,
       kind: 'text',
-      colSpan: 1,
-      rowSpan: 1,
-      conceptKey: conceptKeys[i],
+      colSpan: sz.c,
+      rowSpan: sz.r,
+      conceptKey: key,
     });
   }
 
-  // Mix: distribute text tiles evenly across the image stream.
+  // Split anchored vs free text tiles.
+  const imageIdSet = new Set(interleavedImages.map((t) => t.id));
+  const anchoredAfter: Record<string, LayoutTile[]> = {};
+  const freeText: LayoutTile[] = [];
+  for (const tt of textTiles) {
+    const anchor = tt.conceptKey ? conceptAnchors[tt.conceptKey] : null;
+    if (anchor && imageIdSet.has(anchor)) {
+      (anchoredAfter[anchor] ||= []).push(tt);
+    } else {
+      freeText.push(tt);
+    }
+  }
+
+  // Mix: distribute free text tiles evenly; insert anchored ones right after their image.
   const mixed: LayoutTile[] = [];
-  const step = textTiles.length > 0 ? Math.max(2, Math.floor(interleavedImages.length / (textTiles.length + 1))) : 0;
+  const step = freeText.length > 0 ? Math.max(2, Math.floor(interleavedImages.length / (freeText.length + 1))) : 0;
   let ti = 0;
   interleavedImages.forEach((img, i) => {
     mixed.push(img);
-    if (ti < textTiles.length && step > 0 && (i + 1) % step === 0) mixed.push(textTiles[ti++]);
+    const anchored = anchoredAfter[img.id];
+    if (anchored) for (const a of anchored) mixed.push(a);
+    if (ti < freeText.length && step > 0 && (i + 1) % step === 0) mixed.push(freeText[ti++]);
   });
-  while (ti < textTiles.length) mixed.push(textTiles[ti++]);
+  while (ti < freeText.length) mixed.push(freeText[ti++]);
 
   // Pack with text-adjacency avoidance.
   const owner: number[][] = [];
