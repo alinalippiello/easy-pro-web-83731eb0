@@ -328,7 +328,7 @@ const Strati = () => {
     });
     // text tiles cycle through ALL known concept keys (default + custom)
     const conceptKeys = Object.keys(conceptsMap);
-    return packAndFill(tiles, cols, conceptKeys);
+    return buildLayout(tiles, cols, conceptKeys);
   }, [orientations, cols, overrides, conceptsMap]);
 
   const openTile = useCallback(
