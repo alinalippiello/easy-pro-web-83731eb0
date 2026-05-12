@@ -346,6 +346,8 @@ const Strati = () => {
   const [draftScale, setDraftScale] = useState<number>(1);
   const [draftPosX, setDraftPosX] = useState<number>(50);
   const [draftPosY, setDraftPosY] = useState<number>(50);
+  const [draftColSpan, setDraftColSpan] = useState<number>(1);
+  const [draftRowSpan, setDraftRowSpan] = useState<number>(1);
   const [savedFlash, setSavedFlash] = useState(false);
   const [dragId, setDragId] = useState<string | null>(null);
 
