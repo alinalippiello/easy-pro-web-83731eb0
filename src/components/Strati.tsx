@@ -327,7 +327,7 @@ const Strati = () => {
     const ch = supabase
       .channel('strati-sync')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'strati_concepts' }, (p) => {
-        const row = (p.new ?? p.old) as { key: string; title?: string; phrase?: string; position?: number | null };
+        const row = (p.new ?? p.old) as { key: string; title?: string; phrase?: string; position?: number | null; anchor_image_id?: string | null };
         if (!row?.key) return;
         setConceptsMap((prev) => {
           const next = { ...prev };
@@ -343,6 +343,12 @@ const Strati = () => {
           const next = { ...prev };
           if (p.eventType === 'DELETE') delete next[row.key];
           else next[row.key] = row.position ?? null;
+          return next;
+        });
+        setConceptAnchors((prev) => {
+          const next = { ...prev };
+          if (p.eventType === 'DELETE') delete next[row.key];
+          else next[row.key] = row.anchor_image_id ?? null;
           return next;
         });
       })
