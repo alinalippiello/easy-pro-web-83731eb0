@@ -658,7 +658,7 @@ const Strati = () => {
                   onClick={() => { if (!dragId) openTile(tile); }}
                   onMouseEnter={() => !isText && concept && setActiveTile(tile.id)}
                   onMouseLeave={() => !isText && concept && setActiveTile((prev) => (prev === tile.id ? null : prev))}
-                  whileHover={isText ? undefined : { scale: 1.015 }}
+                  whileHover={isText || isAdmin ? undefined : { scale: 1.015 }}
                   transition={{ duration: 0.3, ease: 'easeOut' }}
                 >
                   {!isText && tile.cover && (
