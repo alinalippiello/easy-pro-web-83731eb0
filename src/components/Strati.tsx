@@ -710,11 +710,9 @@ const Strati = () => {
                   onDragEnd={(() => setDragId(null)) as any}
                   onDragOver={((e: React.DragEvent<HTMLDivElement>) => {
                     if (!isAdmin || !dragId) return;
-                    const src = layout.tiles.find((t) => t.id === dragId);
-                    if (src && src.kind === tile.kind) {
-                      e.preventDefault();
-                      e.dataTransfer.dropEffect = 'move';
-                    }
+                    // Allow same-kind reordering AND cross-kind (image ↔ text) anchoring.
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
                   }) as any}
                   onDrop={((e: React.DragEvent<HTMLDivElement>) => {
                     if (!isAdmin) return;
