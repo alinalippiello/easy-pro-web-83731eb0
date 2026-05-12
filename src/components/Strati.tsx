@@ -587,6 +587,15 @@ const Strati = () => {
             <p>{t('strati.text')}</p>
           </div>
 
+          {isAdmin && (
+            <div className="mb-4 flex items-center justify-center">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-foreground/30 bg-background font-body text-[10px] uppercase tracking-[0.2em] text-foreground/70">
+                <span className="w-1.5 h-1.5 rounded-full bg-foreground animate-pulse" />
+                Admin · trascina i tasselli per riordinare · click per inquadrare
+              </div>
+            </div>
+          )}
+
           <div
             className={`grid ${gridColsClass} auto-rows-[90px] md:auto-rows-[110px] lg:auto-rows-[120px] gap-1 md:gap-2 lg:gap-2.5`}
             style={{ gridAutoFlow: 'dense' }}
@@ -598,9 +607,9 @@ const Strati = () => {
               return (
               <motion.div
                   key={tile.id}
-                  className={`relative overflow-hidden rounded-sm group cursor-pointer ${
+                  className={`relative overflow-hidden rounded-sm group ${isAdmin ? 'cursor-grab active:cursor-grabbing' : 'cursor-pointer'} ${
                     isText ? 'bg-background border border-border/40' : 'bg-card'
-                  } ${isAdmin && dragId && dragId !== tile.id ? 'ring-1 ring-foreground/20' : ''}`}
+                  } ${isAdmin && dragId && dragId !== tile.id ? 'ring-1 ring-foreground/20' : ''} ${isAdmin && dragId === tile.id ? 'opacity-60' : ''}`}
                   style={{
                     gridColumn: `span ${tile.colSpan}`,
                     gridRow: `span ${tile.rowSpan}`,
