@@ -607,9 +607,9 @@ const Strati = () => {
               return (
               <motion.div
                   key={tile.id}
-                  className={`relative overflow-hidden rounded-sm group cursor-pointer ${
+                  className={`relative overflow-hidden rounded-sm group ${isAdmin ? 'cursor-grab active:cursor-grabbing' : 'cursor-pointer'} ${
                     isText ? 'bg-background border border-border/40' : 'bg-card'
-                  } ${isAdmin && dragId && dragId !== tile.id ? 'ring-1 ring-foreground/20' : ''}`}
+                  } ${isAdmin && dragId && dragId !== tile.id ? 'ring-1 ring-foreground/20' : ''} ${isAdmin && dragId === tile.id ? 'opacity-60' : ''}`}
                   style={{
                     gridColumn: `span ${tile.colSpan}`,
                     gridRow: `span ${tile.rowSpan}`,
