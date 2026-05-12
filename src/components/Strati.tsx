@@ -368,7 +368,17 @@ const Strati = () => {
 
   // ── Layout ──
   const layout = useMemo(() => {
-    const tiles: LayoutTile[] = sourceTiles.map((tile) => {
+    // Sort image source tiles by override.position (admin-set), fallback to source order.
+    const indexed = sourceTiles.map((tile, idx) => ({ tile, idx }));
+    indexed.sort((a, b) => {
+      const pa = overrides[a.tile.id]?.position;
+      const pb = overrides[b.tile.id]?.position;
+      const ka = pa != null ? pa : a.idx;
+      const kb = pb != null ? pb : b.idx;
+      if (ka !== kb) return ka - kb;
+      return a.idx - b.idx;
+    });
+    const tiles: LayoutTile[] = indexed.map(({ tile }) => {
       const o = orientations[tile.id] ?? 'square';
       const { c, r } = spansFor(o, cols);
       const ov = overrides[tile.id];
@@ -381,12 +391,25 @@ const Strati = () => {
         conceptKey: ov?.conceptKey ?? tile.conceptKey,
         colSpan: c,
         rowSpan: r,
+        imageScale: ov?.imageScale ?? 1,
+        imagePosX: ov?.imagePosX ?? 50,
+        imagePosY: ov?.imagePosY ?? 50,
       };
     });
-    // text tiles cycle through ALL known concept keys (default + custom)
-    const conceptKeys = Object.keys(conceptsMap);
+    // Concept keys sorted by saved position (admin), fallback to insertion order.
+    const allKeys = Object.keys(conceptsMap);
+    const keyIndex: Record<string, number> = {};
+    allKeys.forEach((k, i) => (keyIndex[k] = i));
+    const conceptKeys = [...allKeys].sort((a, b) => {
+      const pa = conceptPositions[a];
+      const pb = conceptPositions[b];
+      const ka = pa != null ? pa : keyIndex[a];
+      const kb = pb != null ? pb : keyIndex[b];
+      if (ka !== kb) return ka - kb;
+      return keyIndex[a] - keyIndex[b];
+    });
     return buildLayout(tiles, cols, conceptKeys);
-  }, [orientations, cols, overrides, conceptsMap]);
+  }, [orientations, cols, overrides, conceptsMap, conceptPositions]);
 
   const openTile = useCallback(
     (tile: LayoutTile) => {
