@@ -531,17 +531,27 @@ const Strati = () => {
         tile_id: expandedTile.id,
         description: draftDescription,
         concept_key: resolvedKey,
+        image_scale: draftScale,
+        image_pos_x: draftPosX,
+        image_pos_y: draftPosY,
       },
       { onConflict: 'tile_id' },
     );
     setOverrides((prev) => ({
       ...prev,
-      [expandedTile.id]: { description: draftDescription, conceptKey: resolvedKey },
+      [expandedTile.id]: {
+        ...(prev[expandedTile.id] ?? {}),
+        description: draftDescription,
+        conceptKey: resolvedKey,
+        imageScale: draftScale,
+        imagePosX: draftPosX,
+        imagePosY: draftPosY,
+      },
     }));
     setExpandedTile((prev) => (prev ? { ...prev, conceptKey: resolvedKey ?? undefined } : prev));
     setSavedFlash(true);
     setTimeout(() => setSavedFlash(false), 1600);
-  }, [expandedTile, draftDescription, draftKeyword, conceptsMap]);
+  }, [expandedTile, draftDescription, draftKeyword, draftScale, draftPosX, draftPosY, conceptsMap]);
 
   // For text-tile lightbox: allow editing the phrase (the concept's extended text)
   const handleSaveTextTile = useCallback(async () => {
