@@ -752,6 +752,113 @@ const Strati = () => {
     }
   }, [expandedTile, draftDescription, draftKeyword, conceptsMap]);
 
+  // ── Admin: tile delete / replace cover / add ──
+  const isCustomTile = useCallback(
+    (id: string) => customTiles.some((c) => c.id === id),
+    [customTiles],
+  );
+
+  const handleDeleteTile = useCallback(async () => {
+    if (!isAdmin || !expandedTile || expandedTile.kind !== 'image') return;
+    const id = expandedTile.id;
+    try {
+      if (isCustomTile(id)) {
+        // Remove from custom_tiles entirely.
+        const { error } = await (supabase.from('strati_custom_tiles' as any) as any).delete().eq('id', id);
+        if (error) throw error;
+        setCustomTiles((prev) => prev.filter((t) => t.id !== id));
+      } else {
+        // Hide the source tile via override.
+        const { error } = await supabase.from('strati_overrides').upsert(
+          { tile_id: id, hidden: true } as any,
+          { onConflict: 'tile_id' },
+        );
+        if (error) throw error;
+        setOverrides((prev) => ({ ...prev, [id]: { ...(prev[id] ?? { description: '' }), hidden: true } }));
+      }
+      toast.success('Tassello eliminato');
+      setExpandedTile(null);
+    } catch (e: any) {
+      toast.error(e?.message || 'Eliminazione fallita');
+    }
+  }, [isAdmin, expandedTile, isCustomTile]);
+
+  const handleRestoreTile = useCallback(async () => {
+    if (!isAdmin || !expandedTile || expandedTile.kind !== 'image') return;
+    const id = expandedTile.id;
+    try {
+      const { error } = await supabase.from('strati_overrides').upsert(
+        { tile_id: id, hidden: false } as any,
+        { onConflict: 'tile_id' },
+      );
+      if (error) throw error;
+      setOverrides((prev) => ({ ...prev, [id]: { ...(prev[id] ?? { description: '' }), hidden: false } }));
+      toast.success('Tassello ripristinato');
+    } catch (e: any) {
+      toast.error(e?.message || 'Ripristino fallito');
+    }
+  }, [isAdmin, expandedTile]);
+
+  const handleReplaceCoverFile = useCallback(async (file: File) => {
+    if (!isAdmin || !expandedTile || expandedTile.kind !== 'image') return;
+    const id = expandedTile.id;
+    try {
+      const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+      const path = `tiles/${id}-${Date.now()}.${ext}`;
+      const { error: upErr } = await supabase.storage.from('strati').upload(path, file, {
+        cacheControl: '3600', upsert: true, contentType: file.type,
+      });
+      if (upErr) throw upErr;
+      const { data: pub } = supabase.storage.from('strati').getPublicUrl(path);
+      const url = pub.publicUrl;
+      if (isCustomTile(id)) {
+        const { error } = await (supabase.from('strati_custom_tiles' as any) as any)
+          .update({ cover_url: url }).eq('id', id);
+        if (error) throw error;
+        setCustomTiles((prev) => prev.map((t) => (t.id === id ? { ...t, cover_url: url } : t)));
+      } else {
+        const { error } = await supabase.from('strati_overrides').upsert(
+          { tile_id: id, cover_url: url } as any,
+          { onConflict: 'tile_id' },
+        );
+        if (error) throw error;
+        setOverrides((prev) => ({ ...prev, [id]: { ...(prev[id] ?? { description: '' }), coverUrl: url } }));
+      }
+      setExpandedTile((prev) => (prev ? { ...prev, src: url } : prev));
+      toast.success('Immagine sostituita');
+    } catch (e: any) {
+      toast.error(e?.message || 'Caricamento fallito');
+    }
+  }, [isAdmin, expandedTile, isCustomTile]);
+
+  const handleAddTile = useCallback(async (file: File) => {
+    if (!isAdmin) return;
+    try {
+      const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+      const path = `tiles/new-${Date.now()}.${ext}`;
+      const { error: upErr } = await supabase.storage.from('strati').upload(path, file, {
+        cacheControl: '3600', upsert: false, contentType: file.type,
+      });
+      if (upErr) throw upErr;
+      const { data: pub } = supabase.storage.from('strati').getPublicUrl(path);
+      const url = pub.publicUrl;
+      const nextPos = orderedImageSources.length;
+      const { data, error } = await (supabase.from('strati_custom_tiles' as any) as any)
+        .insert({ cover_url: url, alt: '', position: nextPos }).select().single();
+      if (error) throw error;
+      setCustomTiles((prev) => [...prev, {
+        id: (data as any).id,
+        cover_url: (data as any).cover_url,
+        alt: (data as any).alt ?? '',
+        position: (data as any).position ?? null,
+        hidden: !!(data as any).hidden,
+      }]);
+      toast.success('Tassello aggiunto');
+    } catch (e: any) {
+      toast.error(e?.message || 'Aggiunta fallita');
+    }
+  }, [isAdmin, orderedImageSources.length]);
+
   const gridColsClass =
     cols === 6 ? 'grid-cols-6' : cols === 5 ? 'grid-cols-5' : 'grid-cols-3';
 
