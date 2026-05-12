@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useMemo } from 'react';
+import { useState, useCallback, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { toast } from 'sonner';
@@ -275,6 +275,18 @@ const Strati = () => {
   const [conceptPositions, setConceptPositions] = useState<Record<string, number | null>>({});
   const [conceptAnchors, setConceptAnchors] = useState<Record<string, string | null>>({});
   const [customTiles, setCustomTiles] = useState<CustomTile[]>([]);
+
+  // Undo stack for reorder operations (admin only).
+  type ReorderUndo =
+    | { kind: 'anchor'; conceptKey: string; prevAnchorId: string | null }
+    | { kind: 'image'; prevPositions: { id: string; pos: number | null; isCustom: boolean }[] }
+    | { kind: 'text'; prevPositions: { key: string; pos: number | null }[] };
+  const undoStackRef = useRef<ReorderUndo[]>([]);
+  const [undoCount, setUndoCount] = useState(0);
+  const pushUndo = useCallback((u: ReorderUndo) => {
+    undoStackRef.current = [...undoStackRef.current, u].slice(-20);
+    setUndoCount(undoStackRef.current.length);
+  }, []);
 
   // Load + realtime subscribe
   useEffect(() => {
@@ -577,12 +589,14 @@ const Strati = () => {
       if (!textTile.conceptKey) return;
       const c = conceptsMap[textTile.conceptKey];
       if (!c) return;
+      const prevAnchor = conceptAnchors[c.key] ?? null;
       const { error } = await supabase.from('strati_concepts').upsert(
         { key: c.key, title: c.title, phrase: c.phrase, anchor_image_id: imageTile.id } as any,
         { onConflict: 'key' },
       );
       if (error) { toast.error('Permesso negato: solo l\'admin reale può salvare le modifiche'); return; }
       setConceptAnchors((prev) => ({ ...prev, [c.key]: imageTile.id }));
+      pushUndo({ kind: 'anchor', conceptKey: c.key, prevAnchorId: prevAnchor });
       toast.success(`Keyword "${c.title}" spostata accanto all'immagine`);
       return;
     }
@@ -637,6 +651,16 @@ const Strati = () => {
       const results = await Promise.all(tasks);
       const err = results.find((r: any) => r?.error)?.error;
       if (err) { toast.error('Permesso negato: solo l\'admin reale può salvare lo spostamento'); return; }
+      // Snapshot previous positions for undo.
+      const customIdsForUndo = new Set(customTiles.map((c) => c.id));
+      pushUndo({
+        kind: 'image',
+        prevPositions: changed.map(({ id }) => ({
+          id,
+          pos: orderedImageSources.find((s) => s.id === id)?.position ?? null,
+          isCustom: customIdsForUndo.has(id),
+        })),
+      });
     } else if (sourceTile.kind === 'text' && sourceTile.conceptKey && targetTile.conceptKey) {
       // Insert-before reorder for text tiles too.
       const allKeys = Object.keys(conceptsMap);
@@ -664,11 +688,81 @@ const Strati = () => {
       }));
       const { error } = await supabase.from('strati_concepts').upsert(rows, { onConflict: 'key' });
       if (error) { toast.error('Permesso negato: solo l\'admin reale può salvare lo spostamento'); return; }
+      pushUndo({
+        kind: 'text',
+        prevPositions: sorted.map((k) => ({ key: k, pos: conceptPositions[k] ?? null })),
+      });
       const newPos: Record<string, number> = {};
       reordered.forEach((k, i) => (newPos[k] = i));
       setConceptPositions((prev) => ({ ...prev, ...newPos }));
     }
-  }, [isAdmin, overrides, conceptsMap, conceptPositions, orderedImageSources, customTiles]);
+  }, [isAdmin, overrides, conceptsMap, conceptPositions, conceptAnchors, orderedImageSources, customTiles, pushUndo]);
+
+  // Undo last reorder operation.
+  const handleUndoReorder = useCallback(async () => {
+    if (!isAdmin) return;
+    const stack = undoStackRef.current;
+    if (stack.length === 0) return;
+    const last = stack[stack.length - 1];
+    undoStackRef.current = stack.slice(0, -1);
+    setUndoCount(undoStackRef.current.length);
+    try {
+      if (last.kind === 'anchor') {
+        const c = conceptsMap[last.conceptKey];
+        if (!c) return;
+        const { error } = await supabase.from('strati_concepts').upsert(
+          { key: c.key, title: c.title, phrase: c.phrase, anchor_image_id: last.prevAnchorId } as any,
+          { onConflict: 'key' },
+        );
+        if (error) throw error;
+        setConceptAnchors((prev) => ({ ...prev, [c.key]: last.prevAnchorId }));
+      } else if (last.kind === 'image') {
+        const customIds = new Set(customTiles.map((c) => c.id));
+        const ovRows = last.prevPositions
+          .filter((p) => !customIds.has(p.id))
+          .map((p) => ({
+            tile_id: p.id,
+            position: p.pos,
+            description: overrides[p.id]?.description ?? '',
+            concept_key: overrides[p.id]?.conceptKey ?? null,
+          }));
+        const ctRows = last.prevPositions.filter((p) => customIds.has(p.id));
+        const tasks: Promise<any>[] = [];
+        if (ovRows.length) tasks.push(Promise.resolve(supabase.from('strati_overrides').upsert(ovRows, { onConflict: 'tile_id' })));
+        ctRows.forEach((row) => tasks.push(
+          Promise.resolve((supabase.from('strati_custom_tiles' as any) as any).update({ position: row.pos }).eq('id', row.id)),
+        ));
+        const results = await Promise.all(tasks);
+        const err = results.find((r: any) => r?.error)?.error;
+        if (err) throw err;
+        setOverrides((prev) => {
+          const np = { ...prev };
+          last.prevPositions.forEach(({ id, pos }) => {
+            np[id] = { ...(np[id] ?? { description: '' }), position: pos };
+          });
+          return np;
+        });
+      } else if (last.kind === 'text') {
+        const rows = last.prevPositions.map((p) => ({
+          key: p.key,
+          title: conceptsMap[p.key]?.title ?? p.key,
+          phrase: conceptsMap[p.key]?.phrase ?? '',
+          position: p.pos,
+        }));
+        const { error } = await supabase.from('strati_concepts').upsert(rows, { onConflict: 'key' });
+        if (error) throw error;
+        const newPos: Record<string, number | null> = {};
+        last.prevPositions.forEach((p) => (newPos[p.key] = p.pos));
+        setConceptPositions((prev) => ({ ...prev, ...newPos }));
+      }
+      toast.success('Ultima modifica annullata');
+    } catch (e) {
+      toast.error('Impossibile annullare: permesso negato o errore di rete');
+      // Restore the undo entry so the user can retry.
+      undoStackRef.current = [...undoStackRef.current, last];
+      setUndoCount(undoStackRef.current.length);
+    }
+  }, [isAdmin, conceptsMap, conceptAnchors, customTiles, overrides]);
 
   const handleSave = useCallback(async () => {
     if (!expandedTile) return;
@@ -897,6 +991,15 @@ const Strati = () => {
                   }}
                 />
               </label>
+              <button
+                type="button"
+                onClick={handleUndoReorder}
+                disabled={undoCount === 0}
+                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-foreground/40 bg-background text-foreground font-body text-[10px] uppercase tracking-[0.2em] hover:bg-foreground hover:text-background transition disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-background disabled:hover:text-foreground"
+                title={undoCount === 0 ? 'Nessuna modifica da annullare' : `Annulla ultima modifica (${undoCount} disponibili)`}
+              >
+                ↶ Annulla ultimo riordino{undoCount > 0 ? ` (${undoCount})` : ''}
+              </button>
             </div>
           )}
 
