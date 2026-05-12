@@ -286,9 +286,10 @@ const Strati = () => {
         defaultConcepts.map((c) => ({ key: c.key, title: c.title, phrase: c.phrase })),
         { onConflict: 'key', ignoreDuplicates: true },
       );
-      const [{ data: cs }, { data: os }] = await Promise.all([
+      const [{ data: cs }, { data: os }, { data: ct }] = await Promise.all([
         supabase.from('strati_concepts').select('*'),
         supabase.from('strati_overrides').select('*'),
+        (supabase.from('strati_custom_tiles' as any).select('*') as any),
       ]);
       if (!alive) return;
       if (cs) {
@@ -316,8 +317,21 @@ const Strati = () => {
           imagePosY: row.image_pos_y != null ? Number(row.image_pos_y) : 50,
           colSpan: row.col_span ?? null,
           rowSpan: row.row_span ?? null,
+          hidden: !!row.hidden,
+          coverUrl: row.cover_url ?? null,
         }));
         setOverrides(o);
+      }
+      if (ct) {
+        setCustomTiles(
+          (ct as any[]).map((r) => ({
+            id: r.id,
+            cover_url: r.cover_url,
+            alt: r.alt ?? '',
+            position: r.position ?? null,
+            hidden: !!r.hidden,
+          })),
+        );
       }
     };
     seed();
