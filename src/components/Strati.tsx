@@ -460,8 +460,10 @@ const Strati = () => {
       if (ka !== kb) return ka - kb;
       return keyIndex[a] - keyIndex[b];
     });
-    return buildLayout(tiles, cols, conceptKeys);
-  }, [orientations, cols, overrides, conceptsMap, conceptPositions]);
+    const titleMap: Record<string, string> = {};
+    Object.values(conceptsMap).forEach((c) => (titleMap[c.key] = c.title));
+    return buildLayout(tiles, cols, conceptKeys, titleMap, conceptAnchors);
+  }, [orientations, cols, overrides, conceptsMap, conceptPositions, conceptAnchors]);
 
   const openTile = useCallback(
     (tile: LayoutTile) => {
