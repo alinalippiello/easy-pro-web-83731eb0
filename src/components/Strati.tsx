@@ -72,12 +72,13 @@ function buildLayout(
     });
   }
 
-  // Mix: insert one text tile after every ~2 images so they're scattered.
+  // Mix: distribute text tiles evenly across the image stream.
   const mixed: LayoutTile[] = [];
+  const step = textTiles.length > 0 ? Math.max(2, Math.floor(interleavedImages.length / (textTiles.length + 1))) : 0;
   let ti = 0;
   interleavedImages.forEach((img, i) => {
     mixed.push(img);
-    if (ti < textTiles.length && i % 2 === 1) mixed.push(textTiles[ti++]);
+    if (ti < textTiles.length && step > 0 && (i + 1) % step === 0) mixed.push(textTiles[ti++]);
   });
   while (ti < textTiles.length) mixed.push(textTiles[ti++]);
 
