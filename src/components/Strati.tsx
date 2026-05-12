@@ -288,7 +288,7 @@ const Strati = () => {
     const ch = supabase
       .channel('strati-sync')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'strati_concepts' }, (p) => {
-        const row = (p.new ?? p.old) as { key: string; title?: string; phrase?: string };
+        const row = (p.new ?? p.old) as { key: string; title?: string; phrase?: string; position?: number | null };
         if (!row?.key) return;
         setConceptsMap((prev) => {
           const next = { ...prev };
@@ -300,14 +300,27 @@ const Strati = () => {
           }
           return next;
         });
+        setConceptPositions((prev) => {
+          const next = { ...prev };
+          if (p.eventType === 'DELETE') delete next[row.key];
+          else next[row.key] = row.position ?? null;
+          return next;
+        });
       })
       .on('postgres_changes', { event: '*', schema: 'public', table: 'strati_overrides' }, (p) => {
-        const row = (p.new ?? p.old) as { tile_id: string; description?: string; concept_key?: string | null };
+        const row = (p.new ?? p.old) as any;
         if (!row?.tile_id) return;
         setOverrides((prev) => {
           const next = { ...prev };
           if (p.eventType === 'DELETE') delete next[row.tile_id];
-          else next[row.tile_id] = { description: row.description ?? '', conceptKey: row.concept_key };
+          else next[row.tile_id] = {
+            description: row.description ?? '',
+            conceptKey: row.concept_key,
+            position: row.position ?? null,
+            imageScale: row.image_scale != null ? Number(row.image_scale) : 1,
+            imagePosX: row.image_pos_x != null ? Number(row.image_pos_x) : 50,
+            imagePosY: row.image_pos_y != null ? Number(row.image_pos_y) : 50,
+          };
           return next;
         });
       })
