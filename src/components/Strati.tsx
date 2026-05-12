@@ -442,6 +442,8 @@ const Strati = () => {
       setDraftScale(ov?.imageScale ?? 1);
       setDraftPosX(ov?.imagePosX ?? 50);
       setDraftPosY(ov?.imagePosY ?? 50);
+      setDraftColSpan(ov?.colSpan && ov.colSpan > 0 ? ov.colSpan : tile.colSpan);
+      setDraftRowSpan(ov?.rowSpan && ov.rowSpan > 0 ? ov.rowSpan : tile.rowSpan);
       setSavedFlash(false);
     },
     [overrides, conceptsMap],
