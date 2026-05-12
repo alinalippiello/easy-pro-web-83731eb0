@@ -651,6 +651,16 @@ const Strati = () => {
       const results = await Promise.all(tasks);
       const err = results.find((r: any) => r?.error)?.error;
       if (err) { toast.error('Permesso negato: solo l\'admin reale può salvare lo spostamento'); return; }
+      // Snapshot previous positions for undo.
+      const customIdsForUndo = new Set(customTiles.map((c) => c.id));
+      pushUndo({
+        kind: 'image',
+        prevPositions: changed.map(({ id }) => ({
+          id,
+          pos: orderedImageSources.find((s) => s.id === id)?.position ?? null,
+          isCustom: customIdsForUndo.has(id),
+        })),
+      });
     } else if (sourceTile.kind === 'text' && sourceTile.conceptKey && targetTile.conceptKey) {
       // Insert-before reorder for text tiles too.
       const allKeys = Object.keys(conceptsMap);
