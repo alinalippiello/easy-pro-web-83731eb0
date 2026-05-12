@@ -879,11 +879,24 @@ const Strati = () => {
           </div>
 
           {isAdmin && (
-            <div className="mb-4 flex items-center justify-center">
+            <div className="mb-4 flex flex-wrap items-center justify-center gap-2">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-foreground/30 bg-background font-body text-[10px] uppercase tracking-[0.2em] text-foreground/70">
                 <span className="w-1.5 h-1.5 rounded-full bg-foreground animate-pulse" />
-                Admin · trascina per riordinare (anche immagine ↔ keyword) · click per modificare
+                Admin · trascina per riordinare · click per modificare/eliminare/sostituire
               </div>
+              <label className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-foreground/40 bg-foreground text-background font-body text-[10px] uppercase tracking-[0.2em] cursor-pointer hover:bg-foreground/90 transition">
+                + Aggiungi tassello immagine
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => {
+                    const f = e.target.files?.[0];
+                    if (f) handleAddTile(f);
+                    e.currentTarget.value = '';
+                  }}
+                />
+              </label>
             </div>
           )}
 
