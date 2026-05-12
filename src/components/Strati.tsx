@@ -589,12 +589,14 @@ const Strati = () => {
       if (!textTile.conceptKey) return;
       const c = conceptsMap[textTile.conceptKey];
       if (!c) return;
+      const prevAnchor = conceptAnchors[c.key] ?? null;
       const { error } = await supabase.from('strati_concepts').upsert(
         { key: c.key, title: c.title, phrase: c.phrase, anchor_image_id: imageTile.id } as any,
         { onConflict: 'key' },
       );
       if (error) { toast.error('Permesso negato: solo l\'admin reale può salvare le modifiche'); return; }
       setConceptAnchors((prev) => ({ ...prev, [c.key]: imageTile.id }));
+      pushUndo({ kind: 'anchor', conceptKey: c.key, prevAnchorId: prevAnchor });
       toast.success(`Keyword "${c.title}" spostata accanto all'immagine`);
       return;
     }
