@@ -677,7 +677,7 @@ const Strati = () => {
             <div className="mb-4 flex items-center justify-center">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-foreground/30 bg-background font-body text-[10px] uppercase tracking-[0.2em] text-foreground/70">
                 <span className="w-1.5 h-1.5 rounded-full bg-foreground animate-pulse" />
-                Admin · trascina i tasselli per riordinare · click per inquadrare
+                Admin · trascina per riordinare (anche immagine ↔ keyword) · click per modificare
               </div>
             </div>
           )}
