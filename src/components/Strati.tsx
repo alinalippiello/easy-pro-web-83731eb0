@@ -470,8 +470,12 @@ const Strati = () => {
   const openTile = useCallback(
     (tile: LayoutTile) => {
       const ov = overrides[tile.id];
-      const desc = ov?.description ?? tile.description ?? '';
       const ck = tile.conceptKey;
+      // For text tiles the editable "frase" is the concept's phrase; for image tiles it's the description override.
+      const initialDesc = tile.kind === 'text'
+        ? (ck ? conceptsMap[ck]?.phrase ?? '' : '')
+        : (ov?.description ?? tile.description ?? '');
+      const initialKeyword = ck ? conceptsMap[ck]?.title ?? '' : '';
       setExpandedTile({
         id: tile.id,
         kind: tile.kind,
@@ -479,8 +483,10 @@ const Strati = () => {
         alt: tile.alt ?? '',
         conceptKey: ck,
       });
-      setDraftDescription(desc);
-      setDraftKeyword(ck ? conceptsMap[ck]?.title ?? '' : '');
+      setDraftDescription(initialDesc);
+      setDraftKeyword(initialKeyword);
+      setOriginalDescription(initialDesc);
+      setOriginalKeyword(initialKeyword);
       setDraftScale(ov?.imageScale ?? 1);
       setDraftPosX(ov?.imagePosX ?? 50);
       setDraftPosY(ov?.imagePosY ?? 50);
