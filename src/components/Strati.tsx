@@ -59,25 +59,26 @@ function buildLayout(
     if (pi < portraits.length) interleavedImages.push(portraits[pi++]);
   }
 
-  // Build text tiles cycling through known concepts, capped by MAX_TEXT_TILES.
-  const textCount = Math.min(MAX_TEXT_TILES, conceptKeys.length * 3);
+  // Build text tiles: one per concept, max 5, no duplicates.
+  const textCount = Math.min(5, conceptKeys.length);
   const textTiles: LayoutTile[] = [];
   for (let i = 0; i < textCount; i++) {
     textTiles.push({
-      id: `text-${conceptKeys[i % conceptKeys.length]}-${i}`,
+      id: `text-${conceptKeys[i]}`,
       kind: 'text',
       colSpan: 1,
       rowSpan: 1,
-      conceptKey: conceptKeys[i % conceptKeys.length],
+      conceptKey: conceptKeys[i],
     });
   }
 
-  // Mix: insert one text tile after every ~2 images so they're scattered.
+  // Mix: distribute text tiles evenly across the image stream.
   const mixed: LayoutTile[] = [];
+  const step = textTiles.length > 0 ? Math.max(2, Math.floor(interleavedImages.length / (textTiles.length + 1))) : 0;
   let ti = 0;
   interleavedImages.forEach((img, i) => {
     mixed.push(img);
-    if (ti < textTiles.length && i % 2 === 1) mixed.push(textTiles[ti++]);
+    if (ti < textTiles.length && step > 0 && (i + 1) % step === 0) mixed.push(textTiles[ti++]);
   });
   while (ti < textTiles.length) mixed.push(textTiles[ti++]);
 
@@ -174,7 +175,7 @@ function buildLayout(
     return true;
   };
 
-  for (let pass = 0; pass < 4; pass++) {
+  for (let pass = 0; pass < 8; pass++) {
     let changed = false;
     for (let r = 0; r < owner.length; r++)
       for (let c = 0; c < cols; c++)
@@ -182,7 +183,26 @@ function buildLayout(
     if (!changed) break;
   }
 
-  return { tiles: placed.map((p) => p.tile), rows: owner.length };
+  // Guarantee a perfect rectangle: drop any trailing rows that still have holes.
+  while (owner.length && owner[owner.length - 1].some((v) => v === -1)) {
+    const lastRow = owner.length - 1;
+    // Shrink any tile that extends into this row; remove tiles whose origin is here.
+    for (let c = 0; c < cols; c++) {
+      const idx = owner[lastRow][c];
+      if (idx === -1) continue;
+      const p = placed[idx];
+      if (p.r === lastRow) {
+        // origin in dropped row — mark for removal
+        p.tile.rowSpan = 0;
+      } else {
+        p.tile.rowSpan = lastRow - p.r;
+      }
+    }
+    owner.pop();
+  }
+  const finalTiles = placed.filter((p) => p.tile.rowSpan > 0).map((p) => p.tile);
+
+  return { tiles: finalTiles, rows: owner.length };
 }
 
 // Fixed breakpoints — keep grid identical between Lovable preview (≈941px)
@@ -468,8 +488,12 @@ const Strati = () => {
                     return (
                       <div className="absolute inset-0 flex items-center justify-center text-center px-2 md:px-3">
                         <span
-                          className="font-display font-light tracking-[0.18em] text-foreground text-[11px] md:text-sm lg:text-base leading-tight"
-                          style={isVertical ? { writingMode: 'vertical-rl', transform: 'rotate(180deg)' } : undefined}
+                          className="font-display font-light tracking-[0.18em] text-foreground text-[11px] md:text-sm lg:text-base leading-[1.05]"
+                          style={
+                            isVertical
+                              ? { writingMode: 'vertical-rl', textOrientation: 'upright', letterSpacing: '0.15em' }
+                              : undefined
+                          }
                         >
                           {title}
                         </span>
