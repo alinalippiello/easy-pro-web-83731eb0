@@ -813,13 +813,28 @@ const Strati = () => {
                         Inquadratura immagine
                       </label>
                       <div
-                        className="relative w-full overflow-hidden rounded-sm border border-border bg-card aspect-[3/2] cursor-crosshair"
-                        onClick={(e) => {
-                          const r = e.currentTarget.getBoundingClientRect();
-                          const x = ((e.clientX - r.left) / r.width) * 100;
-                          const y = ((e.clientY - r.top) / r.height) * 100;
-                          setDraftPosX(Math.max(0, Math.min(100, Math.round(x * 10) / 10)));
-                          setDraftPosY(Math.max(0, Math.min(100, Math.round(y * 10) / 10)));
+                        className="relative w-full overflow-hidden rounded-sm border border-border bg-card aspect-[3/2] cursor-crosshair touch-none select-none"
+                        onPointerDown={(e) => {
+                          const el = e.currentTarget;
+                          el.setPointerCapture(e.pointerId);
+                          const apply = (cx: number, cy: number) => {
+                            const r = el.getBoundingClientRect();
+                            const x = ((cx - r.left) / r.width) * 100;
+                            const y = ((cy - r.top) / r.height) * 100;
+                            setDraftPosX(Math.max(0, Math.min(100, Math.round(x * 10) / 10)));
+                            setDraftPosY(Math.max(0, Math.min(100, Math.round(y * 10) / 10)));
+                          };
+                          apply(e.clientX, e.clientY);
+                          const move = (ev: PointerEvent) => apply(ev.clientX, ev.clientY);
+                          const up = (ev: PointerEvent) => {
+                            el.removeEventListener('pointermove', move);
+                            el.removeEventListener('pointerup', up);
+                            el.removeEventListener('pointercancel', up);
+                            try { el.releasePointerCapture(ev.pointerId); } catch {}
+                          };
+                          el.addEventListener('pointermove', move);
+                          el.addEventListener('pointerup', up);
+                          el.addEventListener('pointercancel', up);
                         }}
                       >
                         <img
@@ -852,7 +867,7 @@ const Strati = () => {
                         </div>
                       </div>
                       <p className="font-body text-[10px] text-muted-foreground/80 normal-case tracking-normal -mt-1">
-                        Clicca sull'anteprima per posizionare il punto focale.
+                        Clicca o trascina sull'anteprima per spostare il punto focale.
                       </p>
                       <div className="grid grid-cols-3 gap-3 mt-1">
                         <label className="flex flex-col gap-1 font-body text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
