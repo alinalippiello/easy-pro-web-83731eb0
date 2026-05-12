@@ -175,7 +175,7 @@ function buildLayout(
     return true;
   };
 
-  for (let pass = 0; pass < 4; pass++) {
+  for (let pass = 0; pass < 8; pass++) {
     let changed = false;
     for (let r = 0; r < owner.length; r++)
       for (let c = 0; c < cols; c++)
@@ -183,7 +183,26 @@ function buildLayout(
     if (!changed) break;
   }
 
-  return { tiles: placed.map((p) => p.tile), rows: owner.length };
+  // Guarantee a perfect rectangle: drop any trailing rows that still have holes.
+  while (owner.length && owner[owner.length - 1].some((v) => v === -1)) {
+    const lastRow = owner.length - 1;
+    // Shrink any tile that extends into this row; remove tiles whose origin is here.
+    for (let c = 0; c < cols; c++) {
+      const idx = owner[lastRow][c];
+      if (idx === -1) continue;
+      const p = placed[idx];
+      if (p.r === lastRow) {
+        // origin in dropped row — mark for removal
+        p.tile.rowSpan = 0;
+      } else {
+        p.tile.rowSpan = lastRow - p.r;
+      }
+    }
+    owner.pop();
+  }
+  const finalTiles = placed.filter((p) => p.tile.rowSpan > 0).map((p) => p.tile);
+
+  return { tiles: finalTiles, rows: owner.length };
 }
 
 // Fixed breakpoints — keep grid identical between Lovable preview (≈941px)
