@@ -215,23 +215,9 @@ function buildLayout(
     if (!changed) break;
   }
 
-  // Guarantee a perfect rectangle: drop any trailing rows that still have holes.
-  while (owner.length && owner[owner.length - 1].some((v) => v === -1)) {
-    const lastRow = owner.length - 1;
-    // Shrink any tile that extends into this row; remove tiles whose origin is here.
-    for (let c = 0; c < cols; c++) {
-      const idx = owner[lastRow][c];
-      if (idx === -1) continue;
-      const p = placed[idx];
-      if (p.r === lastRow) {
-        // origin in dropped row — mark for removal
-        p.tile.rowSpan = 0;
-      } else {
-        p.tile.rowSpan = lastRow - p.r;
-      }
-    }
-    owner.pop();
-  }
+  // Note: we no longer drop trailing rows with holes. The CSS grid uses
+  // `grid-auto-flow: dense`, which packs tiles automatically and avoids the
+  // "lost tiles" problem when admin enlarges a tile.
   const finalTiles = placed.filter((p) => p.tile.rowSpan > 0).map((p) => p.tile);
 
   return { tiles: finalTiles, rows: owner.length };
