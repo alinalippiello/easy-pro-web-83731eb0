@@ -1,0 +1,1 @@
+ALTER TABLE public.strati_concepts ADD COLUMN IF NOT EXISTS anchor_image_id text;

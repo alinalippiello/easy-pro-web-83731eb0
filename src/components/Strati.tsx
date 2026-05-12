@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
+import { toast } from 'sonner';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useAdmin } from '@/hooks/useAdmin';
 import { supabase } from '@/integrations/supabase/client';
@@ -47,10 +48,20 @@ function classify(w: number, h: number): Orientation {
   return 'square';
 }
 
+function textTileSize(title: string): { c: number; r: number } {
+  const len = (title ?? '').trim().length;
+  // Long keywords need more vertical room (rendered with vertical writing-mode).
+  if (len > 14) return { c: 1, r: 3 };
+  if (len > 8) return { c: 1, r: 2 };
+  return { c: 1, r: 1 };
+}
+
 function buildLayout(
   imageTiles: LayoutTile[],
   cols: number,
   conceptKeys: string[],
+  conceptTitles: Record<string, string>,
+  conceptAnchors: Record<string, string | null>,
 ): { tiles: LayoutTile[]; rows: number } {
   // Alternate image orientations: portrait / non-portrait, preserving order.
   const portraits = imageTiles.filter((t) => t.rowSpan > t.colSpan);
@@ -66,24 +77,41 @@ function buildLayout(
   const textCount = Math.min(5, conceptKeys.length);
   const textTiles: LayoutTile[] = [];
   for (let i = 0; i < textCount; i++) {
+    const key = conceptKeys[i];
+    const sz = textTileSize(conceptTitles[key] ?? key);
     textTiles.push({
-      id: `text-${conceptKeys[i]}`,
+      id: `text-${key}`,
       kind: 'text',
-      colSpan: 1,
-      rowSpan: 1,
-      conceptKey: conceptKeys[i],
+      colSpan: sz.c,
+      rowSpan: sz.r,
+      conceptKey: key,
     });
   }
 
-  // Mix: distribute text tiles evenly across the image stream.
+  // Split anchored vs free text tiles.
+  const imageIdSet = new Set(interleavedImages.map((t) => t.id));
+  const anchoredAfter: Record<string, LayoutTile[]> = {};
+  const freeText: LayoutTile[] = [];
+  for (const tt of textTiles) {
+    const anchor = tt.conceptKey ? conceptAnchors[tt.conceptKey] : null;
+    if (anchor && imageIdSet.has(anchor)) {
+      (anchoredAfter[anchor] ||= []).push(tt);
+    } else {
+      freeText.push(tt);
+    }
+  }
+
+  // Mix: distribute free text tiles evenly; insert anchored ones right after their image.
   const mixed: LayoutTile[] = [];
-  const step = textTiles.length > 0 ? Math.max(2, Math.floor(interleavedImages.length / (textTiles.length + 1))) : 0;
+  const step = freeText.length > 0 ? Math.max(2, Math.floor(interleavedImages.length / (freeText.length + 1))) : 0;
   let ti = 0;
   interleavedImages.forEach((img, i) => {
     mixed.push(img);
-    if (ti < textTiles.length && step > 0 && (i + 1) % step === 0) mixed.push(textTiles[ti++]);
+    const anchored = anchoredAfter[img.id];
+    if (anchored) for (const a of anchored) mixed.push(a);
+    if (ti < freeText.length && step > 0 && (i + 1) % step === 0) mixed.push(freeText[ti++]);
   });
-  while (ti < textTiles.length) mixed.push(textTiles[ti++]);
+  while (ti < freeText.length) mixed.push(freeText[ti++]);
 
   // Pack with text-adjacency avoidance.
   const owner: number[][] = [];
@@ -248,6 +276,7 @@ const Strati = () => {
   });
   const [overrides, setOverrides] = useState<Record<string, Override>>({});
   const [conceptPositions, setConceptPositions] = useState<Record<string, number | null>>({});
+  const [conceptAnchors, setConceptAnchors] = useState<Record<string, string | null>>({});
 
   // Load + realtime subscribe
   useEffect(() => {
@@ -268,12 +297,15 @@ const Strati = () => {
         const m: Record<string, Concept> = {};
         defaultConcepts.forEach((c) => (m[c.key] = c));
         const pos: Record<string, number | null> = {};
+        const anc: Record<string, string | null> = {};
         cs.forEach((c: any) => {
           m[c.key] = { key: c.key, title: c.title, phrase: c.phrase };
           pos[c.key] = c.position ?? null;
+          anc[c.key] = c.anchor_image_id ?? null;
         });
         setConceptsMap(m);
         setConceptPositions(pos);
+        setConceptAnchors(anc);
       }
       if (os) {
         const o: Record<string, Override> = {};
@@ -295,7 +327,7 @@ const Strati = () => {
     const ch = supabase
       .channel('strati-sync')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'strati_concepts' }, (p) => {
-        const row = (p.new ?? p.old) as { key: string; title?: string; phrase?: string; position?: number | null };
+        const row = (p.new ?? p.old) as { key: string; title?: string; phrase?: string; position?: number | null; anchor_image_id?: string | null };
         if (!row?.key) return;
         setConceptsMap((prev) => {
           const next = { ...prev };
@@ -311,6 +343,12 @@ const Strati = () => {
           const next = { ...prev };
           if (p.eventType === 'DELETE') delete next[row.key];
           else next[row.key] = row.position ?? null;
+          return next;
+        });
+        setConceptAnchors((prev) => {
+          const next = { ...prev };
+          if (p.eventType === 'DELETE') delete next[row.key];
+          else next[row.key] = row.anchor_image_id ?? null;
           return next;
         });
       })
@@ -422,8 +460,10 @@ const Strati = () => {
       if (ka !== kb) return ka - kb;
       return keyIndex[a] - keyIndex[b];
     });
-    return buildLayout(tiles, cols, conceptKeys);
-  }, [orientations, cols, overrides, conceptsMap, conceptPositions]);
+    const titleMap: Record<string, string> = {};
+    Object.values(conceptsMap).forEach((c) => (titleMap[c.key] = c.title));
+    return buildLayout(tiles, cols, conceptKeys, titleMap, conceptAnchors);
+  }, [orientations, cols, overrides, conceptsMap, conceptPositions, conceptAnchors]);
 
   const openTile = useCallback(
     (tile: LayoutTile) => {
@@ -483,16 +523,33 @@ const Strati = () => {
   const handleTileDrop = useCallback(async (sourceTile: LayoutTile, targetTile: LayoutTile) => {
     if (!isAdmin) return;
     if (sourceTile.id === targetTile.id) return;
-    if (sourceTile.kind !== targetTile.kind) return;
+
+    // Cross-kind: anchor the text concept to the involved image's slot.
+    if (sourceTile.kind !== targetTile.kind) {
+      const textTile = sourceTile.kind === 'text' ? sourceTile : targetTile;
+      const imageTile = sourceTile.kind === 'image' ? sourceTile : targetTile;
+      if (!textTile.conceptKey) return;
+      const c = conceptsMap[textTile.conceptKey];
+      if (!c) return;
+      const { error } = await supabase.from('strati_concepts').upsert(
+        { key: c.key, title: c.title, phrase: c.phrase, anchor_image_id: imageTile.id } as any,
+        { onConflict: 'key' },
+      );
+      if (error) { toast.error('Permesso negato: solo l\'admin reale può salvare le modifiche'); return; }
+      setConceptAnchors((prev) => ({ ...prev, [c.key]: imageTile.id }));
+      toast.success(`Keyword "${c.title}" spostata accanto all'immagine`);
+      return;
+    }
+
     if (sourceTile.kind === 'image') {
       const a = imageOrderIndex(sourceTile.id);
       const b = imageOrderIndex(targetTile.id);
       if (a < 0 || b < 0) return;
-      // Swap positions of the two tiles.
-      await supabase.from('strati_overrides').upsert([
+      const { error } = await supabase.from('strati_overrides').upsert([
         { tile_id: sourceTile.id, position: b, description: overrides[sourceTile.id]?.description ?? '', concept_key: overrides[sourceTile.id]?.conceptKey ?? null },
         { tile_id: targetTile.id, position: a, description: overrides[targetTile.id]?.description ?? '', concept_key: overrides[targetTile.id]?.conceptKey ?? null },
       ], { onConflict: 'tile_id' });
+      if (error) { toast.error('Permesso negato: solo l\'admin reale può salvare lo spostamento'); return; }
       setOverrides((prev) => ({
         ...prev,
         [sourceTile.id]: { ...(prev[sourceTile.id] ?? { description: '' }), position: b },
@@ -502,10 +559,11 @@ const Strati = () => {
       const a = conceptOrderIndex(sourceTile.conceptKey);
       const b = conceptOrderIndex(targetTile.conceptKey);
       if (a < 0 || b < 0) return;
-      await supabase.from('strati_concepts').upsert([
+      const { error } = await supabase.from('strati_concepts').upsert([
         { key: sourceTile.conceptKey, title: conceptsMap[sourceTile.conceptKey].title, phrase: conceptsMap[sourceTile.conceptKey].phrase, position: b },
         { key: targetTile.conceptKey, title: conceptsMap[targetTile.conceptKey].title, phrase: conceptsMap[targetTile.conceptKey].phrase, position: a },
       ], { onConflict: 'key' });
+      if (error) { toast.error('Permesso negato: solo l\'admin reale può salvare lo spostamento'); return; }
       setConceptPositions((prev) => ({
         ...prev,
         [sourceTile.conceptKey!]: b,
@@ -519,69 +577,81 @@ const Strati = () => {
     let resolvedKey: string | null = null;
     const titleInput = draftKeyword.trim();
 
-    if (titleInput) {
-      // Match an existing concept by title (case-insensitive); else create new.
-      const existing = Object.values(conceptsMap).find(
-        (c) => c.title.trim().toLowerCase() === titleInput.toLowerCase(),
-      );
-      if (existing) {
-        resolvedKey = existing.key;
-      } else {
-        const baseKey = slugifyKey(titleInput) || `k-${Date.now()}`;
-        let key = baseKey;
-        let n = 2;
-        while (conceptsMap[key]) key = `${baseKey}-${n++}`;
-        const newConcept: Concept = { key, title: titleInput.toUpperCase(), phrase: '' };
-        await supabase.from('strati_concepts').insert(newConcept);
-        setConceptsMap((prev) => ({ ...prev, [key]: newConcept }));
-        resolvedKey = key;
+    try {
+      if (titleInput) {
+        const existing = Object.values(conceptsMap).find(
+          (c) => c.title.trim().toLowerCase() === titleInput.toLowerCase(),
+        );
+        if (existing) {
+          resolvedKey = existing.key;
+        } else {
+          const baseKey = slugifyKey(titleInput) || `k-${Date.now()}`;
+          let key = baseKey;
+          let n = 2;
+          while (conceptsMap[key]) key = `${baseKey}-${n++}`;
+          const newConcept: Concept = { key, title: titleInput.toUpperCase(), phrase: '' };
+          const { error: insErr } = await supabase.from('strati_concepts').insert(newConcept);
+          if (insErr) throw insErr;
+          setConceptsMap((prev) => ({ ...prev, [key]: newConcept }));
+          resolvedKey = key;
+        }
       }
-    }
 
-    await supabase.from('strati_overrides').upsert(
-      {
-        tile_id: expandedTile.id,
-        description: draftDescription,
-        concept_key: resolvedKey,
-        image_scale: draftScale,
-        image_pos_x: draftPosX,
-        image_pos_y: draftPosY,
-        col_span: expandedTile.kind === 'image' ? draftColSpan : null,
-        row_span: expandedTile.kind === 'image' ? draftRowSpan : null,
-      } as any,
-      { onConflict: 'tile_id' },
-    );
-    setOverrides((prev) => ({
-      ...prev,
-      [expandedTile.id]: {
-        ...(prev[expandedTile.id] ?? {}),
-        description: draftDescription,
-        conceptKey: resolvedKey,
-        imageScale: draftScale,
-        imagePosX: draftPosX,
-        imagePosY: draftPosY,
-        colSpan: expandedTile.kind === 'image' ? draftColSpan : null,
-        rowSpan: expandedTile.kind === 'image' ? draftRowSpan : null,
-      },
-    }));
-    setExpandedTile((prev) => (prev ? { ...prev, conceptKey: resolvedKey ?? undefined } : prev));
-    setSavedFlash(true);
-    setTimeout(() => setSavedFlash(false), 1600);
+      const { error } = await supabase.from('strati_overrides').upsert(
+        {
+          tile_id: expandedTile.id,
+          description: draftDescription,
+          concept_key: resolvedKey,
+          image_scale: draftScale,
+          image_pos_x: draftPosX,
+          image_pos_y: draftPosY,
+          col_span: expandedTile.kind === 'image' ? draftColSpan : null,
+          row_span: expandedTile.kind === 'image' ? draftRowSpan : null,
+        } as any,
+        { onConflict: 'tile_id' },
+      );
+      if (error) throw error;
+      setOverrides((prev) => ({
+        ...prev,
+        [expandedTile.id]: {
+          ...(prev[expandedTile.id] ?? {}),
+          description: draftDescription,
+          conceptKey: resolvedKey,
+          imageScale: draftScale,
+          imagePosX: draftPosX,
+          imagePosY: draftPosY,
+          colSpan: expandedTile.kind === 'image' ? draftColSpan : null,
+          rowSpan: expandedTile.kind === 'image' ? draftRowSpan : null,
+        },
+      }));
+      setExpandedTile((prev) => (prev ? { ...prev, conceptKey: resolvedKey ?? undefined } : prev));
+      setSavedFlash(true);
+      toast.success('Modifiche salvate');
+      setTimeout(() => setSavedFlash(false), 1600);
+    } catch (e: any) {
+      toast.error(e?.message || 'Salvataggio fallito (permessi admin?)');
+    }
   }, [expandedTile, draftDescription, draftKeyword, draftScale, draftPosX, draftPosY, draftColSpan, draftRowSpan, conceptsMap]);
 
-  // For text-tile lightbox: allow editing the phrase (the concept's extended text)
+  // For text-tile lightbox: edit keyword (title) + phrase.
   const handleSaveTextTile = useCallback(async () => {
     if (!expandedTile || expandedTile.kind !== 'text' || !expandedTile.conceptKey) return;
     const key = expandedTile.conceptKey;
     const titleInput = draftKeyword.trim();
     const newTitle = titleInput ? titleInput.toUpperCase() : conceptsMap[key]?.title ?? key;
-    await supabase.from('strati_concepts').upsert(
-      { key, title: newTitle, phrase: draftDescription },
-      { onConflict: 'key' },
-    );
-    setConceptsMap((prev) => ({ ...prev, [key]: { key, title: newTitle, phrase: draftDescription } }));
-    setSavedFlash(true);
-    setTimeout(() => setSavedFlash(false), 1600);
+    try {
+      const { error } = await supabase.from('strati_concepts').upsert(
+        { key, title: newTitle, phrase: draftDescription },
+        { onConflict: 'key' },
+      );
+      if (error) throw error;
+      setConceptsMap((prev) => ({ ...prev, [key]: { key, title: newTitle, phrase: draftDescription } }));
+      setSavedFlash(true);
+      toast.success(`Keyword "${newTitle}" salvata`);
+      setTimeout(() => setSavedFlash(false), 1600);
+    } catch (e: any) {
+      toast.error(e?.message || 'Salvataggio fallito (permessi admin?)');
+    }
   }, [expandedTile, draftDescription, draftKeyword, conceptsMap]);
 
   const gridColsClass =
@@ -607,7 +677,7 @@ const Strati = () => {
             <div className="mb-4 flex items-center justify-center">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-foreground/30 bg-background font-body text-[10px] uppercase tracking-[0.2em] text-foreground/70">
                 <span className="w-1.5 h-1.5 rounded-full bg-foreground animate-pulse" />
-                Admin · trascina i tasselli per riordinare · click per inquadrare
+                Admin · trascina per riordinare (anche immagine ↔ keyword) · click per modificare
               </div>
             </div>
           )}
@@ -640,11 +710,9 @@ const Strati = () => {
                   onDragEnd={(() => setDragId(null)) as any}
                   onDragOver={((e: React.DragEvent<HTMLDivElement>) => {
                     if (!isAdmin || !dragId) return;
-                    const src = layout.tiles.find((t) => t.id === dragId);
-                    if (src && src.kind === tile.kind) {
-                      e.preventDefault();
-                      e.dataTransfer.dropEffect = 'move';
-                    }
+                    // Allow same-kind reordering AND cross-kind (image ↔ text) anchoring.
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
                   }) as any}
                   onDrop={((e: React.DragEvent<HTMLDivElement>) => {
                     if (!isAdmin) return;
@@ -811,10 +879,21 @@ const Strati = () => {
 
               {isAdmin ? (
                 <div className="mt-2 text-left grid gap-3">
+                  {expandedTile.kind === 'text' && (
+                    <div className="rounded-sm border border-foreground/20 bg-foreground/5 px-3 py-2">
+                      <p className="font-display text-[11px] uppercase tracking-[0.22em] text-foreground">
+                        Modifica tassello-keyword
+                      </p>
+                      <p className="font-body text-[10px] text-muted-foreground mt-1 normal-case tracking-normal">
+                        Cambia la parola e/o la frase descrittiva, poi premi <strong>Salva</strong>.
+                      </p>
+                    </div>
+                  )}
+
                   {/* Keyword field — editable + datalist of existing concepts */}
                   <div>
                     <label className="block font-body text-[10px] md:text-xs uppercase tracking-[0.2em] text-muted-foreground mb-2">
-                      Keyword
+                      {expandedTile.kind === 'text' ? 'Parola (Keyword)' : 'Keyword associata'}
                     </label>
                     <input
                       type="text"
@@ -822,7 +901,7 @@ const Strati = () => {
                       value={draftKeyword}
                       onChange={(e) => setDraftKeyword(e.target.value)}
                       placeholder="Scegli o scrivi una keyword (es. POROSITÀ)"
-                      className="w-full rounded-sm border border-border bg-background/60 px-3 py-2 font-body text-xs md:text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-foreground/40"
+                      className="w-full rounded-sm border border-border bg-background px-3 py-2 font-body text-sm md:text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-foreground/40"
                     />
                     <datalist id="strati-keywords">
                       {Object.values(conceptsMap).map((c) => (
