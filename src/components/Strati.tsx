@@ -337,7 +337,11 @@ const Strati = () => {
   const [activeTile, setActiveTile] = useState<string | null>(null);
   const [draftDescription, setDraftDescription] = useState<string>('');
   const [draftKeyword, setDraftKeyword] = useState<string>(''); // free-text keyword (title)
+  const [draftScale, setDraftScale] = useState<number>(1);
+  const [draftPosX, setDraftPosX] = useState<number>(50);
+  const [draftPosY, setDraftPosY] = useState<number>(50);
   const [savedFlash, setSavedFlash] = useState(false);
+  const [dragId, setDragId] = useState<string | null>(null);
 
   // ── Measure orientations ──
   const [orientations, setOrientations] = useState<Record<string, Orientation>>({});
