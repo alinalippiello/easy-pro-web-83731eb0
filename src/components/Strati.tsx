@@ -1057,6 +1057,14 @@ const Strati = () => {
               >
                 ↶ Annulla ultimo riordino{undoCount > 0 ? ` (${undoCount})` : ''}
               </button>
+              <button
+                type="button"
+                onClick={handleRedoReorder}
+                disabled={redoCount === 0}
+                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-foreground/40 bg-background text-foreground font-body text-[10px] uppercase tracking-[0.2em] hover:bg-foreground hover:text-background transition disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-background disabled:hover:text-foreground"
+                title={redoCount === 0 ? 'Nessuna modifica da ripetere' : `Ripeti ultima modifica annullata (${redoCount} disponibili)`}
+              >
+                ↷ Ripeti ultimo riordino{redoCount > 0 ? ` (${redoCount})` : ''}
             </div>
           )}
 
