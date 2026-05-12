@@ -262,12 +262,24 @@ const Strati = () => {
       if (cs) {
         const m: Record<string, Concept> = {};
         defaultConcepts.forEach((c) => (m[c.key] = c));
-        cs.forEach((c) => (m[c.key] = { key: c.key, title: c.title, phrase: c.phrase }));
+        const pos: Record<string, number | null> = {};
+        cs.forEach((c: any) => {
+          m[c.key] = { key: c.key, title: c.title, phrase: c.phrase };
+          pos[c.key] = c.position ?? null;
+        });
         setConceptsMap(m);
+        setConceptPositions(pos);
       }
       if (os) {
         const o: Record<string, Override> = {};
-        os.forEach((row) => (o[row.tile_id] = { description: row.description ?? '', conceptKey: row.concept_key }));
+        os.forEach((row: any) => (o[row.tile_id] = {
+          description: row.description ?? '',
+          conceptKey: row.concept_key,
+          position: row.position ?? null,
+          imageScale: row.image_scale != null ? Number(row.image_scale) : 1,
+          imagePosX: row.image_pos_x != null ? Number(row.image_pos_x) : 50,
+          imagePosY: row.image_pos_y != null ? Number(row.image_pos_y) : 50,
+        }));
         setOverrides(o);
       }
     };
