@@ -118,7 +118,8 @@ function buildLayout(
   };
   const findSlot = (cs: number, rs: number, avoidText: boolean): [number, number] => {
     if (avoidText) {
-      const maxR = owner.length + 6;
+      // Strictly avoid placing text tiles next to other text tiles — extend search far.
+      const maxR = owner.length + 40;
       for (let r = 0; r < maxR; r++) {
         ensureRow(r);
         for (let c = 0; c <= cols - cs; c++)
