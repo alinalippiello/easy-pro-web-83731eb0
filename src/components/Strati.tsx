@@ -240,6 +240,16 @@ interface Override {
   imagePosY?: number;
   colSpan?: number | null;
   rowSpan?: number | null;
+  hidden?: boolean;
+  coverUrl?: string | null;
+}
+
+interface CustomTile {
+  id: string;
+  cover_url: string;
+  alt: string;
+  position: number | null;
+  hidden: boolean;
 }
 
 const Strati = () => {
