@@ -33,9 +33,7 @@ export interface Concept {
 export const defaultConcepts: Concept[] = [
   { key: 'innestare',    title: 'INNESTARE',    phrase: 'Abitare una condizione esistente senza cancellarne la memoria.' },
   { key: 'piegare',      title: 'PIEGARE',      phrase: 'Trasformare il paesaggio in spazio attraversabile.' },
-  { key: 'dissolvere',   title: 'DISSOLVERE',   phrase: 'Superare il limite tra figura, infrastruttura e paesaggio.' },
   { key: 'porosita',     title: 'POROSITÀ',     phrase: 'Aprire il costruito a flussi ecologici, sociali e visivi.' },
-  { key: 'stratificare', title: 'STRATIFICARE', phrase: 'Far emergere il tempo attraverso materia e territorio.' },
   { key: 'mat-building', title: 'MAT-BUILDING', phrase: 'Costruire continuità attraverso densità, ripetizione e relazione.' },
 ];
 
