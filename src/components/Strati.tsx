@@ -546,7 +546,9 @@ const Strati = () => {
         image_scale: draftScale,
         image_pos_x: draftPosX,
         image_pos_y: draftPosY,
-      },
+        col_span: expandedTile.kind === 'image' ? draftColSpan : null,
+        row_span: expandedTile.kind === 'image' ? draftRowSpan : null,
+      } as any,
       { onConflict: 'tile_id' },
     );
     setOverrides((prev) => ({
@@ -558,12 +560,14 @@ const Strati = () => {
         imageScale: draftScale,
         imagePosX: draftPosX,
         imagePosY: draftPosY,
+        colSpan: expandedTile.kind === 'image' ? draftColSpan : null,
+        rowSpan: expandedTile.kind === 'image' ? draftRowSpan : null,
       },
     }));
     setExpandedTile((prev) => (prev ? { ...prev, conceptKey: resolvedKey ?? undefined } : prev));
     setSavedFlash(true);
     setTimeout(() => setSavedFlash(false), 1600);
-  }, [expandedTile, draftDescription, draftKeyword, draftScale, draftPosX, draftPosY, conceptsMap]);
+  }, [expandedTile, draftDescription, draftKeyword, draftScale, draftPosX, draftPosY, draftColSpan, draftRowSpan, conceptsMap]);
 
   // For text-tile lightbox: allow editing the phrase (the concept's extended text)
   const handleSaveTextTile = useCallback(async () => {
