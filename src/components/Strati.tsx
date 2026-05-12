@@ -381,6 +381,8 @@ const Strati = () => {
   const [activeTile, setActiveTile] = useState<string | null>(null);
   const [draftDescription, setDraftDescription] = useState<string>('');
   const [draftKeyword, setDraftKeyword] = useState<string>(''); // free-text keyword (title)
+  const [originalKeyword, setOriginalKeyword] = useState<string>('');
+  const [originalDescription, setOriginalDescription] = useState<string>('');
   const [draftScale, setDraftScale] = useState<number>(1);
   const [draftPosX, setDraftPosX] = useState<number>(50);
   const [draftPosY, setDraftPosY] = useState<number>(50);
@@ -468,8 +470,12 @@ const Strati = () => {
   const openTile = useCallback(
     (tile: LayoutTile) => {
       const ov = overrides[tile.id];
-      const desc = ov?.description ?? tile.description ?? '';
       const ck = tile.conceptKey;
+      // For text tiles the editable "frase" is the concept's phrase; for image tiles it's the description override.
+      const initialDesc = tile.kind === 'text'
+        ? (ck ? conceptsMap[ck]?.phrase ?? '' : '')
+        : (ov?.description ?? tile.description ?? '');
+      const initialKeyword = ck ? conceptsMap[ck]?.title ?? '' : '';
       setExpandedTile({
         id: tile.id,
         kind: tile.kind,
@@ -477,8 +483,10 @@ const Strati = () => {
         alt: tile.alt ?? '',
         conceptKey: ck,
       });
-      setDraftDescription(desc);
-      setDraftKeyword(ck ? conceptsMap[ck]?.title ?? '' : '');
+      setDraftDescription(initialDesc);
+      setDraftKeyword(initialKeyword);
+      setOriginalDescription(initialDesc);
+      setOriginalKeyword(initialKeyword);
       setDraftScale(ov?.imageScale ?? 1);
       setDraftPosX(ov?.imagePosX ?? 50);
       setDraftPosY(ov?.imagePosY ?? 50);
@@ -1113,6 +1121,18 @@ const Strati = () => {
                     {savedFlash && (
                       <span className="font-body text-[11px] text-muted-foreground">Salvato</span>
                     )}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setDraftKeyword(originalKeyword);
+                        setDraftDescription(originalDescription);
+                        toast('Modifiche annullate', { description: 'Keyword e frase ripristinate' });
+                      }}
+                      disabled={draftKeyword === originalKeyword && draftDescription === originalDescription}
+                      className="px-4 py-1.5 rounded-sm border border-border bg-background text-foreground font-body text-[11px] md:text-xs uppercase tracking-[0.18em] hover:bg-muted transition disabled:opacity-40 disabled:cursor-not-allowed"
+                    >
+                      Annulla
+                    </button>
                     <button
                       type="button"
                       onClick={expandedTile.kind === 'text' ? handleSaveTextTile : handleSave}
