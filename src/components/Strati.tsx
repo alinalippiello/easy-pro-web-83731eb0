@@ -242,6 +242,7 @@ const Strati = () => {
     return m;
   });
   const [overrides, setOverrides] = useState<Record<string, Override>>({});
+  const [conceptPositions, setConceptPositions] = useState<Record<string, number | null>>({});
 
   // Load + realtime subscribe
   useEffect(() => {
