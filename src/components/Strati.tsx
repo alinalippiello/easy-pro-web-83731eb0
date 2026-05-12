@@ -223,6 +223,8 @@ interface Override {
   imageScale?: number;
   imagePosX?: number;
   imagePosY?: number;
+  colSpan?: number | null;
+  rowSpan?: number | null;
 }
 
 const Strati = () => {
