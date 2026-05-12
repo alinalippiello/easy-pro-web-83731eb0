@@ -429,11 +429,78 @@ const Strati = () => {
       });
       setDraftDescription(desc);
       setDraftKeyword(ck ? conceptsMap[ck]?.title ?? '' : '');
+      setDraftScale(ov?.imageScale ?? 1);
+      setDraftPosX(ov?.imagePosX ?? 50);
+      setDraftPosY(ov?.imagePosY ?? 50);
       setSavedFlash(false);
     },
     [overrides, conceptsMap],
   );
   const closeImage = useCallback(() => setExpandedTile(null), []);
+
+  // ── Drag & drop reordering (admin) ──
+  // Resolved index of an image tile in the current sorted source list.
+  const imageOrderIndex = useCallback((id: string): number => {
+    const indexed = sourceTiles.map((t, i) => ({ id: t.id, i }));
+    indexed.sort((a, b) => {
+      const pa = overrides[a.id]?.position;
+      const pb = overrides[b.id]?.position;
+      const ka = pa != null ? pa : a.i;
+      const kb = pb != null ? pb : b.i;
+      if (ka !== kb) return ka - kb;
+      return a.i - b.i;
+    });
+    return indexed.findIndex((x) => x.id === id);
+  }, [overrides]);
+
+  const conceptOrderIndex = useCallback((key: string): number => {
+    const allKeys = Object.keys(conceptsMap);
+    const idx: Record<string, number> = {};
+    allKeys.forEach((k, i) => (idx[k] = i));
+    const sorted = [...allKeys].sort((a, b) => {
+      const pa = conceptPositions[a];
+      const pb = conceptPositions[b];
+      const ka = pa != null ? pa : idx[a];
+      const kb = pb != null ? pb : idx[b];
+      if (ka !== kb) return ka - kb;
+      return idx[a] - idx[b];
+    });
+    return sorted.indexOf(key);
+  }, [conceptsMap, conceptPositions]);
+
+  const handleTileDrop = useCallback(async (sourceTile: LayoutTile, targetTile: LayoutTile) => {
+    if (!isAdmin) return;
+    if (sourceTile.id === targetTile.id) return;
+    if (sourceTile.kind !== targetTile.kind) return;
+    if (sourceTile.kind === 'image') {
+      const a = imageOrderIndex(sourceTile.id);
+      const b = imageOrderIndex(targetTile.id);
+      if (a < 0 || b < 0) return;
+      // Swap positions of the two tiles.
+      await supabase.from('strati_overrides').upsert([
+        { tile_id: sourceTile.id, position: b, description: overrides[sourceTile.id]?.description ?? '', concept_key: overrides[sourceTile.id]?.conceptKey ?? null },
+        { tile_id: targetTile.id, position: a, description: overrides[targetTile.id]?.description ?? '', concept_key: overrides[targetTile.id]?.conceptKey ?? null },
+      ], { onConflict: 'tile_id' });
+      setOverrides((prev) => ({
+        ...prev,
+        [sourceTile.id]: { ...(prev[sourceTile.id] ?? { description: '' }), position: b },
+        [targetTile.id]: { ...(prev[targetTile.id] ?? { description: '' }), position: a },
+      }));
+    } else if (sourceTile.kind === 'text' && sourceTile.conceptKey && targetTile.conceptKey) {
+      const a = conceptOrderIndex(sourceTile.conceptKey);
+      const b = conceptOrderIndex(targetTile.conceptKey);
+      if (a < 0 || b < 0) return;
+      await supabase.from('strati_concepts').upsert([
+        { key: sourceTile.conceptKey, title: conceptsMap[sourceTile.conceptKey].title, phrase: conceptsMap[sourceTile.conceptKey].phrase, position: b },
+        { key: targetTile.conceptKey, title: conceptsMap[targetTile.conceptKey].title, phrase: conceptsMap[targetTile.conceptKey].phrase, position: a },
+      ], { onConflict: 'key' });
+      setConceptPositions((prev) => ({
+        ...prev,
+        [sourceTile.conceptKey!]: b,
+        [targetTile.conceptKey!]: a,
+      }));
+    }
+  }, [isAdmin, overrides, conceptsMap, conceptPositions, imageOrderIndex, conceptOrderIndex]);
 
   const handleSave = useCallback(async () => {
     if (!expandedTile) return;
