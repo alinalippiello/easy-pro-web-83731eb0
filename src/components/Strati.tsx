@@ -488,8 +488,12 @@ const Strati = () => {
                     return (
                       <div className="absolute inset-0 flex items-center justify-center text-center px-2 md:px-3">
                         <span
-                          className="font-display font-light tracking-[0.18em] text-foreground text-[11px] md:text-sm lg:text-base leading-tight"
-                          style={isVertical ? { writingMode: 'vertical-rl', transform: 'rotate(180deg)' } : undefined}
+                          className="font-display font-light tracking-[0.18em] text-foreground text-[11px] md:text-sm lg:text-base leading-[1.05]"
+                          style={
+                            isVertical
+                              ? { writingMode: 'vertical-rl', textOrientation: 'upright', letterSpacing: '0.15em' }
+                              : undefined
+                          }
                         >
                           {title}
                         </span>
