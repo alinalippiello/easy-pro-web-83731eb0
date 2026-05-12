@@ -448,36 +448,69 @@ const Strati = () => {
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
-  // ── Layout ──
-  const layout = useMemo(() => {
-    // Sort image source tiles by override.position (admin-set), fallback to source order.
-    const indexed = sourceTiles.map((tile, idx) => ({ tile, idx }));
-    indexed.sort((a, b) => {
-      const pa = overrides[a.tile.id]?.position;
-      const pb = overrides[b.tile.id]?.position;
-      const ka = pa != null ? pa : a.idx;
-      const kb = pb != null ? pb : b.idx;
-      if (ka !== kb) return ka - kb;
-      return a.idx - b.idx;
-    });
-    const tiles: LayoutTile[] = indexed.map(({ tile }) => {
-      const o = orientations[tile.id] ?? 'square';
-      const auto = spansFor(o, cols);
+  // Combined ordered image-tile list (source + custom).
+  // Hidden tiles are kept in the list ONLY for admin (rendered faded so they can be restored).
+  const orderedImageSources = useMemo(() => {
+    type Item = { id: string; cover: string; alt: string; conceptKey?: string; description?: string; isCustom: boolean; hidden: boolean; position: number | null; fallbackIdx: number };
+    const items: Item[] = [];
+    sourceTiles.forEach((tile, idx) => {
       const ov = overrides[tile.id];
+      items.push({
+        id: tile.id,
+        cover: ov?.coverUrl || tile.cover,
+        alt: tile.alt,
+        conceptKey: ov?.conceptKey ?? tile.conceptKey,
+        description: ov?.description || tile.description,
+        isCustom: false,
+        hidden: !!ov?.hidden,
+        position: ov?.position ?? null,
+        fallbackIdx: idx,
+      });
+    });
+    customTiles.forEach((ct, i) => {
+      const ov = overrides[ct.id];
+      items.push({
+        id: ct.id,
+        cover: ov?.coverUrl || ct.cover_url,
+        alt: ct.alt,
+        conceptKey: ov?.conceptKey ?? null,
+        description: ov?.description || '',
+        isCustom: true,
+        hidden: !!ct.hidden || !!ov?.hidden,
+        position: ov?.position ?? ct.position ?? null,
+        fallbackIdx: sourceTiles.length + i,
+      });
+    });
+    items.sort((a, b) => {
+      const ka = a.position != null ? a.position : a.fallbackIdx;
+      const kb = b.position != null ? b.position : b.fallbackIdx;
+      if (ka !== kb) return ka - kb;
+      return a.fallbackIdx - b.fallbackIdx;
+    });
+    return items;
+  }, [overrides, customTiles]);
+
+  const layout = useMemo(() => {
+    const visibleSources = orderedImageSources.filter((s) => isAdmin || !s.hidden);
+    const tiles: LayoutTile[] = visibleSources.map((s) => {
+      const o = orientations[s.id] ?? 'square';
+      const auto = spansFor(o, cols);
+      const ov = overrides[s.id];
       const cs = ov?.colSpan && ov.colSpan > 0 ? Math.min(cols, ov.colSpan) : auto.c;
       const rs = ov?.rowSpan && ov.rowSpan > 0 ? Math.min(6, ov.rowSpan) : auto.r;
       return {
-        id: tile.id,
+        id: s.id,
         kind: 'image' as const,
-        cover: tile.cover,
-        alt: tile.alt,
-        description: ov?.description || tile.description,
-        conceptKey: ov?.conceptKey ?? tile.conceptKey,
+        cover: s.cover,
+        alt: s.alt,
+        description: s.description,
+        conceptKey: s.conceptKey,
         colSpan: cs,
         rowSpan: rs,
         imageScale: ov?.imageScale ?? 1,
         imagePosX: ov?.imagePosX ?? 50,
         imagePosY: ov?.imagePosY ?? 50,
+        isCustom: s.isCustom,
       };
     });
     // Concept keys sorted by saved position (admin), fallback to insertion order.
@@ -495,7 +528,9 @@ const Strati = () => {
     const titleMap: Record<string, string> = {};
     Object.values(conceptsMap).forEach((c) => (titleMap[c.key] = c.title));
     return buildLayout(tiles, cols, conceptKeys, titleMap, conceptAnchors);
-  }, [orientations, cols, overrides, conceptsMap, conceptPositions, conceptAnchors]);
+  }, [orderedImageSources, orientations, cols, overrides, conceptsMap, conceptPositions, conceptAnchors, isAdmin]);
+
+  const hiddenIdSet = useMemo(() => new Set(orderedImageSources.filter((s) => s.hidden).map((s) => s.id)), [orderedImageSources]);
 
   const openTile = useCallback(
     (tile: LayoutTile) => {
