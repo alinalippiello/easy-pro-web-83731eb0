@@ -16,6 +16,7 @@ export type Database = {
     Tables: {
       strati_concepts: {
         Row: {
+          anchor_image_id: string | null
           key: string
           phrase: string
           position: number | null
@@ -23,6 +24,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          anchor_image_id?: string | null
           key: string
           phrase?: string
           position?: number | null
@@ -30,6 +32,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          anchor_image_id?: string | null
           key?: string
           phrase?: string
           position?: number | null
