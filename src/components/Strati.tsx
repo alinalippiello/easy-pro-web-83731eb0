@@ -630,9 +630,9 @@ const Strati = () => {
         .filter((c) => customIds.has(c.id))
         .map(({ id, pos }) => ({ id, position: pos }));
       const tasks: Promise<any>[] = [];
-      if (ovRows.length) tasks.push(supabase.from('strati_overrides').upsert(ovRows, { onConflict: 'tile_id' }));
+      if (ovRows.length) tasks.push(Promise.resolve(supabase.from('strati_overrides').upsert(ovRows, { onConflict: 'tile_id' })));
       ctRows.forEach((row) => tasks.push(
-        (supabase.from('strati_custom_tiles' as any).update({ position: row.position }).eq('id', row.id)) as any,
+        Promise.resolve((supabase.from('strati_custom_tiles' as any) as any).update({ position: row.position }).eq('id', row.id)),
       ));
       const results = await Promise.all(tasks);
       const err = results.find((r: any) => r?.error)?.error;
