@@ -24,6 +24,9 @@ interface LayoutTile {
   colSpan: number;
   rowSpan: number;
   conceptKey?: string;
+  imageScale?: number;
+  imagePosX?: number;
+  imagePosY?: number;
 }
 
 function spansFor(orientation: Orientation, cols: number): { c: number; r: number } {
