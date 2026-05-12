@@ -213,7 +213,14 @@ function colsForWidth(w: number): number {
   return 3;
 }
 
-interface Override { description: string; conceptKey?: string | null }
+interface Override {
+  description: string;
+  conceptKey?: string | null;
+  position?: number | null;
+  imageScale?: number;
+  imagePosX?: number;
+  imagePosY?: number;
+}
 
 const Strati = () => {
   const { t } = useLanguage();
