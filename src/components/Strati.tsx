@@ -966,6 +966,36 @@ const Strati = () => {
                     </div>
                   )}
 
+                  {/* Tile size — admin can make image span more columns/rows */}
+                  {expandedTile.kind === 'image' && (
+                    <div className="grid gap-2">
+                      <label className="block font-body text-[10px] md:text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                        Dimensione tassello
+                      </label>
+                      <div className="grid grid-cols-2 gap-3">
+                        <label className="flex flex-col gap-1 font-body text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+                          Colonne ({draftColSpan})
+                          <input
+                            type="range" min={1} max={cols} step={1}
+                            value={draftColSpan}
+                            onChange={(e) => setDraftColSpan(parseInt(e.target.value, 10))}
+                          />
+                        </label>
+                        <label className="flex flex-col gap-1 font-body text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+                          Righe ({draftRowSpan})
+                          <input
+                            type="range" min={1} max={4} step={1}
+                            value={draftRowSpan}
+                            onChange={(e) => setDraftRowSpan(parseInt(e.target.value, 10))}
+                          />
+                        </label>
+                      </div>
+                      <p className="font-body text-[10px] text-muted-foreground/80 normal-case tracking-normal -mt-1">
+                        Aumenta colonne/righe per ingrandire l'immagine nella griglia. Salva per applicare.
+                      </p>
+                    </div>
+                  )}
+
                   {/* Description field + template selector */}
                   <div>
                     <div className="flex items-center justify-between gap-3 mb-2">
