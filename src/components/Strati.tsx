@@ -703,6 +703,84 @@ const Strati = () => {
     }
   }, [isAdmin, overrides, conceptsMap, conceptPositions, conceptAnchors, orderedImageSources, customTiles, pushUndo]);
 
+  // Apply a reorder snapshot to DB + local state, returning the inverse snapshot
+  // (capturing the state that was just replaced) so it can be pushed onto the
+  // opposite stack for redo/undo symmetry.
+  const applyReorderSnapshot = useCallback(async (snap: ReorderUndo): Promise<ReorderUndo> => {
+    if (snap.kind === 'anchor') {
+      const c = conceptsMap[snap.conceptKey];
+      if (!c) throw new Error('Concept mancante');
+      const inverse: ReorderUndo = {
+        kind: 'anchor',
+        conceptKey: snap.conceptKey,
+        prevAnchorId: conceptAnchors[snap.conceptKey] ?? null,
+      };
+      const { error } = await supabase.from('strati_concepts').upsert(
+        { key: c.key, title: c.title, phrase: c.phrase, anchor_image_id: snap.prevAnchorId } as any,
+        { onConflict: 'key' },
+      );
+      if (error) throw error;
+      setConceptAnchors((prev) => ({ ...prev, [c.key]: snap.prevAnchorId }));
+      return inverse;
+    }
+    if (snap.kind === 'image') {
+      const customIds = new Set(customTiles.map((c) => c.id));
+      const inverse: ReorderUndo = {
+        kind: 'image',
+        prevPositions: snap.prevPositions.map((p) => ({
+          id: p.id,
+          pos: orderedImageSources.find((s) => s.id === p.id)?.position ?? null,
+          isCustom: p.isCustom,
+        })),
+      };
+      const ovRows = snap.prevPositions
+        .filter((p) => !customIds.has(p.id))
+        .map((p) => ({
+          tile_id: p.id,
+          position: p.pos,
+          description: overrides[p.id]?.description ?? '',
+          concept_key: overrides[p.id]?.conceptKey ?? null,
+        }));
+      const ctRows = snap.prevPositions.filter((p) => customIds.has(p.id));
+      const tasks: Promise<any>[] = [];
+      if (ovRows.length) tasks.push(Promise.resolve(supabase.from('strati_overrides').upsert(ovRows, { onConflict: 'tile_id' })));
+      ctRows.forEach((row) => tasks.push(
+        Promise.resolve((supabase.from('strati_custom_tiles' as any) as any).update({ position: row.pos }).eq('id', row.id)),
+      ));
+      const results = await Promise.all(tasks);
+      const err = results.find((r: any) => r?.error)?.error;
+      if (err) throw err;
+      setOverrides((prev) => {
+        const np = { ...prev };
+        snap.prevPositions.forEach(({ id, pos }) => {
+          np[id] = { ...(np[id] ?? { description: '' }), position: pos };
+        });
+        return np;
+      });
+      return inverse;
+    }
+    // text
+    const inverse: ReorderUndo = {
+      kind: 'text',
+      prevPositions: snap.prevPositions.map((p) => ({
+        key: p.key,
+        pos: conceptPositions[p.key] ?? null,
+      })),
+    };
+    const rows = snap.prevPositions.map((p) => ({
+      key: p.key,
+      title: conceptsMap[p.key]?.title ?? p.key,
+      phrase: conceptsMap[p.key]?.phrase ?? '',
+      position: p.pos,
+    }));
+    const { error } = await supabase.from('strati_concepts').upsert(rows, { onConflict: 'key' });
+    if (error) throw error;
+    const newPos: Record<string, number | null> = {};
+    snap.prevPositions.forEach((p) => (newPos[p.key] = p.pos));
+    setConceptPositions((prev) => ({ ...prev, ...newPos }));
+    return inverse;
+  }, [conceptsMap, conceptAnchors, conceptPositions, customTiles, orderedImageSources, overrides]);
+
   // Undo last reorder operation.
   const handleUndoReorder = useCallback(async () => {
     if (!isAdmin) return;
@@ -712,62 +790,36 @@ const Strati = () => {
     undoStackRef.current = stack.slice(0, -1);
     setUndoCount(undoStackRef.current.length);
     try {
-      if (last.kind === 'anchor') {
-        const c = conceptsMap[last.conceptKey];
-        if (!c) return;
-        const { error } = await supabase.from('strati_concepts').upsert(
-          { key: c.key, title: c.title, phrase: c.phrase, anchor_image_id: last.prevAnchorId } as any,
-          { onConflict: 'key' },
-        );
-        if (error) throw error;
-        setConceptAnchors((prev) => ({ ...prev, [c.key]: last.prevAnchorId }));
-      } else if (last.kind === 'image') {
-        const customIds = new Set(customTiles.map((c) => c.id));
-        const ovRows = last.prevPositions
-          .filter((p) => !customIds.has(p.id))
-          .map((p) => ({
-            tile_id: p.id,
-            position: p.pos,
-            description: overrides[p.id]?.description ?? '',
-            concept_key: overrides[p.id]?.conceptKey ?? null,
-          }));
-        const ctRows = last.prevPositions.filter((p) => customIds.has(p.id));
-        const tasks: Promise<any>[] = [];
-        if (ovRows.length) tasks.push(Promise.resolve(supabase.from('strati_overrides').upsert(ovRows, { onConflict: 'tile_id' })));
-        ctRows.forEach((row) => tasks.push(
-          Promise.resolve((supabase.from('strati_custom_tiles' as any) as any).update({ position: row.pos }).eq('id', row.id)),
-        ));
-        const results = await Promise.all(tasks);
-        const err = results.find((r: any) => r?.error)?.error;
-        if (err) throw err;
-        setOverrides((prev) => {
-          const np = { ...prev };
-          last.prevPositions.forEach(({ id, pos }) => {
-            np[id] = { ...(np[id] ?? { description: '' }), position: pos };
-          });
-          return np;
-        });
-      } else if (last.kind === 'text') {
-        const rows = last.prevPositions.map((p) => ({
-          key: p.key,
-          title: conceptsMap[p.key]?.title ?? p.key,
-          phrase: conceptsMap[p.key]?.phrase ?? '',
-          position: p.pos,
-        }));
-        const { error } = await supabase.from('strati_concepts').upsert(rows, { onConflict: 'key' });
-        if (error) throw error;
-        const newPos: Record<string, number | null> = {};
-        last.prevPositions.forEach((p) => (newPos[p.key] = p.pos));
-        setConceptPositions((prev) => ({ ...prev, ...newPos }));
-      }
+      const inverse = await applyReorderSnapshot(last);
+      redoStackRef.current = [...redoStackRef.current, inverse].slice(-20);
+      setRedoCount(redoStackRef.current.length);
       toast.success('Ultima modifica annullata');
-    } catch (e) {
+    } catch {
       toast.error('Impossibile annullare: permesso negato o errore di rete');
-      // Restore the undo entry so the user can retry.
       undoStackRef.current = [...undoStackRef.current, last];
       setUndoCount(undoStackRef.current.length);
     }
-  }, [isAdmin, conceptsMap, conceptAnchors, customTiles, overrides]);
+  }, [isAdmin, applyReorderSnapshot]);
+
+  // Redo last undone reorder operation.
+  const handleRedoReorder = useCallback(async () => {
+    if (!isAdmin) return;
+    const stack = redoStackRef.current;
+    if (stack.length === 0) return;
+    const last = stack[stack.length - 1];
+    redoStackRef.current = stack.slice(0, -1);
+    setRedoCount(redoStackRef.current.length);
+    try {
+      const inverse = await applyReorderSnapshot(last);
+      undoStackRef.current = [...undoStackRef.current, inverse].slice(-20);
+      setUndoCount(undoStackRef.current.length);
+      toast.success('Modifica ripetuta');
+    } catch {
+      toast.error('Impossibile ripetere: permesso negato o errore di rete');
+      redoStackRef.current = [...redoStackRef.current, last];
+      setRedoCount(redoStackRef.current.length);
+    }
+  }, [isAdmin, applyReorderSnapshot]);
 
   const handleSave = useCallback(async () => {
     if (!expandedTile) return;
