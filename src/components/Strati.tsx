@@ -44,14 +44,46 @@ function classify(w: number, h: number): Orientation {
   return 'square';
 }
 
-function packAndFill(
+function buildLayout(
   imageTiles: LayoutTile[],
   cols: number,
   conceptKeys: string[],
 ): { tiles: LayoutTile[]; rows: number } {
+  // Alternate image orientations: portrait / non-portrait, preserving order.
+  const portraits = imageTiles.filter((t) => t.rowSpan > t.colSpan);
+  const others = imageTiles.filter((t) => t.rowSpan <= t.colSpan);
+  const interleavedImages: LayoutTile[] = [];
+  let pi = 0, oi = 0;
+  while (pi < portraits.length || oi < others.length) {
+    if (oi < others.length) interleavedImages.push(others[oi++]);
+    if (pi < portraits.length) interleavedImages.push(portraits[pi++]);
+  }
+
+  // Build text tiles cycling through known concepts, capped by MAX_TEXT_TILES.
+  const textCount = Math.min(MAX_TEXT_TILES, conceptKeys.length * 3);
+  const textTiles: LayoutTile[] = [];
+  for (let i = 0; i < textCount; i++) {
+    textTiles.push({
+      id: `text-${conceptKeys[i % conceptKeys.length]}-${i}`,
+      kind: 'text',
+      colSpan: 1,
+      rowSpan: 1,
+      conceptKey: conceptKeys[i % conceptKeys.length],
+    });
+  }
+
+  // Mix: insert one text tile after every ~2 images so they're scattered.
+  const mixed: LayoutTile[] = [];
+  let ti = 0;
+  interleavedImages.forEach((img, i) => {
+    mixed.push(img);
+    if (ti < textTiles.length && i % 2 === 1) mixed.push(textTiles[ti++]);
+  });
+  while (ti < textTiles.length) mixed.push(textTiles[ti++]);
+
+  // Pack with text-adjacency avoidance.
   const owner: number[][] = [];
   const placed: { tile: LayoutTile; r: number; c: number }[] = [];
-
   const ensureRow = (r: number) => { while (owner.length <= r) owner.push(new Array(cols).fill(-1)); };
   const fits = (r: number, c: number, cs: number, rs: number) => {
     if (c + cs > cols) return false;
@@ -67,69 +99,65 @@ function packAndFill(
       for (let j = 0; j < cs; j++) owner[r + i][c + j] = idx;
     }
   };
-  const findSlot = (cs: number, rs: number): [number, number] => {
+  const hasTextNeighbor = (r: number, c: number, cs: number, rs: number) => {
+    const isText = (rr: number, cc: number) => {
+      if (rr < 0 || cc < 0 || cc >= cols || rr >= owner.length) return false;
+      const i = owner[rr][cc];
+      return i !== -1 && placed[i]?.tile.kind === 'text';
+    };
+    for (let i = 0; i < rs; i++) {
+      if (isText(r + i, c - 1)) return true;
+      if (isText(r + i, c + cs)) return true;
+    }
+    for (let j = 0; j < cs; j++) {
+      if (isText(r - 1, c + j)) return true;
+      if (isText(r + rs, c + j)) return true;
+    }
+    return false;
+  };
+  const findSlot = (cs: number, rs: number, avoidText: boolean): [number, number] => {
+    if (avoidText) {
+      const maxR = owner.length + 6;
+      for (let r = 0; r < maxR; r++) {
+        ensureRow(r);
+        for (let c = 0; c <= cols - cs; c++)
+          if (fits(r, c, cs, rs) && !hasTextNeighbor(r, c, cs, rs)) return [r, c];
+      }
+    }
     for (let r = 0; ; r++) {
       ensureRow(r);
       for (let c = 0; c <= cols - cs; c++) if (fits(r, c, cs, rs)) return [r, c];
     }
   };
 
-  for (const t of imageTiles) {
-    const [r, c] = findSlot(t.colSpan, t.rowSpan);
-    const idx = placed.length;
+  for (const t of mixed) {
+    const [r, c] = findSlot(t.colSpan, t.rowSpan, t.kind === 'text');
     placed.push({ tile: t, r, c });
-    stamp(r, c, t.colSpan, t.rowSpan, idx);
+    stamp(r, c, t.colSpan, t.rowSpan, placed.length - 1);
   }
 
+  // Drop trailing empty rows.
   while (owner.length && owner[owner.length - 1].every((v) => v === -1)) owner.pop();
-  if (owner.length === 0) return { tiles: imageTiles, rows: 0 };
 
-  const empties: { r: number; c: number }[] = [];
-  for (let r = 0; r < owner.length; r++)
-    for (let c = 0; c < cols; c++) if (owner[r][c] === -1) empties.push({ r, c });
-
-  const textCount = Math.min(MAX_TEXT_TILES, empties.length, conceptKeys.length);
-  const chosen = new Set<number>();
-  for (let i = 0; i < textCount; i++) {
-    const idx = Math.floor((i + 0.5) * (empties.length / textCount));
-    chosen.add(idx);
-  }
-
-  const fillers: LayoutTile[] = [];
-  let conceptIdx = 0;
-  empties.forEach((cell, i) => {
-    if (!chosen.has(i)) return;
-    const conceptKey = conceptKeys[conceptIdx % conceptKeys.length];
-    conceptIdx++;
-    const idx = placed.length + fillers.length;
-    fillers.push({
-      id: `text-${conceptKey}`,
-      kind: 'text',
-      colSpan: 1,
-      rowSpan: 1,
-      conceptKey,
-    });
-    owner[cell.r][cell.c] = idx;
-  });
-
+  // Fill remaining holes by extending nearest image tiles into them.
   const tryExtend = (cell: { r: number; c: number }): boolean => {
     const candidates: { ownerIdx: number; newCs?: number; newRs?: number }[] = [];
     if (cell.c > 0 && owner[cell.r][cell.c - 1] !== -1) {
-      const oi = owner[cell.r][cell.c - 1];
-      const p = placed[oi];
+      const oi2 = owner[cell.r][cell.c - 1];
+      const p = placed[oi2];
       if (p && p.tile.kind === 'image' && p.r <= cell.r && cell.r < p.r + p.tile.rowSpan && p.c + p.tile.colSpan === cell.c) {
         let ok = true;
         for (let i = 0; i < p.tile.rowSpan; i++) if (owner[p.r + i]?.[cell.c] !== -1) { ok = false; break; }
-        if (ok) candidates.push({ ownerIdx: oi, newCs: p.tile.colSpan + 1 });
+        if (ok) candidates.push({ ownerIdx: oi2, newCs: p.tile.colSpan + 1 });
       }
     }
     if (cell.r > 0 && owner[cell.r - 1][cell.c] !== -1) {
-      const oi = owner[cell.r - 1][cell.c];
-      const p = placed[oi];
+      const oi2 = owner[cell.r - 1][cell.c];
+      const p = placed[oi2];
       if (p && p.tile.kind === 'image' && p.c <= cell.c && cell.c < p.c + p.tile.colSpan && p.r + p.tile.rowSpan === cell.r) {
         let ok = true;
         for (let j = 0; j < p.tile.colSpan; j++) if (owner[cell.r]?.[p.c + j] !== -1) { ok = false; break; }
-        if (ok) candidates.push({ ownerIdx: oi, newRs: p.tile.rowSpan + 1 });
+        if (ok) candidates.push({ ownerIdx: oi2, newRs: p.tile.rowSpan + 1 });
       }
     }
     if (candidates.length === 0) return false;
@@ -154,7 +182,7 @@ function packAndFill(
     if (!changed) break;
   }
 
-  return { tiles: [...placed.map((p) => p.tile), ...fillers], rows: owner.length };
+  return { tiles: placed.map((p) => p.tile), rows: owner.length };
 }
 
 // Fixed breakpoints — keep grid identical between Lovable preview (≈941px)
@@ -300,7 +328,7 @@ const Strati = () => {
     });
     // text tiles cycle through ALL known concept keys (default + custom)
     const conceptKeys = Object.keys(conceptsMap);
-    return packAndFill(tiles, cols, conceptKeys);
+    return buildLayout(tiles, cols, conceptKeys);
   }, [orientations, cols, overrides, conceptsMap]);
 
   const openTile = useCallback(
@@ -407,10 +435,10 @@ const Strati = () => {
               const isActive = activeTile === tile.id;
               const isText = tile.kind === 'text';
               return (
-                <motion.div
+              <motion.div
                   key={tile.id}
                   className={`relative overflow-hidden rounded-sm group cursor-pointer ${
-                    isText ? 'bg-background border border-border/40' : ''
+                    isText ? 'bg-background border border-border/40' : 'bg-card'
                   }`}
                   style={{
                     gridColumn: `span ${tile.colSpan}`,
@@ -430,17 +458,24 @@ const Strati = () => {
                       decoding="async"
                       draggable="false"
                       onContextMenu={(e) => e.preventDefault()}
-                      className="w-full h-full object-cover select-none pointer-events-none transition-transform duration-700 group-hover:scale-105"
+                      className="w-full h-full object-contain select-none pointer-events-none transition-transform duration-700 group-hover:scale-[1.02]"
                     />
                   )}
 
-                  {isText && concept && (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-3 md:px-5">
-                      <span className="font-display font-light tracking-[0.18em] text-foreground text-[11px] md:text-sm lg:text-base leading-tight">
-                        {trConceptTitle(concept)}
-                      </span>
-                    </div>
-                  )}
+                  {isText && concept && (() => {
+                    const title = trConceptTitle(concept);
+                    const isVertical = tile.rowSpan > tile.colSpan || title.length > 8;
+                    return (
+                      <div className="absolute inset-0 flex items-center justify-center text-center px-2 md:px-3">
+                        <span
+                          className="font-display font-light tracking-[0.18em] text-foreground text-[11px] md:text-sm lg:text-base leading-tight"
+                          style={isVertical ? { writingMode: 'vertical-rl', transform: 'rotate(180deg)' } : undefined}
+                        >
+                          {title}
+                        </span>
+                      </div>
+                    );
+                  })()}
 
                   {!isText && concept && (
                     <>
