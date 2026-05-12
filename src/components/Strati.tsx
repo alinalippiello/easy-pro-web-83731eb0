@@ -282,10 +282,15 @@ const Strati = () => {
     | { kind: 'image'; prevPositions: { id: string; pos: number | null; isCustom: boolean }[] }
     | { kind: 'text'; prevPositions: { key: string; pos: number | null }[] };
   const undoStackRef = useRef<ReorderUndo[]>([]);
+  const redoStackRef = useRef<ReorderUndo[]>([]);
   const [undoCount, setUndoCount] = useState(0);
+  const [redoCount, setRedoCount] = useState(0);
   const pushUndo = useCallback((u: ReorderUndo) => {
     undoStackRef.current = [...undoStackRef.current, u].slice(-20);
+    // A new user action invalidates the redo stack.
+    redoStackRef.current = [];
     setUndoCount(undoStackRef.current.length);
+    setRedoCount(0);
   }, []);
 
   // Load + realtime subscribe
