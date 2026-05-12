@@ -59,16 +59,16 @@ function buildLayout(
     if (pi < portraits.length) interleavedImages.push(portraits[pi++]);
   }
 
-  // Build text tiles cycling through known concepts, capped by MAX_TEXT_TILES.
-  const textCount = Math.min(MAX_TEXT_TILES, conceptKeys.length * 3);
+  // Build text tiles: one per concept, max 5, no duplicates.
+  const textCount = Math.min(5, conceptKeys.length);
   const textTiles: LayoutTile[] = [];
   for (let i = 0; i < textCount; i++) {
     textTiles.push({
-      id: `text-${conceptKeys[i % conceptKeys.length]}-${i}`,
+      id: `text-${conceptKeys[i]}`,
       kind: 'text',
       colSpan: 1,
       rowSpan: 1,
-      conceptKey: conceptKeys[i % conceptKeys.length],
+      conceptKey: conceptKeys[i],
     });
   }
 
