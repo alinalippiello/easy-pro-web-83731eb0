@@ -28,6 +28,7 @@ interface LayoutTile {
   imageScale?: number;
   imagePosX?: number;
   imagePosY?: number;
+  isCustom?: boolean;
 }
 
 function spansFor(orientation: Orientation, cols: number): { c: number; r: number } {
