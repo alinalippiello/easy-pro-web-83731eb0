@@ -600,12 +600,37 @@ const Strati = () => {
                   key={tile.id}
                   className={`relative overflow-hidden rounded-sm group cursor-pointer ${
                     isText ? 'bg-background border border-border/40' : 'bg-card'
-                  }`}
+                  } ${isAdmin && dragId && dragId !== tile.id ? 'ring-1 ring-foreground/20' : ''}`}
                   style={{
                     gridColumn: `span ${tile.colSpan}`,
                     gridRow: `span ${tile.rowSpan}`,
                   }}
-                  onClick={() => openTile(tile)}
+                  draggable={isAdmin}
+                  onDragStart={(e) => {
+                    if (!isAdmin) return;
+                    setDragId(tile.id);
+                    e.dataTransfer.effectAllowed = 'move';
+                    e.dataTransfer.setData('text/plain', tile.id);
+                  }}
+                  onDragEnd={() => setDragId(null)}
+                  onDragOver={(e) => {
+                    if (!isAdmin || !dragId) return;
+                    const src = layout.tiles.find((t) => t.id === dragId);
+                    if (src && src.kind === tile.kind) {
+                      e.preventDefault();
+                      e.dataTransfer.dropEffect = 'move';
+                    }
+                  }}
+                  onDrop={(e) => {
+                    if (!isAdmin) return;
+                    e.preventDefault();
+                    const srcId = e.dataTransfer.getData('text/plain') || dragId;
+                    if (!srcId) return;
+                    const src = layout.tiles.find((t) => t.id === srcId);
+                    if (src) handleTileDrop(src, tile);
+                    setDragId(null);
+                  }}
+                  onClick={() => { if (!dragId) openTile(tile); }}
                   onMouseEnter={() => !isText && concept && setActiveTile(tile.id)}
                   onMouseLeave={() => !isText && concept && setActiveTile((prev) => (prev === tile.id ? null : prev))}
                   whileHover={isText ? undefined : { scale: 1.015 }}
@@ -619,7 +644,12 @@ const Strati = () => {
                       decoding="async"
                       draggable="false"
                       onContextMenu={(e) => e.preventDefault()}
-                      className="w-full h-full object-cover select-none pointer-events-none transition-transform duration-700 group-hover:scale-[1.02]"
+                      style={{
+                        transform: `scale(${tile.imageScale ?? 1})`,
+                        transformOrigin: `${tile.imagePosX ?? 50}% ${tile.imagePosY ?? 50}%`,
+                        objectPosition: `${tile.imagePosX ?? 50}% ${tile.imagePosY ?? 50}%`,
+                      }}
+                      className="w-full h-full object-cover select-none pointer-events-none transition-transform duration-500"
                     />
                   )}
 
