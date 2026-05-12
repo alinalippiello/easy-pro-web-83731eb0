@@ -40,32 +40,38 @@ export type Database = {
       }
       strati_overrides: {
         Row: {
+          col_span: number | null
           concept_key: string | null
           description: string
           image_pos_x: number
           image_pos_y: number
           image_scale: number
           position: number | null
+          row_span: number | null
           tile_id: string
           updated_at: string
         }
         Insert: {
+          col_span?: number | null
           concept_key?: string | null
           description?: string
           image_pos_x?: number
           image_pos_y?: number
           image_scale?: number
           position?: number | null
+          row_span?: number | null
           tile_id: string
           updated_at?: string
         }
         Update: {
+          col_span?: number | null
           concept_key?: string | null
           description?: string
           image_pos_x?: number
           image_pos_y?: number
           image_scale?: number
           position?: number | null
+          row_span?: number | null
           tile_id?: string
           updated_at?: string
         }

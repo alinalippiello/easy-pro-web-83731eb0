@@ -223,6 +223,8 @@ interface Override {
   imageScale?: number;
   imagePosX?: number;
   imagePosY?: number;
+  colSpan?: number | null;
+  rowSpan?: number | null;
 }
 
 const Strati = () => {
@@ -282,6 +284,8 @@ const Strati = () => {
           imageScale: row.image_scale != null ? Number(row.image_scale) : 1,
           imagePosX: row.image_pos_x != null ? Number(row.image_pos_x) : 50,
           imagePosY: row.image_pos_y != null ? Number(row.image_pos_y) : 50,
+          colSpan: row.col_span ?? null,
+          rowSpan: row.row_span ?? null,
         }));
         setOverrides(o);
       }
@@ -323,6 +327,8 @@ const Strati = () => {
             imageScale: row.image_scale != null ? Number(row.image_scale) : 1,
             imagePosX: row.image_pos_x != null ? Number(row.image_pos_x) : 50,
             imagePosY: row.image_pos_y != null ? Number(row.image_pos_y) : 50,
+            colSpan: row.col_span ?? null,
+            rowSpan: row.row_span ?? null,
           };
           return next;
         });
@@ -340,6 +346,8 @@ const Strati = () => {
   const [draftScale, setDraftScale] = useState<number>(1);
   const [draftPosX, setDraftPosX] = useState<number>(50);
   const [draftPosY, setDraftPosY] = useState<number>(50);
+  const [draftColSpan, setDraftColSpan] = useState<number>(1);
+  const [draftRowSpan, setDraftRowSpan] = useState<number>(1);
   const [savedFlash, setSavedFlash] = useState(false);
   const [dragId, setDragId] = useState<string | null>(null);
 
@@ -384,8 +392,10 @@ const Strati = () => {
     });
     const tiles: LayoutTile[] = indexed.map(({ tile }) => {
       const o = orientations[tile.id] ?? 'square';
-      const { c, r } = spansFor(o, cols);
+      const auto = spansFor(o, cols);
       const ov = overrides[tile.id];
+      const cs = ov?.colSpan && ov.colSpan > 0 ? Math.min(cols, ov.colSpan) : auto.c;
+      const rs = ov?.rowSpan && ov.rowSpan > 0 ? Math.min(6, ov.rowSpan) : auto.r;
       return {
         id: tile.id,
         kind: 'image' as const,
@@ -393,8 +403,8 @@ const Strati = () => {
         alt: tile.alt,
         description: ov?.description || tile.description,
         conceptKey: ov?.conceptKey ?? tile.conceptKey,
-        colSpan: c,
-        rowSpan: r,
+        colSpan: cs,
+        rowSpan: rs,
         imageScale: ov?.imageScale ?? 1,
         imagePosX: ov?.imagePosX ?? 50,
         imagePosY: ov?.imagePosY ?? 50,
@@ -432,6 +442,8 @@ const Strati = () => {
       setDraftScale(ov?.imageScale ?? 1);
       setDraftPosX(ov?.imagePosX ?? 50);
       setDraftPosY(ov?.imagePosY ?? 50);
+      setDraftColSpan(ov?.colSpan && ov.colSpan > 0 ? ov.colSpan : tile.colSpan);
+      setDraftRowSpan(ov?.rowSpan && ov.rowSpan > 0 ? ov.rowSpan : tile.rowSpan);
       setSavedFlash(false);
     },
     [overrides, conceptsMap],
@@ -534,7 +546,9 @@ const Strati = () => {
         image_scale: draftScale,
         image_pos_x: draftPosX,
         image_pos_y: draftPosY,
-      },
+        col_span: expandedTile.kind === 'image' ? draftColSpan : null,
+        row_span: expandedTile.kind === 'image' ? draftRowSpan : null,
+      } as any,
       { onConflict: 'tile_id' },
     );
     setOverrides((prev) => ({
@@ -546,12 +560,14 @@ const Strati = () => {
         imageScale: draftScale,
         imagePosX: draftPosX,
         imagePosY: draftPosY,
+        colSpan: expandedTile.kind === 'image' ? draftColSpan : null,
+        rowSpan: expandedTile.kind === 'image' ? draftRowSpan : null,
       },
     }));
     setExpandedTile((prev) => (prev ? { ...prev, conceptKey: resolvedKey ?? undefined } : prev));
     setSavedFlash(true);
     setTimeout(() => setSavedFlash(false), 1600);
-  }, [expandedTile, draftDescription, draftKeyword, draftScale, draftPosX, draftPosY, conceptsMap]);
+  }, [expandedTile, draftDescription, draftKeyword, draftScale, draftPosX, draftPosY, draftColSpan, draftRowSpan, conceptsMap]);
 
   // For text-tile lightbox: allow editing the phrase (the concept's extended text)
   const handleSaveTextTile = useCallback(async () => {
@@ -642,7 +658,7 @@ const Strati = () => {
                   onClick={() => { if (!dragId) openTile(tile); }}
                   onMouseEnter={() => !isText && concept && setActiveTile(tile.id)}
                   onMouseLeave={() => !isText && concept && setActiveTile((prev) => (prev === tile.id ? null : prev))}
-                  whileHover={isText ? undefined : { scale: 1.015 }}
+                  whileHover={isText || isAdmin ? undefined : { scale: 1.015 }}
                   transition={{ duration: 0.3, ease: 'easeOut' }}
                 >
                   {!isText && tile.cover && (
@@ -947,6 +963,36 @@ const Strati = () => {
                           Centra punto focale
                         </button>
                       </div>
+                    </div>
+                  )}
+
+                  {/* Tile size — admin can make image span more columns/rows */}
+                  {expandedTile.kind === 'image' && (
+                    <div className="grid gap-2">
+                      <label className="block font-body text-[10px] md:text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                        Dimensione tassello
+                      </label>
+                      <div className="grid grid-cols-2 gap-3">
+                        <label className="flex flex-col gap-1 font-body text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+                          Colonne ({draftColSpan})
+                          <input
+                            type="range" min={1} max={cols} step={1}
+                            value={draftColSpan}
+                            onChange={(e) => setDraftColSpan(parseInt(e.target.value, 10))}
+                          />
+                        </label>
+                        <label className="flex flex-col gap-1 font-body text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+                          Righe ({draftRowSpan})
+                          <input
+                            type="range" min={1} max={4} step={1}
+                            value={draftRowSpan}
+                            onChange={(e) => setDraftRowSpan(parseInt(e.target.value, 10))}
+                          />
+                        </label>
+                      </div>
+                      <p className="font-body text-[10px] text-muted-foreground/80 normal-case tracking-normal -mt-1">
+                        Aumenta colonne/righe per ingrandire l'immagine nella griglia. Salva per applicare.
+                      </p>
                     </div>
                   )}
 
