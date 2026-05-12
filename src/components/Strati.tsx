@@ -284,6 +284,8 @@ const Strati = () => {
           imageScale: row.image_scale != null ? Number(row.image_scale) : 1,
           imagePosX: row.image_pos_x != null ? Number(row.image_pos_x) : 50,
           imagePosY: row.image_pos_y != null ? Number(row.image_pos_y) : 50,
+          colSpan: row.col_span ?? null,
+          rowSpan: row.row_span ?? null,
         }));
         setOverrides(o);
       }
