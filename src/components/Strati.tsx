@@ -991,6 +991,15 @@ const Strati = () => {
                   }}
                 />
               </label>
+              <button
+                type="button"
+                onClick={handleUndoReorder}
+                disabled={undoCount === 0}
+                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-foreground/40 bg-background text-foreground font-body text-[10px] uppercase tracking-[0.2em] hover:bg-foreground hover:text-background transition disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-background disabled:hover:text-foreground"
+                title={undoCount === 0 ? 'Nessuna modifica da annullare' : `Annulla ultima modifica (${undoCount} disponibili)`}
+              >
+                ↶ Annulla ultimo riordino{undoCount > 0 ? ` (${undoCount})` : ''}
+              </button>
             </div>
           )}
 
