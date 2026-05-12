@@ -806,6 +806,64 @@ const Strati = () => {
                     </datalist>
                   </div>
 
+                  {/* Image framing — admin can scale + reposition image inside the tile */}
+                  {expandedTile.kind === 'image' && expandedTile.src && (
+                    <div className="grid gap-2">
+                      <label className="block font-body text-[10px] md:text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                        Inquadratura immagine
+                      </label>
+                      <div className="relative w-full overflow-hidden rounded-sm border border-border bg-card aspect-[3/2]">
+                        <img
+                          src={expandedTile.src}
+                          alt=""
+                          draggable={false}
+                          className="w-full h-full object-cover pointer-events-none select-none"
+                          style={{
+                            transform: `scale(${draftScale})`,
+                            transformOrigin: `${draftPosX}% ${draftPosY}%`,
+                            objectPosition: `${draftPosX}% ${draftPosY}%`,
+                          }}
+                        />
+                      </div>
+                      <div className="grid grid-cols-3 gap-3 mt-1">
+                        <label className="flex flex-col gap-1 font-body text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+                          Zoom
+                          <input
+                            type="range" min={1} max={4} step={0.05}
+                            value={draftScale}
+                            onChange={(e) => setDraftScale(parseFloat(e.target.value))}
+                          />
+                          <span className="text-[10px] text-foreground/70 normal-case tracking-normal">{draftScale.toFixed(2)}×</span>
+                        </label>
+                        <label className="flex flex-col gap-1 font-body text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+                          Pos. X
+                          <input
+                            type="range" min={0} max={100} step={1}
+                            value={draftPosX}
+                            onChange={(e) => setDraftPosX(parseInt(e.target.value, 10))}
+                          />
+                          <span className="text-[10px] text-foreground/70 normal-case tracking-normal">{draftPosX}%</span>
+                        </label>
+                        <label className="flex flex-col gap-1 font-body text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+                          Pos. Y
+                          <input
+                            type="range" min={0} max={100} step={1}
+                            value={draftPosY}
+                            onChange={(e) => setDraftPosY(parseInt(e.target.value, 10))}
+                          />
+                          <span className="text-[10px] text-foreground/70 normal-case tracking-normal">{draftPosY}%</span>
+                        </label>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => { setDraftScale(1); setDraftPosX(50); setDraftPosY(50); }}
+                        className="justify-self-start font-body text-[10px] uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground transition"
+                      >
+                        Reset inquadratura
+                      </button>
+                    </div>
+                  )}
+
                   {/* Description field + template selector */}
                   <div>
                     <div className="flex items-center justify-between gap-3 mb-2">
