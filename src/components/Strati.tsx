@@ -276,6 +276,18 @@ const Strati = () => {
   const [conceptAnchors, setConceptAnchors] = useState<Record<string, string | null>>({});
   const [customTiles, setCustomTiles] = useState<CustomTile[]>([]);
 
+  // Undo stack for reorder operations (admin only).
+  type ReorderUndo =
+    | { kind: 'anchor'; conceptKey: string; prevAnchorId: string | null }
+    | { kind: 'image'; prevPositions: { id: string; pos: number | null; isCustom: boolean }[] }
+    | { kind: 'text'; prevPositions: { key: string; pos: number | null }[] };
+  const undoStackRef = useRef<ReorderUndo[]>([]);
+  const [undoCount, setUndoCount] = useState(0);
+  const pushUndo = useCallback((u: ReorderUndo) => {
+    undoStackRef.current = [...undoStackRef.current, u].slice(-20);
+    setUndoCount(undoStackRef.current.length);
+  }, []);
+
   // Load + realtime subscribe
   useEffect(() => {
     let alive = true;
