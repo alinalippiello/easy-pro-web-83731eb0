@@ -274,6 +274,7 @@ const Strati = () => {
   const [overrides, setOverrides] = useState<Record<string, Override>>({});
   const [conceptPositions, setConceptPositions] = useState<Record<string, number | null>>({});
   const [conceptAnchors, setConceptAnchors] = useState<Record<string, string | null>>({});
+  const [customTiles, setCustomTiles] = useState<CustomTile[]>([]);
 
   // Load + realtime subscribe
   useEffect(() => {
