@@ -390,8 +390,10 @@ const Strati = () => {
     });
     const tiles: LayoutTile[] = indexed.map(({ tile }) => {
       const o = orientations[tile.id] ?? 'square';
-      const { c, r } = spansFor(o, cols);
+      const auto = spansFor(o, cols);
       const ov = overrides[tile.id];
+      const cs = ov?.colSpan && ov.colSpan > 0 ? Math.min(cols, ov.colSpan) : auto.c;
+      const rs = ov?.rowSpan && ov.rowSpan > 0 ? Math.min(6, ov.rowSpan) : auto.r;
       return {
         id: tile.id,
         kind: 'image' as const,
@@ -399,8 +401,8 @@ const Strati = () => {
         alt: tile.alt,
         description: ov?.description || tile.description,
         conceptKey: ov?.conceptKey ?? tile.conceptKey,
-        colSpan: c,
-        rowSpan: r,
+        colSpan: cs,
+        rowSpan: rs,
         imageScale: ov?.imageScale ?? 1,
         imagePosX: ov?.imagePosX ?? 50,
         imagePosY: ov?.imagePosY ?? 50,
