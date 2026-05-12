@@ -435,10 +435,10 @@ const Strati = () => {
               const isActive = activeTile === tile.id;
               const isText = tile.kind === 'text';
               return (
-                <motion.div
+              <motion.div
                   key={tile.id}
                   className={`relative overflow-hidden rounded-sm group cursor-pointer ${
-                    isText ? 'bg-background border border-border/40' : ''
+                    isText ? 'bg-background border border-border/40' : 'bg-card'
                   }`}
                   style={{
                     gridColumn: `span ${tile.colSpan}`,
@@ -458,17 +458,24 @@ const Strati = () => {
                       decoding="async"
                       draggable="false"
                       onContextMenu={(e) => e.preventDefault()}
-                      className="w-full h-full object-cover select-none pointer-events-none transition-transform duration-700 group-hover:scale-105"
+                      className="w-full h-full object-contain select-none pointer-events-none transition-transform duration-700 group-hover:scale-[1.02]"
                     />
                   )}
 
-                  {isText && concept && (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-3 md:px-5">
-                      <span className="font-display font-light tracking-[0.18em] text-foreground text-[11px] md:text-sm lg:text-base leading-tight">
-                        {trConceptTitle(concept)}
-                      </span>
-                    </div>
-                  )}
+                  {isText && concept && (() => {
+                    const title = trConceptTitle(concept);
+                    const isVertical = tile.rowSpan > tile.colSpan || title.length > 8;
+                    return (
+                      <div className="absolute inset-0 flex items-center justify-center text-center px-2 md:px-3">
+                        <span
+                          className="font-display font-light tracking-[0.18em] text-foreground text-[11px] md:text-sm lg:text-base leading-tight"
+                          style={isVertical ? { writingMode: 'vertical-rl', transform: 'rotate(180deg)' } : undefined}
+                        >
+                          {title}
+                        </span>
+                      </div>
+                    );
+                  })()}
 
                   {!isText && concept && (
                     <>
