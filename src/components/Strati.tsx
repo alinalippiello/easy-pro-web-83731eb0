@@ -1328,6 +1328,43 @@ const Strati = () => {
                     />
                   </div>
 
+                  {expandedTile.kind === 'image' && (
+                    <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-border/50">
+                      <label className="px-3 py-1.5 rounded-sm border border-border bg-background text-foreground font-body text-[11px] uppercase tracking-[0.18em] hover:bg-muted transition cursor-pointer">
+                        Sostituisci immagine
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={(e) => {
+                            const f = e.target.files?.[0];
+                            if (f) handleReplaceCoverFile(f);
+                            e.currentTarget.value = '';
+                          }}
+                        />
+                      </label>
+                      {hiddenIdSet.has(expandedTile.id) ? (
+                        <button
+                          type="button"
+                          onClick={handleRestoreTile}
+                          className="px-3 py-1.5 rounded-sm border border-border bg-background text-foreground font-body text-[11px] uppercase tracking-[0.18em] hover:bg-muted transition"
+                        >
+                          Ripristina tassello
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (window.confirm('Eliminare questo tassello?')) handleDeleteTile();
+                          }}
+                          className="px-3 py-1.5 rounded-sm border border-destructive/60 bg-background text-destructive font-body text-[11px] uppercase tracking-[0.18em] hover:bg-destructive hover:text-destructive-foreground transition"
+                        >
+                          Elimina tassello
+                        </button>
+                      )}
+                    </div>
+                  )}
+
                   <div className="mt-1 flex items-center justify-end gap-3">
                     {savedFlash && (
                       <span className="font-body text-[11px] text-muted-foreground">Salvato</span>
