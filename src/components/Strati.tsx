@@ -24,6 +24,9 @@ interface LayoutTile {
   colSpan: number;
   rowSpan: number;
   conceptKey?: string;
+  imageScale?: number;
+  imagePosX?: number;
+  imagePosY?: number;
 }
 
 function spansFor(orientation: Orientation, cols: number): { c: number; r: number } {
@@ -213,7 +216,14 @@ function colsForWidth(w: number): number {
   return 3;
 }
 
-interface Override { description: string; conceptKey?: string | null }
+interface Override {
+  description: string;
+  conceptKey?: string | null;
+  position?: number | null;
+  imageScale?: number;
+  imagePosX?: number;
+  imagePosY?: number;
+}
 
 const Strati = () => {
   const { t } = useLanguage();
@@ -235,6 +245,7 @@ const Strati = () => {
     return m;
   });
   const [overrides, setOverrides] = useState<Record<string, Override>>({});
+  const [conceptPositions, setConceptPositions] = useState<Record<string, number | null>>({});
 
   // Load + realtime subscribe
   useEffect(() => {
@@ -254,12 +265,24 @@ const Strati = () => {
       if (cs) {
         const m: Record<string, Concept> = {};
         defaultConcepts.forEach((c) => (m[c.key] = c));
-        cs.forEach((c) => (m[c.key] = { key: c.key, title: c.title, phrase: c.phrase }));
+        const pos: Record<string, number | null> = {};
+        cs.forEach((c: any) => {
+          m[c.key] = { key: c.key, title: c.title, phrase: c.phrase };
+          pos[c.key] = c.position ?? null;
+        });
         setConceptsMap(m);
+        setConceptPositions(pos);
       }
       if (os) {
         const o: Record<string, Override> = {};
-        os.forEach((row) => (o[row.tile_id] = { description: row.description ?? '', conceptKey: row.concept_key }));
+        os.forEach((row: any) => (o[row.tile_id] = {
+          description: row.description ?? '',
+          conceptKey: row.concept_key,
+          position: row.position ?? null,
+          imageScale: row.image_scale != null ? Number(row.image_scale) : 1,
+          imagePosX: row.image_pos_x != null ? Number(row.image_pos_x) : 50,
+          imagePosY: row.image_pos_y != null ? Number(row.image_pos_y) : 50,
+        }));
         setOverrides(o);
       }
     };
@@ -268,7 +291,7 @@ const Strati = () => {
     const ch = supabase
       .channel('strati-sync')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'strati_concepts' }, (p) => {
-        const row = (p.new ?? p.old) as { key: string; title?: string; phrase?: string };
+        const row = (p.new ?? p.old) as { key: string; title?: string; phrase?: string; position?: number | null };
         if (!row?.key) return;
         setConceptsMap((prev) => {
           const next = { ...prev };
@@ -280,14 +303,27 @@ const Strati = () => {
           }
           return next;
         });
+        setConceptPositions((prev) => {
+          const next = { ...prev };
+          if (p.eventType === 'DELETE') delete next[row.key];
+          else next[row.key] = row.position ?? null;
+          return next;
+        });
       })
       .on('postgres_changes', { event: '*', schema: 'public', table: 'strati_overrides' }, (p) => {
-        const row = (p.new ?? p.old) as { tile_id: string; description?: string; concept_key?: string | null };
+        const row = (p.new ?? p.old) as any;
         if (!row?.tile_id) return;
         setOverrides((prev) => {
           const next = { ...prev };
           if (p.eventType === 'DELETE') delete next[row.tile_id];
-          else next[row.tile_id] = { description: row.description ?? '', conceptKey: row.concept_key };
+          else next[row.tile_id] = {
+            description: row.description ?? '',
+            conceptKey: row.concept_key,
+            position: row.position ?? null,
+            imageScale: row.image_scale != null ? Number(row.image_scale) : 1,
+            imagePosX: row.image_pos_x != null ? Number(row.image_pos_x) : 50,
+            imagePosY: row.image_pos_y != null ? Number(row.image_pos_y) : 50,
+          };
           return next;
         });
       })
@@ -301,7 +337,11 @@ const Strati = () => {
   const [activeTile, setActiveTile] = useState<string | null>(null);
   const [draftDescription, setDraftDescription] = useState<string>('');
   const [draftKeyword, setDraftKeyword] = useState<string>(''); // free-text keyword (title)
+  const [draftScale, setDraftScale] = useState<number>(1);
+  const [draftPosX, setDraftPosX] = useState<number>(50);
+  const [draftPosY, setDraftPosY] = useState<number>(50);
   const [savedFlash, setSavedFlash] = useState(false);
+  const [dragId, setDragId] = useState<string | null>(null);
 
   // ── Measure orientations ──
   const [orientations, setOrientations] = useState<Record<string, Orientation>>({});
@@ -332,7 +372,17 @@ const Strati = () => {
 
   // ── Layout ──
   const layout = useMemo(() => {
-    const tiles: LayoutTile[] = sourceTiles.map((tile) => {
+    // Sort image source tiles by override.position (admin-set), fallback to source order.
+    const indexed = sourceTiles.map((tile, idx) => ({ tile, idx }));
+    indexed.sort((a, b) => {
+      const pa = overrides[a.tile.id]?.position;
+      const pb = overrides[b.tile.id]?.position;
+      const ka = pa != null ? pa : a.idx;
+      const kb = pb != null ? pb : b.idx;
+      if (ka !== kb) return ka - kb;
+      return a.idx - b.idx;
+    });
+    const tiles: LayoutTile[] = indexed.map(({ tile }) => {
       const o = orientations[tile.id] ?? 'square';
       const { c, r } = spansFor(o, cols);
       const ov = overrides[tile.id];
@@ -345,12 +395,25 @@ const Strati = () => {
         conceptKey: ov?.conceptKey ?? tile.conceptKey,
         colSpan: c,
         rowSpan: r,
+        imageScale: ov?.imageScale ?? 1,
+        imagePosX: ov?.imagePosX ?? 50,
+        imagePosY: ov?.imagePosY ?? 50,
       };
     });
-    // text tiles cycle through ALL known concept keys (default + custom)
-    const conceptKeys = Object.keys(conceptsMap);
+    // Concept keys sorted by saved position (admin), fallback to insertion order.
+    const allKeys = Object.keys(conceptsMap);
+    const keyIndex: Record<string, number> = {};
+    allKeys.forEach((k, i) => (keyIndex[k] = i));
+    const conceptKeys = [...allKeys].sort((a, b) => {
+      const pa = conceptPositions[a];
+      const pb = conceptPositions[b];
+      const ka = pa != null ? pa : keyIndex[a];
+      const kb = pb != null ? pb : keyIndex[b];
+      if (ka !== kb) return ka - kb;
+      return keyIndex[a] - keyIndex[b];
+    });
     return buildLayout(tiles, cols, conceptKeys);
-  }, [orientations, cols, overrides, conceptsMap]);
+  }, [orientations, cols, overrides, conceptsMap, conceptPositions]);
 
   const openTile = useCallback(
     (tile: LayoutTile) => {
@@ -366,11 +429,78 @@ const Strati = () => {
       });
       setDraftDescription(desc);
       setDraftKeyword(ck ? conceptsMap[ck]?.title ?? '' : '');
+      setDraftScale(ov?.imageScale ?? 1);
+      setDraftPosX(ov?.imagePosX ?? 50);
+      setDraftPosY(ov?.imagePosY ?? 50);
       setSavedFlash(false);
     },
     [overrides, conceptsMap],
   );
   const closeImage = useCallback(() => setExpandedTile(null), []);
+
+  // ── Drag & drop reordering (admin) ──
+  // Resolved index of an image tile in the current sorted source list.
+  const imageOrderIndex = useCallback((id: string): number => {
+    const indexed = sourceTiles.map((t, i) => ({ id: t.id, i }));
+    indexed.sort((a, b) => {
+      const pa = overrides[a.id]?.position;
+      const pb = overrides[b.id]?.position;
+      const ka = pa != null ? pa : a.i;
+      const kb = pb != null ? pb : b.i;
+      if (ka !== kb) return ka - kb;
+      return a.i - b.i;
+    });
+    return indexed.findIndex((x) => x.id === id);
+  }, [overrides]);
+
+  const conceptOrderIndex = useCallback((key: string): number => {
+    const allKeys = Object.keys(conceptsMap);
+    const idx: Record<string, number> = {};
+    allKeys.forEach((k, i) => (idx[k] = i));
+    const sorted = [...allKeys].sort((a, b) => {
+      const pa = conceptPositions[a];
+      const pb = conceptPositions[b];
+      const ka = pa != null ? pa : idx[a];
+      const kb = pb != null ? pb : idx[b];
+      if (ka !== kb) return ka - kb;
+      return idx[a] - idx[b];
+    });
+    return sorted.indexOf(key);
+  }, [conceptsMap, conceptPositions]);
+
+  const handleTileDrop = useCallback(async (sourceTile: LayoutTile, targetTile: LayoutTile) => {
+    if (!isAdmin) return;
+    if (sourceTile.id === targetTile.id) return;
+    if (sourceTile.kind !== targetTile.kind) return;
+    if (sourceTile.kind === 'image') {
+      const a = imageOrderIndex(sourceTile.id);
+      const b = imageOrderIndex(targetTile.id);
+      if (a < 0 || b < 0) return;
+      // Swap positions of the two tiles.
+      await supabase.from('strati_overrides').upsert([
+        { tile_id: sourceTile.id, position: b, description: overrides[sourceTile.id]?.description ?? '', concept_key: overrides[sourceTile.id]?.conceptKey ?? null },
+        { tile_id: targetTile.id, position: a, description: overrides[targetTile.id]?.description ?? '', concept_key: overrides[targetTile.id]?.conceptKey ?? null },
+      ], { onConflict: 'tile_id' });
+      setOverrides((prev) => ({
+        ...prev,
+        [sourceTile.id]: { ...(prev[sourceTile.id] ?? { description: '' }), position: b },
+        [targetTile.id]: { ...(prev[targetTile.id] ?? { description: '' }), position: a },
+      }));
+    } else if (sourceTile.kind === 'text' && sourceTile.conceptKey && targetTile.conceptKey) {
+      const a = conceptOrderIndex(sourceTile.conceptKey);
+      const b = conceptOrderIndex(targetTile.conceptKey);
+      if (a < 0 || b < 0) return;
+      await supabase.from('strati_concepts').upsert([
+        { key: sourceTile.conceptKey, title: conceptsMap[sourceTile.conceptKey].title, phrase: conceptsMap[sourceTile.conceptKey].phrase, position: b },
+        { key: targetTile.conceptKey, title: conceptsMap[targetTile.conceptKey].title, phrase: conceptsMap[targetTile.conceptKey].phrase, position: a },
+      ], { onConflict: 'key' });
+      setConceptPositions((prev) => ({
+        ...prev,
+        [sourceTile.conceptKey!]: b,
+        [targetTile.conceptKey!]: a,
+      }));
+    }
+  }, [isAdmin, overrides, conceptsMap, conceptPositions, imageOrderIndex, conceptOrderIndex]);
 
   const handleSave = useCallback(async () => {
     if (!expandedTile) return;
@@ -401,17 +531,27 @@ const Strati = () => {
         tile_id: expandedTile.id,
         description: draftDescription,
         concept_key: resolvedKey,
+        image_scale: draftScale,
+        image_pos_x: draftPosX,
+        image_pos_y: draftPosY,
       },
       { onConflict: 'tile_id' },
     );
     setOverrides((prev) => ({
       ...prev,
-      [expandedTile.id]: { description: draftDescription, conceptKey: resolvedKey },
+      [expandedTile.id]: {
+        ...(prev[expandedTile.id] ?? {}),
+        description: draftDescription,
+        conceptKey: resolvedKey,
+        imageScale: draftScale,
+        imagePosX: draftPosX,
+        imagePosY: draftPosY,
+      },
     }));
     setExpandedTile((prev) => (prev ? { ...prev, conceptKey: resolvedKey ?? undefined } : prev));
     setSavedFlash(true);
     setTimeout(() => setSavedFlash(false), 1600);
-  }, [expandedTile, draftDescription, draftKeyword, conceptsMap]);
+  }, [expandedTile, draftDescription, draftKeyword, draftScale, draftPosX, draftPosY, conceptsMap]);
 
   // For text-tile lightbox: allow editing the phrase (the concept's extended text)
   const handleSaveTextTile = useCallback(async () => {
@@ -460,12 +600,37 @@ const Strati = () => {
                   key={tile.id}
                   className={`relative overflow-hidden rounded-sm group cursor-pointer ${
                     isText ? 'bg-background border border-border/40' : 'bg-card'
-                  }`}
+                  } ${isAdmin && dragId && dragId !== tile.id ? 'ring-1 ring-foreground/20' : ''}`}
                   style={{
                     gridColumn: `span ${tile.colSpan}`,
                     gridRow: `span ${tile.rowSpan}`,
                   }}
-                  onClick={() => openTile(tile)}
+                  draggable={isAdmin}
+                  onDragStart={((e: React.DragEvent<HTMLDivElement>) => {
+                    if (!isAdmin) return;
+                    setDragId(tile.id);
+                    e.dataTransfer.effectAllowed = 'move';
+                    e.dataTransfer.setData('text/plain', tile.id);
+                  }) as any}
+                  onDragEnd={(() => setDragId(null)) as any}
+                  onDragOver={((e: React.DragEvent<HTMLDivElement>) => {
+                    if (!isAdmin || !dragId) return;
+                    const src = layout.tiles.find((t) => t.id === dragId);
+                    if (src && src.kind === tile.kind) {
+                      e.preventDefault();
+                      e.dataTransfer.dropEffect = 'move';
+                    }
+                  }) as any}
+                  onDrop={((e: React.DragEvent<HTMLDivElement>) => {
+                    if (!isAdmin) return;
+                    e.preventDefault();
+                    const srcId = e.dataTransfer.getData('text/plain') || dragId;
+                    if (!srcId) return;
+                    const src = layout.tiles.find((t) => t.id === srcId);
+                    if (src) handleTileDrop(src, tile);
+                    setDragId(null);
+                  }) as any}
+                  onClick={() => { if (!dragId) openTile(tile); }}
                   onMouseEnter={() => !isText && concept && setActiveTile(tile.id)}
                   onMouseLeave={() => !isText && concept && setActiveTile((prev) => (prev === tile.id ? null : prev))}
                   whileHover={isText ? undefined : { scale: 1.015 }}
@@ -479,7 +644,12 @@ const Strati = () => {
                       decoding="async"
                       draggable="false"
                       onContextMenu={(e) => e.preventDefault()}
-                      className="w-full h-full object-cover select-none pointer-events-none transition-transform duration-700 group-hover:scale-[1.02]"
+                      style={{
+                        transform: `scale(${tile.imageScale ?? 1})`,
+                        transformOrigin: `${tile.imagePosX ?? 50}% ${tile.imagePosY ?? 50}%`,
+                        objectPosition: `${tile.imagePosX ?? 50}% ${tile.imagePosY ?? 50}%`,
+                      }}
+                      className="w-full h-full object-cover select-none pointer-events-none transition-transform duration-500"
                     />
                   )}
 
@@ -635,6 +805,64 @@ const Strati = () => {
                       ))}
                     </datalist>
                   </div>
+
+                  {/* Image framing — admin can scale + reposition image inside the tile */}
+                  {expandedTile.kind === 'image' && expandedTile.src && (
+                    <div className="grid gap-2">
+                      <label className="block font-body text-[10px] md:text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                        Inquadratura immagine
+                      </label>
+                      <div className="relative w-full overflow-hidden rounded-sm border border-border bg-card aspect-[3/2]">
+                        <img
+                          src={expandedTile.src}
+                          alt=""
+                          draggable={false}
+                          className="w-full h-full object-cover pointer-events-none select-none"
+                          style={{
+                            transform: `scale(${draftScale})`,
+                            transformOrigin: `${draftPosX}% ${draftPosY}%`,
+                            objectPosition: `${draftPosX}% ${draftPosY}%`,
+                          }}
+                        />
+                      </div>
+                      <div className="grid grid-cols-3 gap-3 mt-1">
+                        <label className="flex flex-col gap-1 font-body text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+                          Zoom
+                          <input
+                            type="range" min={1} max={4} step={0.05}
+                            value={draftScale}
+                            onChange={(e) => setDraftScale(parseFloat(e.target.value))}
+                          />
+                          <span className="text-[10px] text-foreground/70 normal-case tracking-normal">{draftScale.toFixed(2)}×</span>
+                        </label>
+                        <label className="flex flex-col gap-1 font-body text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+                          Pos. X
+                          <input
+                            type="range" min={0} max={100} step={1}
+                            value={draftPosX}
+                            onChange={(e) => setDraftPosX(parseInt(e.target.value, 10))}
+                          />
+                          <span className="text-[10px] text-foreground/70 normal-case tracking-normal">{draftPosX}%</span>
+                        </label>
+                        <label className="flex flex-col gap-1 font-body text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+                          Pos. Y
+                          <input
+                            type="range" min={0} max={100} step={1}
+                            value={draftPosY}
+                            onChange={(e) => setDraftPosY(parseInt(e.target.value, 10))}
+                          />
+                          <span className="text-[10px] text-foreground/70 normal-case tracking-normal">{draftPosY}%</span>
+                        </label>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => { setDraftScale(1); setDraftPosX(50); setDraftPosY(50); }}
+                        className="justify-self-start font-body text-[10px] uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground transition"
+                      >
+                        Reset inquadratura
+                      </button>
+                    </div>
+                  )}
 
                   {/* Description field + template selector */}
                   <div>

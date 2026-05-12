@@ -18,18 +18,21 @@ export type Database = {
         Row: {
           key: string
           phrase: string
+          position: number | null
           title: string
           updated_at: string
         }
         Insert: {
           key: string
           phrase?: string
+          position?: number | null
           title: string
           updated_at?: string
         }
         Update: {
           key?: string
           phrase?: string
+          position?: number | null
           title?: string
           updated_at?: string
         }
@@ -39,18 +42,30 @@ export type Database = {
         Row: {
           concept_key: string | null
           description: string
+          image_pos_x: number
+          image_pos_y: number
+          image_scale: number
+          position: number | null
           tile_id: string
           updated_at: string
         }
         Insert: {
           concept_key?: string | null
           description?: string
+          image_pos_x?: number
+          image_pos_y?: number
+          image_scale?: number
+          position?: number | null
           tile_id: string
           updated_at?: string
         }
         Update: {
           concept_key?: string | null
           description?: string
+          image_pos_x?: number
+          image_pos_y?: number
+          image_scale?: number
+          position?: number | null
           tile_id?: string
           updated_at?: string
         }
