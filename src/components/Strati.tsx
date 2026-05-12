@@ -379,7 +379,25 @@ const Strati = () => {
             imagePosY: row.image_pos_y != null ? Number(row.image_pos_y) : 50,
             colSpan: row.col_span ?? null,
             rowSpan: row.row_span ?? null,
+            hidden: !!row.hidden,
+            coverUrl: row.cover_url ?? null,
           };
+          return next;
+        });
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'strati_custom_tiles' }, (p) => {
+        const row = (p.new ?? p.old) as any;
+        if (!row?.id) return;
+        setCustomTiles((prev) => {
+          if (p.eventType === 'DELETE') return prev.filter((t) => t.id !== row.id);
+          const next = prev.filter((t) => t.id !== row.id);
+          next.push({
+            id: row.id,
+            cover_url: row.cover_url,
+            alt: row.alt ?? '',
+            position: row.position ?? null,
+            hidden: !!row.hidden,
+          });
           return next;
         });
       })
