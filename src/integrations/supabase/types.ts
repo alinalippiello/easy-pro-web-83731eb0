@@ -41,11 +41,43 @@ export type Database = {
         }
         Relationships: []
       }
+      strati_custom_tiles: {
+        Row: {
+          alt: string
+          cover_url: string
+          created_at: string
+          hidden: boolean
+          id: string
+          position: number | null
+          updated_at: string
+        }
+        Insert: {
+          alt?: string
+          cover_url: string
+          created_at?: string
+          hidden?: boolean
+          id?: string
+          position?: number | null
+          updated_at?: string
+        }
+        Update: {
+          alt?: string
+          cover_url?: string
+          created_at?: string
+          hidden?: boolean
+          id?: string
+          position?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       strati_overrides: {
         Row: {
           col_span: number | null
           concept_key: string | null
+          cover_url: string | null
           description: string
+          hidden: boolean
           image_pos_x: number
           image_pos_y: number
           image_scale: number
@@ -57,7 +89,9 @@ export type Database = {
         Insert: {
           col_span?: number | null
           concept_key?: string | null
+          cover_url?: string | null
           description?: string
+          hidden?: boolean
           image_pos_x?: number
           image_pos_y?: number
           image_scale?: number
@@ -69,7 +103,9 @@ export type Database = {
         Update: {
           col_span?: number | null
           concept_key?: string | null
+          cover_url?: string | null
           description?: string
+          hidden?: boolean
           image_pos_x?: number
           image_pos_y?: number
           image_scale?: number

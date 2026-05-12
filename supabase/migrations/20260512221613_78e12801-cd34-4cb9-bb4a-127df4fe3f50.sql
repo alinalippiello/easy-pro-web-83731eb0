@@ -1,0 +1,1 @@
+DROP POLICY IF EXISTS "public read strati bucket" ON storage.objects;

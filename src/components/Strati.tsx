@@ -28,6 +28,7 @@ interface LayoutTile {
   imageScale?: number;
   imagePosX?: number;
   imagePosY?: number;
+  isCustom?: boolean;
 }
 
 function spansFor(orientation: Orientation, cols: number): { c: number; r: number } {
@@ -215,23 +216,9 @@ function buildLayout(
     if (!changed) break;
   }
 
-  // Guarantee a perfect rectangle: drop any trailing rows that still have holes.
-  while (owner.length && owner[owner.length - 1].some((v) => v === -1)) {
-    const lastRow = owner.length - 1;
-    // Shrink any tile that extends into this row; remove tiles whose origin is here.
-    for (let c = 0; c < cols; c++) {
-      const idx = owner[lastRow][c];
-      if (idx === -1) continue;
-      const p = placed[idx];
-      if (p.r === lastRow) {
-        // origin in dropped row — mark for removal
-        p.tile.rowSpan = 0;
-      } else {
-        p.tile.rowSpan = lastRow - p.r;
-      }
-    }
-    owner.pop();
-  }
+  // Note: we no longer drop trailing rows with holes. The CSS grid uses
+  // `grid-auto-flow: dense`, which packs tiles automatically and avoids the
+  // "lost tiles" problem when admin enlarges a tile.
   const finalTiles = placed.filter((p) => p.tile.rowSpan > 0).map((p) => p.tile);
 
   return { tiles: finalTiles, rows: owner.length };
@@ -253,6 +240,16 @@ interface Override {
   imagePosY?: number;
   colSpan?: number | null;
   rowSpan?: number | null;
+  hidden?: boolean;
+  coverUrl?: string | null;
+}
+
+interface CustomTile {
+  id: string;
+  cover_url: string;
+  alt: string;
+  position: number | null;
+  hidden: boolean;
 }
 
 const Strati = () => {
@@ -277,6 +274,7 @@ const Strati = () => {
   const [overrides, setOverrides] = useState<Record<string, Override>>({});
   const [conceptPositions, setConceptPositions] = useState<Record<string, number | null>>({});
   const [conceptAnchors, setConceptAnchors] = useState<Record<string, string | null>>({});
+  const [customTiles, setCustomTiles] = useState<CustomTile[]>([]);
 
   // Load + realtime subscribe
   useEffect(() => {
@@ -288,9 +286,10 @@ const Strati = () => {
         defaultConcepts.map((c) => ({ key: c.key, title: c.title, phrase: c.phrase })),
         { onConflict: 'key', ignoreDuplicates: true },
       );
-      const [{ data: cs }, { data: os }] = await Promise.all([
+      const [{ data: cs }, { data: os }, { data: ct }] = await Promise.all([
         supabase.from('strati_concepts').select('*'),
         supabase.from('strati_overrides').select('*'),
+        (supabase.from('strati_custom_tiles' as any).select('*') as any),
       ]);
       if (!alive) return;
       if (cs) {
@@ -318,8 +317,21 @@ const Strati = () => {
           imagePosY: row.image_pos_y != null ? Number(row.image_pos_y) : 50,
           colSpan: row.col_span ?? null,
           rowSpan: row.row_span ?? null,
+          hidden: !!row.hidden,
+          coverUrl: row.cover_url ?? null,
         }));
         setOverrides(o);
+      }
+      if (ct) {
+        setCustomTiles(
+          (ct as any[]).map((r) => ({
+            id: r.id,
+            cover_url: r.cover_url,
+            alt: r.alt ?? '',
+            position: r.position ?? null,
+            hidden: !!r.hidden,
+          })),
+        );
       }
     };
     seed();
@@ -367,7 +379,25 @@ const Strati = () => {
             imagePosY: row.image_pos_y != null ? Number(row.image_pos_y) : 50,
             colSpan: row.col_span ?? null,
             rowSpan: row.row_span ?? null,
+            hidden: !!row.hidden,
+            coverUrl: row.cover_url ?? null,
           };
+          return next;
+        });
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'strati_custom_tiles' }, (p) => {
+        const row = (p.new ?? p.old) as any;
+        if (!row?.id) return;
+        setCustomTiles((prev) => {
+          if (p.eventType === 'DELETE') return prev.filter((t) => t.id !== row.id);
+          const next = prev.filter((t) => t.id !== row.id);
+          next.push({
+            id: row.id,
+            cover_url: row.cover_url,
+            alt: row.alt ?? '',
+            position: row.position ?? null,
+            hidden: !!row.hidden,
+          });
           return next;
         });
       })
@@ -418,36 +448,69 @@ const Strati = () => {
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
-  // ── Layout ──
-  const layout = useMemo(() => {
-    // Sort image source tiles by override.position (admin-set), fallback to source order.
-    const indexed = sourceTiles.map((tile, idx) => ({ tile, idx }));
-    indexed.sort((a, b) => {
-      const pa = overrides[a.tile.id]?.position;
-      const pb = overrides[b.tile.id]?.position;
-      const ka = pa != null ? pa : a.idx;
-      const kb = pb != null ? pb : b.idx;
-      if (ka !== kb) return ka - kb;
-      return a.idx - b.idx;
-    });
-    const tiles: LayoutTile[] = indexed.map(({ tile }) => {
-      const o = orientations[tile.id] ?? 'square';
-      const auto = spansFor(o, cols);
+  // Combined ordered image-tile list (source + custom).
+  // Hidden tiles are kept in the list ONLY for admin (rendered faded so they can be restored).
+  const orderedImageSources = useMemo(() => {
+    type Item = { id: string; cover: string; alt: string; conceptKey?: string; description?: string; isCustom: boolean; hidden: boolean; position: number | null; fallbackIdx: number };
+    const items: Item[] = [];
+    sourceTiles.forEach((tile, idx) => {
       const ov = overrides[tile.id];
+      items.push({
+        id: tile.id,
+        cover: ov?.coverUrl || tile.cover,
+        alt: tile.alt,
+        conceptKey: ov?.conceptKey ?? tile.conceptKey,
+        description: ov?.description || tile.description,
+        isCustom: false,
+        hidden: !!ov?.hidden,
+        position: ov?.position ?? null,
+        fallbackIdx: idx,
+      });
+    });
+    customTiles.forEach((ct, i) => {
+      const ov = overrides[ct.id];
+      items.push({
+        id: ct.id,
+        cover: ov?.coverUrl || ct.cover_url,
+        alt: ct.alt,
+        conceptKey: ov?.conceptKey ?? null,
+        description: ov?.description || '',
+        isCustom: true,
+        hidden: !!ct.hidden || !!ov?.hidden,
+        position: ov?.position ?? ct.position ?? null,
+        fallbackIdx: sourceTiles.length + i,
+      });
+    });
+    items.sort((a, b) => {
+      const ka = a.position != null ? a.position : a.fallbackIdx;
+      const kb = b.position != null ? b.position : b.fallbackIdx;
+      if (ka !== kb) return ka - kb;
+      return a.fallbackIdx - b.fallbackIdx;
+    });
+    return items;
+  }, [overrides, customTiles]);
+
+  const layout = useMemo(() => {
+    const visibleSources = orderedImageSources.filter((s) => isAdmin || !s.hidden);
+    const tiles: LayoutTile[] = visibleSources.map((s) => {
+      const o = orientations[s.id] ?? 'square';
+      const auto = spansFor(o, cols);
+      const ov = overrides[s.id];
       const cs = ov?.colSpan && ov.colSpan > 0 ? Math.min(cols, ov.colSpan) : auto.c;
       const rs = ov?.rowSpan && ov.rowSpan > 0 ? Math.min(6, ov.rowSpan) : auto.r;
       return {
-        id: tile.id,
+        id: s.id,
         kind: 'image' as const,
-        cover: tile.cover,
-        alt: tile.alt,
-        description: ov?.description || tile.description,
-        conceptKey: ov?.conceptKey ?? tile.conceptKey,
+        cover: s.cover,
+        alt: s.alt,
+        description: s.description,
+        conceptKey: s.conceptKey,
         colSpan: cs,
         rowSpan: rs,
         imageScale: ov?.imageScale ?? 1,
         imagePosX: ov?.imagePosX ?? 50,
         imagePosY: ov?.imagePosY ?? 50,
+        isCustom: s.isCustom,
       };
     });
     // Concept keys sorted by saved position (admin), fallback to insertion order.
@@ -465,7 +528,9 @@ const Strati = () => {
     const titleMap: Record<string, string> = {};
     Object.values(conceptsMap).forEach((c) => (titleMap[c.key] = c.title));
     return buildLayout(tiles, cols, conceptKeys, titleMap, conceptAnchors);
-  }, [orientations, cols, overrides, conceptsMap, conceptPositions, conceptAnchors]);
+  }, [orderedImageSources, orientations, cols, overrides, conceptsMap, conceptPositions, conceptAnchors, isAdmin]);
+
+  const hiddenIdSet = useMemo(() => new Set(orderedImageSources.filter((s) => s.hidden).map((s) => s.id)), [orderedImageSources]);
 
   const openTile = useCallback(
     (tile: LayoutTile) => {
@@ -499,35 +564,8 @@ const Strati = () => {
   const closeImage = useCallback(() => setExpandedTile(null), []);
 
   // ── Drag & drop reordering (admin) ──
-  // Resolved index of an image tile in the current sorted source list.
-  const imageOrderIndex = useCallback((id: string): number => {
-    const indexed = sourceTiles.map((t, i) => ({ id: t.id, i }));
-    indexed.sort((a, b) => {
-      const pa = overrides[a.id]?.position;
-      const pb = overrides[b.id]?.position;
-      const ka = pa != null ? pa : a.i;
-      const kb = pb != null ? pb : b.i;
-      if (ka !== kb) return ka - kb;
-      return a.i - b.i;
-    });
-    return indexed.findIndex((x) => x.id === id);
-  }, [overrides]);
-
-  const conceptOrderIndex = useCallback((key: string): number => {
-    const allKeys = Object.keys(conceptsMap);
-    const idx: Record<string, number> = {};
-    allKeys.forEach((k, i) => (idx[k] = i));
-    const sorted = [...allKeys].sort((a, b) => {
-      const pa = conceptPositions[a];
-      const pb = conceptPositions[b];
-      const ka = pa != null ? pa : idx[a];
-      const kb = pb != null ? pb : idx[b];
-      if (ka !== kb) return ka - kb;
-      return idx[a] - idx[b];
-    });
-    return sorted.indexOf(key);
-  }, [conceptsMap, conceptPositions]);
-
+  // Insert-before reorder: source tile is moved to the slot occupied by target.
+  // All affected tiles get a new sequential position so the order is stable.
   const handleTileDrop = useCallback(async (sourceTile: LayoutTile, targetTile: LayoutTile) => {
     if (!isAdmin) return;
     if (sourceTile.id === targetTile.id) return;
@@ -550,35 +588,87 @@ const Strati = () => {
     }
 
     if (sourceTile.kind === 'image') {
-      const a = imageOrderIndex(sourceTile.id);
-      const b = imageOrderIndex(targetTile.id);
-      if (a < 0 || b < 0) return;
-      const { error } = await supabase.from('strati_overrides').upsert([
-        { tile_id: sourceTile.id, position: b, description: overrides[sourceTile.id]?.description ?? '', concept_key: overrides[sourceTile.id]?.conceptKey ?? null },
-        { tile_id: targetTile.id, position: a, description: overrides[targetTile.id]?.description ?? '', concept_key: overrides[targetTile.id]?.conceptKey ?? null },
-      ], { onConflict: 'tile_id' });
-      if (error) { toast.error('Permesso negato: solo l\'admin reale può salvare lo spostamento'); return; }
-      setOverrides((prev) => ({
-        ...prev,
-        [sourceTile.id]: { ...(prev[sourceTile.id] ?? { description: '' }), position: b },
-        [targetTile.id]: { ...(prev[targetTile.id] ?? { description: '' }), position: a },
-      }));
+      // Reorder within the full ordered list (sources + customs, including hidden).
+      const order = orderedImageSources.map((s) => s.id);
+      const from = order.indexOf(sourceTile.id);
+      const to = order.indexOf(targetTile.id);
+      if (from < 0 || to < 0) return;
+      const next = order.slice();
+      const [moved] = next.splice(from, 1);
+      next.splice(to, 0, moved);
+      // Persist positions for all tiles whose index changed.
+      const changed: { id: string; pos: number }[] = [];
+      next.forEach((id, i) => {
+        const prevPos = orderedImageSources.find((s) => s.id === id)?.position ?? null;
+        if (prevPos !== i) changed.push({ id, pos: i });
+      });
+      // Optimistic local update first.
+      setOverrides((prev) => {
+        const np = { ...prev };
+        changed.forEach(({ id, pos }) => {
+          if (customTiles.find((c) => c.id === id)) {
+            // For custom tiles, position lives on strati_custom_tiles, but we also
+            // mirror it into overrides so the in-memory ordering recomputes.
+            np[id] = { ...(np[id] ?? { description: '' }), position: pos };
+          } else {
+            np[id] = { ...(np[id] ?? { description: '' }), position: pos };
+          }
+        });
+        return np;
+      });
+      // Split between source-tile updates (overrides) and custom-tile updates.
+      const customIds = new Set(customTiles.map((c) => c.id));
+      const ovRows = changed
+        .filter((c) => !customIds.has(c.id))
+        .map(({ id, pos }) => ({
+          tile_id: id,
+          position: pos,
+          description: overrides[id]?.description ?? '',
+          concept_key: overrides[id]?.conceptKey ?? null,
+        }));
+      const ctRows = changed
+        .filter((c) => customIds.has(c.id))
+        .map(({ id, pos }) => ({ id, position: pos }));
+      const tasks: Promise<any>[] = [];
+      if (ovRows.length) tasks.push(Promise.resolve(supabase.from('strati_overrides').upsert(ovRows, { onConflict: 'tile_id' })));
+      ctRows.forEach((row) => tasks.push(
+        Promise.resolve((supabase.from('strati_custom_tiles' as any) as any).update({ position: row.position }).eq('id', row.id)),
+      ));
+      const results = await Promise.all(tasks);
+      const err = results.find((r: any) => r?.error)?.error;
+      if (err) { toast.error('Permesso negato: solo l\'admin reale può salvare lo spostamento'); return; }
     } else if (sourceTile.kind === 'text' && sourceTile.conceptKey && targetTile.conceptKey) {
-      const a = conceptOrderIndex(sourceTile.conceptKey);
-      const b = conceptOrderIndex(targetTile.conceptKey);
-      if (a < 0 || b < 0) return;
-      const { error } = await supabase.from('strati_concepts').upsert([
-        { key: sourceTile.conceptKey, title: conceptsMap[sourceTile.conceptKey].title, phrase: conceptsMap[sourceTile.conceptKey].phrase, position: b },
-        { key: targetTile.conceptKey, title: conceptsMap[targetTile.conceptKey].title, phrase: conceptsMap[targetTile.conceptKey].phrase, position: a },
-      ], { onConflict: 'key' });
-      if (error) { toast.error('Permesso negato: solo l\'admin reale può salvare lo spostamento'); return; }
-      setConceptPositions((prev) => ({
-        ...prev,
-        [sourceTile.conceptKey!]: b,
-        [targetTile.conceptKey!]: a,
+      // Insert-before reorder for text tiles too.
+      const allKeys = Object.keys(conceptsMap);
+      const idx: Record<string, number> = {};
+      allKeys.forEach((k, i) => (idx[k] = i));
+      const sorted = [...allKeys].sort((a, b) => {
+        const pa = conceptPositions[a];
+        const pb = conceptPositions[b];
+        const ka = pa != null ? pa : idx[a];
+        const kb = pb != null ? pb : idx[b];
+        if (ka !== kb) return ka - kb;
+        return idx[a] - idx[b];
+      });
+      const from = sorted.indexOf(sourceTile.conceptKey);
+      const to = sorted.indexOf(targetTile.conceptKey);
+      if (from < 0 || to < 0) return;
+      const reordered = sorted.slice();
+      const [moved] = reordered.splice(from, 1);
+      reordered.splice(to, 0, moved);
+      const rows = reordered.map((key, i) => ({
+        key,
+        title: conceptsMap[key].title,
+        phrase: conceptsMap[key].phrase,
+        position: i,
       }));
+      const { error } = await supabase.from('strati_concepts').upsert(rows, { onConflict: 'key' });
+      if (error) { toast.error('Permesso negato: solo l\'admin reale può salvare lo spostamento'); return; }
+      const newPos: Record<string, number> = {};
+      reordered.forEach((k, i) => (newPos[k] = i));
+      setConceptPositions((prev) => ({ ...prev, ...newPos }));
     }
-  }, [isAdmin, overrides, conceptsMap, conceptPositions, imageOrderIndex, conceptOrderIndex]);
+  }, [isAdmin, overrides, conceptsMap, conceptPositions, orderedImageSources, customTiles]);
 
   const handleSave = useCallback(async () => {
     if (!expandedTile) return;
@@ -662,6 +752,113 @@ const Strati = () => {
     }
   }, [expandedTile, draftDescription, draftKeyword, conceptsMap]);
 
+  // ── Admin: tile delete / replace cover / add ──
+  const isCustomTile = useCallback(
+    (id: string) => customTiles.some((c) => c.id === id),
+    [customTiles],
+  );
+
+  const handleDeleteTile = useCallback(async () => {
+    if (!isAdmin || !expandedTile || expandedTile.kind !== 'image') return;
+    const id = expandedTile.id;
+    try {
+      if (isCustomTile(id)) {
+        // Remove from custom_tiles entirely.
+        const { error } = await (supabase.from('strati_custom_tiles' as any) as any).delete().eq('id', id);
+        if (error) throw error;
+        setCustomTiles((prev) => prev.filter((t) => t.id !== id));
+      } else {
+        // Hide the source tile via override.
+        const { error } = await supabase.from('strati_overrides').upsert(
+          { tile_id: id, hidden: true } as any,
+          { onConflict: 'tile_id' },
+        );
+        if (error) throw error;
+        setOverrides((prev) => ({ ...prev, [id]: { ...(prev[id] ?? { description: '' }), hidden: true } }));
+      }
+      toast.success('Tassello eliminato');
+      setExpandedTile(null);
+    } catch (e: any) {
+      toast.error(e?.message || 'Eliminazione fallita');
+    }
+  }, [isAdmin, expandedTile, isCustomTile]);
+
+  const handleRestoreTile = useCallback(async () => {
+    if (!isAdmin || !expandedTile || expandedTile.kind !== 'image') return;
+    const id = expandedTile.id;
+    try {
+      const { error } = await supabase.from('strati_overrides').upsert(
+        { tile_id: id, hidden: false } as any,
+        { onConflict: 'tile_id' },
+      );
+      if (error) throw error;
+      setOverrides((prev) => ({ ...prev, [id]: { ...(prev[id] ?? { description: '' }), hidden: false } }));
+      toast.success('Tassello ripristinato');
+    } catch (e: any) {
+      toast.error(e?.message || 'Ripristino fallito');
+    }
+  }, [isAdmin, expandedTile]);
+
+  const handleReplaceCoverFile = useCallback(async (file: File) => {
+    if (!isAdmin || !expandedTile || expandedTile.kind !== 'image') return;
+    const id = expandedTile.id;
+    try {
+      const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+      const path = `tiles/${id}-${Date.now()}.${ext}`;
+      const { error: upErr } = await supabase.storage.from('strati').upload(path, file, {
+        cacheControl: '3600', upsert: true, contentType: file.type,
+      });
+      if (upErr) throw upErr;
+      const { data: pub } = supabase.storage.from('strati').getPublicUrl(path);
+      const url = pub.publicUrl;
+      if (isCustomTile(id)) {
+        const { error } = await (supabase.from('strati_custom_tiles' as any) as any)
+          .update({ cover_url: url }).eq('id', id);
+        if (error) throw error;
+        setCustomTiles((prev) => prev.map((t) => (t.id === id ? { ...t, cover_url: url } : t)));
+      } else {
+        const { error } = await supabase.from('strati_overrides').upsert(
+          { tile_id: id, cover_url: url } as any,
+          { onConflict: 'tile_id' },
+        );
+        if (error) throw error;
+        setOverrides((prev) => ({ ...prev, [id]: { ...(prev[id] ?? { description: '' }), coverUrl: url } }));
+      }
+      setExpandedTile((prev) => (prev ? { ...prev, src: url } : prev));
+      toast.success('Immagine sostituita');
+    } catch (e: any) {
+      toast.error(e?.message || 'Caricamento fallito');
+    }
+  }, [isAdmin, expandedTile, isCustomTile]);
+
+  const handleAddTile = useCallback(async (file: File) => {
+    if (!isAdmin) return;
+    try {
+      const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+      const path = `tiles/new-${Date.now()}.${ext}`;
+      const { error: upErr } = await supabase.storage.from('strati').upload(path, file, {
+        cacheControl: '3600', upsert: false, contentType: file.type,
+      });
+      if (upErr) throw upErr;
+      const { data: pub } = supabase.storage.from('strati').getPublicUrl(path);
+      const url = pub.publicUrl;
+      const nextPos = orderedImageSources.length;
+      const { data, error } = await (supabase.from('strati_custom_tiles' as any) as any)
+        .insert({ cover_url: url, alt: '', position: nextPos }).select().single();
+      if (error) throw error;
+      setCustomTiles((prev) => [...prev, {
+        id: (data as any).id,
+        cover_url: (data as any).cover_url,
+        alt: (data as any).alt ?? '',
+        position: (data as any).position ?? null,
+        hidden: !!(data as any).hidden,
+      }]);
+      toast.success('Tassello aggiunto');
+    } catch (e: any) {
+      toast.error(e?.message || 'Aggiunta fallita');
+    }
+  }, [isAdmin, orderedImageSources.length]);
+
   const gridColsClass =
     cols === 6 ? 'grid-cols-6' : cols === 5 ? 'grid-cols-5' : 'grid-cols-3';
 
@@ -682,11 +879,24 @@ const Strati = () => {
           </div>
 
           {isAdmin && (
-            <div className="mb-4 flex items-center justify-center">
+            <div className="mb-4 flex flex-wrap items-center justify-center gap-2">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-foreground/30 bg-background font-body text-[10px] uppercase tracking-[0.2em] text-foreground/70">
                 <span className="w-1.5 h-1.5 rounded-full bg-foreground animate-pulse" />
-                Admin · trascina per riordinare (anche immagine ↔ keyword) · click per modificare
+                Admin · trascina per riordinare · click per modificare/eliminare/sostituire
               </div>
+              <label className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-foreground/40 bg-foreground text-background font-body text-[10px] uppercase tracking-[0.2em] cursor-pointer hover:bg-foreground/90 transition">
+                + Aggiungi tassello immagine
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => {
+                    const f = e.target.files?.[0];
+                    if (f) handleAddTile(f);
+                    e.currentTarget.value = '';
+                  }}
+                />
+              </label>
             </div>
           )}
 
@@ -698,12 +908,13 @@ const Strati = () => {
               const concept = tile.conceptKey ? conceptsMap[tile.conceptKey] : undefined;
               const isActive = activeTile === tile.id;
               const isText = tile.kind === 'text';
+              const isHidden = tile.kind === 'image' && hiddenIdSet.has(tile.id);
               return (
               <motion.div
                   key={tile.id}
                   className={`relative overflow-hidden rounded-sm group ${isAdmin ? 'cursor-grab active:cursor-grabbing' : 'cursor-pointer'} ${
                     isText ? 'bg-background border border-border/40' : 'bg-card'
-                  } ${isAdmin && dragId && dragId !== tile.id ? 'ring-1 ring-foreground/20' : ''} ${isAdmin && dragId === tile.id ? 'opacity-60' : ''}`}
+                  } ${isAdmin && dragId && dragId !== tile.id ? 'ring-1 ring-foreground/20' : ''} ${isAdmin && dragId === tile.id ? 'opacity-60' : ''} ${isHidden ? 'opacity-30 ring-1 ring-destructive/60' : ''}`}
                   style={{
                     gridColumn: `span ${tile.colSpan}`,
                     gridRow: `span ${tile.rowSpan}`,
@@ -1116,6 +1327,43 @@ const Strati = () => {
                       className="w-full resize-y rounded-sm border border-border bg-background/60 p-3 font-body text-xs md:text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-foreground/40 transition"
                     />
                   </div>
+
+                  {expandedTile.kind === 'image' && (
+                    <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-border/50">
+                      <label className="px-3 py-1.5 rounded-sm border border-border bg-background text-foreground font-body text-[11px] uppercase tracking-[0.18em] hover:bg-muted transition cursor-pointer">
+                        Sostituisci immagine
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={(e) => {
+                            const f = e.target.files?.[0];
+                            if (f) handleReplaceCoverFile(f);
+                            e.currentTarget.value = '';
+                          }}
+                        />
+                      </label>
+                      {hiddenIdSet.has(expandedTile.id) ? (
+                        <button
+                          type="button"
+                          onClick={handleRestoreTile}
+                          className="px-3 py-1.5 rounded-sm border border-border bg-background text-foreground font-body text-[11px] uppercase tracking-[0.18em] hover:bg-muted transition"
+                        >
+                          Ripristina tassello
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (window.confirm('Eliminare questo tassello?')) handleDeleteTile();
+                          }}
+                          className="px-3 py-1.5 rounded-sm border border-destructive/60 bg-background text-destructive font-body text-[11px] uppercase tracking-[0.18em] hover:bg-destructive hover:text-destructive-foreground transition"
+                        >
+                          Elimina tassello
+                        </button>
+                      )}
+                    </div>
+                  )}
 
                   <div className="mt-1 flex items-center justify-end gap-3">
                     {savedFlash && (
