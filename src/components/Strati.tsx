@@ -1123,6 +1123,18 @@ const Strati = () => {
                     )}
                     <button
                       type="button"
+                      onClick={() => {
+                        setDraftKeyword(originalKeyword);
+                        setDraftDescription(originalDescription);
+                        toast('Modifiche annullate', { description: 'Keyword e frase ripristinate' });
+                      }}
+                      disabled={draftKeyword === originalKeyword && draftDescription === originalDescription}
+                      className="px-4 py-1.5 rounded-sm border border-border bg-background text-foreground font-body text-[11px] md:text-xs uppercase tracking-[0.18em] hover:bg-muted transition disabled:opacity-40 disabled:cursor-not-allowed"
+                    >
+                      Annulla
+                    </button>
+                    <button
+                      type="button"
                       onClick={expandedTile.kind === 'text' ? handleSaveTextTile : handleSave}
                       className="px-4 py-1.5 rounded-sm border border-foreground/70 bg-foreground text-background font-body text-[11px] md:text-xs uppercase tracking-[0.18em] hover:bg-foreground/90 transition"
                     >
