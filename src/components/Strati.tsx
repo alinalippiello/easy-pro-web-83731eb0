@@ -606,22 +606,22 @@ const Strati = () => {
                     gridRow: `span ${tile.rowSpan}`,
                   }}
                   draggable={isAdmin}
-                  onDragStart={(e) => {
+                  onDragStart={((e: React.DragEvent<HTMLDivElement>) => {
                     if (!isAdmin) return;
                     setDragId(tile.id);
                     e.dataTransfer.effectAllowed = 'move';
                     e.dataTransfer.setData('text/plain', tile.id);
-                  }}
-                  onDragEnd={() => setDragId(null)}
-                  onDragOver={(e) => {
+                  }) as any}
+                  onDragEnd={(() => setDragId(null)) as any}
+                  onDragOver={((e: React.DragEvent<HTMLDivElement>) => {
                     if (!isAdmin || !dragId) return;
                     const src = layout.tiles.find((t) => t.id === dragId);
                     if (src && src.kind === tile.kind) {
                       e.preventDefault();
                       e.dataTransfer.dropEffect = 'move';
                     }
-                  }}
-                  onDrop={(e) => {
+                  }) as any}
+                  onDrop={((e: React.DragEvent<HTMLDivElement>) => {
                     if (!isAdmin) return;
                     e.preventDefault();
                     const srcId = e.dataTransfer.getData('text/plain') || dragId;
@@ -629,7 +629,7 @@ const Strati = () => {
                     const src = layout.tiles.find((t) => t.id === srcId);
                     if (src) handleTileDrop(src, tile);
                     setDragId(null);
-                  }}
+                  }) as any}
                   onClick={() => { if (!dragId) openTile(tile); }}
                   onMouseEnter={() => !isText && concept && setActiveTile(tile.id)}
                   onMouseLeave={() => !isText && concept && setActiveTile((prev) => (prev === tile.id ? null : prev))}
