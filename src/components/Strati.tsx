@@ -476,6 +476,7 @@ const Strati = () => {
   const [dragId, setDragId] = useState<string | null>(null);
   const [panningTileId, setPanningTileId] = useState<string | null>(null);
   const suppressTileClickRef = useRef(false);
+  const wheelPersistTimers = useRef<Record<string, ReturnType<typeof setTimeout>>>({});
 
   // ── Measure orientations ──
   const [orientations, setOrientations] = useState<Record<string, Orientation>>({});
