@@ -1190,6 +1190,38 @@ const Strati = () => {
                     />
                   )}
 
+                  {isAdmin && !isText && tile.cover && (
+                    <div
+                      className="absolute top-1 right-1 z-20 flex items-center gap-1 rounded-sm bg-background/80 backdrop-blur-sm border border-border px-1 py-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
+                      onClick={(e) => e.stopPropagation()}
+                      onMouseDown={(e) => e.stopPropagation()}
+                      draggable={false}
+                      onDragStart={(e) => { e.preventDefault(); e.stopPropagation(); }}
+                    >
+                      <button
+                        type="button"
+                        onClick={(e) => { e.stopPropagation(); handleAdjustTileScale(tile.id, -0.1); }}
+                        className="px-1.5 font-body text-xs leading-none text-foreground hover:text-muted-foreground"
+                        aria-label="Riduci zoom immagine"
+                        title="Zoom out"
+                      >
+                        −
+                      </button>
+                      <span className="font-body text-[10px] tabular-nums text-muted-foreground min-w-[28px] text-center">
+                        {Math.round((tile.imageScale ?? 1) * 100)}%
+                      </span>
+                      <button
+                        type="button"
+                        onClick={(e) => { e.stopPropagation(); handleAdjustTileScale(tile.id, 0.1); }}
+                        className="px-1.5 font-body text-xs leading-none text-foreground hover:text-muted-foreground"
+                        aria-label="Aumenta zoom immagine"
+                        title="Zoom in"
+                      >
+                        +
+                      </button>
+                    </div>
+                  )}
+
                   {isText && concept && (() => {
                     const title = trConceptTitle(concept);
                     const isVertical = tile.rowSpan > tile.colSpan || title.length > 8;
