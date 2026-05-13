@@ -1002,6 +1002,65 @@ const Strati = () => {
     }
   }, [isAdmin, overrides, persistTileFraming]);
 
+  const handleTilePanStart = useCallback((event: React.PointerEvent<HTMLDivElement>, tileId: string) => {
+    if (!isAdmin) return;
+    if ((event.target as HTMLElement).closest('[data-tile-controls="true"]')) return;
+    event.preventDefault();
+    event.stopPropagation();
+
+    const originX = event.clientX;
+    const originY = event.clientY;
+    const ov = overrides[tileId];
+    const startX = ov?.imagePosX ?? 50;
+    const startY = ov?.imagePosY ?? 50;
+    const scale = ov?.imageScale ?? 1;
+    const el = event.currentTarget;
+    const rect = el.getBoundingClientRect();
+    let latestX = startX;
+    let latestY = startY;
+    let moved = false;
+    isPanningTileRef.current = tileId;
+    setPanningTileId(tileId);
+    el.setPointerCapture(event.pointerId);
+
+    const updatePosition = (clientX: number, clientY: number) => {
+      const dxPercent = ((clientX - originX) / Math.max(rect.width, 1)) * 100;
+      const dyPercent = ((clientY - originY) / Math.max(rect.height, 1)) * 100;
+      latestX = clampNumber(roundTo(startX - dxPercent, 1), 0, 100);
+      latestY = clampNumber(roundTo(startY - dyPercent, 1), 0, 100);
+      moved = moved || Math.abs(clientX - originX) > 3 || Math.abs(clientY - originY) > 3;
+      setOverrides((prev) => ({
+        ...prev,
+        [tileId]: { ...(prev[tileId] ?? { description: '' }), imagePosX: latestX, imagePosY: latestY },
+      }));
+    };
+
+    const move = (ev: PointerEvent) => updatePosition(ev.clientX, ev.clientY);
+    const end = async (ev: PointerEvent) => {
+      el.removeEventListener('pointermove', move);
+      el.removeEventListener('pointerup', end);
+      el.removeEventListener('pointercancel', end);
+      try { el.releasePointerCapture(ev.pointerId); } catch {}
+      isPanningTileRef.current = null;
+      setPanningTileId(null);
+      if (moved) suppressTileClickRef.current = true;
+      if (!moved || !realAdmin) return;
+      try {
+        await persistTileFraming(tileId, scale, latestX, latestY);
+      } catch (e: any) {
+        setOverrides((prev) => ({
+          ...prev,
+          [tileId]: { ...(prev[tileId] ?? { description: '' }), imagePosX: startX, imagePosY: startY },
+        }));
+        toast.error(e?.message || 'Permesso negato: solo l\'admin reale può salvare la posizione');
+      }
+    };
+
+    el.addEventListener('pointermove', move);
+    el.addEventListener('pointerup', end);
+    el.addEventListener('pointercancel', end);
+  }, [isAdmin, overrides, persistTileFraming, realAdmin]);
+
   // ── Admin: tile delete / replace cover / add ──
   const isCustomTile = useCallback(
     (id: string) => customTiles.some((c) => c.id === id),
