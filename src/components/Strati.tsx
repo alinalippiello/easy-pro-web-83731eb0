@@ -252,9 +252,17 @@ interface CustomTile {
   hidden: boolean;
 }
 
+const MIN_IMAGE_SCALE = 0.5;
+const MAX_IMAGE_SCALE = 4;
+const clampNumber = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
+const roundTo = (value: number, decimals = 2) => {
+  const factor = 10 ** decimals;
+  return Math.round(value * factor) / factor;
+};
+
 const Strati = () => {
   const { t } = useLanguage();
-  const { isAdmin } = useAdmin();
+  const { isAdmin, realAdmin } = useAdmin();
 
   // i18n helper: returns translation if defined, otherwise the provided fallback.
   const tr = (key: string, fallback: string) => {
@@ -466,6 +474,8 @@ const Strati = () => {
   const [draftRowSpan, setDraftRowSpan] = useState<number>(1);
   const [savedFlash, setSavedFlash] = useState(false);
   const [dragId, setDragId] = useState<string | null>(null);
+  const [panningTileId, setPanningTileId] = useState<string | null>(null);
+  const suppressTileClickRef = useRef(false);
 
   // ── Measure orientations ──
   const [orientations, setOrientations] = useState<Record<string, Orientation>>({});
@@ -926,29 +936,36 @@ const Strati = () => {
     }
   }, [expandedTile, draftDescription, draftKeyword, conceptsMap]);
 
+  const persistTileFraming = useCallback(async (tileId: string, scale: number, posX: number, posY: number) => {
+    if (!realAdmin) return;
+    const { error } = await supabase.from('strati_overrides').upsert(
+      {
+        tile_id: tileId,
+        image_scale: scale,
+        image_pos_x: posX,
+        image_pos_y: posY,
+      } as any,
+      { onConflict: 'tile_id' },
+    );
+    if (error) throw error;
+  }, [realAdmin]);
+
   // Admin: quick inline image scale (+/-) directly on the tile.
   const handleAdjustTileScale = useCallback(async (tileId: string, delta: number) => {
     if (!isAdmin) return;
     const ov = overrides[tileId];
     const current = ov?.imageScale ?? 1;
-    const next = Math.max(1, Math.min(4, Math.round((current + delta) * 100) / 100));
+    const next = clampNumber(roundTo(current + delta), MIN_IMAGE_SCALE, MAX_IMAGE_SCALE);
     if (next === current) return;
+    const posX = ov?.imagePosX ?? 50;
+    const posY = ov?.imagePosY ?? 50;
     // Optimistic update
     setOverrides((prev) => ({
       ...prev,
       [tileId]: { ...(prev[tileId] ?? { description: '' }), imageScale: next },
     }));
     try {
-      const { error } = await supabase.from('strati_overrides').upsert(
-        {
-          tile_id: tileId,
-          image_scale: next,
-          image_pos_x: ov?.imagePosX ?? 50,
-          image_pos_y: ov?.imagePosY ?? 50,
-        } as any,
-        { onConflict: 'tile_id' },
-      );
-      if (error) throw error;
+      await persistTileFraming(tileId, next, posX, posY);
     } catch (e: any) {
       // Revert
       setOverrides((prev) => ({
@@ -957,7 +974,7 @@ const Strati = () => {
       }));
       toast.error(e?.message || 'Permesso negato: solo l\'admin reale può salvare lo zoom');
     }
-  }, [isAdmin, overrides]);
+  }, [isAdmin, overrides, persistTileFraming]);
 
   // Admin: nudge image position inside tile (pan from main grid).
   const handleNudgeTilePosition = useCallback(async (tileId: string, dx: number, dy: number) => {
@@ -965,24 +982,16 @@ const Strati = () => {
     const ov = overrides[tileId];
     const curX = ov?.imagePosX ?? 50;
     const curY = ov?.imagePosY ?? 50;
-    const nextX = Math.max(0, Math.min(100, Math.round(curX + dx)));
-    const nextY = Math.max(0, Math.min(100, Math.round(curY + dy)));
+    const nextX = clampNumber(Math.round(curX + dx), 0, 100);
+    const nextY = clampNumber(Math.round(curY + dy), 0, 100);
     if (nextX === curX && nextY === curY) return;
+    const scale = ov?.imageScale ?? 1;
     setOverrides((prev) => ({
       ...prev,
       [tileId]: { ...(prev[tileId] ?? { description: '' }), imagePosX: nextX, imagePosY: nextY },
     }));
     try {
-      const { error } = await supabase.from('strati_overrides').upsert(
-        {
-          tile_id: tileId,
-          image_scale: ov?.imageScale ?? 1,
-          image_pos_x: nextX,
-          image_pos_y: nextY,
-        } as any,
-        { onConflict: 'tile_id' },
-      );
-      if (error) throw error;
+      await persistTileFraming(tileId, scale, nextX, nextY);
     } catch (e: any) {
       setOverrides((prev) => ({
         ...prev,
@@ -990,7 +999,63 @@ const Strati = () => {
       }));
       toast.error(e?.message || 'Permesso negato: solo l\'admin reale può salvare la posizione');
     }
-  }, [isAdmin, overrides]);
+  }, [isAdmin, overrides, persistTileFraming]);
+
+  const handleTilePanStart = useCallback((event: React.PointerEvent<HTMLDivElement>, tileId: string) => {
+    if (!isAdmin) return;
+    if ((event.target as HTMLElement).closest('[data-tile-controls="true"]')) return;
+    event.stopPropagation();
+
+    const originX = event.clientX;
+    const originY = event.clientY;
+    const ov = overrides[tileId];
+    const startX = ov?.imagePosX ?? 50;
+    const startY = ov?.imagePosY ?? 50;
+    const scale = ov?.imageScale ?? 1;
+    const el = event.currentTarget;
+    const rect = el.getBoundingClientRect();
+    let latestX = startX;
+    let latestY = startY;
+    let moved = false;
+    setPanningTileId(tileId);
+    el.setPointerCapture(event.pointerId);
+
+    const updatePosition = (clientX: number, clientY: number) => {
+      const dxPercent = ((clientX - originX) / Math.max(rect.width, 1)) * 100;
+      const dyPercent = ((clientY - originY) / Math.max(rect.height, 1)) * 100;
+      latestX = clampNumber(roundTo(startX - dxPercent, 1), 0, 100);
+      latestY = clampNumber(roundTo(startY - dyPercent, 1), 0, 100);
+      moved = moved || Math.abs(clientX - originX) > 3 || Math.abs(clientY - originY) > 3;
+      setOverrides((prev) => ({
+        ...prev,
+        [tileId]: { ...(prev[tileId] ?? { description: '' }), imagePosX: latestX, imagePosY: latestY },
+      }));
+    };
+
+    const move = (ev: PointerEvent) => updatePosition(ev.clientX, ev.clientY);
+    const end = async (ev: PointerEvent) => {
+      el.removeEventListener('pointermove', move);
+      el.removeEventListener('pointerup', end);
+      el.removeEventListener('pointercancel', end);
+      try { el.releasePointerCapture(ev.pointerId); } catch {}
+      setPanningTileId(null);
+      if (moved) suppressTileClickRef.current = true;
+      if (!moved || !realAdmin) return;
+      try {
+        await persistTileFraming(tileId, scale, latestX, latestY);
+      } catch (e: any) {
+        setOverrides((prev) => ({
+          ...prev,
+          [tileId]: { ...(prev[tileId] ?? { description: '' }), imagePosX: startX, imagePosY: startY },
+        }));
+        toast.error(e?.message || 'Permesso negato: solo l\'admin reale può salvare la posizione');
+      }
+    };
+
+    el.addEventListener('pointermove', move);
+    el.addEventListener('pointerup', end);
+    el.addEventListener('pointercancel', end);
+  }, [isAdmin, overrides, persistTileFraming, realAdmin]);
 
   // ── Admin: tile delete / replace cover / add ──
   const isCustomTile = useCallback(
@@ -1170,14 +1235,17 @@ const Strati = () => {
               return (
               <motion.div
                   key={tile.id}
-                  className={`relative overflow-hidden rounded-sm group ${isAdmin ? 'cursor-grab active:cursor-grabbing' : 'cursor-pointer'} ${
+                  className={`relative overflow-hidden rounded-sm group ${isAdmin && !isText ? 'cursor-grab active:cursor-grabbing touch-none' : isAdmin ? 'cursor-grab active:cursor-grabbing' : 'cursor-pointer'} ${
                     isText ? 'bg-background border border-border/40' : 'bg-card'
-                  } ${isAdmin && dragId && dragId !== tile.id ? 'ring-1 ring-foreground/20' : ''} ${isAdmin && dragId === tile.id ? 'opacity-60' : ''} ${isHidden ? 'opacity-30 ring-1 ring-destructive/60' : ''}`}
+                  } ${isAdmin && panningTileId === tile.id ? 'ring-1 ring-foreground/40' : ''} ${isAdmin && dragId && dragId !== tile.id ? 'ring-1 ring-foreground/20' : ''} ${isAdmin && dragId === tile.id ? 'opacity-60' : ''} ${isHidden ? 'opacity-30 ring-1 ring-destructive/60' : ''}`}
                   style={{
                     gridColumn: `span ${tile.colSpan}`,
                     gridRow: `span ${tile.rowSpan}`,
                   }}
-                  draggable={isAdmin}
+                  draggable={isAdmin && isText}
+                  onPointerDown={(e) => {
+                    if (tile.kind === 'image') handleTilePanStart(e, tile.id);
+                  }}
                   onDragStart={((e: React.DragEvent<HTMLDivElement>) => {
                     if (!isAdmin) return;
                     setDragId(tile.id);
@@ -1200,7 +1268,13 @@ const Strati = () => {
                     if (src) handleTileDrop(src, tile);
                     setDragId(null);
                   }) as any}
-                  onClick={() => { if (!dragId) openTile(tile); }}
+                  onClick={() => {
+                    if (suppressTileClickRef.current) {
+                      suppressTileClickRef.current = false;
+                      return;
+                    }
+                    if (!dragId) openTile(tile);
+                  }}
                   onMouseEnter={() => !isText && concept && setActiveTile(tile.id)}
                   onMouseLeave={() => !isText && concept && setActiveTile((prev) => (prev === tile.id ? null : prev))}
                   whileHover={isText || isAdmin ? undefined : { scale: 1.015 }}
@@ -1225,12 +1299,33 @@ const Strati = () => {
 
                   {isAdmin && !isText && tile.cover && (
                     <div
+                      data-tile-controls="true"
                       className="absolute top-1 right-1 z-20 flex flex-col items-end gap-1"
                       onClick={(e) => e.stopPropagation()}
                       onMouseDown={(e) => e.stopPropagation()}
                       draggable={false}
                       onDragStart={(e) => { e.preventDefault(); e.stopPropagation(); }}
                     >
+                      <div className="rounded-sm bg-background/90 backdrop-blur-sm border border-border px-1 py-0.5">
+                        <span
+                          role="button"
+                          tabIndex={0}
+                          draggable
+                          onPointerDown={(e) => e.stopPropagation()}
+                          onDragStart={(e) => {
+                            e.stopPropagation();
+                            setDragId(tile.id);
+                            e.dataTransfer.effectAllowed = 'move';
+                            e.dataTransfer.setData('text/plain', tile.id);
+                          }}
+                          onDragEnd={() => setDragId(null)}
+                          className="block px-1.5 font-body text-xs leading-none text-foreground hover:text-muted-foreground cursor-grab active:cursor-grabbing"
+                          aria-label="Trascina per riordinare tassello"
+                          title="Trascina per riordinare"
+                        >
+                          ↕
+                        </span>
+                      </div>
                       <div className="flex items-center gap-1 rounded-sm bg-background/90 backdrop-blur-sm border border-border px-1 py-0.5">
                         <button
                           type="button"
@@ -1525,16 +1620,16 @@ const Strati = () => {
                         <label className="flex flex-col gap-1 font-body text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
                           Zoom
                           <input
-                            type="range" min={1} max={4} step={0.05}
+                            type="range" min={MIN_IMAGE_SCALE} max={MAX_IMAGE_SCALE} step={0.05}
                             value={draftScale}
                             onChange={(e) => setDraftScale(parseFloat(e.target.value))}
                           />
                           <input
-                            type="number" min={1} max={4} step={0.01}
+                            type="number" min={MIN_IMAGE_SCALE} max={MAX_IMAGE_SCALE} step={0.01}
                             value={Number(draftScale.toFixed(2))}
                             onChange={(e) => {
                               const v = parseFloat(e.target.value);
-                              if (!isNaN(v)) setDraftScale(Math.max(1, Math.min(4, v)));
+                              if (!isNaN(v)) setDraftScale(clampNumber(v, MIN_IMAGE_SCALE, MAX_IMAGE_SCALE));
                             }}
                             className="w-full rounded-sm border border-border bg-background/60 px-2 py-1 font-body text-[11px] text-foreground normal-case tracking-normal focus:outline-none focus:ring-1 focus:ring-foreground/40"
                           />
