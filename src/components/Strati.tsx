@@ -1225,33 +1225,72 @@ const Strati = () => {
 
                   {isAdmin && !isText && tile.cover && (
                     <div
-                      className="absolute top-1 right-1 z-20 flex items-center gap-1 rounded-sm bg-background/80 backdrop-blur-sm border border-border px-1 py-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="absolute top-1 right-1 z-20 flex flex-col items-end gap-1"
                       onClick={(e) => e.stopPropagation()}
                       onMouseDown={(e) => e.stopPropagation()}
                       draggable={false}
                       onDragStart={(e) => { e.preventDefault(); e.stopPropagation(); }}
                     >
-                      <button
-                        type="button"
-                        onClick={(e) => { e.stopPropagation(); handleAdjustTileScale(tile.id, -0.1); }}
-                        className="px-1.5 font-body text-xs leading-none text-foreground hover:text-muted-foreground"
-                        aria-label="Riduci zoom immagine"
-                        title="Zoom out"
-                      >
-                        −
-                      </button>
-                      <span className="font-body text-[10px] tabular-nums text-muted-foreground min-w-[28px] text-center">
-                        {Math.round((tile.imageScale ?? 1) * 100)}%
-                      </span>
-                      <button
-                        type="button"
-                        onClick={(e) => { e.stopPropagation(); handleAdjustTileScale(tile.id, 0.1); }}
-                        className="px-1.5 font-body text-xs leading-none text-foreground hover:text-muted-foreground"
-                        aria-label="Aumenta zoom immagine"
-                        title="Zoom in"
-                      >
-                        +
-                      </button>
+                      <div className="flex items-center gap-1 rounded-sm bg-background/90 backdrop-blur-sm border border-border px-1 py-0.5">
+                        <button
+                          type="button"
+                          onClick={(e) => { e.stopPropagation(); handleAdjustTileScale(tile.id, -0.1); }}
+                          className="px-1.5 font-body text-xs leading-none text-foreground hover:text-muted-foreground"
+                          aria-label="Riduci zoom immagine"
+                          title="Zoom out"
+                        >
+                          −
+                        </button>
+                        <span className="font-body text-[10px] tabular-nums text-muted-foreground min-w-[28px] text-center">
+                          {Math.round((tile.imageScale ?? 1) * 100)}%
+                        </span>
+                        <button
+                          type="button"
+                          onClick={(e) => { e.stopPropagation(); handleAdjustTileScale(tile.id, 0.1); }}
+                          className="px-1.5 font-body text-xs leading-none text-foreground hover:text-muted-foreground"
+                          aria-label="Aumenta zoom immagine"
+                          title="Zoom in"
+                        >
+                          +
+                        </button>
+                      </div>
+                      <div className="grid grid-cols-3 gap-0.5 rounded-sm bg-background/90 backdrop-blur-sm border border-border p-0.5">
+                        <span />
+                        <button
+                          type="button"
+                          onClick={(e) => { e.stopPropagation(); handleNudgeTilePosition(tile.id, 0, -5); }}
+                          className="px-1.5 font-body text-xs leading-none text-foreground hover:text-muted-foreground"
+                          aria-label="Sposta immagine in alto"
+                          title="Sposta su"
+                        >↑</button>
+                        <span />
+                        <button
+                          type="button"
+                          onClick={(e) => { e.stopPropagation(); handleNudgeTilePosition(tile.id, -5, 0); }}
+                          className="px-1.5 font-body text-xs leading-none text-foreground hover:text-muted-foreground"
+                          aria-label="Sposta immagine a sinistra"
+                          title="Sposta sinistra"
+                        >←</button>
+                        <span className="font-body text-[9px] tabular-nums text-muted-foreground text-center leading-none flex items-center justify-center">
+                          {tile.imagePosX ?? 50}/{tile.imagePosY ?? 50}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={(e) => { e.stopPropagation(); handleNudgeTilePosition(tile.id, 5, 0); }}
+                          className="px-1.5 font-body text-xs leading-none text-foreground hover:text-muted-foreground"
+                          aria-label="Sposta immagine a destra"
+                          title="Sposta destra"
+                        >→</button>
+                        <span />
+                        <button
+                          type="button"
+                          onClick={(e) => { e.stopPropagation(); handleNudgeTilePosition(tile.id, 0, 5); }}
+                          className="px-1.5 font-body text-xs leading-none text-foreground hover:text-muted-foreground"
+                          aria-label="Sposta immagine in basso"
+                          title="Sposta giù"
+                        >↓</button>
+                        <span />
+                      </div>
                     </div>
                   )}
 
