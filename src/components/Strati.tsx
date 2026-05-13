@@ -475,7 +475,6 @@ const Strati = () => {
   const [savedFlash, setSavedFlash] = useState(false);
   const [dragId, setDragId] = useState<string | null>(null);
   const [panningTileId, setPanningTileId] = useState<string | null>(null);
-  const isPanningTileRef = useRef<string | null>(null);
   const suppressTileClickRef = useRef(false);
 
   // ── Measure orientations ──
@@ -1005,7 +1004,6 @@ const Strati = () => {
   const handleTilePanStart = useCallback((event: React.PointerEvent<HTMLDivElement>, tileId: string) => {
     if (!isAdmin) return;
     if ((event.target as HTMLElement).closest('[data-tile-controls="true"]')) return;
-    event.preventDefault();
     event.stopPropagation();
 
     const originX = event.clientX;
@@ -1019,7 +1017,6 @@ const Strati = () => {
     let latestX = startX;
     let latestY = startY;
     let moved = false;
-    isPanningTileRef.current = tileId;
     setPanningTileId(tileId);
     el.setPointerCapture(event.pointerId);
 
@@ -1041,7 +1038,6 @@ const Strati = () => {
       el.removeEventListener('pointerup', end);
       el.removeEventListener('pointercancel', end);
       try { el.releasePointerCapture(ev.pointerId); } catch {}
-      isPanningTileRef.current = null;
       setPanningTileId(null);
       if (moved) suppressTileClickRef.current = true;
       if (!moved || !realAdmin) return;
