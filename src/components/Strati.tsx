@@ -1288,13 +1288,13 @@ const Strati = () => {
                       decoding="async"
                       draggable="false"
                       onContextMenu={(e) => e.preventDefault()}
-                      style={{
-                        transform: `scale(${tile.imageScale ?? 1})`,
-                        transformOrigin: `${tile.imagePosX ?? 50}% ${tile.imagePosY ?? 50}%`,
-                        objectPosition: `${tile.imagePosX ?? 50}% ${tile.imagePosY ?? 50}%`,
-                      }}
-                      className="w-full h-full object-cover select-none pointer-events-none transition-transform duration-500"
-                    />
+                       style={{
+                         transform: `scale(${tile.imageScale ?? 1})`,
+                         transformOrigin: `${tile.imagePosX ?? 50}% ${tile.imagePosY ?? 50}%`,
+                         objectPosition: `${tile.imagePosX ?? 50}% ${tile.imagePosY ?? 50}%`,
+                       }}
+                       className={`w-full h-full select-none pointer-events-none transition-transform duration-500 ${(tile.imageScale ?? 1) < 1 ? 'object-contain' : 'object-cover'}`}
+                     />
                   )}
 
                   {isAdmin && !isText && tile.cover && (
