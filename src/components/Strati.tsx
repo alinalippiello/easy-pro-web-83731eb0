@@ -252,9 +252,17 @@ interface CustomTile {
   hidden: boolean;
 }
 
+const MIN_IMAGE_SCALE = 0.5;
+const MAX_IMAGE_SCALE = 4;
+const clampNumber = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
+const roundTo = (value: number, decimals = 2) => {
+  const factor = 10 ** decimals;
+  return Math.round(value * factor) / factor;
+};
+
 const Strati = () => {
   const { t } = useLanguage();
-  const { isAdmin } = useAdmin();
+  const { isAdmin, realAdmin } = useAdmin();
 
   // i18n helper: returns translation if defined, otherwise the provided fallback.
   const tr = (key: string, fallback: string) => {
@@ -466,6 +474,8 @@ const Strati = () => {
   const [draftRowSpan, setDraftRowSpan] = useState<number>(1);
   const [savedFlash, setSavedFlash] = useState(false);
   const [dragId, setDragId] = useState<string | null>(null);
+  const [panningTileId, setPanningTileId] = useState<string | null>(null);
+  const suppressTileClickRef = useRef(false);
 
   // ── Measure orientations ──
   const [orientations, setOrientations] = useState<Record<string, Orientation>>({});
