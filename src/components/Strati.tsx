@@ -281,17 +281,46 @@ const Strati = () => {
     | { kind: 'anchor'; conceptKey: string; prevAnchorId: string | null }
     | { kind: 'image'; prevPositions: { id: string; pos: number | null; isCustom: boolean }[] }
     | { kind: 'text'; prevPositions: { key: string; pos: number | null }[] };
-  const undoStackRef = useRef<ReorderUndo[]>([]);
-  const redoStackRef = useRef<ReorderUndo[]>([]);
-  const [undoCount, setUndoCount] = useState(0);
-  const [redoCount, setRedoCount] = useState(0);
-  const pushUndo = useCallback((u: ReorderUndo) => {
-    undoStackRef.current = [...undoStackRef.current, u].slice(-20);
-    // A new user action invalidates the redo stack.
-    redoStackRef.current = [];
-    setUndoCount(undoStackRef.current.length);
-    setRedoCount(0);
+  const UNDO_STORAGE_KEY = 'strati-undo-stack-v1';
+  const REDO_STORAGE_KEY = 'strati-redo-stack-v1';
+  const loadStack = (key: string): ReorderUndo[] => {
+    if (typeof window === 'undefined') return [];
+    try {
+      const raw = window.localStorage.getItem(key);
+      if (!raw) return [];
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? (parsed as ReorderUndo[]).slice(-20) : [];
+    } catch {
+      return [];
+    }
+  };
+  const persistStack = (key: string, stack: ReorderUndo[]) => {
+    if (typeof window === 'undefined') return;
+    try {
+      window.localStorage.setItem(key, JSON.stringify(stack));
+    } catch {
+      // ignore quota / serialization errors
+    }
+  };
+  const undoStackRef = useRef<ReorderUndo[]>(loadStack(UNDO_STORAGE_KEY));
+  const redoStackRef = useRef<ReorderUndo[]>(loadStack(REDO_STORAGE_KEY));
+  const [undoCount, setUndoCount] = useState(undoStackRef.current.length);
+  const [redoCount, setRedoCount] = useState(redoStackRef.current.length);
+  const setUndoStack = useCallback((stack: ReorderUndo[]) => {
+    undoStackRef.current = stack;
+    setUndoCount(stack.length);
+    persistStack(UNDO_STORAGE_KEY, stack);
   }, []);
+  const setRedoStack = useCallback((stack: ReorderUndo[]) => {
+    redoStackRef.current = stack;
+    setRedoCount(stack.length);
+    persistStack(REDO_STORAGE_KEY, stack);
+  }, []);
+  const pushUndo = useCallback((u: ReorderUndo) => {
+    setUndoStack([...undoStackRef.current, u].slice(-20));
+    // A new user action invalidates the redo stack.
+    setRedoStack([]);
+  }, [setUndoStack, setRedoStack]);
 
   // Load + realtime subscribe
   useEffect(() => {
@@ -787,19 +816,16 @@ const Strati = () => {
     const stack = undoStackRef.current;
     if (stack.length === 0) return;
     const last = stack[stack.length - 1];
-    undoStackRef.current = stack.slice(0, -1);
-    setUndoCount(undoStackRef.current.length);
+    setUndoStack(stack.slice(0, -1));
     try {
       const inverse = await applyReorderSnapshot(last);
-      redoStackRef.current = [...redoStackRef.current, inverse].slice(-20);
-      setRedoCount(redoStackRef.current.length);
+      setRedoStack([...redoStackRef.current, inverse].slice(-20));
       toast.success('Ultima modifica annullata');
     } catch {
       toast.error('Impossibile annullare: permesso negato o errore di rete');
-      undoStackRef.current = [...undoStackRef.current, last];
-      setUndoCount(undoStackRef.current.length);
+      setUndoStack([...undoStackRef.current, last]);
     }
-  }, [isAdmin, applyReorderSnapshot]);
+  }, [isAdmin, applyReorderSnapshot, setUndoStack, setRedoStack]);
 
   // Redo last undone reorder operation.
   const handleRedoReorder = useCallback(async () => {
@@ -807,19 +833,16 @@ const Strati = () => {
     const stack = redoStackRef.current;
     if (stack.length === 0) return;
     const last = stack[stack.length - 1];
-    redoStackRef.current = stack.slice(0, -1);
-    setRedoCount(redoStackRef.current.length);
+    setRedoStack(stack.slice(0, -1));
     try {
       const inverse = await applyReorderSnapshot(last);
-      undoStackRef.current = [...undoStackRef.current, inverse].slice(-20);
-      setUndoCount(undoStackRef.current.length);
+      setUndoStack([...undoStackRef.current, inverse].slice(-20));
       toast.success('Modifica ripetuta');
     } catch {
       toast.error('Impossibile ripetere: permesso negato o errore di rete');
-      redoStackRef.current = [...redoStackRef.current, last];
-      setRedoCount(redoStackRef.current.length);
+      setRedoStack([...redoStackRef.current, last]);
     }
-  }, [isAdmin, applyReorderSnapshot]);
+  }, [isAdmin, applyReorderSnapshot, setUndoStack, setRedoStack]);
 
   const handleSave = useCallback(async () => {
     if (!expandedTile) return;
