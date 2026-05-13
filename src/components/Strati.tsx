@@ -1273,11 +1273,11 @@ const Strati = () => {
                     if (!el) return;
                     if (tile.kind !== 'image' || !isAdmin) return;
                     // Attach a non-passive wheel listener so we can preventDefault page scroll.
+                    (el as any).__wheelCleanup?.();
                     const handler = (ev: WheelEvent) => {
                       handleTileWheelZoom(ev as unknown as React.WheelEvent<HTMLDivElement>, tile.id);
                     };
                     el.addEventListener('wheel', handler, { passive: false });
-                    (el as any).__wheelCleanup?.();
                     (el as any).__wheelCleanup = () => el.removeEventListener('wheel', handler);
                   }}
                   onPointerDown={(e) => {
