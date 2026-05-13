@@ -1246,16 +1246,12 @@ const Strati = () => {
                     gridColumn: `span ${tile.colSpan}`,
                     gridRow: `span ${tile.rowSpan}`,
                   }}
-                  draggable={isAdmin}
+                  draggable={isAdmin && isText}
                   onPointerDown={(e) => {
                     if (tile.kind === 'image') handleTilePanStart(e, tile.id);
                   }}
                   onDragStart={((e: React.DragEvent<HTMLDivElement>) => {
                     if (!isAdmin) return;
-                    if (tile.kind === 'image' && isPanningTileRef.current === tile.id) {
-                      e.preventDefault();
-                      return;
-                    }
                     setDragId(tile.id);
                     e.dataTransfer.effectAllowed = 'move';
                     e.dataTransfer.setData('text/plain', tile.id);
@@ -1314,6 +1310,26 @@ const Strati = () => {
                       draggable={false}
                       onDragStart={(e) => { e.preventDefault(); e.stopPropagation(); }}
                     >
+                      <div className="rounded-sm bg-background/90 backdrop-blur-sm border border-border px-1 py-0.5">
+                        <span
+                          role="button"
+                          tabIndex={0}
+                          draggable
+                          onPointerDown={(e) => e.stopPropagation()}
+                          onDragStart={(e) => {
+                            e.stopPropagation();
+                            setDragId(tile.id);
+                            e.dataTransfer.effectAllowed = 'move';
+                            e.dataTransfer.setData('text/plain', tile.id);
+                          }}
+                          onDragEnd={() => setDragId(null)}
+                          className="block px-1.5 font-body text-xs leading-none text-foreground hover:text-muted-foreground cursor-grab active:cursor-grabbing"
+                          aria-label="Trascina per riordinare tassello"
+                          title="Trascina per riordinare"
+                        >
+                          ↕
+                        </span>
+                      </div>
                       <div className="flex items-center gap-1 rounded-sm bg-background/90 backdrop-blur-sm border border-border px-1 py-0.5">
                         <button
                           type="button"
