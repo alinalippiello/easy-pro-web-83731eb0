@@ -475,6 +475,7 @@ const Strati = () => {
   const [savedFlash, setSavedFlash] = useState(false);
   const [dragId, setDragId] = useState<string | null>(null);
   const [panningTileId, setPanningTileId] = useState<string | null>(null);
+  const isPanningTileRef = useRef<string | null>(null);
   const suppressTileClickRef = useRef(false);
 
   // ── Measure orientations ──
