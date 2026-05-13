@@ -926,6 +926,39 @@ const Strati = () => {
     }
   }, [expandedTile, draftDescription, draftKeyword, conceptsMap]);
 
+  // Admin: quick inline image scale (+/-) directly on the tile.
+  const handleAdjustTileScale = useCallback(async (tileId: string, delta: number) => {
+    if (!isAdmin) return;
+    const ov = overrides[tileId];
+    const current = ov?.imageScale ?? 1;
+    const next = Math.max(1, Math.min(4, Math.round((current + delta) * 100) / 100));
+    if (next === current) return;
+    // Optimistic update
+    setOverrides((prev) => ({
+      ...prev,
+      [tileId]: { ...(prev[tileId] ?? { description: '' }), imageScale: next },
+    }));
+    try {
+      const { error } = await supabase.from('strati_overrides').upsert(
+        {
+          tile_id: tileId,
+          image_scale: next,
+          image_pos_x: ov?.imagePosX ?? 50,
+          image_pos_y: ov?.imagePosY ?? 50,
+        } as any,
+        { onConflict: 'tile_id' },
+      );
+      if (error) throw error;
+    } catch (e: any) {
+      // Revert
+      setOverrides((prev) => ({
+        ...prev,
+        [tileId]: { ...(prev[tileId] ?? { description: '' }), imageScale: current },
+      }));
+      toast.error(e?.message || 'Permesso negato: solo l\'admin reale può salvare lo zoom');
+    }
+  }, [isAdmin, overrides]);
+
   // ── Admin: tile delete / replace cover / add ──
   const isCustomTile = useCallback(
     (id: string) => customTiles.some((c) => c.id === id),
@@ -1155,6 +1188,38 @@ const Strati = () => {
                       }}
                       className="w-full h-full object-cover select-none pointer-events-none transition-transform duration-500"
                     />
+                  )}
+
+                  {isAdmin && !isText && tile.cover && (
+                    <div
+                      className="absolute top-1 right-1 z-20 flex items-center gap-1 rounded-sm bg-background/80 backdrop-blur-sm border border-border px-1 py-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
+                      onClick={(e) => e.stopPropagation()}
+                      onMouseDown={(e) => e.stopPropagation()}
+                      draggable={false}
+                      onDragStart={(e) => { e.preventDefault(); e.stopPropagation(); }}
+                    >
+                      <button
+                        type="button"
+                        onClick={(e) => { e.stopPropagation(); handleAdjustTileScale(tile.id, -0.1); }}
+                        className="px-1.5 font-body text-xs leading-none text-foreground hover:text-muted-foreground"
+                        aria-label="Riduci zoom immagine"
+                        title="Zoom out"
+                      >
+                        −
+                      </button>
+                      <span className="font-body text-[10px] tabular-nums text-muted-foreground min-w-[28px] text-center">
+                        {Math.round((tile.imageScale ?? 1) * 100)}%
+                      </span>
+                      <button
+                        type="button"
+                        onClick={(e) => { e.stopPropagation(); handleAdjustTileScale(tile.id, 0.1); }}
+                        className="px-1.5 font-body text-xs leading-none text-foreground hover:text-muted-foreground"
+                        aria-label="Aumenta zoom immagine"
+                        title="Zoom in"
+                      >
+                        +
+                      </button>
+                    </div>
                   )}
 
                   {isText && concept && (() => {
