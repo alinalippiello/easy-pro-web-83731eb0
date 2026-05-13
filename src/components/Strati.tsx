@@ -1620,16 +1620,16 @@ const Strati = () => {
                         <label className="flex flex-col gap-1 font-body text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
                           Zoom
                           <input
-                            type="range" min={1} max={4} step={0.05}
+                            type="range" min={MIN_IMAGE_SCALE} max={MAX_IMAGE_SCALE} step={0.05}
                             value={draftScale}
                             onChange={(e) => setDraftScale(parseFloat(e.target.value))}
                           />
                           <input
-                            type="number" min={1} max={4} step={0.01}
+                            type="number" min={MIN_IMAGE_SCALE} max={MAX_IMAGE_SCALE} step={0.01}
                             value={Number(draftScale.toFixed(2))}
                             onChange={(e) => {
                               const v = parseFloat(e.target.value);
-                              if (!isNaN(v)) setDraftScale(Math.max(1, Math.min(4, v)));
+                              if (!isNaN(v)) setDraftScale(clampNumber(v, MIN_IMAGE_SCALE, MAX_IMAGE_SCALE));
                             }}
                             className="w-full rounded-sm border border-border bg-background/60 px-2 py-1 font-body text-[11px] text-foreground normal-case tracking-normal focus:outline-none focus:ring-1 focus:ring-foreground/40"
                           />
