@@ -1058,6 +1058,31 @@ const Strati = () => {
     el.addEventListener('pointercancel', end);
   }, [isAdmin, overrides, persistTileFraming, realAdmin]);
 
+  // Admin: wheel-zoom inside the tile (keeps current pan offset).
+  const handleTileWheelZoom = useCallback((event: React.WheelEvent<HTMLDivElement>, tileId: string) => {
+    if (!isAdmin) return;
+    event.preventDefault();
+    event.stopPropagation();
+    const ov = overrides[tileId];
+    const current = ov?.imageScale ?? 1;
+    const factor = Math.exp(-event.deltaY * 0.0015);
+    const next = clampNumber(roundTo(current * factor), MIN_IMAGE_SCALE, MAX_IMAGE_SCALE);
+    if (next === current) return;
+    const posX = ov?.imagePosX ?? 50;
+    const posY = ov?.imagePosY ?? 50;
+    setOverrides((prev) => ({
+      ...prev,
+      [tileId]: { ...(prev[tileId] ?? { description: '' }), imageScale: next },
+    }));
+    suppressTileClickRef.current = true;
+    if (wheelPersistTimers.current[tileId]) clearTimeout(wheelPersistTimers.current[tileId]);
+    wheelPersistTimers.current[tileId] = setTimeout(() => {
+      persistTileFraming(tileId, next, posX, posY).catch((e: any) => {
+        toast.error(e?.message || 'Permesso negato: solo l\'admin reale può salvare lo zoom');
+      });
+    }, 250);
+  }, [isAdmin, overrides, persistTileFraming]);
+
   // ── Admin: tile delete / replace cover / add ──
   const isCustomTile = useCallback(
     (id: string) => customTiles.some((c) => c.id === id),
