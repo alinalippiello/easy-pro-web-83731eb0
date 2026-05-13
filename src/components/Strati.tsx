@@ -281,17 +281,46 @@ const Strati = () => {
     | { kind: 'anchor'; conceptKey: string; prevAnchorId: string | null }
     | { kind: 'image'; prevPositions: { id: string; pos: number | null; isCustom: boolean }[] }
     | { kind: 'text'; prevPositions: { key: string; pos: number | null }[] };
-  const undoStackRef = useRef<ReorderUndo[]>([]);
-  const redoStackRef = useRef<ReorderUndo[]>([]);
-  const [undoCount, setUndoCount] = useState(0);
-  const [redoCount, setRedoCount] = useState(0);
-  const pushUndo = useCallback((u: ReorderUndo) => {
-    undoStackRef.current = [...undoStackRef.current, u].slice(-20);
-    // A new user action invalidates the redo stack.
-    redoStackRef.current = [];
-    setUndoCount(undoStackRef.current.length);
-    setRedoCount(0);
+  const UNDO_STORAGE_KEY = 'strati-undo-stack-v1';
+  const REDO_STORAGE_KEY = 'strati-redo-stack-v1';
+  const loadStack = (key: string): ReorderUndo[] => {
+    if (typeof window === 'undefined') return [];
+    try {
+      const raw = window.localStorage.getItem(key);
+      if (!raw) return [];
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? (parsed as ReorderUndo[]).slice(-20) : [];
+    } catch {
+      return [];
+    }
+  };
+  const persistStack = (key: string, stack: ReorderUndo[]) => {
+    if (typeof window === 'undefined') return;
+    try {
+      window.localStorage.setItem(key, JSON.stringify(stack));
+    } catch {
+      // ignore quota / serialization errors
+    }
+  };
+  const undoStackRef = useRef<ReorderUndo[]>(loadStack(UNDO_STORAGE_KEY));
+  const redoStackRef = useRef<ReorderUndo[]>(loadStack(REDO_STORAGE_KEY));
+  const [undoCount, setUndoCount] = useState(undoStackRef.current.length);
+  const [redoCount, setRedoCount] = useState(redoStackRef.current.length);
+  const setUndoStack = useCallback((stack: ReorderUndo[]) => {
+    undoStackRef.current = stack;
+    setUndoCount(stack.length);
+    persistStack(UNDO_STORAGE_KEY, stack);
   }, []);
+  const setRedoStack = useCallback((stack: ReorderUndo[]) => {
+    redoStackRef.current = stack;
+    setRedoCount(stack.length);
+    persistStack(REDO_STORAGE_KEY, stack);
+  }, []);
+  const pushUndo = useCallback((u: ReorderUndo) => {
+    setUndoStack([...undoStackRef.current, u].slice(-20));
+    // A new user action invalidates the redo stack.
+    setRedoStack([]);
+  }, [setUndoStack, setRedoStack]);
 
   // Load + realtime subscribe
   useEffect(() => {
