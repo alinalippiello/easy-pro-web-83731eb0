@@ -936,29 +936,36 @@ const Strati = () => {
     }
   }, [expandedTile, draftDescription, draftKeyword, conceptsMap]);
 
+  const persistTileFraming = useCallback(async (tileId: string, scale: number, posX: number, posY: number) => {
+    if (!realAdmin) return;
+    const { error } = await supabase.from('strati_overrides').upsert(
+      {
+        tile_id: tileId,
+        image_scale: scale,
+        image_pos_x: posX,
+        image_pos_y: posY,
+      } as any,
+      { onConflict: 'tile_id' },
+    );
+    if (error) throw error;
+  }, [realAdmin]);
+
   // Admin: quick inline image scale (+/-) directly on the tile.
   const handleAdjustTileScale = useCallback(async (tileId: string, delta: number) => {
     if (!isAdmin) return;
     const ov = overrides[tileId];
     const current = ov?.imageScale ?? 1;
-    const next = Math.max(1, Math.min(4, Math.round((current + delta) * 100) / 100));
+    const next = clampNumber(roundTo(current + delta), MIN_IMAGE_SCALE, MAX_IMAGE_SCALE);
     if (next === current) return;
+    const posX = ov?.imagePosX ?? 50;
+    const posY = ov?.imagePosY ?? 50;
     // Optimistic update
     setOverrides((prev) => ({
       ...prev,
       [tileId]: { ...(prev[tileId] ?? { description: '' }), imageScale: next },
     }));
     try {
-      const { error } = await supabase.from('strati_overrides').upsert(
-        {
-          tile_id: tileId,
-          image_scale: next,
-          image_pos_x: ov?.imagePosX ?? 50,
-          image_pos_y: ov?.imagePosY ?? 50,
-        } as any,
-        { onConflict: 'tile_id' },
-      );
-      if (error) throw error;
+      await persistTileFraming(tileId, next, posX, posY);
     } catch (e: any) {
       // Revert
       setOverrides((prev) => ({
@@ -967,7 +974,7 @@ const Strati = () => {
       }));
       toast.error(e?.message || 'Permesso negato: solo l\'admin reale può salvare lo zoom');
     }
-  }, [isAdmin, overrides]);
+  }, [isAdmin, overrides, persistTileFraming]);
 
   // Admin: nudge image position inside tile (pan from main grid).
   const handleNudgeTilePosition = useCallback(async (tileId: string, dx: number, dy: number) => {
@@ -975,24 +982,16 @@ const Strati = () => {
     const ov = overrides[tileId];
     const curX = ov?.imagePosX ?? 50;
     const curY = ov?.imagePosY ?? 50;
-    const nextX = Math.max(0, Math.min(100, Math.round(curX + dx)));
-    const nextY = Math.max(0, Math.min(100, Math.round(curY + dy)));
+    const nextX = clampNumber(Math.round(curX + dx), 0, 100);
+    const nextY = clampNumber(Math.round(curY + dy), 0, 100);
     if (nextX === curX && nextY === curY) return;
+    const scale = ov?.imageScale ?? 1;
     setOverrides((prev) => ({
       ...prev,
       [tileId]: { ...(prev[tileId] ?? { description: '' }), imagePosX: nextX, imagePosY: nextY },
     }));
     try {
-      const { error } = await supabase.from('strati_overrides').upsert(
-        {
-          tile_id: tileId,
-          image_scale: ov?.imageScale ?? 1,
-          image_pos_x: nextX,
-          image_pos_y: nextY,
-        } as any,
-        { onConflict: 'tile_id' },
-      );
-      if (error) throw error;
+      await persistTileFraming(tileId, scale, nextX, nextY);
     } catch (e: any) {
       setOverrides((prev) => ({
         ...prev,
@@ -1000,7 +999,7 @@ const Strati = () => {
       }));
       toast.error(e?.message || 'Permesso negato: solo l\'admin reale può salvare la posizione');
     }
-  }, [isAdmin, overrides]);
+  }, [isAdmin, overrides, persistTileFraming]);
 
   // ── Admin: tile delete / replace cover / add ──
   const isCustomTile = useCallback(
