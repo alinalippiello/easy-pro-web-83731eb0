@@ -816,19 +816,16 @@ const Strati = () => {
     const stack = undoStackRef.current;
     if (stack.length === 0) return;
     const last = stack[stack.length - 1];
-    undoStackRef.current = stack.slice(0, -1);
-    setUndoCount(undoStackRef.current.length);
+    setUndoStack(stack.slice(0, -1));
     try {
       const inverse = await applyReorderSnapshot(last);
-      redoStackRef.current = [...redoStackRef.current, inverse].slice(-20);
-      setRedoCount(redoStackRef.current.length);
+      setRedoStack([...redoStackRef.current, inverse].slice(-20));
       toast.success('Ultima modifica annullata');
     } catch {
       toast.error('Impossibile annullare: permesso negato o errore di rete');
-      undoStackRef.current = [...undoStackRef.current, last];
-      setUndoCount(undoStackRef.current.length);
+      setUndoStack([...undoStackRef.current, last]);
     }
-  }, [isAdmin, applyReorderSnapshot]);
+  }, [isAdmin, applyReorderSnapshot, setUndoStack, setRedoStack]);
 
   // Redo last undone reorder operation.
   const handleRedoReorder = useCallback(async () => {
@@ -836,19 +833,16 @@ const Strati = () => {
     const stack = redoStackRef.current;
     if (stack.length === 0) return;
     const last = stack[stack.length - 1];
-    redoStackRef.current = stack.slice(0, -1);
-    setRedoCount(redoStackRef.current.length);
+    setRedoStack(stack.slice(0, -1));
     try {
       const inverse = await applyReorderSnapshot(last);
-      undoStackRef.current = [...undoStackRef.current, inverse].slice(-20);
-      setUndoCount(undoStackRef.current.length);
+      setUndoStack([...undoStackRef.current, inverse].slice(-20));
       toast.success('Modifica ripetuta');
     } catch {
       toast.error('Impossibile ripetere: permesso negato o errore di rete');
-      redoStackRef.current = [...redoStackRef.current, last];
-      setRedoCount(redoStackRef.current.length);
+      setRedoStack([...redoStackRef.current, last]);
     }
-  }, [isAdmin, applyReorderSnapshot]);
+  }, [isAdmin, applyReorderSnapshot, setUndoStack, setRedoStack]);
 
   const handleSave = useCallback(async () => {
     if (!expandedTile) return;
