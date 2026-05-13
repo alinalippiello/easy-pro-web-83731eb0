@@ -476,6 +476,7 @@ const Strati = () => {
   const [dragId, setDragId] = useState<string | null>(null);
   const [panningTileId, setPanningTileId] = useState<string | null>(null);
   const suppressTileClickRef = useRef(false);
+  const wheelPersistTimers = useRef<Record<string, ReturnType<typeof setTimeout>>>({});
 
   // ── Measure orientations ──
   const [orientations, setOrientations] = useState<Record<string, Orientation>>({});
@@ -1057,6 +1058,31 @@ const Strati = () => {
     el.addEventListener('pointercancel', end);
   }, [isAdmin, overrides, persistTileFraming, realAdmin]);
 
+  // Admin: wheel-zoom inside the tile (keeps current pan offset).
+  const handleTileWheelZoom = useCallback((event: React.WheelEvent<HTMLDivElement>, tileId: string) => {
+    if (!isAdmin) return;
+    event.preventDefault();
+    event.stopPropagation();
+    const ov = overrides[tileId];
+    const current = ov?.imageScale ?? 1;
+    const factor = Math.exp(-event.deltaY * 0.0015);
+    const next = clampNumber(roundTo(current * factor), MIN_IMAGE_SCALE, MAX_IMAGE_SCALE);
+    if (next === current) return;
+    const posX = ov?.imagePosX ?? 50;
+    const posY = ov?.imagePosY ?? 50;
+    setOverrides((prev) => ({
+      ...prev,
+      [tileId]: { ...(prev[tileId] ?? { description: '' }), imageScale: next },
+    }));
+    suppressTileClickRef.current = true;
+    if (wheelPersistTimers.current[tileId]) clearTimeout(wheelPersistTimers.current[tileId]);
+    wheelPersistTimers.current[tileId] = setTimeout(() => {
+      persistTileFraming(tileId, next, posX, posY).catch((e: any) => {
+        toast.error(e?.message || 'Permesso negato: solo l\'admin reale può salvare lo zoom');
+      });
+    }, 250);
+  }, [isAdmin, overrides, persistTileFraming]);
+
   // ── Admin: tile delete / replace cover / add ──
   const isCustomTile = useCallback(
     (id: string) => customTiles.some((c) => c.id === id),
@@ -1243,6 +1269,17 @@ const Strati = () => {
                     gridRow: `span ${tile.rowSpan}`,
                   }}
                   draggable={isAdmin && isText}
+                  ref={(el) => {
+                    if (!el) return;
+                    if (tile.kind !== 'image' || !isAdmin) return;
+                    // Attach a non-passive wheel listener so we can preventDefault page scroll.
+                    (el as any).__wheelCleanup?.();
+                    const handler = (ev: WheelEvent) => {
+                      handleTileWheelZoom(ev as unknown as React.WheelEvent<HTMLDivElement>, tile.id);
+                    };
+                    el.addEventListener('wheel', handler, { passive: false });
+                    (el as any).__wheelCleanup = () => el.removeEventListener('wheel', handler);
+                  }}
                   onPointerDown={(e) => {
                     if (tile.kind === 'image') handleTilePanStart(e, tile.id);
                   }}
@@ -1293,7 +1330,7 @@ const Strati = () => {
                          transformOrigin: `${tile.imagePosX ?? 50}% ${tile.imagePosY ?? 50}%`,
                          objectPosition: `${tile.imagePosX ?? 50}% ${tile.imagePosY ?? 50}%`,
                        }}
-                       className={`w-full h-full select-none pointer-events-none transition-transform duration-500 ${(tile.imageScale ?? 1) < 1 ? 'object-contain' : 'object-cover'}`}
+                       className="w-full h-full object-cover select-none pointer-events-none transition-transform duration-200"
                      />
                   )}
 
