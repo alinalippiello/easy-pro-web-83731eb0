@@ -1239,16 +1239,23 @@ const Strati = () => {
               return (
               <motion.div
                   key={tile.id}
-                  className={`relative overflow-hidden rounded-sm group ${isAdmin ? 'cursor-grab active:cursor-grabbing' : 'cursor-pointer'} ${
+                  className={`relative overflow-hidden rounded-sm group ${isAdmin && !isText ? 'cursor-grab active:cursor-grabbing touch-none' : isAdmin ? 'cursor-grab active:cursor-grabbing' : 'cursor-pointer'} ${
                     isText ? 'bg-background border border-border/40' : 'bg-card'
-                  } ${isAdmin && dragId && dragId !== tile.id ? 'ring-1 ring-foreground/20' : ''} ${isAdmin && dragId === tile.id ? 'opacity-60' : ''} ${isHidden ? 'opacity-30 ring-1 ring-destructive/60' : ''}`}
+                  } ${isAdmin && panningTileId === tile.id ? 'ring-1 ring-foreground/40' : ''} ${isAdmin && dragId && dragId !== tile.id ? 'ring-1 ring-foreground/20' : ''} ${isAdmin && dragId === tile.id ? 'opacity-60' : ''} ${isHidden ? 'opacity-30 ring-1 ring-destructive/60' : ''}`}
                   style={{
                     gridColumn: `span ${tile.colSpan}`,
                     gridRow: `span ${tile.rowSpan}`,
                   }}
                   draggable={isAdmin}
+                  onPointerDown={(e) => {
+                    if (tile.kind === 'image') handleTilePanStart(e, tile.id);
+                  }}
                   onDragStart={((e: React.DragEvent<HTMLDivElement>) => {
                     if (!isAdmin) return;
+                    if (tile.kind === 'image' && isPanningTileRef.current === tile.id) {
+                      e.preventDefault();
+                      return;
+                    }
                     setDragId(tile.id);
                     e.dataTransfer.effectAllowed = 'move';
                     e.dataTransfer.setData('text/plain', tile.id);
@@ -1269,7 +1276,13 @@ const Strati = () => {
                     if (src) handleTileDrop(src, tile);
                     setDragId(null);
                   }) as any}
-                  onClick={() => { if (!dragId) openTile(tile); }}
+                  onClick={() => {
+                    if (suppressTileClickRef.current) {
+                      suppressTileClickRef.current = false;
+                      return;
+                    }
+                    if (!dragId) openTile(tile);
+                  }}
                   onMouseEnter={() => !isText && concept && setActiveTile(tile.id)}
                   onMouseLeave={() => !isText && concept && setActiveTile((prev) => (prev === tile.id ? null : prev))}
                   whileHover={isText || isAdmin ? undefined : { scale: 1.015 }}
@@ -1294,6 +1307,7 @@ const Strati = () => {
 
                   {isAdmin && !isText && tile.cover && (
                     <div
+                      data-tile-controls="true"
                       className="absolute top-1 right-1 z-20 flex flex-col items-end gap-1"
                       onClick={(e) => e.stopPropagation()}
                       onMouseDown={(e) => e.stopPropagation()}
