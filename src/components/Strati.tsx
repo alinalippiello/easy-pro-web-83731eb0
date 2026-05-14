@@ -1476,6 +1476,17 @@ const Strati = () => {
                         >↓</button>
                         <span />
                       </div>
+                      <div className="flex items-center justify-center rounded-sm bg-background/90 backdrop-blur-sm border border-border px-1 py-0.5">
+                        <button
+                          type="button"
+                          onClick={(e) => { e.stopPropagation(); handleFitToFrame(tile.id); }}
+                          className="font-body text-[10px] uppercase tracking-[0.1em] leading-none text-foreground hover:text-muted-foreground"
+                          aria-label="Adatta immagine alla cornice"
+                          title="Adatta alla cornice"
+                        >
+                          Adatta
+                        </button>
+                      </div>
                     </div>
                   )}
 
