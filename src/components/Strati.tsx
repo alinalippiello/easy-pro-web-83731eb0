@@ -1259,8 +1259,9 @@ const Strati = () => {
               const isText = tile.kind === 'text';
               const isHidden = tile.kind === 'image' && hiddenIdSet.has(tile.id);
               return (
-              <motion.div
+                <motion.div
                   key={tile.id}
+                  data-tile-id={tile.id}
                   className={`relative overflow-hidden rounded-sm group ${isAdmin && !isText ? 'cursor-grab active:cursor-grabbing touch-none' : isAdmin ? 'cursor-grab active:cursor-grabbing' : 'cursor-pointer'} ${
                     isText ? 'bg-background border border-border/40' : 'bg-card'
                   } ${isAdmin && panningTileId === tile.id ? 'ring-1 ring-foreground/40' : ''} ${isAdmin && dragId && dragId !== tile.id ? 'ring-1 ring-foreground/20' : ''} ${isAdmin && dragId === tile.id ? 'opacity-60' : ''} ${isHidden ? 'opacity-30 ring-1 ring-destructive/60' : ''}`}
