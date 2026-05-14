@@ -1083,6 +1083,58 @@ const Strati = () => {
     }, 250);
   }, [isAdmin, overrides, persistTileFraming]);
 
+  // Admin: auto-fit image inside tile bounds (object-contain-like framing).
+  const handleFitToFrame = useCallback(async (tileId: string) => {
+    if (!isAdmin) return;
+    const tileEl = document.querySelector(`[data-tile-id="${tileId}"]`) as HTMLElement | null;
+    const imgEl = tileEl?.querySelector('img') as HTMLImageElement | null;
+    if (!tileEl || !imgEl) {
+      toast.error('Elemento non trovato');
+      return;
+    }
+    let nw = imgEl.naturalWidth;
+    let nh = imgEl.naturalHeight;
+    const cw = tileEl.clientWidth;
+    const ch = tileEl.clientHeight;
+    if (!nw || !nh) {
+      const img = new Image();
+      img.src = imgEl.src;
+      await new Promise<void>((resolve, reject) => {
+        img.onload = () => resolve();
+        img.onerror = () => reject();
+      }).catch(() => {
+        toast.error('Impossibile leggere le dimensioni immagine');
+      });
+      nw = img.naturalWidth;
+      nh = img.naturalHeight;
+    }
+    if (!nw || !nh || !cw || !ch) return;
+    const tileAspect = cw / ch;
+    const imgAspect = nw / nh;
+    const rawScale = Math.min(tileAspect / imgAspect, imgAspect / tileAspect);
+    const nextScale = clampNumber(roundTo(rawScale), MIN_IMAGE_SCALE, MAX_IMAGE_SCALE);
+    const nextX = 50;
+    const nextY = 50;
+    const ov = overrides[tileId];
+    const prevScale = ov?.imageScale ?? 1;
+    const prevX = ov?.imagePosX ?? 50;
+    const prevY = ov?.imagePosY ?? 50;
+    if (nextScale === prevScale && nextX === prevX && nextY === prevY) return;
+    setOverrides((prev) => ({
+      ...prev,
+      [tileId]: { ...(prev[tileId] ?? { description: '' }), imageScale: nextScale, imagePosX: nextX, imagePosY: nextY },
+    }));
+    try {
+      await persistTileFraming(tileId, nextScale, nextX, nextY);
+    } catch (e: any) {
+      setOverrides((prev) => ({
+        ...prev,
+        [tileId]: { ...(prev[tileId] ?? { description: '' }), imageScale: prevScale, imagePosX: prevX, imagePosY: prevY },
+      }));
+      toast.error(e?.message || 'Permesso negato: solo l\'admin reale può salvare l\'inquadratura');
+    }
+  }, [isAdmin, overrides, persistTileFraming]);
+
   // ── Admin: tile delete / replace cover / add ──
   const isCustomTile = useCallback(
     (id: string) => customTiles.some((c) => c.id === id),
@@ -1259,8 +1311,9 @@ const Strati = () => {
               const isText = tile.kind === 'text';
               const isHidden = tile.kind === 'image' && hiddenIdSet.has(tile.id);
               return (
-              <motion.div
+                <motion.div
                   key={tile.id}
+                  data-tile-id={tile.id}
                   className={`relative overflow-hidden rounded-sm group ${isAdmin && !isText ? 'cursor-grab active:cursor-grabbing touch-none' : isAdmin ? 'cursor-grab active:cursor-grabbing' : 'cursor-pointer'} ${
                     isText ? 'bg-background border border-border/40' : 'bg-card'
                   } ${isAdmin && panningTileId === tile.id ? 'ring-1 ring-foreground/40' : ''} ${isAdmin && dragId && dragId !== tile.id ? 'ring-1 ring-foreground/20' : ''} ${isAdmin && dragId === tile.id ? 'opacity-60' : ''} ${isHidden ? 'opacity-30 ring-1 ring-destructive/60' : ''}`}
@@ -1422,6 +1475,17 @@ const Strati = () => {
                           title="Sposta giù"
                         >↓</button>
                         <span />
+                      </div>
+                      <div className="flex items-center justify-center rounded-sm bg-background/90 backdrop-blur-sm border border-border px-1 py-0.5">
+                        <button
+                          type="button"
+                          onClick={(e) => { e.stopPropagation(); handleFitToFrame(tile.id); }}
+                          className="font-body text-[10px] uppercase tracking-[0.1em] leading-none text-foreground hover:text-muted-foreground"
+                          aria-label="Adatta immagine alla cornice"
+                          title="Adatta alla cornice"
+                        >
+                          Adatta
+                        </button>
                       </div>
                     </div>
                   )}
