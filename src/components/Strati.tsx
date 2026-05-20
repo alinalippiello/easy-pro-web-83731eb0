@@ -1310,6 +1310,14 @@ const Strati = () => {
               const isActive = activeTile === tile.id;
               const isText = tile.kind === 'text';
               const isHidden = tile.kind === 'image' && hiddenIdSet.has(tile.id);
+              const sameKindTiles = layout.tiles.filter((t) => t.kind === tile.kind);
+              const sameKindIdx = sameKindTiles.findIndex((t) => t.id === tile.id);
+              const moveTile = (delta: number) => {
+                const target = sameKindTiles[sameKindIdx + delta];
+                if (target) handleTileDrop(tile, target);
+              };
+              const canMovePrev = sameKindIdx > 0;
+              const canMoveNext = sameKindIdx >= 0 && sameKindIdx < sameKindTiles.length - 1;
               return (
                 <motion.div
                   key={tile.id}
@@ -1416,9 +1424,29 @@ const Strati = () => {
                           ↕
                         </span>
                       </div>
+                      <div className="flex items-center gap-0.5 rounded-sm bg-background/90 backdrop-blur-sm border border-border px-1 py-0.5">
+                        <button
+                          type="button"
+                          disabled={!canMovePrev}
+                          onClick={(e) => { e.stopPropagation(); moveTile(-1); }}
+                          className="px-1.5 font-body text-xs leading-none text-foreground hover:text-muted-foreground disabled:opacity-30"
+                          aria-label="Sposta tessera indietro"
+                          title="Sposta tessera ←"
+                        >⇤</button>
+                        <span className="font-body text-[9px] tabular-nums text-muted-foreground px-0.5">tess</span>
+                        <button
+                          type="button"
+                          disabled={!canMoveNext}
+                          onClick={(e) => { e.stopPropagation(); moveTile(1); }}
+                          className="px-1.5 font-body text-xs leading-none text-foreground hover:text-muted-foreground disabled:opacity-30"
+                          aria-label="Sposta tessera avanti"
+                          title="Sposta tessera →"
+                        >⇥</button>
+                      </div>
                       <div className="flex items-center gap-1 rounded-sm bg-background/90 backdrop-blur-sm border border-border px-1 py-0.5">
                         <button
                           type="button"
+
                           onClick={(e) => { e.stopPropagation(); handleAdjustTileScale(tile.id, -0.1); }}
                           className="px-1.5 font-body text-xs leading-none text-foreground hover:text-muted-foreground"
                           aria-label="Riduci zoom immagine"
@@ -1516,6 +1544,33 @@ const Strati = () => {
                       </div>
                     );
                   })()}
+
+                  {isText && isAdmin && (
+                    <div
+                      className="absolute top-1 right-1 z-20 flex items-center gap-0.5 rounded-sm bg-background/90 backdrop-blur-sm border border-border px-1 py-0.5"
+                      onClick={(e) => e.stopPropagation()}
+                      onMouseDown={(e) => e.stopPropagation()}
+                      onPointerDown={(e) => e.stopPropagation()}
+                    >
+                      <button
+                        type="button"
+                        disabled={!canMovePrev}
+                        onClick={(e) => { e.stopPropagation(); moveTile(-1); }}
+                        className="px-1.5 font-body text-xs leading-none text-foreground hover:text-muted-foreground disabled:opacity-30"
+                        aria-label="Sposta keyword indietro"
+                        title="Sposta ←"
+                      >⇤</button>
+                      <button
+                        type="button"
+                        disabled={!canMoveNext}
+                        onClick={(e) => { e.stopPropagation(); moveTile(1); }}
+                        className="px-1.5 font-body text-xs leading-none text-foreground hover:text-muted-foreground disabled:opacity-30"
+                        aria-label="Sposta keyword avanti"
+                        title="Sposta →"
+                      >⇥</button>
+                    </div>
+                  )}
+
 
                   {!isText && concept && (
                     <>
