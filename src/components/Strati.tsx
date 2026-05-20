@@ -474,6 +474,8 @@ const Strati = () => {
   const [draftRowSpan, setDraftRowSpan] = useState<number>(1);
   const [savedFlash, setSavedFlash] = useState(false);
   const [dragId, setDragId] = useState<string | null>(null);
+  const [dragOverId, setDragOverId] = useState<string | null>(null);
+  const [reorderMode, setReorderMode] = useState<boolean>(false);
   const [panningTileId, setPanningTileId] = useState<string | null>(null);
   const suppressTileClickRef = useRef(false);
   const wheelPersistTimers = useRef<Record<string, ReturnType<typeof setTimeout>>>({});
