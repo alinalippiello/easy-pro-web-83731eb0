@@ -1443,8 +1443,10 @@ const Strati = () => {
                           title="Sposta tessera →"
                         >⇥</button>
                       </div>
-
+                      <div className="flex items-center gap-1 rounded-sm bg-background/90 backdrop-blur-sm border border-border px-1 py-0.5">
+                        <button
                           type="button"
+
                           onClick={(e) => { e.stopPropagation(); handleAdjustTileScale(tile.id, -0.1); }}
                           className="px-1.5 font-body text-xs leading-none text-foreground hover:text-muted-foreground"
                           aria-label="Riduci zoom immagine"
