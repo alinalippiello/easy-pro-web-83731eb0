@@ -1545,6 +1545,33 @@ const Strati = () => {
                     );
                   })()}
 
+                  {isText && isAdmin && (
+                    <div
+                      className="absolute top-1 right-1 z-20 flex items-center gap-0.5 rounded-sm bg-background/90 backdrop-blur-sm border border-border px-1 py-0.5"
+                      onClick={(e) => e.stopPropagation()}
+                      onMouseDown={(e) => e.stopPropagation()}
+                      onPointerDown={(e) => e.stopPropagation()}
+                    >
+                      <button
+                        type="button"
+                        disabled={!canMovePrev}
+                        onClick={(e) => { e.stopPropagation(); moveTile(-1); }}
+                        className="px-1.5 font-body text-xs leading-none text-foreground hover:text-muted-foreground disabled:opacity-30"
+                        aria-label="Sposta keyword indietro"
+                        title="Sposta ←"
+                      >⇤</button>
+                      <button
+                        type="button"
+                        disabled={!canMoveNext}
+                        onClick={(e) => { e.stopPropagation(); moveTile(1); }}
+                        className="px-1.5 font-body text-xs leading-none text-foreground hover:text-muted-foreground disabled:opacity-30"
+                        aria-label="Sposta keyword avanti"
+                        title="Sposta →"
+                      >⇥</button>
+                    </div>
+                  )}
+
+
                   {!isText && concept && (
                     <>
                       <motion.div
