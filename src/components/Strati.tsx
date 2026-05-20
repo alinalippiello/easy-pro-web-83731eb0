@@ -1267,7 +1267,15 @@ const Strati = () => {
             <div className="mb-4 flex flex-wrap items-center justify-center gap-2">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-foreground/30 bg-background font-body text-[10px] uppercase tracking-[0.2em] text-foreground/70">
                 <span className="w-1.5 h-1.5 rounded-full bg-foreground animate-pulse" />
-                Admin · trascina per riordinare · click per modificare/eliminare/sostituire
+                Admin · {reorderMode ? 'modalità riordino attiva · trascina le tessere' : 'click per modificare · attiva Riordina per trascinare'}
+              </div>
+              <button
+                type="button"
+                onClick={() => setReorderMode((v) => !v)}
+                className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border font-body text-[10px] uppercase tracking-[0.2em] transition ${reorderMode ? 'bg-foreground text-background border-foreground' : 'bg-background text-foreground border-foreground/40 hover:bg-foreground hover:text-background'}`}
+                title="Attiva/disattiva il riordino drag-and-drop delle tessere"
+              >
+                {reorderMode ? '✓ Riordina (ON)' : '↔ Riordina (OFF)'}
               </div>
               <label className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-foreground/40 bg-foreground text-background font-body text-[10px] uppercase tracking-[0.2em] cursor-pointer hover:bg-foreground/90 transition">
                 + Aggiungi tassello immagine
