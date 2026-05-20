@@ -1276,7 +1276,7 @@ const Strati = () => {
                 title="Attiva/disattiva il riordino drag-and-drop delle tessere"
               >
                 {reorderMode ? '✓ Riordina (ON)' : '↔ Riordina (OFF)'}
-              </div>
+              </button>
               <label className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-foreground/40 bg-foreground text-background font-body text-[10px] uppercase tracking-[0.2em] cursor-pointer hover:bg-foreground/90 transition">
                 + Aggiungi tassello immagine
                 <input
