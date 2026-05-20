@@ -1790,34 +1790,56 @@ const Strati = () => {
                   )}
 
                   {/* Tile size — admin can make image span more columns/rows */}
-                  {expandedTile.kind === 'image' && (
-                    <div className="grid gap-2">
-                      <label className="block font-body text-[10px] md:text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                        Dimensione tassello
-                      </label>
-                      <div className="grid grid-cols-2 gap-3">
-                        <label className="flex flex-col gap-1 font-body text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-                          Colonne ({draftColSpan})
-                          <input
-                            type="range" min={1} max={cols} step={1}
-                            value={draftColSpan}
-                            onChange={(e) => setDraftColSpan(parseInt(e.target.value, 10))}
-                          />
+                  {expandedTile.kind === 'image' && (() => {
+                    const maxCols = Math.min(4, cols);
+                    const maxRows = 4;
+                    return (
+                      <div className="grid gap-2">
+                        <label className="block font-body text-[10px] md:text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                          Dimensione tassello
                         </label>
-                        <label className="flex flex-col gap-1 font-body text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-                          Righe ({draftRowSpan})
-                          <input
-                            type="range" min={1} max={4} step={1}
-                            value={draftRowSpan}
-                            onChange={(e) => setDraftRowSpan(parseInt(e.target.value, 10))}
-                          />
-                        </label>
+                        <div className="grid grid-cols-2 gap-3">
+                          <label className="flex flex-col gap-1 font-body text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+                            Larghezza (colonne)
+                            <input
+                              type="number"
+                              min={1}
+                              max={maxCols}
+                              step={1}
+                              value={draftColSpan}
+                              onChange={(e) => {
+                                const n = parseInt(e.target.value, 10);
+                                if (Number.isFinite(n)) {
+                                  setDraftColSpan(Math.max(1, Math.min(maxCols, n)));
+                                }
+                              }}
+                              className="rounded-sm border border-border bg-background/60 px-2 py-1 font-body text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-foreground/40"
+                            />
+                          </label>
+                          <label className="flex flex-col gap-1 font-body text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+                            Altezza (righe)
+                            <input
+                              type="number"
+                              min={1}
+                              max={maxRows}
+                              step={1}
+                              value={draftRowSpan}
+                              onChange={(e) => {
+                                const n = parseInt(e.target.value, 10);
+                                if (Number.isFinite(n)) {
+                                  setDraftRowSpan(Math.max(1, Math.min(maxRows, n)));
+                                }
+                              }}
+                              className="rounded-sm border border-border bg-background/60 px-2 py-1 font-body text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-foreground/40"
+                            />
+                          </label>
+                        </div>
+                        <p className="font-body text-[10px] text-muted-foreground/80 normal-case tracking-normal -mt-1">
+                          Valori da 1 a {maxCols} (larghezza) e 1 a {maxRows} (altezza). Salva per applicare al mosaico.
+                        </p>
                       </div>
-                      <p className="font-body text-[10px] text-muted-foreground/80 normal-case tracking-normal -mt-1">
-                        Aumenta colonne/righe per ingrandire l'immagine nella griglia. Salva per applicare.
-                      </p>
-                    </div>
-                  )}
+                    );
+                  })()}
 
                   {/* Description field + template selector */}
                   <div>
