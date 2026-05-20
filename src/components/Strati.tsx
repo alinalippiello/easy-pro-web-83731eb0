@@ -474,6 +474,8 @@ const Strati = () => {
   const [draftRowSpan, setDraftRowSpan] = useState<number>(1);
   const [savedFlash, setSavedFlash] = useState(false);
   const [dragId, setDragId] = useState<string | null>(null);
+  const [dragOverId, setDragOverId] = useState<string | null>(null);
+  const [reorderMode, setReorderMode] = useState<boolean>(false);
   const [panningTileId, setPanningTileId] = useState<string | null>(null);
   const suppressTileClickRef = useRef(false);
   const wheelPersistTimers = useRef<Record<string, ReturnType<typeof setTimeout>>>({});
@@ -1265,8 +1267,16 @@ const Strati = () => {
             <div className="mb-4 flex flex-wrap items-center justify-center gap-2">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-foreground/30 bg-background font-body text-[10px] uppercase tracking-[0.2em] text-foreground/70">
                 <span className="w-1.5 h-1.5 rounded-full bg-foreground animate-pulse" />
-                Admin · trascina per riordinare · click per modificare/eliminare/sostituire
+                Admin · {reorderMode ? 'modalità riordino attiva · trascina le tessere' : 'click per modificare · attiva Riordina per trascinare'}
               </div>
+              <button
+                type="button"
+                onClick={() => setReorderMode((v) => !v)}
+                className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border font-body text-[10px] uppercase tracking-[0.2em] transition ${reorderMode ? 'bg-foreground text-background border-foreground' : 'bg-background text-foreground border-foreground/40 hover:bg-foreground hover:text-background'}`}
+                title="Attiva/disattiva il riordino drag-and-drop delle tessere"
+              >
+                {reorderMode ? '✓ Riordina (ON)' : '↔ Riordina (OFF)'}
+              </button>
               <label className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-foreground/40 bg-foreground text-background font-body text-[10px] uppercase tracking-[0.2em] cursor-pointer hover:bg-foreground/90 transition">
                 + Aggiungi tassello immagine
                 <input
@@ -1322,14 +1332,14 @@ const Strati = () => {
                 <motion.div
                   key={tile.id}
                   data-tile-id={tile.id}
-                  className={`relative overflow-hidden rounded-sm group ${isAdmin && !isText ? 'cursor-grab active:cursor-grabbing touch-none' : isAdmin ? 'cursor-grab active:cursor-grabbing' : 'cursor-pointer'} ${
+                  className={`relative overflow-hidden rounded-sm group ${isAdmin && reorderMode ? 'cursor-grab active:cursor-grabbing' : isAdmin && !isText ? 'cursor-grab active:cursor-grabbing touch-none' : isAdmin ? 'cursor-grab active:cursor-grabbing' : 'cursor-pointer'} ${
                     isText ? 'bg-background border border-border/40' : 'bg-card'
-                  } ${isAdmin && panningTileId === tile.id ? 'ring-1 ring-foreground/40' : ''} ${isAdmin && dragId && dragId !== tile.id ? 'ring-1 ring-foreground/20' : ''} ${isAdmin && dragId === tile.id ? 'opacity-60' : ''} ${isHidden ? 'opacity-30 ring-1 ring-destructive/60' : ''}`}
+                  } ${isAdmin && panningTileId === tile.id ? 'ring-1 ring-foreground/40' : ''} ${isAdmin && dragId && dragId !== tile.id ? 'ring-1 ring-foreground/20' : ''} ${isAdmin && dragOverId === tile.id && dragId && dragId !== tile.id ? 'ring-2 ring-foreground/70' : ''} ${isAdmin && dragId === tile.id ? 'opacity-60' : ''} ${isHidden ? 'opacity-30 ring-1 ring-destructive/60' : ''}`}
                   style={{
                     gridColumn: `span ${tile.colSpan}`,
                     gridRow: `span ${tile.rowSpan}`,
                   }}
-                  draggable={isAdmin && isText}
+                  draggable={isAdmin && (reorderMode || isText)}
                   ref={(el) => {
                     if (!el) return;
                     if (tile.kind !== 'image' || !isAdmin) return;
@@ -1342,6 +1352,7 @@ const Strati = () => {
                     (el as any).__wheelCleanup = () => el.removeEventListener('wheel', handler);
                   }}
                   onPointerDown={(e) => {
+                    if (reorderMode) return;
                     if (tile.kind === 'image') handleTilePanStart(e, tile.id);
                   }}
                   onDragStart={((e: React.DragEvent<HTMLDivElement>) => {
@@ -1350,20 +1361,25 @@ const Strati = () => {
                     e.dataTransfer.effectAllowed = 'move';
                     e.dataTransfer.setData('text/plain', tile.id);
                   }) as any}
-                  onDragEnd={(() => setDragId(null)) as any}
+                  onDragEnd={(() => { setDragId(null); setDragOverId(null); }) as any}
                   onDragOver={((e: React.DragEvent<HTMLDivElement>) => {
                     if (!isAdmin || !dragId) return;
                     // Allow same-kind reordering AND cross-kind (image ↔ text) anchoring.
                     e.preventDefault();
                     e.dataTransfer.dropEffect = 'move';
+                    if (dragOverId !== tile.id) setDragOverId(tile.id);
+                  }) as any}
+                  onDragLeave={(() => {
+                    if (dragOverId === tile.id) setDragOverId(null);
                   }) as any}
                   onDrop={((e: React.DragEvent<HTMLDivElement>) => {
                     if (!isAdmin) return;
                     e.preventDefault();
                     const srcId = e.dataTransfer.getData('text/plain') || dragId;
+                    setDragOverId(null);
                     if (!srcId) return;
                     const src = layout.tiles.find((t) => t.id === srcId);
-                    if (src) handleTileDrop(src, tile);
+                    if (src && src.id !== tile.id) handleTileDrop(src, tile);
                     setDragId(null);
                   }) as any}
                   onClick={() => {
