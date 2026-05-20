@@ -1310,6 +1310,14 @@ const Strati = () => {
               const isActive = activeTile === tile.id;
               const isText = tile.kind === 'text';
               const isHidden = tile.kind === 'image' && hiddenIdSet.has(tile.id);
+              const sameKindTiles = layout.tiles.filter((t) => t.kind === tile.kind);
+              const sameKindIdx = sameKindTiles.findIndex((t) => t.id === tile.id);
+              const moveTile = (delta: number) => {
+                const target = sameKindTiles[sameKindIdx + delta];
+                if (target) handleTileDrop(tile, target);
+              };
+              const canMovePrev = sameKindIdx > 0;
+              const canMoveNext = sameKindIdx >= 0 && sameKindIdx < sameKindTiles.length - 1;
               return (
                 <motion.div
                   key={tile.id}
