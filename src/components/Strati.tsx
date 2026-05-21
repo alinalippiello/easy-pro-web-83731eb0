@@ -64,15 +64,10 @@ function buildLayout(
   conceptTitles: Record<string, string>,
   conceptAnchors: Record<string, string | null>,
 ): { tiles: LayoutTile[]; rows: number } {
-  // Alternate image orientations: portrait / non-portrait, preserving order.
-  const portraits = imageTiles.filter((t) => t.rowSpan > t.colSpan);
-  const others = imageTiles.filter((t) => t.rowSpan <= t.colSpan);
-  const interleavedImages: LayoutTile[] = [];
-  let pi = 0, oi = 0;
-  while (pi < portraits.length || oi < others.length) {
-    if (oi < others.length) interleavedImages.push(others[oi++]);
-    if (pi < portraits.length) interleavedImages.push(portraits[pi++]);
-  }
+  // Respect the explicit order provided by the caller (driven by saved
+  // positions). Admin reordering must take precedence over any automatic
+  // portrait/landscape interleaving.
+  const interleavedImages: LayoutTile[] = imageTiles.slice();
 
   // Build text tiles: one per concept, max 5, no duplicates.
   const textCount = Math.min(5, conceptKeys.length);
