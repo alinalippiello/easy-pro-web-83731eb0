@@ -36,7 +36,7 @@ const Footer = () => {
               type="button"
               aria-label="admin"
               onClick={() => window.dispatchEvent(new Event('open-admin-gate'))}
-              className="ml-2 inline-block w-1 h-1 rounded-full bg-foreground/10 hover:bg-foreground/40 transition-colors align-middle"
+              className="ml-2 inline-block w-2 h-2 rounded-full bg-foreground/30 hover:bg-foreground/70 transition-colors align-middle"
             />
           </p>
           {isAdmin && (
