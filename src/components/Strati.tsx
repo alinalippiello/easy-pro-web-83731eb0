@@ -1857,8 +1857,8 @@ const Strati = () => {
 
                   {/* Tile size — admin can make image span more columns/rows */}
                   {expandedTile.kind === 'image' && (() => {
-                    const maxCols = Math.min(4, cols);
-                    const maxRows = 4;
+                    const maxCols = cols;
+                    const maxRows = 6;
                     return (
                       <div className="grid gap-2">
                         <label className="block font-body text-[10px] md:text-xs uppercase tracking-[0.2em] text-muted-foreground">
