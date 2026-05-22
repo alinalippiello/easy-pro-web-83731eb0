@@ -785,6 +785,7 @@ const Strati = () => {
   const handleEmptyCellDrop = useCallback((event: React.DragEvent<HTMLDivElement>, cell: EmptyCell) => {
     if (!isAdmin) return;
     event.preventDefault();
+    event.stopPropagation();
     const srcId = event.dataTransfer.getData('text/plain') || dragId;
     setEmptyDragOverId(null);
     setDragOverId(null);
