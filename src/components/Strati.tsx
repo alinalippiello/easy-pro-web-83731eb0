@@ -827,6 +827,10 @@ const Strati = () => {
         return rect ? { tile, rect } : null;
       })
       .filter(Boolean) as { tile: LayoutTile; rect: DOMRect }[];
+    measured.sort((a, b) => {
+      if (Math.abs(a.rect.top - b.rect.top) > 4) return a.rect.top - b.rect.top;
+      return a.rect.left - b.rect.left;
+    });
     const target = measured.find(({ rect }) => {
       const midY = rect.top + rect.height / 2;
       const midX = rect.left + rect.width / 2;
