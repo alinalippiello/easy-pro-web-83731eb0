@@ -179,7 +179,7 @@ function buildLayout(
 
   // Fill remaining holes by extending nearest image tiles into them.
   const tryExtend = (cell: { r: number; c: number }): boolean => {
-    const candidates: { ownerIdx: number; newCs?: number; newRs?: number }[] = [];
+    const candidates: { ownerIdx: number; newCs?: number; newRs?: number; shiftLeft?: boolean; shiftUp?: boolean }[] = [];
     if (cell.c > 0 && owner[cell.r][cell.c - 1] !== -1) {
       const oi2 = owner[cell.r][cell.c - 1];
       const p = placed[oi2];
@@ -198,15 +198,37 @@ function buildLayout(
         if (ok) candidates.push({ ownerIdx: oi2, newRs: p.tile.rowSpan + 1 });
       }
     }
+    if (cell.c + 1 < cols && owner[cell.r][cell.c + 1] !== -1) {
+      const oi2 = owner[cell.r][cell.c + 1];
+      const p = placed[oi2];
+      if (p && p.tile.kind === 'image' && !p.tile.sizeLocked && p.r <= cell.r && cell.r < p.r + p.tile.rowSpan && p.c === cell.c + 1) {
+        let ok = true;
+        for (let i = 0; i < p.tile.rowSpan; i++) if (owner[p.r + i]?.[cell.c] !== -1) { ok = false; break; }
+        if (ok) candidates.push({ ownerIdx: oi2, newCs: p.tile.colSpan + 1, shiftLeft: true });
+      }
+    }
+    if (cell.r + 1 < owner.length && owner[cell.r + 1][cell.c] !== -1) {
+      const oi2 = owner[cell.r + 1][cell.c];
+      const p = placed[oi2];
+      if (p && p.tile.kind === 'image' && !p.tile.sizeLocked && p.c <= cell.c && cell.c < p.c + p.tile.colSpan && p.r === cell.r + 1) {
+        let ok = true;
+        for (let j = 0; j < p.tile.colSpan; j++) if (owner[cell.r]?.[p.c + j] !== -1) { ok = false; break; }
+        if (ok) candidates.push({ ownerIdx: oi2, newRs: p.tile.rowSpan + 1, shiftUp: true });
+      }
+    }
     if (candidates.length === 0) return false;
     const ch = candidates[0];
     const p = placed[ch.ownerIdx];
     if (ch.newCs) {
-      for (let i = 0; i < p.tile.rowSpan; i++) owner[p.r + i][p.c + p.tile.colSpan] = ch.ownerIdx;
+      const targetC = ch.shiftLeft ? p.c - 1 : p.c + p.tile.colSpan;
+      for (let i = 0; i < p.tile.rowSpan; i++) owner[p.r + i][targetC] = ch.ownerIdx;
+      if (ch.shiftLeft) p.c -= 1;
       p.tile.colSpan = ch.newCs;
     } else if (ch.newRs) {
-      ensureRow(p.r + p.tile.rowSpan);
-      for (let j = 0; j < p.tile.colSpan; j++) owner[p.r + p.tile.rowSpan][p.c + j] = ch.ownerIdx;
+      const targetR = ch.shiftUp ? p.r - 1 : p.r + p.tile.rowSpan;
+      ensureRow(targetR);
+      for (let j = 0; j < p.tile.colSpan; j++) owner[targetR][p.c + j] = ch.ownerIdx;
+      if (ch.shiftUp) p.r -= 1;
       p.tile.rowSpan = ch.newRs;
     }
     return true;
@@ -763,6 +785,7 @@ const Strati = () => {
   const handleEmptyCellDrop = useCallback((event: React.DragEvent<HTMLDivElement>, cell: EmptyCell) => {
     if (!isAdmin) return;
     event.preventDefault();
+    event.stopPropagation();
     const srcId = event.dataTransfer.getData('text/plain') || dragId;
     setEmptyDragOverId(null);
     setDragOverId(null);
@@ -782,6 +805,38 @@ const Strati = () => {
       const col = tile.gridColStart ?? 999;
       return row > cell.rowStart || (row === cell.rowStart && col > cell.colStart);
     }) ?? sameKind[sameKind.length - 1];
+    if (target) handleTileDrop(source, target);
+    setDragId(null);
+  }, [dragId, handleTileDrop, isAdmin, layout.tiles]);
+
+  const handleGridDrop = useCallback((event: React.DragEvent<HTMLDivElement>) => {
+    if (!isAdmin) return;
+    const droppedOnTile = (event.target as HTMLElement).closest('[data-tile-id]');
+    if (droppedOnTile) return;
+    event.preventDefault();
+    const srcId = event.dataTransfer.getData('text/plain') || dragId;
+    setEmptyDragOverId(null);
+    setDragOverId(null);
+    if (!srcId) return;
+    const source = layout.tiles.find((tile) => tile.id === srcId);
+    if (!source) return;
+    const sameKind = layout.tiles.filter((tile) => tile.kind === source.kind && tile.id !== source.id);
+    const measured = sameKind
+      .map((tile) => {
+        const el = event.currentTarget.querySelector(`[data-tile-id="${tile.id}"]`) as HTMLElement | null;
+        const rect = el?.getBoundingClientRect();
+        return rect ? { tile, rect } : null;
+      })
+      .filter(Boolean) as { tile: LayoutTile; rect: DOMRect }[];
+    measured.sort((a, b) => {
+      if (Math.abs(a.rect.top - b.rect.top) > 4) return a.rect.top - b.rect.top;
+      return a.rect.left - b.rect.left;
+    });
+    const target = measured.find(({ rect }) => {
+      const midY = rect.top + rect.height / 2;
+      const midX = rect.left + rect.width / 2;
+      return event.clientY < midY || (Math.abs(event.clientY - midY) < rect.height / 2 && event.clientX < midX);
+    })?.tile ?? sameKind[sameKind.length - 1];
     if (target) handleTileDrop(source, target);
     setDragId(null);
   }, [dragId, handleTileDrop, isAdmin, layout.tiles]);
@@ -1297,6 +1352,7 @@ const Strati = () => {
 
   const gridColsClass =
     cols === 6 ? 'grid-cols-6' : cols === 5 ? 'grid-cols-5' : 'grid-cols-3';
+  const useExplicitGrid = isAdmin && reorderMode;
 
   const expandedConcept = expandedTile?.conceptKey ? conceptsMap[expandedTile.conceptKey] : undefined;
 
@@ -1364,7 +1420,13 @@ const Strati = () => {
 
           <div
             className={`grid ${gridColsClass} auto-rows-[90px] md:auto-rows-[110px] lg:auto-rows-[120px] gap-1 md:gap-2 lg:gap-2.5`}
-            style={{ gridAutoFlow: 'dense' }}
+            style={{ gridAutoFlow: useExplicitGrid ? 'row' : 'row dense' }}
+            onDragOver={(e) => {
+              if (!isAdmin || !dragId) return;
+              e.preventDefault();
+              e.dataTransfer.dropEffect = 'move';
+            }}
+            onDrop={handleGridDrop}
           >
             {layout.tiles.map((tile) => {
               const concept = tile.conceptKey ? conceptsMap[tile.conceptKey] : undefined;
@@ -1387,10 +1449,10 @@ const Strati = () => {
                     isText ? 'bg-background border border-border/40' : 'bg-card'
                   } ${isAdmin && panningTileId === tile.id ? 'ring-1 ring-foreground/40' : ''} ${isAdmin && dragId && dragId !== tile.id ? 'ring-1 ring-foreground/20' : ''} ${isAdmin && dragOverId === tile.id && dragId && dragId !== tile.id ? 'ring-2 ring-foreground/70' : ''} ${isAdmin && dragId === tile.id ? 'opacity-60' : ''} ${isHidden ? 'opacity-30 ring-1 ring-destructive/60' : ''}`}
                   style={{
-                    gridColumn: tile.gridColStart ? `${tile.gridColStart} / span ${tile.colSpan}` : `span ${tile.colSpan}`,
-                    gridRow: tile.gridRowStart ? `${tile.gridRowStart} / span ${tile.rowSpan}` : `span ${tile.rowSpan}`,
+                    gridColumn: useExplicitGrid && tile.gridColStart ? `${tile.gridColStart} / span ${tile.colSpan}` : `span ${tile.colSpan}`,
+                    gridRow: useExplicitGrid && tile.gridRowStart ? `${tile.gridRowStart} / span ${tile.rowSpan}` : `span ${tile.rowSpan}`,
                   }}
-                  draggable={isAdmin && (reorderMode || isText)}
+                  draggable={isAdmin && reorderMode}
                   ref={(el) => {
                     if (!el) return;
                     if (tile.kind !== 'image' || !isAdmin) return;
@@ -1433,11 +1495,17 @@ const Strati = () => {
                     if (src && src.id !== tile.id) handleTileDrop(src, tile);
                     setDragId(null);
                   }) as any}
-                  onClick={() => {
+                   onDoubleClick={(e) => {
+                     if (!isAdmin) return;
+                     e.stopPropagation();
+                     openTile(tile);
+                   }}
+                   onClick={() => {
                     if (suppressTileClickRef.current) {
                       suppressTileClickRef.current = false;
                       return;
                     }
+                     if (isAdmin && reorderMode) return;
                     if (!dragId) openTile(tile);
                   }}
                   onMouseEnter={() => !isText && concept && setActiveTile(tile.id)}
@@ -1688,7 +1756,7 @@ const Strati = () => {
                 </motion.div>
               );
             })}
-            {isAdmin && reorderMode && layout.emptyCells.map((cell) => (
+            {useExplicitGrid && layout.emptyCells.map((cell) => (
               <div
                 key={cell.id}
                 className={`rounded-sm border border-dashed ${emptyDragOverId === cell.id ? 'border-foreground bg-foreground/10' : 'border-border/60 bg-background/60'} transition`}
