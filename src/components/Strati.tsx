@@ -1387,8 +1387,8 @@ const Strati = () => {
                     isText ? 'bg-background border border-border/40' : 'bg-card'
                   } ${isAdmin && panningTileId === tile.id ? 'ring-1 ring-foreground/40' : ''} ${isAdmin && dragId && dragId !== tile.id ? 'ring-1 ring-foreground/20' : ''} ${isAdmin && dragOverId === tile.id && dragId && dragId !== tile.id ? 'ring-2 ring-foreground/70' : ''} ${isAdmin && dragId === tile.id ? 'opacity-60' : ''} ${isHidden ? 'opacity-30 ring-1 ring-destructive/60' : ''}`}
                   style={{
-                    gridColumn: `span ${tile.colSpan}`,
-                    gridRow: `span ${tile.rowSpan}`,
+                    gridColumn: tile.gridColStart ? `${tile.gridColStart} / span ${tile.colSpan}` : `span ${tile.colSpan}`,
+                    gridRow: tile.gridRowStart ? `${tile.gridRowStart} / span ${tile.rowSpan}` : `span ${tile.rowSpan}`,
                   }}
                   draggable={isAdmin && (reorderMode || isText)}
                   ref={(el) => {
