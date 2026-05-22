@@ -1494,6 +1494,13 @@ const Strati = () => {
                       <div className="flex items-center gap-0.5 rounded-sm bg-background/90 backdrop-blur-sm border border-border px-1 py-0.5">
                         <button
                           type="button"
+                          onClick={(e) => { e.stopPropagation(); openTile(tile); }}
+                          className="px-1.5 font-body text-xs leading-none text-foreground hover:text-muted-foreground"
+                          aria-label="Modifica dimensione e contenuti"
+                          title="Modifica dimensione, righe e colonne"
+                        >✎</button>
+                        <button
+                          type="button"
                           disabled={!canMovePrev}
                           onClick={(e) => { e.stopPropagation(); moveTile(-1); }}
                           className="px-1.5 font-body text-xs leading-none text-foreground hover:text-muted-foreground disabled:opacity-30"
@@ -1585,6 +1592,16 @@ const Strati = () => {
                     </div>
                   )}
 
+                  {isAdmin && !isText && (
+                    <button
+                      type="button"
+                      onClick={(e) => { e.stopPropagation(); openTile(tile); }}
+                      className="absolute bottom-1 left-1 z-20 rounded-sm bg-background/90 backdrop-blur-sm border border-border px-1.5 py-0.5 font-body text-[10px] uppercase tracking-[0.12em] text-foreground hover:text-muted-foreground"
+                      aria-label="Modifica righe e colonne del tassello"
+                      title="Modifica righe e colonne"
+                    >Dim.</button>
+                  )}
+
                   {isText && concept && (() => {
                     const title = trConceptTitle(concept);
                     const isVertical = tile.rowSpan > tile.colSpan || title.length > 8;
@@ -1671,6 +1688,24 @@ const Strati = () => {
                 </motion.div>
               );
             })}
+            {isAdmin && reorderMode && layout.emptyCells.map((cell) => (
+              <div
+                key={cell.id}
+                className={`rounded-sm border border-dashed ${emptyDragOverId === cell.id ? 'border-foreground bg-foreground/10' : 'border-border/60 bg-background/60'} transition`}
+                style={{ gridRow: `${cell.rowStart} / span 1`, gridColumn: `${cell.colStart} / span 1` }}
+                onDragOver={(e) => {
+                  if (!dragId) return;
+                  e.preventDefault();
+                  e.dataTransfer.dropEffect = 'move';
+                  setEmptyDragOverId(cell.id);
+                }}
+                onDragLeave={() => {
+                  if (emptyDragOverId === cell.id) setEmptyDragOverId(null);
+                }}
+                onDrop={(e) => handleEmptyCellDrop(e, cell)}
+                aria-label="Posizione vuota per spostare una tessera"
+              />
+            ))}
           </div>
         </div>
       </div>
