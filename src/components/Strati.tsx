@@ -30,6 +30,14 @@ interface LayoutTile {
   imagePosY?: number;
   isCustom?: boolean;
   sizeLocked?: boolean;
+  gridRowStart?: number;
+  gridColStart?: number;
+}
+
+interface EmptyCell {
+  id: string;
+  rowStart: number;
+  colStart: number;
 }
 
 function spansFor(orientation: Orientation, cols: number): { c: number; r: number } {
@@ -64,7 +72,7 @@ function buildLayout(
   conceptKeys: string[],
   conceptTitles: Record<string, string>,
   conceptAnchors: Record<string, string | null>,
-): { tiles: LayoutTile[]; rows: number } {
+): { tiles: LayoutTile[]; rows: number; emptyCells: EmptyCell[] } {
   // Respect the explicit order provided by the caller (driven by saved
   // positions). Admin reordering must take precedence over any automatic
   // portrait/landscape interleaving.
@@ -215,9 +223,17 @@ function buildLayout(
   // Note: we no longer drop trailing rows with holes. The CSS grid uses
   // `grid-auto-flow: dense`, which packs tiles automatically and avoids the
   // "lost tiles" problem when admin enlarges a tile.
-  const finalTiles = placed.filter((p) => p.tile.rowSpan > 0).map((p) => p.tile);
+  const finalTiles = placed
+    .filter((p) => p.tile.rowSpan > 0)
+    .map((p) => ({ ...p.tile, gridRowStart: p.r + 1, gridColStart: p.c + 1 }));
+  const emptyCells: EmptyCell[] = [];
+  owner.forEach((row, r) => {
+    row.forEach((ownerIdx, c) => {
+      if (ownerIdx === -1) emptyCells.push({ id: `empty-${r}-${c}`, rowStart: r + 1, colStart: c + 1 });
+    });
+  });
 
-  return { tiles: finalTiles, rows: owner.length };
+  return { tiles: finalTiles, rows: owner.length, emptyCells };
 }
 
 // Fixed breakpoints — keep grid identical between Lovable preview (≈941px)
@@ -471,6 +487,7 @@ const Strati = () => {
   const [savedFlash, setSavedFlash] = useState(false);
   const [dragId, setDragId] = useState<string | null>(null);
   const [dragOverId, setDragOverId] = useState<string | null>(null);
+  const [emptyDragOverId, setEmptyDragOverId] = useState<string | null>(null);
   const [reorderMode, setReorderMode] = useState<boolean>(false);
   const [panningTileId, setPanningTileId] = useState<string | null>(null);
   const suppressTileClickRef = useRef(false);
@@ -743,6 +760,32 @@ const Strati = () => {
     }
   }, [isAdmin, overrides, conceptsMap, conceptPositions, conceptAnchors, orderedImageSources, customTiles, pushUndo]);
 
+  const handleEmptyCellDrop = useCallback((event: React.DragEvent<HTMLDivElement>, cell: EmptyCell) => {
+    if (!isAdmin) return;
+    event.preventDefault();
+    const srcId = event.dataTransfer.getData('text/plain') || dragId;
+    setEmptyDragOverId(null);
+    setDragOverId(null);
+    if (!srcId) return;
+    const source = layout.tiles.find((tile) => tile.id === srcId);
+    if (!source) return;
+    const sameKind = layout.tiles
+      .filter((tile) => tile.kind === source.kind && tile.id !== source.id)
+      .sort((a, b) => {
+        const ar = a.gridRowStart ?? 999;
+        const br = b.gridRowStart ?? 999;
+        if (ar !== br) return ar - br;
+        return (a.gridColStart ?? 999) - (b.gridColStart ?? 999);
+      });
+    const target = sameKind.find((tile) => {
+      const row = tile.gridRowStart ?? 999;
+      const col = tile.gridColStart ?? 999;
+      return row > cell.rowStart || (row === cell.rowStart && col > cell.colStart);
+    }) ?? sameKind[sameKind.length - 1];
+    if (target) handleTileDrop(source, target);
+    setDragId(null);
+  }, [dragId, handleTileDrop, isAdmin, layout.tiles]);
+
   // Apply a reorder snapshot to DB + local state, returning the inverse snapshot
   // (capturing the state that was just replaced) so it can be pushed onto the
   // opposite stack for redo/undo symmetry.
@@ -1005,6 +1048,16 @@ const Strati = () => {
   const handleTilePanStart = useCallback((event: React.PointerEvent<HTMLDivElement>, tileId: string) => {
     if (!isAdmin) return;
     if ((event.target as HTMLElement).closest('[data-tile-controls="true"]')) return;
+    if (event.detail > 1) {
+      event.stopPropagation();
+      openTile(layout.tiles.find((tile) => tile.id === tileId) ?? {
+        id: tileId,
+        kind: 'image',
+        colSpan: 1,
+        rowSpan: 1,
+      });
+      return;
+    }
     event.stopPropagation();
 
     const originX = event.clientX;
@@ -1056,7 +1109,7 @@ const Strati = () => {
     el.addEventListener('pointermove', move);
     el.addEventListener('pointerup', end);
     el.addEventListener('pointercancel', end);
-  }, [isAdmin, overrides, persistTileFraming, realAdmin]);
+  }, [isAdmin, layout.tiles, openTile, overrides, persistTileFraming, realAdmin]);
 
   // Admin: wheel-zoom inside the tile (keeps current pan offset).
   const handleTileWheelZoom = useCallback((event: React.WheelEvent<HTMLDivElement>, tileId: string) => {
@@ -1334,8 +1387,8 @@ const Strati = () => {
                     isText ? 'bg-background border border-border/40' : 'bg-card'
                   } ${isAdmin && panningTileId === tile.id ? 'ring-1 ring-foreground/40' : ''} ${isAdmin && dragId && dragId !== tile.id ? 'ring-1 ring-foreground/20' : ''} ${isAdmin && dragOverId === tile.id && dragId && dragId !== tile.id ? 'ring-2 ring-foreground/70' : ''} ${isAdmin && dragId === tile.id ? 'opacity-60' : ''} ${isHidden ? 'opacity-30 ring-1 ring-destructive/60' : ''}`}
                   style={{
-                    gridColumn: `span ${tile.colSpan}`,
-                    gridRow: `span ${tile.rowSpan}`,
+                    gridColumn: tile.gridColStart ? `${tile.gridColStart} / span ${tile.colSpan}` : `span ${tile.colSpan}`,
+                    gridRow: tile.gridRowStart ? `${tile.gridRowStart} / span ${tile.rowSpan}` : `span ${tile.rowSpan}`,
                   }}
                   draggable={isAdmin && (reorderMode || isText)}
                   ref={(el) => {
@@ -1441,6 +1494,13 @@ const Strati = () => {
                       <div className="flex items-center gap-0.5 rounded-sm bg-background/90 backdrop-blur-sm border border-border px-1 py-0.5">
                         <button
                           type="button"
+                          onClick={(e) => { e.stopPropagation(); openTile(tile); }}
+                          className="px-1.5 font-body text-xs leading-none text-foreground hover:text-muted-foreground"
+                          aria-label="Modifica dimensione e contenuti"
+                          title="Modifica dimensione, righe e colonne"
+                        >✎</button>
+                        <button
+                          type="button"
                           disabled={!canMovePrev}
                           onClick={(e) => { e.stopPropagation(); moveTile(-1); }}
                           className="px-1.5 font-body text-xs leading-none text-foreground hover:text-muted-foreground disabled:opacity-30"
@@ -1532,6 +1592,16 @@ const Strati = () => {
                     </div>
                   )}
 
+                  {isAdmin && !isText && (
+                    <button
+                      type="button"
+                      onClick={(e) => { e.stopPropagation(); openTile(tile); }}
+                      className="absolute bottom-1 left-1 z-20 rounded-sm bg-background/90 backdrop-blur-sm border border-border px-1.5 py-0.5 font-body text-[10px] uppercase tracking-[0.12em] text-foreground hover:text-muted-foreground"
+                      aria-label="Modifica righe e colonne del tassello"
+                      title="Modifica righe e colonne"
+                    >Dim.</button>
+                  )}
+
                   {isText && concept && (() => {
                     const title = trConceptTitle(concept);
                     const isVertical = tile.rowSpan > tile.colSpan || title.length > 8;
@@ -1618,6 +1688,24 @@ const Strati = () => {
                 </motion.div>
               );
             })}
+            {isAdmin && reorderMode && layout.emptyCells.map((cell) => (
+              <div
+                key={cell.id}
+                className={`rounded-sm border border-dashed ${emptyDragOverId === cell.id ? 'border-foreground bg-foreground/10' : 'border-border/60 bg-background/60'} transition`}
+                style={{ gridRow: `${cell.rowStart} / span 1`, gridColumn: `${cell.colStart} / span 1` }}
+                onDragOver={(e) => {
+                  if (!dragId) return;
+                  e.preventDefault();
+                  e.dataTransfer.dropEffect = 'move';
+                  setEmptyDragOverId(cell.id);
+                }}
+                onDragLeave={() => {
+                  if (emptyDragOverId === cell.id) setEmptyDragOverId(null);
+                }}
+                onDrop={(e) => handleEmptyCellDrop(e, cell)}
+                aria-label="Posizione vuota per spostare una tessera"
+              />
+            ))}
           </div>
         </div>
       </div>
