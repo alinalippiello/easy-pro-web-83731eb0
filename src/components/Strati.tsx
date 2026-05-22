@@ -30,6 +30,14 @@ interface LayoutTile {
   imagePosY?: number;
   isCustom?: boolean;
   sizeLocked?: boolean;
+  gridRowStart?: number;
+  gridColStart?: number;
+}
+
+interface EmptyCell {
+  id: string;
+  rowStart: number;
+  colStart: number;
 }
 
 function spansFor(orientation: Orientation, cols: number): { c: number; r: number } {
@@ -64,7 +72,7 @@ function buildLayout(
   conceptKeys: string[],
   conceptTitles: Record<string, string>,
   conceptAnchors: Record<string, string | null>,
-): { tiles: LayoutTile[]; rows: number } {
+): { tiles: LayoutTile[]; rows: number; emptyCells: EmptyCell[] } {
   // Respect the explicit order provided by the caller (driven by saved
   // positions). Admin reordering must take precedence over any automatic
   // portrait/landscape interleaving.
@@ -215,9 +223,17 @@ function buildLayout(
   // Note: we no longer drop trailing rows with holes. The CSS grid uses
   // `grid-auto-flow: dense`, which packs tiles automatically and avoids the
   // "lost tiles" problem when admin enlarges a tile.
-  const finalTiles = placed.filter((p) => p.tile.rowSpan > 0).map((p) => p.tile);
+  const finalTiles = placed
+    .filter((p) => p.tile.rowSpan > 0)
+    .map((p) => ({ ...p.tile, gridRowStart: p.r + 1, gridColStart: p.c + 1 }));
+  const emptyCells: EmptyCell[] = [];
+  owner.forEach((row, r) => {
+    row.forEach((ownerIdx, c) => {
+      if (ownerIdx === -1) emptyCells.push({ id: `empty-${r}-${c}`, rowStart: r + 1, colStart: c + 1 });
+    });
+  });
 
-  return { tiles: finalTiles, rows: owner.length };
+  return { tiles: finalTiles, rows: owner.length, emptyCells };
 }
 
 // Fixed breakpoints — keep grid identical between Lovable preview (≈941px)
