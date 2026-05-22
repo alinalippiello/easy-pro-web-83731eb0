@@ -1021,6 +1021,16 @@ const Strati = () => {
   const handleTilePanStart = useCallback((event: React.PointerEvent<HTMLDivElement>, tileId: string) => {
     if (!isAdmin) return;
     if ((event.target as HTMLElement).closest('[data-tile-controls="true"]')) return;
+    if (event.detail > 1) {
+      event.stopPropagation();
+      openTile(layout.tiles.find((tile) => tile.id === tileId) ?? {
+        id: tileId,
+        kind: 'image',
+        colSpan: 1,
+        rowSpan: 1,
+      });
+      return;
+    }
     event.stopPropagation();
 
     const originX = event.clientX;
@@ -1072,7 +1082,7 @@ const Strati = () => {
     el.addEventListener('pointermove', move);
     el.addEventListener('pointerup', end);
     el.addEventListener('pointercancel', end);
-  }, [isAdmin, overrides, persistTileFraming, realAdmin]);
+  }, [isAdmin, layout.tiles, openTile, overrides, persistTileFraming, realAdmin]);
 
   // Admin: wheel-zoom inside the tile (keeps current pan offset).
   const handleTileWheelZoom = useCallback((event: React.WheelEvent<HTMLDivElement>, tileId: string) => {
