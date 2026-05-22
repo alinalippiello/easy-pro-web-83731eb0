@@ -487,6 +487,7 @@ const Strati = () => {
   const [savedFlash, setSavedFlash] = useState(false);
   const [dragId, setDragId] = useState<string | null>(null);
   const [dragOverId, setDragOverId] = useState<string | null>(null);
+  const [emptyDragOverId, setEmptyDragOverId] = useState<string | null>(null);
   const [reorderMode, setReorderMode] = useState<boolean>(false);
   const [panningTileId, setPanningTileId] = useState<string | null>(null);
   const suppressTileClickRef = useRef(false);
@@ -758,6 +759,32 @@ const Strati = () => {
       setConceptPositions((prev) => ({ ...prev, ...newPos }));
     }
   }, [isAdmin, overrides, conceptsMap, conceptPositions, conceptAnchors, orderedImageSources, customTiles, pushUndo]);
+
+  const handleEmptyCellDrop = useCallback((event: React.DragEvent<HTMLDivElement>, cell: EmptyCell) => {
+    if (!isAdmin) return;
+    event.preventDefault();
+    const srcId = event.dataTransfer.getData('text/plain') || dragId;
+    setEmptyDragOverId(null);
+    setDragOverId(null);
+    if (!srcId) return;
+    const source = layout.tiles.find((tile) => tile.id === srcId);
+    if (!source) return;
+    const sameKind = layout.tiles
+      .filter((tile) => tile.kind === source.kind && tile.id !== source.id)
+      .sort((a, b) => {
+        const ar = a.gridRowStart ?? 999;
+        const br = b.gridRowStart ?? 999;
+        if (ar !== br) return ar - br;
+        return (a.gridColStart ?? 999) - (b.gridColStart ?? 999);
+      });
+    const target = sameKind.find((tile) => {
+      const row = tile.gridRowStart ?? 999;
+      const col = tile.gridColStart ?? 999;
+      return row > cell.rowStart || (row === cell.rowStart && col > cell.colStart);
+    }) ?? sameKind[sameKind.length - 1];
+    if (target) handleTileDrop(source, target);
+    setDragId(null);
+  }, [dragId, handleTileDrop, isAdmin, layout.tiles]);
 
   // Apply a reorder snapshot to DB + local state, returning the inverse snapshot
   // (capturing the state that was just replaced) so it can be pushed onto the
