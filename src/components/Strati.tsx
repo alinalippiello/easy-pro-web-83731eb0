@@ -179,7 +179,7 @@ function buildLayout(
 
   // Fill remaining holes by extending nearest image tiles into them.
   const tryExtend = (cell: { r: number; c: number }): boolean => {
-    const candidates: { ownerIdx: number; newCs?: number; newRs?: number }[] = [];
+    const candidates: { ownerIdx: number; newCs?: number; newRs?: number; shiftLeft?: boolean; shiftUp?: boolean }[] = [];
     if (cell.c > 0 && owner[cell.r][cell.c - 1] !== -1) {
       const oi2 = owner[cell.r][cell.c - 1];
       const p = placed[oi2];
@@ -198,15 +198,37 @@ function buildLayout(
         if (ok) candidates.push({ ownerIdx: oi2, newRs: p.tile.rowSpan + 1 });
       }
     }
+    if (cell.c + 1 < cols && owner[cell.r][cell.c + 1] !== -1) {
+      const oi2 = owner[cell.r][cell.c + 1];
+      const p = placed[oi2];
+      if (p && p.tile.kind === 'image' && !p.tile.sizeLocked && p.r <= cell.r && cell.r < p.r + p.tile.rowSpan && p.c === cell.c + 1) {
+        let ok = true;
+        for (let i = 0; i < p.tile.rowSpan; i++) if (owner[p.r + i]?.[cell.c] !== -1) { ok = false; break; }
+        if (ok) candidates.push({ ownerIdx: oi2, newCs: p.tile.colSpan + 1, shiftLeft: true });
+      }
+    }
+    if (cell.r + 1 < owner.length && owner[cell.r + 1][cell.c] !== -1) {
+      const oi2 = owner[cell.r + 1][cell.c];
+      const p = placed[oi2];
+      if (p && p.tile.kind === 'image' && !p.tile.sizeLocked && p.c <= cell.c && cell.c < p.c + p.tile.colSpan && p.r === cell.r + 1) {
+        let ok = true;
+        for (let j = 0; j < p.tile.colSpan; j++) if (owner[cell.r]?.[p.c + j] !== -1) { ok = false; break; }
+        if (ok) candidates.push({ ownerIdx: oi2, newRs: p.tile.rowSpan + 1, shiftUp: true });
+      }
+    }
     if (candidates.length === 0) return false;
     const ch = candidates[0];
     const p = placed[ch.ownerIdx];
     if (ch.newCs) {
-      for (let i = 0; i < p.tile.rowSpan; i++) owner[p.r + i][p.c + p.tile.colSpan] = ch.ownerIdx;
+      const targetC = ch.shiftLeft ? p.c - 1 : p.c + p.tile.colSpan;
+      for (let i = 0; i < p.tile.rowSpan; i++) owner[p.r + i][targetC] = ch.ownerIdx;
+      if (ch.shiftLeft) p.c -= 1;
       p.tile.colSpan = ch.newCs;
     } else if (ch.newRs) {
-      ensureRow(p.r + p.tile.rowSpan);
-      for (let j = 0; j < p.tile.colSpan; j++) owner[p.r + p.tile.rowSpan][p.c + j] = ch.ownerIdx;
+      const targetR = ch.shiftUp ? p.r - 1 : p.r + p.tile.rowSpan;
+      ensureRow(targetR);
+      for (let j = 0; j < p.tile.colSpan; j++) owner[targetR][p.c + j] = ch.ownerIdx;
+      if (ch.shiftUp) p.r -= 1;
       p.tile.rowSpan = ch.newRs;
     }
     return true;
