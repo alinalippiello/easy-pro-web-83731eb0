@@ -1392,7 +1392,13 @@ const Strati = () => {
 
           <div
             className={`grid ${gridColsClass} auto-rows-[90px] md:auto-rows-[110px] lg:auto-rows-[120px] gap-1 md:gap-2 lg:gap-2.5`}
-            style={{ gridAutoFlow: 'dense' }}
+            style={{ gridAutoFlow: 'row' }}
+            onDragOver={(e) => {
+              if (!isAdmin || !dragId) return;
+              e.preventDefault();
+              e.dataTransfer.dropEffect = 'move';
+            }}
+            onDrop={handleGridDrop}
           >
             {layout.tiles.map((tile) => {
               const concept = tile.conceptKey ? conceptsMap[tile.conceptKey] : undefined;
@@ -1418,7 +1424,7 @@ const Strati = () => {
                     gridColumn: tile.gridColStart ? `${tile.gridColStart} / span ${tile.colSpan}` : `span ${tile.colSpan}`,
                     gridRow: tile.gridRowStart ? `${tile.gridRowStart} / span ${tile.rowSpan}` : `span ${tile.rowSpan}`,
                   }}
-                  draggable={isAdmin && (reorderMode || isText)}
+                  draggable={isAdmin && reorderMode}
                   ref={(el) => {
                     if (!el) return;
                     if (tile.kind !== 'image' || !isAdmin) return;
@@ -1461,11 +1467,17 @@ const Strati = () => {
                     if (src && src.id !== tile.id) handleTileDrop(src, tile);
                     setDragId(null);
                   }) as any}
-                  onClick={() => {
+                   onDoubleClick={(e) => {
+                     if (!isAdmin) return;
+                     e.stopPropagation();
+                     openTile(tile);
+                   }}
+                   onClick={() => {
                     if (suppressTileClickRef.current) {
                       suppressTileClickRef.current = false;
                       return;
                     }
+                     if (isAdmin && reorderMode) return;
                     if (!dragId) openTile(tile);
                   }}
                   onMouseEnter={() => !isText && concept && setActiveTile(tile.id)}
