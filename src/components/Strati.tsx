@@ -786,6 +786,34 @@ const Strati = () => {
     setDragId(null);
   }, [dragId, handleTileDrop, isAdmin, layout.tiles]);
 
+  const handleGridDrop = useCallback((event: React.DragEvent<HTMLDivElement>) => {
+    if (!isAdmin) return;
+    const droppedOnTile = (event.target as HTMLElement).closest('[data-tile-id]');
+    if (droppedOnTile) return;
+    event.preventDefault();
+    const srcId = event.dataTransfer.getData('text/plain') || dragId;
+    setEmptyDragOverId(null);
+    setDragOverId(null);
+    if (!srcId) return;
+    const source = layout.tiles.find((tile) => tile.id === srcId);
+    if (!source) return;
+    const sameKind = layout.tiles.filter((tile) => tile.kind === source.kind && tile.id !== source.id);
+    const measured = sameKind
+      .map((tile) => {
+        const el = event.currentTarget.querySelector(`[data-tile-id="${tile.id}"]`) as HTMLElement | null;
+        const rect = el?.getBoundingClientRect();
+        return rect ? { tile, rect } : null;
+      })
+      .filter(Boolean) as { tile: LayoutTile; rect: DOMRect }[];
+    const target = measured.find(({ rect }) => {
+      const midY = rect.top + rect.height / 2;
+      const midX = rect.left + rect.width / 2;
+      return event.clientY < midY || (Math.abs(event.clientY - midY) < rect.height / 2 && event.clientX < midX);
+    })?.tile ?? sameKind[sameKind.length - 1];
+    if (target) handleTileDrop(source, target);
+    setDragId(null);
+  }, [dragId, handleTileDrop, isAdmin, layout.tiles]);
+
   // Apply a reorder snapshot to DB + local state, returning the inverse snapshot
   // (capturing the state that was just replaced) so it can be pushed onto the
   // opposite stack for redo/undo symmetry.
