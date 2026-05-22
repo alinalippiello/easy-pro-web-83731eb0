@@ -1351,6 +1351,7 @@ const Strati = () => {
 
   const gridColsClass =
     cols === 6 ? 'grid-cols-6' : cols === 5 ? 'grid-cols-5' : 'grid-cols-3';
+  const useExplicitGrid = isAdmin && reorderMode;
 
   const expandedConcept = expandedTile?.conceptKey ? conceptsMap[expandedTile.conceptKey] : undefined;
 
@@ -1418,7 +1419,7 @@ const Strati = () => {
 
           <div
             className={`grid ${gridColsClass} auto-rows-[90px] md:auto-rows-[110px] lg:auto-rows-[120px] gap-1 md:gap-2 lg:gap-2.5`}
-            style={{ gridAutoFlow: 'row' }}
+            style={{ gridAutoFlow: useExplicitGrid ? 'row' : 'row dense' }}
             onDragOver={(e) => {
               if (!isAdmin || !dragId) return;
               e.preventDefault();
@@ -1447,8 +1448,8 @@ const Strati = () => {
                     isText ? 'bg-background border border-border/40' : 'bg-card'
                   } ${isAdmin && panningTileId === tile.id ? 'ring-1 ring-foreground/40' : ''} ${isAdmin && dragId && dragId !== tile.id ? 'ring-1 ring-foreground/20' : ''} ${isAdmin && dragOverId === tile.id && dragId && dragId !== tile.id ? 'ring-2 ring-foreground/70' : ''} ${isAdmin && dragId === tile.id ? 'opacity-60' : ''} ${isHidden ? 'opacity-30 ring-1 ring-destructive/60' : ''}`}
                   style={{
-                    gridColumn: tile.gridColStart ? `${tile.gridColStart} / span ${tile.colSpan}` : `span ${tile.colSpan}`,
-                    gridRow: tile.gridRowStart ? `${tile.gridRowStart} / span ${tile.rowSpan}` : `span ${tile.rowSpan}`,
+                    gridColumn: useExplicitGrid && tile.gridColStart ? `${tile.gridColStart} / span ${tile.colSpan}` : `span ${tile.colSpan}`,
+                    gridRow: useExplicitGrid && tile.gridRowStart ? `${tile.gridRowStart} / span ${tile.rowSpan}` : `span ${tile.rowSpan}`,
                   }}
                   draggable={isAdmin && reorderMode}
                   ref={(el) => {
@@ -1754,7 +1755,7 @@ const Strati = () => {
                 </motion.div>
               );
             })}
-            {isAdmin && reorderMode && layout.emptyCells.map((cell) => (
+            {useExplicitGrid && layout.emptyCells.map((cell) => (
               <div
                 key={cell.id}
                 className={`rounded-sm border border-dashed ${emptyDragOverId === cell.id ? 'border-foreground bg-foreground/10' : 'border-border/60 bg-background/60'} transition`}
