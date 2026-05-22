@@ -29,6 +29,7 @@ interface LayoutTile {
   imagePosX?: number;
   imagePosY?: number;
   isCustom?: boolean;
+  sizeLocked?: boolean;
 }
 
 function spansFor(orientation: Orientation, cols: number): { c: number; r: number } {
@@ -174,7 +175,7 @@ function buildLayout(
     if (cell.c > 0 && owner[cell.r][cell.c - 1] !== -1) {
       const oi2 = owner[cell.r][cell.c - 1];
       const p = placed[oi2];
-      if (p && p.tile.kind === 'image' && p.r <= cell.r && cell.r < p.r + p.tile.rowSpan && p.c + p.tile.colSpan === cell.c) {
+      if (p && p.tile.kind === 'image' && !p.tile.sizeLocked && p.r <= cell.r && cell.r < p.r + p.tile.rowSpan && p.c + p.tile.colSpan === cell.c) {
         let ok = true;
         for (let i = 0; i < p.tile.rowSpan; i++) if (owner[p.r + i]?.[cell.c] !== -1) { ok = false; break; }
         if (ok) candidates.push({ ownerIdx: oi2, newCs: p.tile.colSpan + 1 });
@@ -183,7 +184,7 @@ function buildLayout(
     if (cell.r > 0 && owner[cell.r - 1][cell.c] !== -1) {
       const oi2 = owner[cell.r - 1][cell.c];
       const p = placed[oi2];
-      if (p && p.tile.kind === 'image' && p.c <= cell.c && cell.c < p.c + p.tile.colSpan && p.r + p.tile.rowSpan === cell.r) {
+      if (p && p.tile.kind === 'image' && !p.tile.sizeLocked && p.c <= cell.c && cell.c < p.c + p.tile.colSpan && p.r + p.tile.rowSpan === cell.r) {
         let ok = true;
         for (let j = 0; j < p.tile.colSpan; j++) if (owner[cell.r]?.[p.c + j] !== -1) { ok = false; break; }
         if (ok) candidates.push({ ownerIdx: oi2, newRs: p.tile.rowSpan + 1 });
@@ -550,6 +551,7 @@ const Strati = () => {
       const o = orientations[s.id] ?? 'square';
       const auto = spansFor(o, cols);
       const ov = overrides[s.id];
+      const sizeLocked = !!((ov?.colSpan && ov.colSpan > 0) || (ov?.rowSpan && ov.rowSpan > 0));
       const cs = ov?.colSpan && ov.colSpan > 0 ? Math.min(cols, ov.colSpan) : auto.c;
       const rs = ov?.rowSpan && ov.rowSpan > 0 ? Math.min(6, ov.rowSpan) : auto.r;
       return {
@@ -565,6 +567,7 @@ const Strati = () => {
         imagePosX: ov?.imagePosX ?? 50,
         imagePosY: ov?.imagePosY ?? 50,
         isCustom: s.isCustom,
+        sizeLocked,
       };
     });
     // Concept keys sorted by saved position (admin), fallback to insertion order.
