@@ -513,6 +513,26 @@ const Strati = () => {
   const [reorderMode, setReorderMode] = useState<boolean>(false);
   const [panningTileId, setPanningTileId] = useState<string | null>(null);
   const suppressTileClickRef = useRef(false);
+  const [selectedTileId, setSelectedTileId] = useState<string | null>(null);
+
+  // Deselect on outside click / Escape, and clear when leaving admin mode.
+  useEffect(() => {
+    if (!isAdmin) { setSelectedTileId(null); return; }
+    const onDocPointer = (e: PointerEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (target && target.closest('[data-tile-id]')) return;
+      setSelectedTileId(null);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setSelectedTileId(null);
+    };
+    document.addEventListener('pointerdown', onDocPointer);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('pointerdown', onDocPointer);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [isAdmin]);
   const wheelPersistTimers = useRef<Record<string, ReturnType<typeof setTimeout>>>({});
 
   // ── Measure orientations ──
