@@ -973,6 +973,30 @@ const Strati = () => {
     }
   }, [isAdmin, applyReorderSnapshot, setUndoStack, setRedoStack]);
 
+  // Keyboard shortcuts: Ctrl/Cmd+Z = undo, Ctrl/Cmd+Shift+Z or Ctrl/Cmd+Y = redo.
+  useEffect(() => {
+    if (!isAdmin) return;
+    const onKey = (e: KeyboardEvent) => {
+      const mod = e.ctrlKey || e.metaKey;
+      if (!mod) return;
+      const target = e.target as HTMLElement | null;
+      const tag = target?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || target?.isContentEditable) return;
+      const key = e.key.toLowerCase();
+      if (key === 'z' && !e.shiftKey) {
+        e.preventDefault();
+        handleUndoReorder();
+      } else if ((key === 'z' && e.shiftKey) || key === 'y') {
+        e.preventDefault();
+        handleRedoReorder();
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isAdmin, handleUndoReorder, handleRedoReorder]);
+
+
+
   const handleSave = useCallback(async () => {
     if (!expandedTile) return;
     let resolvedKey: string | null = null;
