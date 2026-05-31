@@ -143,49 +143,39 @@ const Blog = () => {
           ) : visiblePosts.length === 0 ? (
             <p className="font-body text-sm text-muted-foreground text-center">{t("blog.empty")}</p>
           ) : (
-            <ul className="divide-y divide-border border-t border-border">
-              {visiblePosts.map((post) => {
+            <div className="flex flex-wrap justify-center items-baseline gap-x-6 gap-y-4 md:gap-x-10 md:gap-y-6 max-w-4xl mx-auto">
+              {visiblePosts.map((post, i) => {
                 const title = pick(post, language, "title") || "—";
-                const excerpt = pick(post, language, "excerpt");
-                const date = post.published_at ?? post.created_at;
+                const sizes = [
+                  "text-2xl md:text-4xl",
+                  "text-xl md:text-2xl",
+                  "text-3xl md:text-5xl",
+                  "text-lg md:text-xl",
+                  "text-2xl md:text-3xl",
+                  "text-xl md:text-3xl",
+                ];
+                const sizeClass = sizes[i % sizes.length];
                 return (
-                  <li key={post.id} className="group relative">
+                  <div key={post.id} className="relative inline-flex flex-col items-center">
                     <button
                       type="button"
                       onClick={() => setReading(post)}
                       aria-label={title}
-                      className="block text-left w-full px-4 md:px-6 -mx-4 md:-mx-6 py-8 md:py-10 transition-smooth hover:bg-muted/40 focus-visible:bg-muted/40 focus-visible:outline-none cursor-pointer"
+                      className={`group font-display ${sizeClass} font-normal leading-none tracking-tight transition-smooth hover:opacity-60 focus-visible:opacity-60 focus-visible:outline-none cursor-pointer ${
+                        post.status === "draft" ? "italic text-muted-foreground" : ""
+                      }`}
                     >
-                      <div className="grid grid-cols-12 gap-6 md:gap-10 items-baseline">
-                        <p className="col-span-12 md:col-span-3 font-body text-xs tracking-widest uppercase text-muted-foreground">
-                          <time>
-                            {new Date(date).toLocaleDateString(language, { year: "numeric", month: "long", day: "numeric" })}
-                          </time>
-                          <span className="mx-2">·</span>
-                          {t(`blog.cat.${post.category}`)}
-                          {post.status === "draft" && (
-                            <span className="ml-2 px-1.5 py-0.5 text-[10px] uppercase tracking-wider border border-border">
-                              {t("blog.draft")}
-                            </span>
-                          )}
-                        </p>
-                        <div className="col-span-12 md:col-span-9">
-                          <h3 className="font-display text-2xl md:text-3xl font-normal leading-tight mb-3 transition-smooth group-hover:opacity-70">
-                            <span className="bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_1px] bg-no-repeat bg-left-bottom transition-[background-size] duration-500 group-hover:bg-[length:100%_1px]">
-                              {title}
-                            </span>
-                            <span aria-hidden className="inline-block ml-3 translate-x-0 opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-60 text-muted-foreground text-base align-middle">→</span>
-                          </h3>
-                          {excerpt && (
-                            <p className="font-body text-sm md:text-base text-muted-foreground leading-relaxed max-w-2xl">
-                              {excerpt}
-                            </p>
-                          )}
-                        </div>
-                      </div>
+                      <span className="bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_1px] bg-no-repeat bg-left-bottom transition-[background-size] duration-500 group-hover:bg-[length:100%_1px]">
+                        {title}
+                      </span>
+                      {post.status === "draft" && (
+                        <span className="ml-2 align-middle text-[10px] uppercase tracking-widest border border-border px-1.5 py-0.5 not-italic">
+                          {t("blog.draft")}
+                        </span>
+                      )}
                     </button>
                     {isAdmin && (
-                      <div className="flex gap-4 pb-6 text-xs">
+                      <div className="flex gap-3 mt-1 text-[10px]">
                         <button
                           onClick={() => setEditing(post)}
                           className="font-body uppercase tracking-widest underline underline-offset-4 hover:opacity-60"
@@ -200,10 +190,10 @@ const Blog = () => {
                         </button>
                       </div>
                     )}
-                  </li>
+                  </div>
                 );
               })}
-            </ul>
+            </div>
           )}
         </div>
       </div>
