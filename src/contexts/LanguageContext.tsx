@@ -11,10 +11,10 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.contact': 'Contatti',
     'nav.menu': 'Menu',
     'nav.close': 'Chiudi',
-    'nav.blog': 'Diario',
+    'nav.blog': 'Palinsesto',
 
     // Blog
-    'blog.title': 'Diario',
+    'blog.title': 'Palinsesto',
     'blog.subtitle': 'Articoli, riflessioni e appunti',
     'blog.readMore': 'Leggi',
     'blog.empty': 'Nessun articolo pubblicato.',
@@ -348,10 +348,10 @@ Il cuore del progetto è un sistema diagonale di spazi pubblici e rampe che non 
     'nav.contact': 'Contact',
     'nav.menu': 'Menu',
     'nav.close': 'Close',
-    'nav.blog': 'Journal',
+    'nav.blog': 'Palimpsest',
 
     // Blog
-    'blog.title': 'Journal',
+    'blog.title': 'Palimpsest',
     'blog.subtitle': 'Articles, reflections and notes',
     'blog.readMore': 'Read',
     'blog.empty': 'No published articles yet.',
@@ -685,10 +685,10 @@ The heart of the project is a diagonal system of public spaces and ramps that no
     'nav.contact': 'Contacto',
     'nav.menu': 'Menú',
     'nav.close': 'Cerrar',
-    'nav.blog': 'Diario',
+    'nav.blog': 'Palinsesto',
 
     // Blog
-    'blog.title': 'Diario',
+    'blog.title': 'Palinsesto',
     'blog.subtitle': 'Artículos, reflexiones y apuntes',
     'blog.readMore': 'Leer',
     'blog.empty': 'Aún no hay artículos publicados.',
