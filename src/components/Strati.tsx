@@ -1558,7 +1558,7 @@ const Strati = () => {
                      />
                   )}
 
-                  {isAdmin && !isText && tile.cover && (
+                  {isAdmin && !isText && tile.cover && selectedTileId === tile.id && (
                     <div
                       data-tile-controls="true"
                       className="absolute top-1 right-1 z-20 flex flex-col items-end gap-1"
