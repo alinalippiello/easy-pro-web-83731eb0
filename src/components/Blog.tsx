@@ -121,22 +121,22 @@ const Blog = () => {
     <section id="blog" className="py-20 md:py-28 border-t border-border">
       <div className="container">
         <div className="max-w-5xl mx-auto">
-          <div className="flex items-baseline justify-between mb-3">
-            <h2 className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground">
-              {t("blog.title")}
-            </h2>
-            {isAdmin && (
+          <h2 className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground mb-3 text-center">
+            {t("blog.title")}
+          </h2>
+          <p className="font-body text-sm text-muted-foreground mb-8 text-center">
+            {t("blog.subtitle")}
+          </p>
+          {isAdmin && (
+            <div className="flex justify-center mb-12">
               <button
                 onClick={startNew}
                 className="font-body text-xs tracking-widest uppercase underline underline-offset-4 hover:opacity-60"
               >
                 + {t("blog.new")}
               </button>
-            )}
-          </div>
-          <p className="font-body text-sm text-muted-foreground mb-12 text-center">
-            {t("blog.subtitle")}
-          </p>
+            </div>
+          )}
 
           {loading ? (
             <p className="font-body text-sm text-muted-foreground text-center">…</p>
