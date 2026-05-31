@@ -1725,7 +1725,7 @@ const Strati = () => {
                     );
                   })()}
 
-                  {isText && isAdmin && (
+                  {isText && isAdmin && selectedTileId === tile.id && (
                     <div
                       className="absolute top-1 right-1 z-20 flex items-center gap-0.5 rounded-sm bg-background/90 backdrop-blur-sm border border-border px-1 py-0.5"
                       onClick={(e) => e.stopPropagation()}
