@@ -513,6 +513,26 @@ const Strati = () => {
   const [reorderMode, setReorderMode] = useState<boolean>(false);
   const [panningTileId, setPanningTileId] = useState<string | null>(null);
   const suppressTileClickRef = useRef(false);
+  const [selectedTileId, setSelectedTileId] = useState<string | null>(null);
+
+  // Deselect on outside click / Escape, and clear when leaving admin mode.
+  useEffect(() => {
+    if (!isAdmin) { setSelectedTileId(null); return; }
+    const onDocPointer = (e: PointerEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (target && target.closest('[data-tile-id]')) return;
+      setSelectedTileId(null);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setSelectedTileId(null);
+    };
+    document.addEventListener('pointerdown', onDocPointer);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('pointerdown', onDocPointer);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [isAdmin]);
   const wheelPersistTimers = useRef<Record<string, ReturnType<typeof setTimeout>>>({});
 
   // ── Measure orientations ──
@@ -1500,14 +1520,22 @@ const Strati = () => {
                      e.stopPropagation();
                      openTile(tile);
                    }}
-                   onClick={() => {
-                    if (suppressTileClickRef.current) {
-                      suppressTileClickRef.current = false;
-                      return;
-                    }
+                    onClick={() => {
+                     if (suppressTileClickRef.current) {
+                       suppressTileClickRef.current = false;
+                       return;
+                     }
                      if (isAdmin && reorderMode) return;
-                    if (!dragId) openTile(tile);
-                  }}
+                     if (dragId) return;
+                     if (isAdmin) {
+                       // In admin mode, a single click selects the tile to reveal
+                       // its inline controls. Use the ✎ button or double-click to
+                       // open the full editor.
+                       setSelectedTileId((prev) => (prev === tile.id ? null : tile.id));
+                       return;
+                     }
+                     openTile(tile);
+                   }}
                   onMouseEnter={() => !isText && concept && setActiveTile(tile.id)}
                   onMouseLeave={() => !isText && concept && setActiveTile((prev) => (prev === tile.id ? null : prev))}
                   whileHover={isText || isAdmin ? undefined : { scale: 1.015 }}
@@ -1530,7 +1558,7 @@ const Strati = () => {
                      />
                   )}
 
-                  {isAdmin && !isText && tile.cover && (
+                  {isAdmin && !isText && tile.cover && selectedTileId === tile.id && (
                     <div
                       data-tile-controls="true"
                       className="absolute top-1 right-1 z-20 flex flex-col items-end gap-1"
@@ -1660,7 +1688,7 @@ const Strati = () => {
                     </div>
                   )}
 
-                  {isAdmin && !isText && (
+                  {isAdmin && !isText && selectedTileId === tile.id && (
                     <button
                       type="button"
                       onClick={(e) => { e.stopPropagation(); openTile(tile); }}
@@ -1697,7 +1725,7 @@ const Strati = () => {
                     );
                   })()}
 
-                  {isText && isAdmin && (
+                  {isText && isAdmin && selectedTileId === tile.id && (
                     <div
                       className="absolute top-1 right-1 z-20 flex items-center gap-0.5 rounded-sm bg-background/90 backdrop-blur-sm border border-border px-1 py-0.5"
                       onClick={(e) => e.stopPropagation()}
