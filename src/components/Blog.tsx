@@ -139,7 +139,25 @@ const Blog = () => {
           )}
 
           {loading ? (
-            <p className="font-body text-sm text-muted-foreground text-center">…</p>
+            <div
+              aria-hidden
+              className="flex flex-wrap justify-center items-baseline gap-x-[clamp(0.75rem,2.5vw,2.5rem)] gap-y-[clamp(0.5rem,2vw,1.5rem)] max-w-4xl mx-auto px-2 animate-pulse"
+            >
+              {[
+                { w: "9rem", h: "clamp(1.5rem, 4.5vw, 2.75rem)" },
+                { w: "6rem", h: "clamp(1.25rem, 3.5vw, 2rem)" },
+                { w: "14rem", h: "clamp(1.75rem, 6vw, 3.75rem)" },
+                { w: "5rem", h: "clamp(1.1rem, 3vw, 1.5rem)" },
+                { w: "11rem", h: "clamp(1.5rem, 4vw, 2.25rem)" },
+                { w: "8rem", h: "clamp(1.35rem, 4vw, 2.5rem)" },
+              ].map((s, i) => (
+                <span
+                  key={i}
+                  style={{ width: s.w, height: s.h }}
+                  className="block bg-muted/60 rounded-sm max-w-full"
+                />
+              ))}
+            </div>
           ) : visiblePosts.length === 0 ? (
             <p className="font-body text-sm text-muted-foreground text-center">{t("blog.empty")}</p>
           ) : (
