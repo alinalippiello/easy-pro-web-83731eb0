@@ -158,12 +158,13 @@ const Blog = () => {
                 ];
                 const fontSize = scales[i % scales.length];
                 return (
-                  <div key={post.id} className="relative inline-flex flex-col items-center">
+                  <div key={post.id} className="relative inline-flex flex-col items-center max-w-full">
                     <button
                       type="button"
                       onClick={() => setReading(post)}
                       aria-label={title}
-                      className={`group font-display ${sizeClass} font-normal leading-none tracking-tight transition-smooth hover:opacity-60 focus-visible:opacity-60 focus-visible:outline-none cursor-pointer ${
+                      style={{ fontSize }}
+                      className={`group font-display font-normal leading-[1.05] tracking-tight transition-smooth hover:opacity-60 focus-visible:opacity-60 focus-visible:outline-none cursor-pointer text-center break-words hyphens-auto max-w-full ${
                         post.status === "draft" ? "italic text-muted-foreground" : ""
                       }`}
                     >
@@ -171,7 +172,7 @@ const Blog = () => {
                         {title}
                       </span>
                       {post.status === "draft" && (
-                        <span className="ml-2 align-middle text-[10px] uppercase tracking-widest border border-border px-1.5 py-0.5 not-italic">
+                        <span className="ml-2 align-middle text-[10px] uppercase tracking-widest border border-border px-1.5 py-0.5 not-italic whitespace-nowrap">
                           {t("blog.draft")}
                         </span>
                       )}
