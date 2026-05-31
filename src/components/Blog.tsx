@@ -143,25 +143,28 @@ const Blog = () => {
           ) : visiblePosts.length === 0 ? (
             <p className="font-body text-sm text-muted-foreground text-center">{t("blog.empty")}</p>
           ) : (
-            <div className="flex flex-wrap justify-center items-baseline gap-x-6 gap-y-4 md:gap-x-10 md:gap-y-6 max-w-4xl mx-auto">
+            <div className="flex flex-wrap justify-center items-baseline gap-x-[clamp(0.75rem,2.5vw,2.5rem)] gap-y-[clamp(0.5rem,2vw,1.5rem)] max-w-4xl mx-auto px-2">
               {visiblePosts.map((post, i) => {
                 const title = pick(post, language, "title") || "—";
-                const sizes = [
-                  "text-2xl md:text-4xl",
-                  "text-xl md:text-2xl",
-                  "text-3xl md:text-5xl",
-                  "text-lg md:text-xl",
-                  "text-2xl md:text-3xl",
-                  "text-xl md:text-3xl",
+                // Deterministic scale weights — proportional fluid sizes via clamp()
+                // so layout stays stable across viewports while preserving rhythm.
+                const scales = [
+                  "clamp(1.5rem, 4.5vw, 2.75rem)",   // M
+                  "clamp(1.25rem, 3.5vw, 2rem)",     // S
+                  "clamp(1.75rem, 6vw, 3.75rem)",    // L
+                  "clamp(1.1rem, 3vw, 1.5rem)",      // XS
+                  "clamp(1.5rem, 4vw, 2.25rem)",     // M
+                  "clamp(1.35rem, 4vw, 2.5rem)",     // M+
                 ];
-                const sizeClass = sizes[i % sizes.length];
+                const fontSize = scales[i % scales.length];
                 return (
-                  <div key={post.id} className="relative inline-flex flex-col items-center">
+                  <div key={post.id} className="relative inline-flex flex-col items-center max-w-full">
                     <button
                       type="button"
                       onClick={() => setReading(post)}
                       aria-label={title}
-                      className={`group font-display ${sizeClass} font-normal leading-none tracking-tight transition-smooth hover:opacity-60 focus-visible:opacity-60 focus-visible:outline-none cursor-pointer ${
+                      style={{ fontSize }}
+                      className={`group font-display font-normal leading-[1.05] tracking-tight transition-smooth hover:opacity-60 focus-visible:opacity-60 focus-visible:outline-none cursor-pointer text-center break-words hyphens-auto max-w-full ${
                         post.status === "draft" ? "italic text-muted-foreground" : ""
                       }`}
                     >
@@ -169,7 +172,7 @@ const Blog = () => {
                         {title}
                       </span>
                       {post.status === "draft" && (
-                        <span className="ml-2 align-middle text-[10px] uppercase tracking-widest border border-border px-1.5 py-0.5 not-italic">
+                        <span className="ml-2 align-middle text-[10px] uppercase tracking-widest border border-border px-1.5 py-0.5 not-italic whitespace-nowrap">
                           {t("blog.draft")}
                         </span>
                       )}
