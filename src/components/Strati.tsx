@@ -1688,7 +1688,7 @@ const Strati = () => {
                     </div>
                   )}
 
-                  {isAdmin && !isText && (
+                  {isAdmin && !isText && selectedTileId === tile.id && (
                     <button
                       type="button"
                       onClick={(e) => { e.stopPropagation(); openTile(tile); }}
