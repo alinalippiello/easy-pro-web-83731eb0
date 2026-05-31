@@ -161,51 +161,44 @@ const Blog = () => {
           ) : visiblePosts.length === 0 ? (
             <p className="font-body text-sm text-muted-foreground text-center">{t("blog.empty")}</p>
           ) : (
-            <div className="flex flex-wrap justify-center items-baseline gap-x-[clamp(0.75rem,2.5vw,2.5rem)] gap-y-[clamp(0.5rem,2vw,1.5rem)] max-w-4xl mx-auto px-2">
-              {visiblePosts.map((post, i) => {
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-0.5 md:gap-1">
+              {visiblePosts.map((post) => {
                 const title = pick(post, language, "title") || "—";
-                // Deterministic scale weights — proportional fluid sizes via clamp()
-                // so layout stays stable across viewports while preserving rhythm.
-                const scales = [
-                  "clamp(1.5rem, 4.5vw, 2.75rem)",   // M
-                  "clamp(1.25rem, 3.5vw, 2rem)",     // S
-                  "clamp(1.75rem, 6vw, 3.75rem)",    // L
-                  "clamp(1.1rem, 3vw, 1.5rem)",      // XS
-                  "clamp(1.5rem, 4vw, 2.25rem)",     // M
-                  "clamp(1.35rem, 4vw, 2.5rem)",     // M+
-                ];
-                const fontSize = scales[i % scales.length];
                 return (
-                  <div key={post.id} className="relative inline-flex flex-col items-center max-w-full">
+                  <div key={post.id} className="relative group">
                     <button
                       type="button"
                       onClick={() => setReading(post)}
                       aria-label={title}
-                      style={{ fontSize }}
-                      className={`group font-display font-normal leading-[1.05] tracking-tight transition-smooth hover:opacity-60 focus-visible:opacity-60 focus-visible:outline-none cursor-pointer text-center break-words hyphens-auto max-w-full ${
-                        post.status === "draft" ? "italic text-muted-foreground" : ""
+                      className={`relative w-full aspect-square bg-muted/40 hover:bg-muted transition-smooth flex items-center justify-center p-4 md:p-6 text-center cursor-pointer focus-visible:outline-none focus-visible:bg-muted ${
+                        post.status === "draft" ? "italic" : ""
                       }`}
                     >
-                      <span className="bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_1px] bg-no-repeat bg-left-bottom transition-[background-size] duration-500 group-hover:bg-[length:100%_1px]">
+                      <span
+                        className={`font-display font-normal leading-[1.1] tracking-tight break-words hyphens-auto transition-smooth group-hover:opacity-70 ${
+                          post.status === "draft" ? "text-muted-foreground" : "text-foreground"
+                        }`}
+                        style={{ fontSize: "clamp(0.95rem, 2.4vw, 1.5rem)" }}
+                      >
                         {title}
                       </span>
                       {post.status === "draft" && (
-                        <span className="ml-2 align-middle text-[10px] uppercase tracking-widest border border-border px-1.5 py-0.5 not-italic whitespace-nowrap">
+                        <span className="absolute top-2 left-2 text-[9px] uppercase tracking-widest border border-border bg-background/80 px-1.5 py-0.5 not-italic">
                           {t("blog.draft")}
                         </span>
                       )}
                     </button>
                     {isAdmin && (
-                      <div className="flex gap-3 mt-1 text-[10px]">
+                      <div className="absolute bottom-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                         <button
                           onClick={() => setEditing(post)}
-                          className="font-body uppercase tracking-widest underline underline-offset-4 hover:opacity-60"
+                          className="font-body text-[9px] uppercase tracking-widest bg-background/90 border border-border px-1.5 py-0.5 hover:bg-foreground hover:text-background"
                         >
                           {t("blog.edit")}
                         </button>
                         <button
                           onClick={() => onDelete(post.id)}
-                          className="font-body uppercase tracking-widest underline underline-offset-4 hover:opacity-60 text-destructive"
+                          className="font-body text-[9px] uppercase tracking-widest bg-background/90 border border-border px-1.5 py-0.5 hover:bg-destructive hover:text-destructive-foreground text-destructive"
                         >
                           {t("blog.delete")}
                         </button>
