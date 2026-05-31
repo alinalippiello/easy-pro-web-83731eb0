@@ -149,11 +149,12 @@ const Blog = () => {
                 const excerpt = pick(post, language, "excerpt");
                 const date = post.published_at ?? post.created_at;
                 return (
-                  <li key={post.id} className="group">
+                  <li key={post.id} className="group relative">
                     <button
                       type="button"
                       onClick={() => setReading(post)}
-                      className="block text-left w-full py-8 md:py-10 transition-smooth hover:opacity-70"
+                      aria-label={title}
+                      className="block text-left w-full px-4 md:px-6 -mx-4 md:-mx-6 py-8 md:py-10 transition-smooth hover:bg-muted/40 focus-visible:bg-muted/40 focus-visible:outline-none cursor-pointer"
                     >
                       <div className="grid grid-cols-12 gap-6 md:gap-10 items-baseline">
                         <p className="col-span-12 md:col-span-3 font-body text-xs tracking-widest uppercase text-muted-foreground">
@@ -169,8 +170,11 @@ const Blog = () => {
                           )}
                         </p>
                         <div className="col-span-12 md:col-span-9">
-                          <h3 className="font-display text-2xl md:text-3xl font-normal leading-tight mb-3">
-                            {title}
+                          <h3 className="font-display text-2xl md:text-3xl font-normal leading-tight mb-3 transition-smooth group-hover:opacity-70">
+                            <span className="bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_1px] bg-no-repeat bg-left-bottom transition-[background-size] duration-500 group-hover:bg-[length:100%_1px]">
+                              {title}
+                            </span>
+                            <span aria-hidden className="inline-block ml-3 translate-x-0 opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-60 text-muted-foreground text-base align-middle">→</span>
                           </h3>
                           {excerpt && (
                             <p className="font-body text-sm md:text-base text-muted-foreground leading-relaxed max-w-2xl">
