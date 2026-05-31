@@ -1520,14 +1520,22 @@ const Strati = () => {
                      e.stopPropagation();
                      openTile(tile);
                    }}
-                   onClick={() => {
-                    if (suppressTileClickRef.current) {
-                      suppressTileClickRef.current = false;
-                      return;
-                    }
+                    onClick={() => {
+                     if (suppressTileClickRef.current) {
+                       suppressTileClickRef.current = false;
+                       return;
+                     }
                      if (isAdmin && reorderMode) return;
-                    if (!dragId) openTile(tile);
-                  }}
+                     if (dragId) return;
+                     if (isAdmin) {
+                       // In admin mode, a single click selects the tile to reveal
+                       // its inline controls. Use the ✎ button or double-click to
+                       // open the full editor.
+                       setSelectedTileId((prev) => (prev === tile.id ? null : tile.id));
+                       return;
+                     }
+                     openTile(tile);
+                   }}
                   onMouseEnter={() => !isText && concept && setActiveTile(tile.id)}
                   onMouseLeave={() => !isText && concept && setActiveTile((prev) => (prev === tile.id ? null : prev))}
                   whileHover={isText || isAdmin ? undefined : { scale: 1.015 }}
