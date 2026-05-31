@@ -143,67 +143,63 @@ const Blog = () => {
           ) : visiblePosts.length === 0 ? (
             <p className="font-body text-sm text-muted-foreground text-center">{t("blog.empty")}</p>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+            <ul className="divide-y divide-border border-t border-border">
               {visiblePosts.map((post) => {
                 const title = pick(post, language, "title") || "—";
                 const excerpt = pick(post, language, "excerpt");
                 const date = post.published_at ?? post.created_at;
                 return (
-                  <article key={post.id} className="group">
+                  <li key={post.id} className="group">
                     <button
                       type="button"
                       onClick={() => setReading(post)}
-                      className="block text-left w-full"
+                      className="block text-left w-full py-8 md:py-10 transition-smooth hover:opacity-70"
                     >
-                      {post.cover_url && (
-                        <div className="aspect-[4/3] overflow-hidden mb-4 rounded-sm bg-muted">
-                          <img
-                            src={post.cover_url}
-                            alt={title}
-                            loading="lazy"
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                          />
-                        </div>
-                      )}
-                      <p className="font-body text-xs text-muted-foreground mb-1">
-                        {new Date(date).toLocaleDateString(language, { year: "numeric", month: "long", day: "numeric" })}
-                        {" · "}
-                        {t(`blog.cat.${post.category}`)}
-                        {post.status === "draft" && (
-                          <span className="ml-2 px-1.5 py-0.5 text-[10px] uppercase tracking-wider border border-border">
-                            {t("blog.draft")}
-                          </span>
-                        )}
-                      </p>
-                      <h3 className="font-body text-lg font-normal leading-snug mb-2 group-hover:opacity-70 transition-smooth">
-                        {title}
-                      </h3>
-                      {excerpt && (
-                        <p className="font-body text-sm text-muted-foreground leading-relaxed line-clamp-3">
-                          {excerpt}
+                      <div className="grid grid-cols-12 gap-6 md:gap-10 items-baseline">
+                        <p className="col-span-12 md:col-span-3 font-body text-xs tracking-widest uppercase text-muted-foreground">
+                          <time>
+                            {new Date(date).toLocaleDateString(language, { year: "numeric", month: "long", day: "numeric" })}
+                          </time>
+                          <span className="mx-2">·</span>
+                          {t(`blog.cat.${post.category}`)}
+                          {post.status === "draft" && (
+                            <span className="ml-2 px-1.5 py-0.5 text-[10px] uppercase tracking-wider border border-border">
+                              {t("blog.draft")}
+                            </span>
+                          )}
                         </p>
-                      )}
+                        <div className="col-span-12 md:col-span-9">
+                          <h3 className="font-display text-2xl md:text-3xl font-normal leading-tight mb-3">
+                            {title}
+                          </h3>
+                          {excerpt && (
+                            <p className="font-body text-sm md:text-base text-muted-foreground leading-relaxed max-w-2xl">
+                              {excerpt}
+                            </p>
+                          )}
+                        </div>
+                      </div>
                     </button>
                     {isAdmin && (
-                      <div className="flex gap-3 mt-3 text-xs">
+                      <div className="flex gap-4 pb-6 text-xs">
                         <button
                           onClick={() => setEditing(post)}
-                          className="underline underline-offset-4 hover:opacity-60"
+                          className="font-body uppercase tracking-widest underline underline-offset-4 hover:opacity-60"
                         >
                           {t("blog.edit")}
                         </button>
                         <button
                           onClick={() => onDelete(post.id)}
-                          className="underline underline-offset-4 hover:opacity-60 text-destructive"
+                          className="font-body uppercase tracking-widest underline underline-offset-4 hover:opacity-60 text-destructive"
                         >
                           {t("blog.delete")}
                         </button>
                       </div>
                     )}
-                  </article>
+                  </li>
                 );
               })}
-            </div>
+            </ul>
           )}
         </div>
       </div>
