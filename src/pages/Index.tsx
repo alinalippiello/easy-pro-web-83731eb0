@@ -36,6 +36,7 @@ const IndexContent = () => {
       <Strati />
       <Experience />
       <Publications />
+      <Blog />
       <Contact />
       <Footer />
       <CookieBanner />
