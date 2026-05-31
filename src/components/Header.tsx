@@ -20,6 +20,7 @@ const Header = () => {
     { label: t('strati.title'), href: "#strati" },
     { label: t('nav.projects'), href: "#progetti" },
     { label: t('nav.publications'), href: "#pubblicazioni" },
+    { label: t('nav.blog'), href: "#blog" },
     { label: t('nav.contact'), href: "#contatti" },
   ];
 

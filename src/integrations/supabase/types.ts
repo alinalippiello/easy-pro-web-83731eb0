@@ -14,6 +14,66 @@ export type Database = {
   }
   public: {
     Tables: {
+      blog_posts: {
+        Row: {
+          category: string
+          content_en: string
+          content_es: string
+          content_it: string
+          cover_url: string | null
+          created_at: string
+          excerpt_en: string
+          excerpt_es: string
+          excerpt_it: string
+          id: string
+          published_at: string | null
+          slug: string
+          status: string
+          title_en: string
+          title_es: string
+          title_it: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string
+          content_en?: string
+          content_es?: string
+          content_it?: string
+          cover_url?: string | null
+          created_at?: string
+          excerpt_en?: string
+          excerpt_es?: string
+          excerpt_it?: string
+          id?: string
+          published_at?: string | null
+          slug: string
+          status?: string
+          title_en?: string
+          title_es?: string
+          title_it?: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          content_en?: string
+          content_es?: string
+          content_it?: string
+          cover_url?: string | null
+          created_at?: string
+          excerpt_en?: string
+          excerpt_es?: string
+          excerpt_it?: string
+          id?: string
+          published_at?: string | null
+          slug?: string
+          status?: string
+          title_en?: string
+          title_es?: string
+          title_it?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       strati_concepts: {
         Row: {
           anchor_image_id: string | null
